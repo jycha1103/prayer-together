@@ -1,0 +1,552 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#3D3A8A"><link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg"><link rel="apple-touch-icon" href="icon.svg">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}img{max-width:100%}</style>
+</head><body>
+<title>합력하여 선을 이루는 기도</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+/* Layout: one phone-width column, sticky title bar, fixed bottom tab bar, bottom sheets for detail and writing */
+:root {
+  --bg: #F5F4FA; --surface: #FFFFFF; --ink: #1E2040; --muted: #686B8C; --line: #E2E1EE;
+  --accent: #3D3A8A; --on-accent: #FFFFFF; --accent-soft: #ECEBF9;
+  --gold: #B57A12; --gold-soft: #FBF0DA;
+  --paper: #FFFBF1; --paper-line: #EADBBB; --good: #2D7A4F; --good-soft: #E3F3E9; --warn: #B3412E;
+  --font-display: "Gowun Batang", "AppleMyungjo", "Batang", serif;
+  --font-body: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --r: 14px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #121329; --surface: #1C1D3A; --ink: #ECECF7; --muted: #A2A4C5; --line: #2E3058;
+  --accent: #ABA7FF; --on-accent: #14152E; --accent-soft: #27285A;
+  --gold: #E8B04A; --gold-soft: #3A2F18;
+  --paper: #22213A; --paper-line: #3B3757; --good: #6FD39A; --good-soft: #193A28; --warn: #FF8D7A;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #121329; --surface: #1C1D3A; --ink: #ECECF7; --muted: #A2A4C5; --line: #2E3058;
+  --accent: #ABA7FF; --on-accent: #14152E; --accent-soft: #27285A;
+  --gold: #E8B04A; --gold-soft: #3A2F18;
+  --paper: #22213A; --paper-line: #3B3757; --good: #6FD39A; --good-soft: #193A28; --warn: #FF8D7A;
+  color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; margin: 0; padding-inline: 16px; padding-block: 0 96px; }
+.app { max-width: 560px; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.35; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 14px 10px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.brand { font-family: var(--font-display); font-weight: 700; font-size: 17px; letter-spacing: -0.01em; }
+.brand small { display: block; font-family: var(--font-body); font-weight: 400; font-size: 12px; color: var(--muted); letter-spacing: 0; }
+
+.tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; background: var(--surface); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.tabbar nav { max-width: 560px; margin: 0 auto; display: grid; grid-template-columns: repeat(5, 1fr); }
+.tabbar button { background: none; border: 0; padding: 8px 2px 9px; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 11.5px; color: var(--muted); }
+.tabbar button svg { width: 22px; height: 22px; }
+.tabbar button[aria-current="page"] { color: var(--accent); font-weight: 700; }
+
+.stack { display: flex; flex-direction: column; gap: 14px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; min-width: 0; }
+.section-title { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-top: 8px; }
+.section-title h2 { font-size: 18px; }
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
+.label { font-size: 12px; letter-spacing: 0.04em; color: var(--muted); font-weight: 500; }
+
+.verse { background: var(--gold-soft); border-radius: var(--r); padding: 18px 18px 16px; }
+.verse p { font-family: var(--font-display); font-size: 16.5px; margin: 0 0 6px; line-height: 1.7; }
+.verse cite { font-style: normal; font-size: 12.5px; color: var(--gold); font-weight: 700; }
+
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 12px; }
+.stat b { display: block; font-size: 21px; white-space: nowrap; font-variant-numeric: tabular-nums; font-family: var(--font-display); }
+.stat span { font-size: 12px; color: var(--muted); }
+
+.btn { border: 0; border-radius: 999px; padding: 10px 16px; font-weight: 700; font-size: 14px; background: var(--accent); color: var(--on-accent); }
+.btn.ghost { background: var(--accent-soft); color: var(--accent); }
+.btn.line { background: transparent; border: 1px solid var(--line); color: var(--ink); font-weight: 500; }
+.btn.gold { background: var(--gold-soft); color: var(--gold); }
+.btn.done { background: var(--good-soft); color: var(--good); }
+.btn.sm { padding: 6px 12px; font-size: 13px; }
+.btn.block { width: 100%; padding: 13px; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.row.between { justify-content: space-between; }
+.linkbtn { background: none; border: 0; padding: 0; color: var(--accent); font-weight: 500; font-size: 13px; }
+
+.chips { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+.chips::-webkit-scrollbar { display: none; }
+.chip { flex: none; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 12px; font-size: 13px; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.tag { display: inline-block; font-size: 11.5px; font-weight: 700; color: var(--accent); background: var(--accent-soft); border-radius: 6px; padding: 1px 7px; }
+.tag.gold { color: var(--gold); background: var(--gold-soft); }
+.tag.good { color: var(--good); background: var(--good-soft); }
+.tag.example { color: var(--muted); background: transparent; border: 1px dashed var(--line); font-weight: 500; }
+
+.seg { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--accent-soft); border-radius: 12px; padding: 4px; gap: 4px; }
+.seg button { border: 0; background: transparent; border-radius: 9px; padding: 8px 4px; font-size: 14px; color: var(--muted); }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); font-weight: 700; }
+
+.search { width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 12px; padding: 10px 14px; }
+
+.post { display: block; width: 100%; text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px; }
+.post h3 { font-size: 16px; margin: 6px 0 4px; }
+.post p { margin: 0; color: var(--muted); font-size: 14px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.meta { display: flex; gap: 10px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); margin-top: 8px; }
+.meta .pray { color: var(--gold); font-weight: 700; }
+
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field > span { font-size: 13px; font-weight: 500; color: var(--muted); }
+.input, textarea.input, select.input { width: 100%; border: 1px solid var(--line); background: var(--bg); border-radius: 10px; padding: 10px 12px; }
+textarea.input { min-height: 140px; resize: vertical; line-height: 1.7; }
+.check { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+
+.progress { height: 6px; background: var(--accent-soft); border-radius: 999px; overflow: hidden; }
+.progress i { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+.dots { display: flex; flex-wrap: wrap; gap: 4px; }
+.dots i { width: 10px; height: 10px; border-radius: 3px; background: var(--line); }
+.dots i.on { background: var(--gold); }
+.dots i.today { outline: 2px solid var(--accent); outline-offset: 1px; }
+.dots i.future { background: transparent; border: 1px solid var(--line); }
+
+.chart { display: grid; align-items: end; gap: 4px; height: 150px; padding-top: 18px; border-bottom: 1px solid var(--line); }
+.chart .bar { position: relative; background: var(--accent); border-radius: 4px 4px 0 0; min-height: 2px; }
+.chart .bar.zero { background: var(--line); }
+.chart .bar b { position: absolute; top: -17px; left: 50%; transform: translateX(-50%); font-size: 10.5px; font-weight: 500; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.chart-x { display: grid; gap: 4px; font-size: 10.5px; color: var(--muted); text-align: center; margin-top: 4px; font-variant-numeric: tabular-nums; }
+
+.paper { background: var(--paper); border: 1px solid var(--paper-line); border-radius: 6px; padding: 22px 20px; font-family: var(--font-display); background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 31px, var(--paper-line) 31px, var(--paper-line) 32px); background-position: 0 14px; line-height: 32px; }
+.paper .date { font-size: 13px; color: var(--muted); }
+.paper .vs { color: var(--gold); font-size: 14.5px; }
+.paper .body { white-space: pre-wrap; font-size: 16px; }
+textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16px; padding-top: 8px; }
+
+.comment { border-top: 1px solid var(--line); padding-top: 10px; }
+.comment b { font-size: 13px; }
+.comment p { margin: 2px 0 0; font-size: 14px; white-space: pre-wrap; }
+.body-text { white-space: pre-wrap; font-size: 15.5px; line-height: 1.8; margin: 0; }
+
+.sheet-back { position: fixed; inset: 0; z-index: 20; background: rgba(10, 10, 30, 0.45); display: flex; align-items: flex-end; justify-content: center; }
+.sheet { background: var(--surface); width: 100%; max-width: 560px; max-height: 92%; overflow-y: auto; border-radius: 20px 20px 0 0; padding: 8px 18px calc(24px + env(safe-area-inset-bottom, 0px)); }
+.sheet-head { position: sticky; top: 0; background: var(--surface); padding-block: 10px; display: flex; align-items: center; justify-content: space-between; gap: 8px; z-index: 1; }
+.sheet-head h2 { font-size: 18px; }
+.x { background: var(--accent-soft); border: 0; border-radius: 999px; width: 34px; height: 34px; font-size: 18px; color: var(--ink); flex: none; }
+.toast { position: fixed; left: 50%; bottom: calc(84px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 999px; font-size: 14px; z-index: 30; max-width: calc(100% - 32px); }
+.empty { text-align: center; padding: 28px 16px; color: var(--muted); font-size: 14px; }
+.note { background: var(--accent-soft); border-radius: 12px; padding: 10px 14px; font-size: 13px; }
+@media (prefers-reduced-motion: no-preference) { .sheet { animation: up .22s ease-out; } @keyframes up { from { transform: translateY(24px); opacity: .6; } } }
+</style>
+
+<div class="app">
+  <header class="topbar">
+    <div class="brand">합력하여 선을 이루는 기도<small id="topsub">얼굴을 몰라도, 서로를 위해 기도하는 곳</small></div>
+    <button class="btn sm" id="topWrite">기도 요청</button>
+  </header>
+  <main id="view" class="stack"></main>
+</div>
+<div class="tabbar"><nav id="tabs" aria-label="메뉴"></nav></div>
+<div id="sheetRoot"></div>
+<div id="toastRoot"></div>
+
+<script>
+(function () {
+  // ---------- storage ----------
+  var KEY = 'prayer-together-v1';
+  function load() { try { var s = localStorage.getItem(KEY); return s ? JSON.parse(s) : null; } catch (e) { return null; } }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+
+  // ---------- dates ----------
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function ymd(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+  function today() { return ymd(new Date()); }
+  function addDays(s, n) { var p = s.split('-'); var d = new Date(+p[0], +p[1] - 1, +p[2]); d.setDate(d.getDate() + n); return ymd(d); }
+  function diffDays(a, b) { var pa = a.split('-'), pb = b.split('-'); return Math.round((new Date(+pb[0], +pb[1] - 1, +pb[2]) - new Date(+pa[0], +pa[1] - 1, +pa[2])) / 86400000); }
+  function md(s) { var p = s.split('-'); return (+p[1]) + '.' + (+p[2]); }
+  function ago(ts) {
+    var m = Math.floor((Date.now() - ts) / 60000);
+    if (m < 1) return '방금'; if (m < 60) return m + '분 전';
+    var h = Math.floor(m / 60); if (h < 24) return h + '시간 전';
+    var d = Math.floor(h / 24); return d < 30 ? d + '일 전' : new Date(ts).toLocaleDateString('ko-KR');
+  }
+  function fmtMin(m) { m = Math.round(m); if (m < 60) return m + '분'; var h = Math.floor(m / 60), r = m % 60; return h + '시간' + (r ? ' ' + r + '분' : ''); }
+  function statMin(m) { m = Math.round(m); return m < 600 ? m + '분' : (m / 60).toFixed(1) + '시간'; }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+
+  // ---------- data ----------
+  var CATS = ['개인 중보기도', '선교지에서 온 편지', '나라와 열방', '미자립교회', '릴레이 기도'];
+  var ROLES = ['일반 성도', '목회자·선교사', '상담사'];
+
+  function seed() {
+    var H = 3600000, now = Date.now(), t = today();
+    return {
+      me: { name: '은혜', role: '일반 성도' },
+      example: true,
+      posts: [
+        { id: uid(), board: 'pray', cat: '개인 중보기도', title: '어머니의 수술이 잘 끝나도록 기도 부탁드려요', body: '다음 주 화요일에 어머니가 심장 수술을 받으세요. 연세가 있으셔서 걱정이 많습니다. 의료진의 손길을 주님께서 붙들어 주시고, 회복 기간 동안 평안을 주시도록 함께 기도해 주세요.', author: '익명의 성도', created: now - 2 * H, prayers: 23, prayed: false, comments: [{ author: '소망', text: '어머님과 가족 모두를 위해 기도했어요. 주님의 평강이 함께하시길.', created: now - H }], example: true },
+        { id: uid(), board: 'pray', cat: '선교지에서 온 편지', title: '캄보디아 시엠립에서 인사드립니다', body: '이번 달부터 마을 아이들 30명과 방과후 성경공부를 시작했습니다. 우기라 길이 자주 끊기는데, 아이들이 안전하게 오갈 수 있도록, 그리고 현지 교사 두 분이 지치지 않도록 기도해 주세요.', author: '김요셉 선교사', created: now - 9 * H, prayers: 41, prayed: false, comments: [], example: true },
+        { id: uid(), board: 'pray', cat: '나라와 열방', title: '홍수 피해를 입은 지역을 위해', body: '갑작스러운 폭우로 집을 잃은 이웃들이 많습니다. 구호의 손길이 빠르게 닿고, 슬픔 속에 있는 이들에게 위로가 있기를 함께 기도합니다.', author: '열방기도모임', created: now - 26 * H, prayers: 112, prayed: false, comments: [], example: true },
+        { id: uid(), board: 'pray', cat: '미자립교회', title: '성도 12명의 작은 교회입니다', body: '예배당 임대 계약이 다음 달에 끝납니다. 새로운 예배 처소를 주님께서 예비해 주시고, 남은 성도들이 낙심하지 않도록 기도해 주세요.', author: '이사무엘 목사', created: now - 50 * H, prayers: 37, prayed: false, comments: [], example: true },
+        { id: uid(), board: 'pray', cat: '릴레이 기도', title: '수능 수험생을 위한 40일 릴레이 기도', body: '오늘부터 수능 날까지 하루씩 이어서 기도해요. 기도하신 분은 댓글로 이름과 날짜를 남겨주세요.', author: '청년부 소망', created: now - 72 * H, prayers: 64, prayed: false, comments: [{ author: '다윗', text: '10월 7일 기도했습니다.', created: now - 3 * H }], example: true },
+        { id: uid(), board: 'story', cat: '', title: '기도 응답, 6개월 만에 취업했어요', body: '여기에 취업 기도 제목을 올렸을 때 모르는 분들이 댓글로 기도해 주셨어요. 지치던 날마다 그 댓글을 다시 읽었습니다. 이번 주 첫 출근을 했어요. 함께 기도해 주신 모든 분께 감사드리고 하나님께 영광 돌립니다.', author: '사랑', created: now - 30 * H, prayers: 58, prayed: false, comments: [], example: true },
+        { id: uid(), board: 'story', cat: '', title: '기도 편지를 쓰면서 달라진 아침', body: '눈 감고 기도하면 자꾸 딴생각이 들었는데, 편지로 쓰기 시작하니 하나님께 말하는 시간이 기다려져요. 한 달째 매일 쓰고 있습니다.', author: '익명의 성도', created: now - 80 * H, prayers: 21, prayed: false, comments: [], example: true }
+      ],
+      items: [
+        { id: uid(), title: '가족의 구원을 위해', start: addDays(t, -11), days: 40, checks: [-11, -10, -9, -7, -6, -5, -4, -3, -2, -1].map(function (n) { return addDays(t, n); }), answered: false, memo: '', example: true },
+        { id: uid(), title: '새 직장에서 지혜를 구하며', start: addDays(t, -20), days: 21, checks: [-20, -19, -18, -17, -15, -14, -13, -12, -11, -10, -9, -8, -6, -5, -4, -3, -2, -1].map(function (n) { return addDays(t, n); }), answered: true, memo: '팀장님과의 관계가 회복됐어요. 감사!', example: true }
+      ],
+      times: (function () { var o = {}, v = [20, 35, 0, 15, 30, 45, 25, 10, 30, 20, 0, 40, 30, 15]; v.forEach(function (m, i) { if (m) o[addDays(t, -(v.length - i))] = m; }); return o; })(),
+      letters: [
+        { id: uid(), date: addDays(t, -1), verse: '시편 23:1 여호와는 나의 목자시니 내게 부족함이 없으리로다', body: '사랑하는 아버지,\n오늘 하루도 조급한 마음으로 시작했어요. 부족함이 없다고 하신 말씀을 붙잡고 다시 숨을 고릅니다.\n내일은 조금 더 천천히 걷게 해 주세요.', example: true }
+      ]
+    };
+  }
+
+  var S = load() || seed();
+
+  // ---------- ui state ----------
+  var tab = 'home', cat = '전체', q = '', dtab = 'items', range = 7;
+  var TABS = [
+    ['home', '홈', '<path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>'],
+    ['pray', '중보기도', '<path d="M12 3v4M8.5 21c-1-3-1-6 .5-9l3-4 3 4c1.5 3 1.5 6 .5 9z"/><path d="M12 13v8"/>'],
+    ['diary', '기도 다이어리', '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/>'],
+    ['story', '간증', '<path d="M4 5h16v11H9l-5 4z"/>'],
+    ['me', '내 정보', '<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/>']
+  ];
+
+  function el(id) { return document.getElementById(id); }
+  function toast(msg) {
+    var r = el('toastRoot'); r.innerHTML = '<div class="toast" role="status">' + esc(msg) + '</div>';
+    clearTimeout(toast.t); toast.t = setTimeout(function () { r.innerHTML = ''; }, 2000);
+  }
+  function exampleTag(o) { return o && o.example ? ' <span class="tag example">예시</span>' : ''; }
+
+  function renderTabs() {
+    el('tabs').innerHTML = TABS.map(function (t) {
+      return '<button data-tab="' + t[0] + '"' + (tab === t[0] ? ' aria-current="page"' : '') + '><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + t[2] + '</svg>' + t[1] + '</button>';
+    }).join('');
+  }
+
+  // ---------- derived ----------
+  function prayedOn(d) { return !!S.times[d] || S.items.some(function (i) { return i.checks.indexOf(d) >= 0; }); }
+  function streak() { var n = 0, d = today(); if (!prayedOn(d)) d = addDays(d, -1); while (prayedOn(d)) { n++; d = addDays(d, -1); } return n; }
+  function sumRange(from, to) { var s = 0; Object.keys(S.times).forEach(function (k) { if (k >= from && k <= to) s += +S.times[k] || 0; }); return s; }
+  function activeItems() { var t = today(); return S.items.filter(function (i) { return !i.answered && diffDays(i.start, t) < i.days && diffDays(i.start, t) >= 0; }); }
+
+  // ---------- views ----------
+  function postCard(p) {
+    return '<button class="post" data-open="' + p.id + '">' +
+      (p.cat ? '<span class="tag' + (p.cat === '선교지에서 온 편지' ? ' gold' : '') + '">' + esc(p.cat) + '</span>' : '') + exampleTag(p) +
+      '<h3>' + esc(p.title) + '</h3><p>' + esc(p.body) + '</p>' +
+      '<div class="meta"><span>' + esc(p.author) + '</span><span>' + ago(p.created) + '</span>' +
+      '<span class="pray">' + (p.board === 'story' ? '아멘 ' : '함께 기도 ') + p.prayers + '</span><span>댓글 ' + p.comments.length + '</span></div></button>';
+  }
+
+  function vHome() {
+    var t = today(), act = activeItems(), doneToday = act.filter(function (i) { return i.checks.indexOf(t) >= 0; }).length;
+    var week = sumRange(addDays(t, -6), t);
+    var recent = S.posts.filter(function (p) { return p.board === 'pray'; }).sort(function (a, b) { return b.created - a.created; }).slice(0, 3);
+    var d = new Date();
+    return '' +
+      '<div class="verse"><p>우리가 알거니와 하나님을 사랑하는 자 곧 그의 뜻대로 부르심을 입은 자들에게는 모든 것이 합력하여 선을 이루느니라</p><cite>로마서 8:28</cite></div>' +
+      '<div class="section-title"><h2>' + esc(S.me.name || '성도') + '님의 오늘</h2><span class="muted small">' + (d.getMonth() + 1) + '월 ' + d.getDate() + '일 ' + '일월화수목금토'[d.getDay()] + '요일</span></div>' +
+      '<div class="stats">' +
+        '<div class="stat"><b>' + doneToday + '/' + act.length + '</b><span>오늘 기도 출석</span></div>' +
+        '<div class="stat"><b>' + streak() + '일</b><span>연속 기도</span></div>' +
+        '<div class="stat"><b>' + statMin(week) + '</b><span>최근 7일 기도</span></div>' +
+      '</div>' +
+      '<div class="row"><button class="btn" data-go="diary">오늘 기도 출석하기</button><button class="btn ghost" data-act="logtime">기도 시간 기록</button></div>' +
+      '<div class="section-title"><h2>지금 기도가 필요해요</h2><button class="linkbtn" data-go="pray">전체 보기</button></div>' +
+      recent.map(postCard).join('');
+  }
+
+  function vPray() {
+    var list = S.posts.filter(function (p) {
+      return p.board === 'pray' && (cat === '전체' || p.cat === cat) && (!q || (p.title + p.body + p.author).toLowerCase().indexOf(q.toLowerCase()) >= 0);
+    }).sort(function (a, b) { return b.created - a.created; });
+    return '<div class="chips" role="group" aria-label="게시판">' + ['전체'].concat(CATS).map(function (c) {
+        return '<button class="chip" data-cat="' + esc(c) + '" aria-pressed="' + (cat === c) + '">' + esc(c) + '</button>'; }).join('') + '</div>' +
+      '<input class="search" id="q" type="search" placeholder="기도 제목 검색 (예: 수술, 취업, 선교)" value="' + esc(q) + '">' +
+      (list.length ? list.map(postCard).join('') : '<div class="empty">아직 올라온 기도 제목이 없어요.<br>첫 기도 제목을 나눠 주세요.</div>') +
+      '<button class="btn block" data-act="write-pray">기도 제목 올리기</button>';
+  }
+
+  function vStory() {
+    var list = S.posts.filter(function (p) { return p.board === 'story'; }).sort(function (a, b) { return b.created - a.created; });
+    return '<div class="note">기도 응답, 삶 속에서 받은 은혜를 함께 나눠요.</div>' +
+      (list.length ? list.map(postCard).join('') : '<div class="empty">첫 간증을 나눠 주세요.</div>') +
+      '<button class="btn block" data-act="write-story">간증 나누기</button>';
+  }
+
+  function vDiary() {
+    var h = '<div class="seg" role="group">' + [['items', '기도 제목'], ['time', '기도 시간'], ['letter', '기도 편지']].map(function (s) {
+      return '<button data-dtab="' + s[0] + '" aria-pressed="' + (dtab === s[0]) + '">' + s[1] + '</button>'; }).join('') + '</div>';
+    if (S.example) h += '<div class="note row between"><span>예시 기록이 채워져 있어요. 내 기록으로 시작하려면 지워 주세요.</span><button class="linkbtn" data-act="clear-example">예시 지우기</button></div>';
+    if (dtab === 'items') h += vItems(); else if (dtab === 'time') h += vTime(); else h += vLetters();
+    return h;
+  }
+
+  function vItems() {
+    var t = today();
+    var h = '<button class="btn block" data-act="add-item">기도 제목 추가</button>';
+    if (!S.items.length) return h + '<div class="empty">기도 제목을 정하고 작정 기간을 세워 보세요.<br>매일 출석 체크로 꾸준히 기도할 수 있어요.</div>';
+    S.items.slice().sort(function (a, b) { return (a.answered - b.answered); }).forEach(function (i) {
+      var day = diffDays(i.start, t) + 1, cnt = i.checks.length, inRange = day >= 1 && day <= i.days, checked = i.checks.indexOf(t) >= 0;
+      var dots = '';
+      for (var k = 0; k < i.days; k++) { var d = addDays(i.start, k); dots += '<i class="' + (i.checks.indexOf(d) >= 0 ? 'on' : d > t ? 'future' : '') + (d === t ? ' today' : '') + '" title="' + md(d) + '"></i>'; }
+      h += '<div class="card stack" style="gap:10px">' +
+        '<div class="row between"><div style="min-width:0"><div class="row" style="gap:6px">' + (i.answered ? '<span class="tag good">응답받음</span>' : '<span class="tag">' + i.days + '일 작정</span>') + exampleTag(i) + '</div>' +
+        '<h3 style="font-size:17px;margin-top:6px">' + esc(i.title) + '</h3>' +
+        '<div class="small muted">' + md(i.start) + ' ~ ' + md(addDays(i.start, i.days - 1)) + ' · ' + (day < 1 ? '시작 전' : day > i.days ? '작정 기간 끝' : day + '일째') + ' · 출석 ' + cnt + '일</div></div></div>' +
+        '<div class="progress"><i style="width:' + Math.min(100, Math.round(cnt / i.days * 100)) + '%"></i></div>' +
+        '<div class="dots">' + dots + '</div>' +
+        (i.memo ? '<div class="note"><b>응답 메모</b> ' + esc(i.memo) + '</div>' : '') +
+        '<div class="row">' + (inRange && !i.answered ? '<button class="btn sm ' + (checked ? 'done' : '') + '" data-check="' + i.id + '">' + (checked ? '오늘 출석 완료' : '오늘 기도 출석') + '</button>' : '') +
+        '<button class="btn sm gold" data-answer="' + i.id + '">' + (i.answered ? '응답 메모 고치기' : '응답받았어요') + '</button>' +
+        '<button class="btn sm line" data-share="' + i.id + '">중보기도 요청</button>' +
+        '<button class="btn sm line" data-del-item="' + i.id + '">삭제</button></div></div>';
+    });
+    return h;
+  }
+
+  function vTime() {
+    var t = today(), from = addDays(t, -(range - 1)), prevFrom = addDays(from, -range), prevTo = addDays(from, -1);
+    var total = sumRange(from, t), prev = sumRange(prevFrom, prevTo), days = 0, max = 0, bars = [];
+    for (var k = 0; k < range; k++) { var d = addDays(from, k), v = +S.times[d] || 0; if (v) days++; max = Math.max(max, v); bars.push([d, v]); }
+    var diff = total - prev, all = sumRange('0000', '9999');
+    var showLabel = range <= 14;
+    var cols = 'grid-template-columns: repeat(' + range + ', 1fr)';
+    return '<div class="card stack" style="gap:10px"><div class="label">오늘 기도한 시간 기록</div>' +
+      '<div class="row"><input class="input" style="flex:1 1 140px;min-width:0" type="date" id="tDate" value="' + t + '"><input class="input" style="flex:1 1 90px;min-width:0" type="number" inputmode="numeric" min="0" id="tMin" placeholder="분" value="' + (S.times[t] || '') + '"><button class="btn" data-act="save-time">저장</button></div>' +
+      '<div class="small muted">같은 날짜에 다시 저장하면 시간이 바뀌어요.</div></div>' +
+      '<div class="chips">' + [[7, '최근 7일'], [14, '최근 2주'], [30, '최근 30일']].map(function (r) { return '<button class="chip" data-range="' + r[0] + '" aria-pressed="' + (range === r[0]) + '">' + r[1] + '</button>'; }).join('') + '</div>' +
+      '<div class="stats"><div class="stat"><b>' + statMin(total) + '</b><span>기간 누적</span></div><div class="stat"><b>' + statMin(days ? total / days : 0) + '</b><span>기도한 날 평균</span></div><div class="stat"><b>' + (diff >= 0 ? '+' : '−') + statMin(Math.abs(diff)) + '</b><span>직전 ' + range + '일 대비</span></div></div>' +
+      '<div class="card"><div class="chart" style="' + cols + '">' + bars.map(function (b) { return '<div class="bar' + (b[1] ? '' : ' zero') + '" style="height:' + (max ? Math.max(1.5, b[1] / max * 100) : 1.5) + '%">' + (b[1] && showLabel ? '<b>' + b[1] + '</b>' : '') + '</div>'; }).join('') + '</div>' +
+      '<div class="chart-x" style="' + cols + '">' + bars.map(function (b, i) { return '<span>' + (range <= 14 || i % 5 === 0 || i === range - 1 ? md(b[0]) : '') + '</span>'; }).join('') + '</div>' +
+      '<div class="small muted" style="margin-top:8px">막대 위 숫자는 분 단위예요. 지금까지 모두 ' + fmtMin(all) + ' 기도했어요.</div></div>';
+  }
+
+  function vLetters() {
+    var h = '<div class="note">눈 감고 하는 기도가 어려운 날, 하나님께 편지를 써 보세요.</div><button class="btn block" data-act="write-letter">기도 편지 쓰기</button>';
+    var L = S.letters.slice().sort(function (a, b) { return a.date < b.date ? 1 : -1; });
+    if (!L.length) return h + '<div class="empty">아직 쓴 편지가 없어요.</div>';
+    L.forEach(function (l) {
+      h += '<button class="post" data-letter="' + l.id + '"><span class="tag gold">' + md(l.date) + '</span>' + exampleTag(l) + '<h3>' + esc(l.verse || '기도 편지') + '</h3><p>' + esc(l.body) + '</p></button>';
+    });
+    return h;
+  }
+
+  function vMe() {
+    return '<div class="card stack"><h2 style="font-size:18px">내 정보</h2>' +
+      '<label class="field"><span>닉네임</span><input class="input" id="meName" value="' + esc(S.me.name) + '" maxlength="20"></label>' +
+      '<label class="field"><span>구분</span><select class="input" id="meRole">' + ROLES.map(function (r) { return '<option' + (S.me.role === r ? ' selected' : '') + '>' + r + '</option>'; }).join('') + '</select></label>' +
+      '<button class="btn" data-act="save-me">저장</button></div>' +
+      '<div class="card stack" style="gap:8px"><h2 style="font-size:17px">준비 중인 메뉴</h2>' +
+      '<div class="small muted">기획서에 있는 다음 메뉴들은 차례로 추가할 예정이에요.</div>' +
+      '<div class="row"><span class="tag">라이브 중보기도 방송</span><span class="tag">말 못한 사연 · 고민 상담</span><span class="tag">기도의 모든 것 (컨텐츠)</span><span class="tag">나만의 기도 노하우</span></div></div>' +
+      '<div class="card stack" style="gap:8px"><h2 style="font-size:17px">이 버전에 대해</h2><div class="small muted">지금은 첫 시험 버전이라 글과 기록이 이 기기에만 저장돼요. 다른 성도와 실제로 함께 쓰려면 회원 가입과 서버 연결이 다음 단계로 필요해요.</div>' +
+      '<button class="btn line" data-act="reset">처음 상태로 되돌리기</button></div>';
+  }
+
+  function render() {
+    renderTabs();
+    var v = { home: vHome, pray: vPray, diary: vDiary, story: vStory, me: vMe }[tab]();
+    el('view').innerHTML = v;
+    el('topWrite').hidden = tab === 'me' || tab === 'diary';
+    el('topWrite').textContent = tab === 'story' ? '간증 쓰기' : tab === 'diary' ? '기도 제목 추가' : '기도 요청';
+  }
+
+  // ---------- sheets ----------
+  function sheet(title, inner) {
+    el('sheetRoot').innerHTML = '<div class="sheet-back" data-close="1"><div class="sheet" role="dialog" aria-modal="true" aria-label="' + esc(title) + '"><div class="sheet-head"><h2>' + esc(title) + '</h2><button class="x" data-close="1" aria-label="닫기">×</button></div><div class="stack" id="sheetBody">' + inner + '</div></div></div>';
+    var f = el('sheetRoot').querySelector('input:not([type=checkbox]),textarea'); if (f && !('ontouchstart' in window)) f.focus();
+  }
+  function closeSheet() { el('sheetRoot').innerHTML = ''; }
+
+  function openPost(id) {
+    var p = S.posts.find(function (x) { return x.id === id; }); if (!p) return;
+    var story = p.board === 'story';
+    sheet(story ? '간증' : p.cat,
+      '<div><div class="row" style="gap:6px">' + (p.cat ? '<span class="tag">' + esc(p.cat) + '</span>' : '') + exampleTag(p) + '</div><h2 style="font-size:20px;margin-top:8px">' + esc(p.title) + '</h2><div class="meta" style="margin-top:4px"><span>' + esc(p.author) + '</span><span>' + ago(p.created) + '</span></div></div>' +
+      '<p class="body-text">' + esc(p.body) + '</p>' +
+      '<button class="btn block ' + (p.prayed ? 'done' : 'gold') + '" data-pray="' + p.id + '">' + (story ? (p.prayed ? '아멘 했어요 · ' : '아멘 · ') : (p.prayed ? '기도했어요 · ' : '함께 기도할게요 · ')) + p.prayers + '명</button>' +
+      '<div class="label">댓글 ' + p.comments.length + '</div>' +
+      p.comments.map(function (c) { return '<div class="comment"><b>' + esc(c.author) + '</b> <span class="small muted">' + ago(c.created) + '</span><p>' + esc(c.text) + '</p></div>'; }).join('') +
+      '<div class="row"><input class="input" style="flex:1;min-width:0" id="cText" placeholder="' + (story ? '축복의 말을 남겨 주세요' : '기도했어요. 응원의 말을 남겨 주세요') + '"><button class="btn" data-comment="' + p.id + '">등록</button></div>' +
+      '<div class="row between"><span class="small muted" id="repMsg"></span><button class="linkbtn" style="color:var(--muted)" data-report="' + p.id + '">신고하기</button></div>');
+  }
+
+  function writePost(board, preset) {
+    var story = board === 'story';
+    sheet(story ? '간증 나누기' : '기도 제목 올리기',
+      (story ? '' : '<label class="field"><span>게시판</span><select class="input" id="wCat">' + CATS.map(function (c) { return '<option' + ((preset && preset.cat) === c ? ' selected' : '') + '>' + c + '</option>'; }).join('') + '</select></label>') +
+      '<label class="field"><span>제목</span><input class="input" id="wTitle" maxlength="60" value="' + esc(preset && preset.title) + '" placeholder="' + (story ? '어떤 은혜를 받으셨나요?' : '어떤 기도가 필요하신가요?') + '"></label>' +
+      '<label class="field"><span>내용</span><textarea class="input" id="wBody" placeholder="' + (story ? '기도 응답, 삶 속의 은혜를 자유롭게 나눠 주세요.' : '상황과 구체적인 기도 제목을 적어 주세요. 얼굴을 모르는 성도들이 함께 기도합니다.') + '">' + esc(preset && preset.body) + '</textarea></label>' +
+      '<label class="check"><input type="checkbox" id="wAnon"' + (story ? '' : ' checked') + '> 익명으로 올리기</label>' +
+      '<button class="btn block" data-submit="' + board + '">올리기</button>');
+  }
+
+  function addItem() {
+    sheet('기도 제목 추가',
+      '<label class="field"><span>기도 제목</span><input class="input" id="iTitle" maxlength="60" placeholder="예: 아버지의 건강 회복을 위해"></label>' +
+      '<div class="field"><span>작정 기간</span><div class="chips" id="iDaysChips">' + [7, 21, 40, 100].map(function (n) { return '<button class="chip" type="button" data-days="' + n + '" aria-pressed="' + (n === 40) + '">' + n + '일</button>'; }).join('') + '</div>' +
+      '<input class="input" type="number" min="1" max="365" id="iDays" value="40" inputmode="numeric"></div>' +
+      '<label class="field"><span>시작일</span><input class="input" type="date" id="iStart" value="' + today() + '"></label>' +
+      '<button class="btn block" data-act="save-item">추가하기</button>');
+  }
+
+  function answerItem(id) {
+    var i = S.items.find(function (x) { return x.id === id; });
+    sheet('응답 기록',
+      '<h3>' + esc(i.title) + '</h3>' +
+      '<label class="check"><input type="checkbox" id="aDone"' + (i.answered ? ' checked' : '') + '> 응답받았어요</label>' +
+      '<label class="field"><span>간단 메모</span><textarea class="input" id="aMemo" style="min-height:90px" placeholder="어떻게 응답하셨는지 적어 두세요">' + esc(i.memo) + '</textarea></label>' +
+      '<button class="btn block" data-save-answer="' + id + '">저장</button>' +
+      '<button class="btn block ghost" data-to-story="' + id + '">간증으로 나누기</button>');
+  }
+
+  function writeLetter() {
+    sheet('기도 편지 쓰기',
+      '<label class="field"><span>날짜</span><input class="input" type="date" id="lDate" value="' + today() + '"></label>' +
+      '<label class="field"><span>오늘 묵상한 말씀</span><input class="input" id="lVerse" placeholder="예: 빌립보서 4:6 아무 것도 염려하지 말고"></label>' +
+      '<textarea class="paper" id="lBody" placeholder="사랑하는 하나님께,"></textarea>' +
+      '<button class="btn block" data-act="save-letter">편지 보관하기</button>');
+  }
+
+  function openLetter(id) {
+    var l = S.letters.find(function (x) { return x.id === id; });
+    sheet('기도 편지',
+      '<div class="paper"><div class="date">' + esc(l.date.replace(/-/g, '. ')) + '</div>' + (l.verse ? '<div class="vs">' + esc(l.verse) + '</div>' : '') + '<div class="body">' + esc(l.body) + '</div></div>' +
+      '<div class="row"><button class="btn ghost" data-copy-letter="' + id + '">글 복사하기</button><button class="btn line" data-del-letter="' + id + '">삭제</button></div>');
+  }
+
+  function logTime() {
+    sheet('기도 시간 기록',
+      '<label class="field"><span>날짜</span><input class="input" type="date" id="tDate" value="' + today() + '"></label>' +
+      '<label class="field"><span>기도한 시간 (분)</span><input class="input" type="number" min="0" inputmode="numeric" id="tMin" value="' + (S.times[today()] || '') + '" placeholder="예: 30"></label>' +
+      '<button class="btn block" data-act="save-time">저장</button>');
+  }
+
+  function val(id) { var e = el(id); return e ? e.value.trim() : ''; }
+
+  // ---------- events ----------
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('button, .sheet-back');
+    if (!b) return;
+    if (b.dataset.close && (e.target === b || b.classList.contains('x'))) return closeSheet();
+    if (b.classList.contains('sheet-back')) return;
+    var d = b.dataset;
+    if (d.tab) { tab = d.tab; closeSheet(); render(); window.scrollTo(0, 0); return; }
+    if (d.go) { tab = d.go; if (d.go === 'diary') dtab = 'items'; render(); window.scrollTo(0, 0); return; }
+    if (d.cat) { cat = d.cat; render(); return; }
+    if (d.dtab) { dtab = d.dtab; render(); return; }
+    if (d.range) { range = +d.range; render(); return; }
+    if (d.open) return openPost(d.open);
+    if (d.letter) return openLetter(d.letter);
+    if (d.days) { el('iDays').value = d.days; el('iDaysChips').querySelectorAll('.chip').forEach(function (c) { c.setAttribute('aria-pressed', c === b); }); return; }
+    if (d.pray) {
+      var p = S.posts.find(function (x) { return x.id === d.pray; });
+      p.prayed = !p.prayed; p.prayers += p.prayed ? 1 : -1; save(); openPost(p.id); render();
+      if (p.prayed) toast(p.board === 'story' ? '아멘으로 함께했어요' : '함께 기도한다고 알렸어요');
+      return;
+    }
+    if (d.comment) {
+      var t = val('cText'); if (!t) return toast('댓글 내용을 적어 주세요');
+      var p2 = S.posts.find(function (x) { return x.id === d.comment; });
+      p2.comments.push({ author: S.me.name || '성도', text: t, created: Date.now() }); save(); openPost(p2.id); render(); return;
+    }
+    if (d.report) {
+      if (b.dataset.armed) { el('repMsg').textContent = '신고가 접수됐어요. 운영자가 확인할게요.'; b.hidden = true; return; }
+      b.dataset.armed = '1'; b.textContent = '정말 신고할까요? 한 번 더 누르세요'; b.style.color = 'var(--warn)'; return;
+    }
+    if (d.submit) {
+      var title = val('wTitle'), body = val('wBody');
+      if (!title || !body) return toast('제목과 내용을 모두 적어 주세요');
+      S.posts.push({ id: uid(), board: d.submit, cat: d.submit === 'pray' ? val('wCat') : '', title: title, body: body, author: el('wAnon').checked ? '익명의 성도' : (S.me.name || '성도'), created: Date.now(), prayers: 0, prayed: false, comments: [] });
+      save(); closeSheet(); tab = d.submit; if (d.submit === 'pray') cat = '전체'; render(); toast('올렸어요'); return;
+    }
+    if (d.check) {
+      var it = S.items.find(function (x) { return x.id === d.check; }), td = today(), ix = it.checks.indexOf(td);
+      if (ix >= 0) it.checks.splice(ix, 1); else { it.checks.push(td); toast('오늘 기도 출석 완료!'); }
+      save(); render(); return;
+    }
+    if (d.answer) return answerItem(d.answer);
+    if (d.saveAnswer) {
+      var it2 = S.items.find(function (x) { return x.id === d.saveAnswer; });
+      it2.answered = el('aDone').checked; it2.memo = val('aMemo'); save(); closeSheet(); render(); if (it2.answered) toast('응답을 기록했어요. 할렐루야!'); return;
+    }
+    if (d.toStory) {
+      var it3 = S.items.find(function (x) { return x.id === d.toStory; });
+      it3.answered = el('aDone').checked; it3.memo = val('aMemo'); save();
+      writePost('story', { title: it3.title + ' 기도 응답', body: it3.memo }); return;
+    }
+    if (d.share) {
+      var it4 = S.items.find(function (x) { return x.id === d.share; });
+      writePost('pray', { cat: '개인 중보기도', title: it4.title, body: '' }); return;
+    }
+    if (d.delItem) {
+      if (!b.dataset.armed) { b.dataset.armed = '1'; b.textContent = '한 번 더 누르면 삭제'; b.style.color = 'var(--warn)'; return; }
+      S.items = S.items.filter(function (x) { return x.id !== d.delItem; }); save(); render(); return;
+    }
+    if (d.delLetter) {
+      if (!b.dataset.armed) { b.dataset.armed = '1'; b.textContent = '한 번 더 누르면 삭제'; return; }
+      S.letters = S.letters.filter(function (x) { return x.id !== d.delLetter; }); save(); closeSheet(); render(); return;
+    }
+    if (d.copyLetter) {
+      var l = S.letters.find(function (x) { return x.id === d.copyLetter; });
+      var txt = l.date + '\n' + (l.verse ? l.verse + '\n\n' : '\n') + l.body;
+      try { navigator.clipboard.writeText(txt).then(function () { toast('편지를 복사했어요'); }, function () { toast('복사가 안 되는 환경이에요. 글을 길게 눌러 복사해 주세요'); }); } catch (err) { toast('복사가 안 되는 환경이에요'); }
+      return;
+    }
+    switch (d.act) {
+      case 'write-pray': return writePost('pray', { cat: cat !== '전체' ? cat : '' });
+      case 'write-story': return writePost('story');
+      case 'add-item': return addItem();
+      case 'write-letter': return writeLetter();
+      case 'logtime': return logTime();
+      case 'save-item':
+        var ti = val('iTitle'), days = Math.max(1, Math.min(365, parseInt(val('iDays'), 10) || 40));
+        if (!ti) return toast('기도 제목을 적어 주세요');
+        S.items.push({ id: uid(), title: ti, start: val('iStart') || today(), days: days, checks: [], answered: false, memo: '' });
+        save(); closeSheet(); tab = 'diary'; dtab = 'items'; render(); toast(days + '일 작정 기도를 시작해요'); return;
+      case 'save-time':
+        var dt = val('tDate') || today(), mn = parseInt(val('tMin'), 10);
+        if (isNaN(mn) || mn < 0) return toast('기도한 시간을 분으로 적어 주세요');
+        if (mn === 0) delete S.times[dt]; else S.times[dt] = mn;
+        save(); closeSheet(); render(); toast(md(dt) + ' 기도 ' + fmtMin(mn) + ' 기록했어요'); return;
+      case 'save-letter':
+        var lb = val('lBody'); if (!lb) return toast('편지 내용을 적어 주세요');
+        S.letters.push({ id: uid(), date: val('lDate') || today(), verse: val('lVerse'), body: lb });
+        save(); closeSheet(); tab = 'diary'; dtab = 'letter'; render(); toast('기도 편지를 보관했어요'); return;
+      case 'clear-example':
+        S.items = S.items.filter(function (x) { return !x.example; });
+        S.letters = S.letters.filter(function (x) { return !x.example; });
+        S.times = {}; S.example = false; save(); render(); toast('예시 기록을 지웠어요'); return;
+      case 'save-me':
+        S.me.name = val('meName') || '성도'; S.me.role = el('meRole').value; save(); render(); toast('저장했어요'); return;
+      case 'reset':
+        if (!b.dataset.armed) { b.dataset.armed = '1'; b.textContent = '모든 기록이 지워져요. 한 번 더 누르세요'; b.style.color = 'var(--warn)'; return; }
+        S = seed(); save(); tab = 'home'; render(); toast('처음 상태로 되돌렸어요'); return;
+    }
+  });
+
+  el('topWrite').addEventListener('click', function () {
+    if (tab === 'story') writePost('story'); else if (tab === 'diary') addItem(); else writePost('pray', { cat: cat !== '전체' ? cat : '' });
+  });
+  document.addEventListener('input', function (e) {
+    if (e.target.id === 'q') { q = e.target.value; var pos = e.target.selectionStart; render(); var n = el('q'); n.focus(); try { n.setSelectionRange(pos, pos); } catch (err) {} }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeSheet();
+    if (e.key === 'Enter' && e.target.id === 'cText') { var b = document.querySelector('[data-comment]'); if (b) b.click(); }
+  });
+
+  render();
+  if ('serviceWorker' in navigator && location.protocol === 'https:' && document.querySelector('link[rel=manifest]')) {
+    try { navigator.serviceWorker.register('sw.js').catch(function () {}); } catch (e) {}
+  }
+})();
+</script>
+</body></html>

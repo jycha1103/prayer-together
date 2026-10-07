@@ -1,0 +1,10 @@
+{
+  "name": "합력하여 선을 이루는 기도",
+  "short_name": "함께기도",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#F5F4FA",
+  "theme_color": "#3D3A8A",
+  "lang": "ko",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
