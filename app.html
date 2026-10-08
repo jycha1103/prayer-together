@@ -235,6 +235,44 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 .chk.on i { background: var(--gold); border-color: var(--gold); color: #FFFFFF; }
 .ic-foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; border-top: 1px solid var(--line-2); padding-top: 10px; }
 .wbtn { display: inline-flex; align-items: center; gap: 5px; }
+.hd-btns { gap: 6px; flex-wrap: nowrap; }
+.wbtn.bell-on svg { color: var(--gold); }
+.wbell { display: inline-flex; align-items: center; gap: 4px; font-size: 11.5px; font-weight: 700; color: #F2C46B; margin-top: 4px; }
+.wbell svg { width: 13px; height: 13px; }
+.wg.s .wbell { margin-top: 0; }
+.switch { flex: none; width: 50px; height: 30px; border-radius: 999px; border: 0; background: #CDD4E4; position: relative; transition: background .2s; }
+.switch i { position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 1px 3px rgba(0, 0, 0, .2); transition: left .2s; }
+.switch.on { background: var(--accent); } .switch.on i { left: 23px; }
+.alm-on { background: var(--bg); border-radius: 16px; padding: 12px 14px; }
+.alm-on b { font-size: 15px; color: var(--ink); }
+.alm-times { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.alm-t { display: inline-flex; align-items: center; gap: 4px; background: var(--navy); color: var(--on-navy); border-radius: 999px; padding: 7px 6px 7px 14px; font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.alm-t button { border: 0; background: rgba(255, 255, 255, .15); color: var(--on-navy); width: 22px; height: 22px; border-radius: 50%; font-size: 14px; line-height: 1; }
+.alm-add { display: inline-flex; gap: 6px; align-items: center; }
+.alm-add .input { width: 120px; padding: 8px 10px; }
+.alm-days { display: flex; gap: 6px; }
+.alm-days .chip { flex: 1; padding: 8px 0; text-align: center; }
+.alm-ring { text-align: center; padding: 6px 0 4px; }
+.alm-ring svg { width: 40px; height: 40px; color: var(--gold); }
+.alm-ring b { display: block; font-family: var(--font-display); font-size: 30px; color: var(--navy); margin-top: 4px; }
+.alm-ring p { margin: 6px 0 0; color: var(--ink-2); font-size: 14px; line-height: 1.6; }
+.dly-u { font-style: normal; font-weight: 700; color: #B42A1A; margin-right: 5px; }
+.dly-cnt { font-size: 12.5px; font-weight: 700; color: var(--accent); }
+.daily .dly-bar { height: 4px; background: var(--line-2); }
+.daily .dly-bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--accent), #F2C46B); transition: width .3s; }
+.dly { display: flex; align-items: center; gap: 8px; padding: 10px 12px 10px 4px; }
+.dly + .dly { border-top: 1px solid var(--line-2); }
+.dly-n { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; background: none; border: 0; text-align: left; padding: 2px 0 2px 10px; }
+.dly-n em { flex: none; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-family: var(--font-display); font-weight: 700; font-size: 14px; background: var(--navy); color: var(--on-navy); }
+.dly-n span { min-width: 0; display: flex; flex-direction: column; }
+.dly-n small { font-size: 11.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dly-n b { font-size: 14.5px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dly-btn { flex: none; border: 0; border-radius: 999px; padding: 8px 12px; font-size: 13px; font-weight: 700; background: var(--gold-soft); color: var(--gold); display: inline-flex; align-items: center; gap: 4px; }
+.dly-btn svg { width: 13px; height: 13px; }
+.dly.on .dly-n em { background: #7BE0A6; color: var(--navy); }
+.dly.on .dly-n b { color: var(--muted); }
+.dly.on .dly-btn { background: var(--bg); color: var(--green); }
+.dly-foot { padding: 10px 16px 12px; font-size: 12.5px; color: var(--muted); border-top: 1px solid var(--line-2); }
 .wbtn svg { width: 15px; height: 15px; }
 .widgets { display: flex; gap: 12px; flex-wrap: wrap; align-items: stretch; }
 .wg { background: radial-gradient(120% 100% at 100% 0%, var(--navy-2), var(--navy) 70%); color: var(--on-navy); border-radius: 24px; padding: 14px; box-shadow: 0 8px 22px rgba(23, 32, 74, .25); }
@@ -372,10 +410,11 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
     return R;
   }
 
+  function defAlarm() { return { on: true, times: ['06:00', '21:00'], days: [0, 1, 2, 3, 4, 5, 6], fired: '' }; }
   function seed() {
     var H = 3600000, now = Date.now(), t = today();
     return {
-      v: 4, scraps: [], relays: seedRelays(t),
+      v: 5, scraps: [], relays: seedRelays(t), alarm: defAlarm(), daily: null,
       me: { name: '은혜', role: '일반 성도' },
       example: true,
       posts: [
@@ -410,6 +449,9 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
     S.posts = S.posts.filter(function (p) { return !(p.example && (p.cat === '미자립교회' || p.cat === '릴레이 기도')); });
     S.posts.forEach(function (p) { if (CAT_RENAME[p.cat]) p.cat = CAT_RENAME[p.cat]; if (p.cat === '릴레이 기도') p.cat = '개인 중보'; });
     S.relays = seedRelays(today()); S.v = 4; save();
+  }
+  if (S.v < 5) { // 기도 알림과 오늘의 중보가 생긴 버전
+    S.alarm = defAlarm(); S.daily = null; S.v = 5; save();
   }
 
   // ---------- ui state ----------
@@ -477,6 +519,70 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
   function secHead(title, go) { return '<div class="sec-head"><h2>' + title + '</h2>' + (go ? '<button class="more" data-go="' + go + '">전체 보기</button>' : '') + '</div>'; }
   function group(html) { return '<div class="group">' + html + '</div>'; }
 
+  // 오늘의 중보 3: 매일 아침 한 번 골라 두고 하루 동안 유지해요
+  function dailyPicks() {
+    var t = today(), live = S.posts.filter(function (p) { return p.board === 'pray' && !p.mine && !p.answered; });
+    var ok = S.daily && S.daily.d === t && S.daily.ids.every(function (id) { return live.some(function (p) { return p.id === id; }); });
+    if (!ok) {
+      var prev = S.daily ? S.daily.ids : [];
+      var pool = live.filter(function (p) { return !p.prayed; });
+      if (pool.length < 3) pool = pool.concat(live.filter(function (p) { return p.prayed; }));
+      // 긴급 먼저, 어제 고른 글은 뒤로, 함께 기도한 사람이 적은 글 먼저
+      pool.sort(function (a, b) { return (b.urgent ? 1 : 0) - (a.urgent ? 1 : 0) || (prev.indexOf(a.id) >= 0) - (prev.indexOf(b.id) >= 0) || a.prayers - b.prayers || b.created - a.created; });
+      var picks = [], used = {};
+      pool.forEach(function (p) { if (picks.length < 3 && !used[p.cat]) { picks.push(p); used[p.cat] = 1; } });
+      pool.forEach(function (p) { if (picks.length < 3 && picks.indexOf(p) < 0) picks.push(p); });
+      S.daily = { d: t, ids: picks.map(function (p) { return p.id; }), done: [] }; save();
+    }
+    return S.daily.ids.map(postById);
+  }
+  function dailySec() {
+    var ps = dailyPicks(); if (!ps.length) return '';
+    var done = ps.filter(function (p) { return S.daily.done.indexOf(p.id) >= 0; }).length;
+    var rows = ps.map(function (p, i) {
+      var on = S.daily.done.indexOf(p.id) >= 0;
+      return '<div class="dly' + (on ? ' on' : '') + '"><button class="dly-n" data-open="' + p.id + '"><em>' + (i + 1) + '</em><span><small>' + (p.urgent ? '<i class="dly-u">긴급</i>' : '') + esc(p.cat || '중보기도') + ' · 함께 기도 ' + p.prayers + '</small><b>' + esc(p.title) + '</b></span></button>' +
+        '<button class="dly-btn" data-dpray="' + p.id + '">' + (on ? CHECK + '기도함' : '기도했어요') + '</button></div>';
+    }).join('');
+    return '<section class="sec"><div class="sec-head"><h2>오늘의 중보 ' + ps.length + '</h2><span class="dly-cnt">' + done + ' / ' + ps.length + '</span></div>' +
+      '<div class="group daily"><div class="dly-bar"><i style="width:' + Math.round(done / ps.length * 100) + '%"></i></div>' + rows +
+      '<div class="dly-foot">' + (done === ps.length ? '오늘의 중보를 모두 마쳤어요. 함께 기도해 주셔서 고마워요.' : '오늘 꼭 함께 기도할 글을 골라 두었어요. 기도하고 나서 눌러 주세요.') + '</div></div></section>';
+  }
+
+  function alarmNext() {
+    var a = S.alarm; if (!a || !a.on || !a.times.length || !a.days.length) return null;
+    var now = new Date(), hm = pad(now.getHours()) + ':' + pad(now.getMinutes()), ts = a.times.slice().sort();
+    for (var k = 0; k < 8; k++) {
+      var wd = (now.getDay() + k) % 7; if (a.days.indexOf(wd) < 0) continue;
+      var tm = ts.find(function (x) { return k > 0 || x > hm; });
+      if (tm) return (k === 0 ? '오늘 ' : k === 1 ? '내일 ' : '일월화수목금토'[wd] + '요일 ') + tm;
+    }
+    return null;
+  }
+  var BELL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg>';
+  function alarmSheet() {
+    var a = S.alarm;
+    sheet('기도 알림',
+      '<div class="row between alm-on"><div><b>기도 시간 알림</b><div class="small muted">' + (a.on ? (alarmNext() ? '다음 알림 ' + alarmNext() : '알림 시간과 요일을 정해 주세요') : '꺼져 있어요') + '</div></div>' +
+        '<button class="switch' + (a.on ? ' on' : '') + '" data-act="alm-toggle" role="switch" aria-checked="' + a.on + '" aria-label="기도 시간 알림"><i></i></button></div>' +
+      '<div class="field"><span>알림 시간</span><div class="alm-times">' + a.times.slice().sort().map(function (t) {
+        return '<span class="alm-t">' + t + '<button data-almdel="' + t + '" aria-label="' + t + ' 지우기">×</button></span>'; }).join('') +
+        (a.times.length < 5 ? '<span class="alm-add"><input class="input" type="time" id="almTime" value="12:00"><button class="btn sm" data-act="alm-add">추가</button></span>' : '') + '</div></div>' +
+      '<div class="field"><span>요일</span><div class="alm-days">' + '일월화수목금토'.split('').map(function (n, i) {
+        return '<button class="chip" data-almday="' + i + '" aria-pressed="' + (a.days.indexOf(i) >= 0) + '">' + n + '</button>'; }).join('') + '</div></div>' +
+      '<div class="note">정한 시간이 되면 "기도할 시간이에요"라고 알려드리고, 위젯에도 다음 알림 시간이 보여요. 지금은 앱이 열려 있을 때만 알려드려요. 휴대폰을 잠가 둬도 오는 알림은 정식 앱으로 출시할 때 제공돼요.</div>');
+  }
+  function alarmTick() {
+    var a = S.alarm; if (!a || !a.on) return;
+    var now = new Date(), hm = pad(now.getHours()) + ':' + pad(now.getMinutes()), key = today() + ' ' + hm;
+    if (a.fired === key || a.days.indexOf(now.getDay()) < 0 || a.times.indexOf(hm) < 0) return;
+    a.fired = key; save();
+    try { if (window.Notification && Notification.permission === 'granted') new Notification('기도할 시간이에요', { body: '잠시 멈추고 함께 기도해요.', icon: 'icon.svg' }); } catch (err) {}
+    sheet('기도할 시간이에요', '<div class="alm-ring">' + BELL + '<b>' + hm + '</b><p>잠시 멈추고 주님께 마음을 올려 드려요.<br>오늘의 중보 세 가지부터 시작해 보세요.</p></div>' +
+      '<div class="row" style="flex-wrap:nowrap"><button class="btn ghost" style="flex:1" data-act="alm-home">오늘의 중보 보기</button><button class="btn" style="flex:1" data-act="logtime">시간 기록</button></div>');
+    if (!el('wgPreview')) render();
+  }
+
   function vHome() {
     var t = today(), act = activeItems(), allDone = act.length > 0 && act.every(function (i) { return i.checks.indexOf(t) >= 0; });
     var d = new Date();
@@ -489,7 +595,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
       '<div class="today">' +
         '<div class="tile"><div><span>연속 기도</span><b>' + streak() + '<small>일째</small></b></div><button class="circle' + (allDone ? ' done' : '') + '" data-act="attend">' + (allDone ? '출석<br>완료' : '출석<br>체크') + '</button></div>' +
         '<div class="tile"><div><span>최근 7일</span><b>' + sumRange(addDays(t, -6), t) + '<small>분</small></b></div><button class="circle" data-act="logtime">시간<br>기록</button></div>' +
-      '</div></section>' +
+      '</div></section>' + dailySec() +
       '<section class="sec">' + secHead('지금 기도가 필요해요', 'pray') + group(urgentFirst(board('pray')).slice(0, 3).map(function (p) { return item(p, 'full'); }).join('')) + '</section>' +
       '<section class="sec">' + secHead('말못할 사연', 'concern') + group(board('concern').slice(0, 2).map(function (p) { return item(p, 'concern'); }).join('')) + '</section>' +
       '<section class="sec">' + secHead('간증', 'story') + group(board('story').slice(0, 2).map(function (p) { return item(p, 'full'); }).join('')) + '</section>' +
@@ -607,7 +713,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 
   // ---------- diary ----------
   function vDiary() {
-    var h = '<div class="page-head"><h1 class="page-title">기도다이어리</h1><button class="btn sm ghost wbtn" data-act="widget"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="17" height="7" rx="2"/></svg>위젯 설정</button></div><div class="seg" role="group">' + [['items', '기도 제목'], ['time', '기도 시간'], ['letter', '기도 편지'], ['scrap', '스크랩']].map(function (s) {
+    var h = '<div class="page-head"><h1 class="page-title">기도다이어리</h1><div class="row hd-btns"><button class="btn sm ghost wbtn' + (S.alarm && S.alarm.on ? ' bell-on' : '') + '" data-act="alarm">' + BELL + '알림</button><button class="btn sm ghost wbtn" data-act="widget"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="17" height="7" rx="2"/></svg>위젯</button></div></div><div class="seg" role="group">' + [['items', '기도 제목'], ['time', '기도 시간'], ['letter', '기도 편지'], ['scrap', '스크랩']].map(function (s) {
       return '<button data-dtab="' + s[0] + '" aria-pressed="' + (dtab === s[0]) + '">' + s[1] + '</button>'; }).join('') + '</div>';
     if (S.example && dtab !== 'scrap') h += '<div class="note row between"><span>예시 기록이 채워져 있어요. 내 기록으로 시작하려면 지워 주세요.</span><button class="linkbtn blue" data-act="clear-example">예시 지우기</button></div>';
     if (dtab === 'items') h += vItems(); else if (dtab === 'time') h += vTime(); else if (dtab === 'scrap') h += vScraps(); else h += vLetters();
@@ -709,13 +815,14 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
   }
   function widgetPreview() {
     var t = today(), act = activeItems(), done = act.filter(function (i) { return i.checks.indexOf(t) >= 0; }).length, all = act.length > 0 && done === act.length;
-    var mins = +S.times[t] || 0, top = widgetItem();
+    var mins = +S.times[t] || 0, top = widgetItem(), nx = alarmNext();
+    var bell = nx ? '<div class="wbell">' + BELL + nx + '</div>' : '';
     var att = '<button class="wcheck' + (all ? ' on' : '') + '" data-act="w-attend"><i>' + (all ? CHECK : '') + '</i>' + (all ? '출석 완료' : '출석 체크') + '</button>';
     var r = bump; bump = false;
     var num = '<div class="wnum' + (r ? ' bump' : '') + '"><b>' + mins + '</b><span>분</span></div>';
     return '<div class="widgets" id="wgPreview">' +
-        '<div class="wg s"><div class="wl">오늘 기도</div>' + num + '<button class="wplus" data-wadd="5" aria-label="기도 5분 더하기">+5분</button></div>' +
-        '<div class="wg m"><div class="wtop"><div><div class="wl">오늘 기도</div>' + num + '</div><div class="wside">' + att + '<button class="wplus sm" data-wadd="5" aria-label="기도 5분 더하기">+5분</button></div></div>' +
+        '<div class="wg s"><div><div class="wl">오늘 기도</div>' + num + '</div>' + bell + '<button class="wplus" data-wadd="5" aria-label="기도 5분 더하기">+5분</button></div>' +
+        '<div class="wg m"><div class="wtop"><div><div class="wl">오늘 기도</div>' + num + bell + '</div><div class="wside">' + att + '<button class="wplus sm" data-wadd="5" aria-label="기도 5분 더하기">+5분</button></div></div>' +
           (top ? '<div class="wtitle"><span>최근 기도 제목</span>' + esc(top.title) + '</div>' : '') + '</div>' +
       '</div>';
   }
@@ -920,6 +1027,14 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
       if (si >= 0) S.scraps.splice(si, 1); else { S.scraps.unshift(d.scrap); toast('스크랩했어요. 기도다이어리에서 볼 수 있어요'); }
       save(); openPost(d.scrap); render(); return;
     }
+    if (d.dpray) {
+      var dp = postById(d.dpray), dx = S.daily.done.indexOf(dp.id);
+      if (dx >= 0) { S.daily.done.splice(dx, 1); if (dp.prayed) { dp.prayed = false; dp.prayers--; } }
+      else { S.daily.done.push(dp.id); if (!dp.prayed) { dp.prayed = true; dp.prayers++; } toast(S.daily.done.length === S.daily.ids.length ? '오늘의 중보를 모두 마쳤어요!' : '함께 기도한다고 알렸어요'); }
+      save(); render(); return;
+    }
+    if (d.almdel) { S.alarm.times = S.alarm.times.filter(function (x) { return x !== d.almdel; }); save(); alarmSheet(); render(); return; }
+    if (d.almday) { var ad = +d.almday, ai = S.alarm.days.indexOf(ad); if (ai >= 0) S.alarm.days.splice(ai, 1); else S.alarm.days.push(ad); save(); alarmSheet(); render(); return; }
     if (d.open) return openPost(d.open);
     if (d.relay) { rDay = ''; return openRelay(d.relay); }
     if (d.rday) { rDay = d.rday; return openRelay(d.rid); }
@@ -987,6 +1102,16 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
     switch (d.act) {
       case 'menu': return openDrawer();
       case 'widget': return widgetSheet();
+      case 'alarm': return alarmSheet();
+      case 'alm-home': closeSheet(); return go('home');
+      case 'alm-toggle':
+        S.alarm.on = !S.alarm.on; save(); alarmSheet(); render();
+        if (S.alarm.on) { try { if (window.Notification && Notification.permission === 'default') Notification.requestPermission(); } catch (err) {} toast('기도 알림을 켰어요'); } else toast('기도 알림을 껐어요');
+        return;
+      case 'alm-add':
+        var at = val('almTime'); if (!at) return toast('시간을 골라 주세요');
+        if (S.alarm.times.indexOf(at) >= 0) return toast('이미 있는 시간이에요');
+        S.alarm.times.push(at); S.alarm.on = true; save(); alarmSheet(); render(); toast(at + ' 알림을 추가했어요'); return;
       case 'w-attend':
         var wa = activeItems(), wt = today(); if (!wa.length) return toast('작정 중인 기도 제목이 없어요');
         var allOn = wa.every(function (i) { return i.checks.indexOf(wt) >= 0; });
@@ -1061,6 +1186,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
   });
 
   render();
+  setInterval(alarmTick, 15000); alarmTick();
   if ('serviceWorker' in navigator && location.protocol === 'https:' && document.querySelector('link[rel=manifest]')) {
     try { navigator.serviceWorker.register('sw.js').catch(function () {}); } catch (e) {}
   }
