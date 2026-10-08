@@ -55,9 +55,9 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .label { font-size: 12px; letter-spacing: 0.04em; color: var(--muted); font-weight: 500; }
 
 /* scripture */
-.verse { position: relative; overflow: hidden; border-radius: 20px; padding: 22px 20px 18px; color: var(--on-navy);
-  background: radial-gradient(120% 90% at 100% 0%, var(--navy-2) 0%, var(--navy) 62%); box-shadow: 0 10px 28px rgba(23, 32, 74, .22); }
-.verse svg.globe { position: absolute; right: -54px; top: -36px; width: 240px; height: 240px; pointer-events: none; }
+.verse { position: relative; overflow: hidden; margin-inline: -16px; border-radius: 0; padding: 28px 24px 24px; color: var(--on-navy);
+  background: radial-gradient(120% 90% at 100% 0%, var(--navy-2) 0%, var(--navy) 62%); }
+.verse svg.globe { position: absolute; right: -40px; top: -30px; width: 240px; height: 240px; pointer-events: none; }
 .verse .eyebrow { position: relative; font-size: 11px; letter-spacing: .14em; color: var(--navy-sub); font-weight: 500; margin-bottom: 8px; }
 .verse p { position: relative; font-family: var(--font-display); font-size: 16px; margin: 0 0 10px; line-height: 1.75; max-width: 30em; }
 .verse cite { position: relative; font-style: normal; font-size: 12px; color: var(--navy-sub); font-weight: 500; }
@@ -186,6 +186,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 
 .toast { position: fixed; left: 50%; bottom: calc(84px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--navy); color: var(--on-navy); padding: 10px 16px; border-radius: 999px; font-size: 13.5px; z-index: 30; max-width: calc(100% - 32px); box-shadow: var(--shadow); }
 .empty { text-align: center; padding: 28px 16px; color: var(--muted); font-size: 14px; }
+@media (min-width: 592px) { .verse { margin-inline: 0; border-radius: 20px; } }
 @media (prefers-reduced-motion: no-preference) {
   .sheet { animation: up .22s ease-out; } @keyframes up { from { transform: translateY(24px); opacity: .6; } }
   .drawer { animation: slide .2s ease-out; } @keyframes slide { from { transform: translateX(30px); opacity: .6; } }
