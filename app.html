@@ -268,6 +268,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 .dly-u { display: inline-block; vertical-align: -3px; color: #D93A25; margin-right: 5px; }
 .dly-u svg { width: 17px; height: 17px; display: block; }
 .chips.wrap { flex-wrap: wrap; overflow: visible; }
+.birth { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 8px; }
 .req, .opt { font-size: 10.5px; font-weight: 700; padding: 1px 6px; border-radius: 6px; margin-left: 2px; vertical-align: 1px; }
 .req { color: #B42A1A; background: #FDEBE8; } .opt { color: var(--muted); background: var(--line-2); }
 .join-top { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--muted); font-weight: 700; }
@@ -1073,6 +1074,10 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
   }
   function jSync() {
     document.querySelectorAll('[data-jf]').forEach(function (e) { J[e.dataset.jf] = e.type === 'checkbox' ? e.checked : e.value.trim(); });
+    if (el('view').querySelector('[data-jf=by]')) {
+      var dim = J.by && J.bm ? new Date(+J.by, +J.bm, 0).getDate() : 31;
+      J.birth = J.by && J.bm && J.bd ? J.by + '-' + pad(+J.bm) + '-' + pad(Math.min(+J.bd, dim)) : '';
+    }
   }
   function jChips(field, list, multi) {
     return '<div class="chips wrap">' + list.map(function (v) {
@@ -1087,6 +1092,15 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
       (hint ? '<div class="small muted">' + hint + '</div>' : '') +
       (res ? (res.length ? '<div class="place-list">' + res.map(function (r, i) { return '<button type="button" data-jplace="' + key + '" data-ji="' + i + '"><b>' + esc(r[0]) + '</b><small>' + esc(r[1]) + '</small></button>'; }).join('') + '<div class="small muted" style="padding:6px 12px">체험용 예시 결과예요. 실제로는 카카오맵에 등록된 곳이 나와요.</div></div>'
         : '<div class="small muted">찾는 곳이 없어요. 이름을 다시 확인해 주세요.</div>') : '') + '</div>';
+  }
+  function birthSelects() {
+    var bp = (J.birth || '').split('-'), y0 = new Date().getFullYear(), ys = [], i;
+    for (i = y0; i >= 1920; i--) ys.push(i);
+    var opt = function (list, cur, unit) { return list.map(function (v) { return '<option value="' + v + '"' + (+cur === v ? ' selected' : '') + '>' + v + unit + '</option>'; }).join(''); };
+    var ms = [], ds = []; for (i = 1; i <= 12; i++) ms.push(i); for (i = 1; i <= 31; i++) ds.push(i);
+    return '<div class="birth"><select class="input" data-jf="by" aria-label="태어난 해"><option value="">년도</option>' + opt(ys, bp[0], '년') + '</select>' +
+      '<select class="input" data-jf="bm" aria-label="태어난 달"><option value="">월</option>' + opt(ms, bp[1], '월') + '</select>' +
+      '<select class="input" data-jf="bd" aria-label="태어난 날"><option value="">일</option>' + opt(ds, bp[2], '일') + '</select></div>';
   }
   function vJoin() {
     if (!J) J = { step: 0 };
@@ -1106,7 +1120,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
         '<div class="small muted">약관 전문은 서비스를 시작하기 전에 준비해서 각 항목에 연결할게요.</div>';
     } else if (st === 2) {
       h += '<label class="field"><span>닉네임 <b class="req">필수</b></span><input class="input" data-jf="name" maxlength="12" value="' + esc(J.name || '') + '" placeholder="앱에서 보이는 이름이에요"></label>' +
-        '<label class="field"><span>생년월일 <b class="req">필수</b></span><input class="input" type="date" data-jf="birth" value="' + esc(J.birth || '') + '" max="' + today() + '"></label>' +
+        '<div class="field"><span>생년월일 <b class="req">필수</b></span>' + birthSelects() + '</div>' +
         '<div class="field"><span>성별 <b class="req">필수</b></span>' + jChips('gender', ['남성', '여성']) + '</div>' +
         '<div class="field"><span>사는 지역 <b class="opt">선택</b></span><div class="row" style="flex-wrap:nowrap"><select class="input" data-jf="sido" style="flex:0 0 110px"><option value="">시 · 도</option>' + SIDO.map(function (x) { return '<option' + (J.sido === x ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select><input class="input" style="flex:1;min-width:0" data-jf="sigungu" value="' + esc(J.sigungu || '') + '" placeholder="시 · 군 · 구 (예: 마포구)"></div><div class="small muted">자세한 주소는 받지 않아요. 가까운 모임방을 추천할 때만 써요.</div></div>' +
         '<label class="field"><span>이메일 <b class="opt">선택</b></span><input class="input" type="email" data-jf="email" value="' + esc(J.email || '') + '" placeholder="계정 찾기와 소식 안내에 써요"></label>';
