@@ -313,6 +313,11 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 .join-cta { background: var(--navy); color: var(--on-navy); }
 .join-cta b { font-family: var(--font-display); font-size: 18px; } .join-cta .muted { color: var(--navy-sub); }
 .join-cta .btn { background: #F2C46B; color: var(--navy); }
+.att-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--surface); border-radius: 14px; box-shadow: var(--shadow); padding: 12px 12px 12px 16px; }
+.att-row b { font-size: 15px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.att-btn { flex: none; width: 40px; height: 40px; border-radius: 50%; border: 0; display: grid; place-items: center; background: #EEF0F4; color: #A3ABBB; }
+.att-btn svg { width: 20px; height: 20px; }
+.att-row.on .att-btn { background: linear-gradient(160deg, #E6A92E, #C98A12); color: #FFFFFF; }
 .seg-n { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: #E6A92E; color: #FFFFFF; font-size: 11px; font-weight: 700; margin-left: 3px; vertical-align: 1px; }
 .room-card h3 { margin-top: 6px; }
 .room-faces { display: flex; align-items: center; margin-top: 10px; }
@@ -711,7 +716,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
       (many ? '<div class="dly-track">' + rows + '</div>' : group(rows)) + '</section>';
   }
   function vHome() {
-    var t = today(), act = activeItems(), allDone = act.length > 0 && act.every(function (i) { return i.checks.indexOf(t) >= 0; });
+    var t = today(), act = attendItems(), allDone = act.length > 0 && act.every(function (i) { return i.checks.indexOf(t) >= 0; });
     var d = new Date();
     var tips = board('tips');
     var allThings = lineItem('data-guide="' + GUIDES[0].id + '"', GUIDES[0].kind, GUIDES[0].title) +
@@ -1018,7 +1023,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
     return open[open.length - 1] || S.items[S.items.length - 1] || null;
   }
   function widgetPreview() {
-    var t = today(), act = activeItems(), done = act.filter(function (i) { return i.checks.indexOf(t) >= 0; }).length, all = act.length > 0 && done === act.length;
+    var t = today(), act = attendItems(), done = act.filter(function (i) { return i.checks.indexOf(t) >= 0; }).length, all = act.length > 0 && done === act.length;
     var mins = +S.times[t] || 0, top = widgetItem(), nx = alarmNext();
     var bell = nx ? '<div class="wbell">' + BELL + nx + '</div>' : '';
     var att = '<button class="wcheck' + (all ? ' on' : '') + '" data-act="w-attend"><i>' + (all ? CHECK : '') + '</i>' + (all ? '출석 완료' : '출석 체크') + '</button>';
@@ -1295,13 +1300,29 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
       '<div class="two"><button class="btn line" data-act="save-item">추가하기</button><button class="btn" data-act="save-item-share">중보기도 요청하기</button></div>');
   }
 
+  // 출석 체크: 작정 기간과 상관없이 아직 응답을 기다리는 기도 제목은 모두 체크할 수 있어요
+  function attendItems() {
+    var t = today(), open = S.items.filter(function (i) { return !i.answered; });
+    var inRange = function (i) { var d = diffDays(i.start, t); return d >= 0 && d < i.days; };
+    return open.filter(inRange).concat(open.filter(function (i) { return !inRange(i); }));
+  }
+  function myPrayPosts() {
+    return S.posts.filter(function (p) { return p.mine && p.board === 'pray' && !p.answered && !S.items.some(function (i) { return i.postId === p.id; }); });
+  }
   function attendSheet() {
-    var act = activeItems(), t = today();
-    if (!act.length) { sheet('오늘 기도 출석', '<div class="empty">작정 기도 중인 기도 제목이 없어요.<br>기도 제목을 추가하면 매일 출석 체크를 할 수 있어요.</div><button class="btn block" data-act="add-item">기도 제목 추가</button>'); return; }
-    sheet('오늘 기도 출석', act.map(function (i) {
-      var on = i.checks.indexOf(t) >= 0, day = diffDays(i.start, t) + 1;
-      return '<div class="row between card" style="padding:12px 14px"><div style="min-width:0"><b>' + esc(i.title) + '</b><div class="small muted">' + i.days + '일 작정 중 ' + day + '일째</div></div><button class="btn sm ' + (on ? 'done' : '') + '" data-check="' + i.id + '" data-from="sheet">' + (on ? '출석 완료' : '출석') + '</button></div>';
-    }).join(''));
+    var items = attendItems(), posts = myPrayPosts(), t = today();
+    if (!items.length && !posts.length) { sheet('오늘 기도 출석', '<div class="empty">아직 기도 제목이 없어요.<br>기도 제목을 추가하면 매일 출석 체크를 할 수 있어요.</div><button class="btn block" data-act="add-item">기도 제목 추가</button>'); return; }
+    var row = function (title, sub, on, attr) { return '<div class="att-row' + (on ? ' on' : '') + '"><div style="min-width:0"><b>' + esc(title) + '</b><div class="small muted">' + sub + '</div></div><button class="att-btn" ' + attr + ' aria-pressed="' + on + '">' + CHECK + '</button></div>'; };
+    var h = '<div class="small muted">오늘 기도한 제목을 눌러 출석해 주세요.</div>';
+    h += items.map(function (i) {
+      var day = diffDays(i.start, t) + 1, on = i.checks.indexOf(t) >= 0;
+      var sub = day < 1 ? md(i.start) + '부터 작정 시작' : day > i.days ? i.days + '일 작정 마침 · 계속 기도 중' : i.days + '일 작정 중 ' + day + '일째';
+      return row(i.title, sub + ' · 출석 ' + i.checks.length + '일', on, 'data-check="' + i.id + '" data-from="sheet"');
+    }).join('');
+    if (posts.length) h += '<div class="label" style="margin-top:4px">내가 올린 기도 요청</div>' + posts.map(function (p) {
+      return row(p.title, '체크하면 기도다이어리에도 담겨요', false, 'data-pcheck="' + p.id + '"');
+    }).join('');
+    sheet('오늘 기도 출석', h + '<button class="btn block line" data-act="add-item">+ 새 기도 제목 추가</button>');
   }
 
   function answerItem(id) {
@@ -1440,6 +1461,11 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
       if (d.submit === 'pray') cat = '전체';
       render(); toast('올렸어요'); return;
     }
+    if (d.pcheck) {
+      var pp2 = postById(d.pcheck);
+      S.items.push({ id: uid(), title: pp2.title, body: pp2.body, start: today(), days: 40, checks: [today()], answered: false, memo: '', postId: pp2.id });
+      save(); render(); attendSheet(); toast('출석했어요. 기도다이어리에도 담았어요'); return;
+    }
     if (d.check) {
       var it = S.items.find(function (x) { return x.id === d.check; }), td = today(), ix = it.checks.indexOf(td);
       if (ix >= 0) it.checks.splice(ix, 1); else { it.checks.push(td); toast('오늘 기도 출석 완료!'); }
@@ -1527,7 +1553,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
         if (S.alarm.times.indexOf(at) >= 0) return toast('이미 있는 시간이에요');
         S.alarm.times.push(at); S.alarm.on = true; save(); alarmSheet(); render(); toast(at + ' 알림을 추가했어요'); return;
       case 'w-attend':
-        var wa = activeItems(), wt = today(); if (!wa.length) return toast('작정 중인 기도 제목이 없어요');
+        var wa = attendItems(), wt = today(); if (!wa.length) return toast('기도 제목이 아직 없어요');
         var allOn = wa.every(function (i) { return i.checks.indexOf(wt) >= 0; });
         wa.forEach(function (i) { var x = i.checks.indexOf(wt); if (allOn && x >= 0) i.checks.splice(x, 1); if (!allOn && x < 0) i.checks.push(wt); });
         save(); refreshTime(); toast(allOn ? '오늘 출석을 취소했어요' : '오늘 기도 출석 완료!'); return;
