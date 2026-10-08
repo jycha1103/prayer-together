@@ -269,15 +269,16 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 .alm-ring svg { width: 40px; height: 40px; color: var(--gold); }
 .alm-ring b { display: block; font-family: var(--font-display); font-size: 30px; color: var(--navy); margin-top: 4px; }
 .alm-ring p { margin: 6px 0 0; color: var(--ink-2); font-size: 14px; line-height: 1.6; }
-.dly-u { font-style: normal; font-weight: 700; color: #B42A1A; margin-right: 5px; }
+.dly-u { display: inline-block; vertical-align: -3px; color: #D93A25; margin-right: 5px; }
+.dly-u svg { width: 17px; height: 17px; display: block; }
 .dly-cnt { font-size: 12.5px; font-weight: 700; color: var(--accent); }
 .dly-track { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -16px; padding: 2px 16px 6px; scroll-padding-inline: 16px; scrollbar-width: none; }
 .dly-track::-webkit-scrollbar { display: none; }
 .dly { flex: 0 0 86%; scroll-snap-align: start; display: flex; align-items: center; gap: 6px; background: var(--surface); border-radius: 999px; box-shadow: var(--shadow); padding: 5px 5px 5px 6px; min-width: 0; }
 .dly-n { flex: 1; min-width: 0; display: flex; align-items: center; gap: 9px; background: none; border: 0; text-align: left; padding: 0; }
-.dly-n em { flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-family: var(--font-display); font-weight: 700; font-size: 14px; background: linear-gradient(160deg, #E6A92E, #C98A12); color: #FFFFFF; box-shadow: 0 2px 6px rgba(201, 138, 18, .35); }
+.dly-n em { flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-family: var(--font-display); font-weight: 700; font-size: 14px; background: #EEF0F4; color: #8A93A6; }
 .dly-n b { min-width: 0; font-size: 14px; font-weight: 700; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.dly-btn { flex: none; border: 0; border-radius: 999px; min-width: 52px; height: 34px; padding: 0 12px; font-size: 13px; font-weight: 700; background: var(--gold-soft); color: var(--gold); display: inline-grid; place-items: center; }
+.dly-btn { flex: none; border: 0; border-radius: 999px; min-width: 52px; height: 34px; padding: 0 12px; font-size: 13px; font-weight: 700; background: #EEF0F4; color: #6B7488; display: inline-grid; place-items: center; }
 .dly-btn svg { width: 15px; height: 15px; }
 .dly.on .dly-n em { background: var(--gold-soft); color: #C98A12; box-shadow: none; }
 .dly.on .dly-n b { color: var(--muted); }
@@ -545,12 +546,13 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
     }
     return S.daily.ids.map(postById);
   }
+  var SIREN = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 18v-6a5 5 0 0 1 10 0v6z"/><rect x="5" y="18" width="14" height="3" rx="1" fill="currentColor"/><path d="M12 10.5a1.5 1.5 0 0 0-1.5 1.5v3" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round" fill="none"/><path d="M12 2v2.2M4.2 5.2l1.6 1.5M19.8 5.2l-1.6 1.5M2 11h2.2M19.8 11H22" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
   function dailySec() {
     var ps = dailyPicks(); if (!ps.length) return '';
     var done = ps.filter(function (p) { return S.daily.done.indexOf(p.id) >= 0; }).length;
     var rows = ps.map(function (p, i) {
       var on = S.daily.done.indexOf(p.id) >= 0;
-      return '<div class="dly' + (on ? ' on' : '') + '"><button class="dly-n" data-open="' + p.id + '"><em>' + (i + 1) + '</em><b>' + (p.urgent ? '<i class="dly-u">긴급</i>' : '') + esc(p.title) + '</b></button>' +
+      return '<div class="dly' + (on ? ' on' : '') + '"><button class="dly-n" data-open="' + p.id + '"><em>' + (i + 1) + '</em><b>' + (p.urgent ? '<i class="dly-u" role="img" aria-label="긴급">' + SIREN + '</i>' : '') + esc(p.title) + '</b></button>' +
         '<button class="dly-btn" data-dpray="' + p.id + '" aria-label="' + (on ? '기도함' : '기도했어요') + '">' + (on ? CHECK : '기도') + '</button></div>';
     }).join('');
     return '<section class="sec"><div class="sec-head"><h2>오늘의 중보</h2><span class="dly-cnt">' + (done === ps.length ? '모두 마쳤어요 ' : '') + done + ' / ' + ps.length + '</span></div>' +
