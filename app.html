@@ -291,6 +291,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 .room-week b { font-family: var(--font-display); font-size: 20px; color: var(--navy); }
 .card .btn.block.gold { margin-top: 12px; }
 .room-k { color: #A0650A !important; }
+.row-item.room-slide { flex: 0 0 86%; scroll-snap-align: start; background: var(--surface); border-radius: var(--r); box-shadow: var(--shadow); border-top: 0 !important; }
 .room-on { flex: none; font-size: 12px; font-weight: 700; color: var(--accent); }
 .invite-code { text-align: center; background: var(--navy); color: var(--on-navy); border-radius: 18px; padding: 18px; }
 .invite-code span { display: block; font-size: 12px; color: var(--navy-sub); }
@@ -646,10 +647,13 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 
   function homeRooms() {
     if (!S.rooms.length) return '';
-    return '<section class="sec">' + '<div class="sec-head"><h2>내 기도모임방</h2><button class="more" data-act="rooms">전체 보기</button></div>' + group(S.rooms.map(function (r) {
+    var many = S.rooms.length > 1;
+    var rows = S.rooms.map(function (r) {
       var ppl = roomPeople(r), on = ppl.filter(function (x) { return x.on; }).length;
-      return '<button class="row-item line" data-room="' + r.id + '"><span class="kind room-k">모임방</span><h3>' + esc(r.name) + '</h3><span class="room-on">오늘 ' + on + '/' + ppl.length + '</span></button>';
-    }).join('')) + '</section>';
+      return '<button class="row-item line' + (many ? ' room-slide' : '') + '" data-room="' + r.id + '"><span class="kind room-k">모임방</span><h3>' + esc(r.name) + '</h3><span class="room-on">오늘 ' + on + '/' + ppl.length + '</span></button>';
+    }).join('');
+    return '<section class="sec"><div class="sec-head"><h2>내 기도모임방' + (many ? ' <span class="seg-n">' + S.rooms.length + '</span>' : '') + '</h2><button class="more" data-act="rooms">전체 보기</button></div>' +
+      (many ? '<div class="dly-track">' + rows + '</div>' : group(rows)) + '</section>';
   }
   function vHome() {
     var t = today(), act = activeItems(), allDone = act.length > 0 && act.every(function (i) { return i.checks.indexOf(t) >= 0; });
