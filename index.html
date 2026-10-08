@@ -338,26 +338,29 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 .cal-nav .x { font-size: 20px; }
 .cal-sum { font-size: 13px; color: var(--muted); text-align: center; margin-top: -4px; }
 .cal-sum b { color: #A0650A; }
-.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); row-gap: 2px; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); row-gap: 0; }
 .cal-grid em { font-style: normal; text-align: center; font-size: 11.5px; color: var(--muted); padding-bottom: 4px; }
 .cal-grid em.sun { color: #C0392B; }
-.cal-d { border: 0; background: none; padding: 3px 0 2px; display: flex; flex-direction: column; align-items: center; gap: 3px; min-width: 0; border-radius: 10px; }
-.cal-d b { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-size: 13.5px; font-weight: 500; color: var(--ink); }
-.cal-d b.att { background: linear-gradient(160deg, #E6A92E, #C98A12); color: #FFFFFF; font-weight: 700; }
-.cal-d.today b { box-shadow: 0 0 0 2px var(--accent); }
+.cal-d { border: 0; background: none; padding: 4px 0 3px; display: flex; flex-direction: column; align-items: center; gap: 3px; min-width: 0; min-height: 52px; border-radius: 10px; }
+.cal-d b { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 500; color: var(--ink); }
+.cal-d.sun b { color: #C0392B; }
+.cal-d.today b { background: var(--navy); color: #FFFFFF; font-weight: 700; }
 .cal-d.sel { background: var(--accent-soft); }
-.cal-d.future b { color: var(--muted); }
-.cal-d .band { align-self: stretch; height: 4px; background: #9AA6D6; }
-.cal-d .band.none { background: transparent; }
-.cal-d .band.s { margin-left: 6px; border-top-left-radius: 3px; border-bottom-left-radius: 3px; }
-.cal-d .band.e { margin-right: 6px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; }
-.cal-d .dots { display: flex; gap: 3px; height: 6px; }
-.cal-d .dots i { width: 6px; height: 6px; border-radius: 50%; }
-.dr { background: #7A4FD0; } .dr.soft { background: #C9B6EE; } .dl { background: #2E9B63; }
+.cal-d.future b { color: #A9B0C2; }
+.cal-d .dots { display: flex; gap: 3px; height: 5px; }
+.cal-d .dots i { width: 5px; height: 5px; border-radius: 50%; }
+.cal-d .lanes { align-self: stretch; display: flex; flex-direction: column; gap: 2px; margin-top: auto; }
+.cal-d .lanes i { display: block; height: 2px; }
+.cal-d .lanes i.s { margin-left: 5px; border-radius: 2px 0 0 2px; }
+.cal-d .lanes i.e { margin-right: 5px; border-radius: 0 2px 2px 0; }
+.cal-d .dots .dp { background: #D89A1E; } .cal-d .dots .dr { background: #7A4FD0; } .cal-d .dots .dr.soft { background: #C9B6EE; } .cal-d .dots .dl { background: #2E9B63; }
 .cal-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; color: var(--ink-2); justify-content: center; }
 .cal-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.cal-legend.lanes-k { margin-top: -6px; }
+.cal-legend.lanes-k span { max-width: 46%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: inline-block; }
+.cal-legend.lanes-k i { vertical-align: middle; margin-right: 5px; }
 .cal-legend i, .cal-row i { flex: none; display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
-.k-att { background: #D89A1E; } .k-band { background: #9AA6D6; border-radius: 2px !important; height: 4px !important; width: 14px !important; } .k-relay { background: #7A4FD0; } .k-relay.soft { background: #C9B6EE; } .k-letter { background: #2E9B63; }
+.k-att { background: #D89A1E; } .k-line { border-radius: 2px !important; height: 3px !important; width: 14px !important; } .k-relay { background: #7A4FD0; } .k-relay.soft { background: #C9B6EE; } .k-letter { background: #2E9B63; }
 .cal-detail { background: var(--bg); border-radius: 14px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; }
 .cal-dh { font-weight: 700; font-size: 14px; color: var(--navy); }
 .cal-row { display: flex; align-items: center; gap: 8px; font-size: 13px; border: 0; background: none; padding: 0; text-align: left; width: 100%; min-width: 0; }
@@ -1133,23 +1136,28 @@ button.cal-row b { color: var(--accent); }
     });
     return r;
   }
+  var LANE_COLORS = ['#4C6FD8', '#E0607E', '#2BA39A', '#E08A2E', '#8A93A6'];
+  function itemColor(it) { return LANE_COLORS[Math.max(0, S.items.indexOf(it)) % LANE_COLORS.length]; }
   function calendarSheet() {
     var t = today(); if (!calM) calM = t.slice(0, 7); if (!calSel) calSel = t;
     var y = +calM.slice(0, 4), m = +calM.slice(5, 7), first = new Date(y, m - 1, 1), dim = new Date(y, m, 0).getDate(), lead = first.getDay();
-    var cells = '', attN = 0, minN = 0;
+    var cells = '', attN = 0, minN = 0, mFirst = calM + '-01', mLast = calM + '-' + pad(dim);
+    // 이번 달에 걸친 작정 기도마다 고유 색의 얇은 선을 같은 높이에 그려요
+    var lanes = S.items.filter(function (it) { return it.start <= mLast && addDays(it.start, it.days - 1) >= mFirst; });
     for (var i = 0; i < lead; i++) cells += '<span></span>';
     for (var dd = 1; dd <= dim; dd++) {
       var d = calM + '-' + pad(dd), c = calDay(d), att = c.att.length > 0 || c.min > 0, wd = (lead + dd - 1) % 7;
       if (att) attN++; minN += c.min;
-      var band = c.commit.length ? '<i class="band' + (c.commit.some(function (x) { return x.start === d; }) || wd === 0 ? ' s' : '') + (c.commit.some(function (x) { return addDays(x.start, x.days - 1) === d; }) || wd === 6 ? ' e' : '') + '"></i>' : '<i class="band none"></i>';
-      cells += '<button class="cal-d' + (d === t ? ' today' : '') + (d === calSel ? ' sel' : '') + (d > t ? ' future' : '') + '" data-cald="' + d + '"><b class="' + (att ? 'att' : '') + '">' + dd + '</b>' + band +
-        '<span class="dots">' + (c.relay.length ? '<i class="dr"></i>' : c.roomRelay.length ? '<i class="dr soft"></i>' : '') + (c.letters.length ? '<i class="dl"></i>' : '') + '</span></button>';
+      var band = '<span class="lanes">' + lanes.map(function (it) {
+        var end = addDays(it.start, it.days - 1); if (d < it.start || d > end) return '<i></i>';
+        return '<i class="on' + (d === it.start || wd === 0 ? ' s' : '') + (d === end || wd === 6 ? ' e' : '') + '" style="background:' + itemColor(it) + '"></i>'; }).join('') + '</span>';
+      cells += '<button class="cal-d' + (d === t ? ' today' : '') + (d === calSel ? ' sel' : '') + (d > t ? ' future' : '') + (wd === 0 ? ' sun' : '') + '" data-cald="' + d + '"><b>' + dd + '</b>' +
+        '<span class="dots">' + (att ? '<i class="dp"></i>' : '') + (c.letters.length ? '<i class="dl"></i>' : '') + (c.relay.length ? '<i class="dr"></i>' : c.roomRelay.length ? '<i class="dr soft"></i>' : '') + '</span>' + band + '</button>';
     }
     var s = calDay(calSel), sd = calSel.split('-'), rows = '';
     var line = function (cls, label, txt, attr) { return '<' + (attr ? 'button ' + attr : 'div') + ' class="cal-row"><i class="' + cls + '"></i><span>' + label + '</span><b>' + txt + '</b></' + (attr ? 'button' : 'div') + '>'; };
-    if (s.att.length || s.min) rows += line('k-att', '출석', s.att.length ? s.att.map(function (i) { return esc(i.title); }).join(', ') : '기도 시간 기록', '') ;
-    if (s.min) rows += line('k-att', '기도 시간', fmtMin(s.min), '');
-    s.commit.forEach(function (i) { rows += line('k-band', '작정 기도', esc(i.title) + ' · ' + (diffDays(i.start, calSel) + 1) + '/' + i.days + '일째', ''); });
+    if (s.att.length || s.min) rows += line('k-att', '기도한 날', s.min ? fmtMin(s.min) + ' 기도' + (s.att.length ? ' · 출석 ' + s.att.length + '개' : '') : '출석 ' + s.att.map(function (i) { return esc(i.title); }).join(', '), '');
+    s.commit.forEach(function (i) { rows += '<div class="cal-row"><i class="k-line" style="background:' + itemColor(i) + '"></i><span>작정 기도</span><b>' + esc(i.title) + ' · ' + (diffDays(i.start, calSel) + 1) + '/' + i.days + '일째' + (i.checks.indexOf(calSel) >= 0 ? ' ✓' : '') + '</b></div>'; });
     s.relay.forEach(function (x) { rows += line('k-relay', '릴레이 기도', esc(x.r.title) + ' · ' + x.ks.map(slotRange).join(', '), 'data-relay="' + x.r.id + '"'); });
     s.roomRelay.forEach(function (x) { rows += line('k-relay soft', '모임방 릴레이', esc(x.title) + ' · 아직 예약 전', 'data-relay="' + x.id + '"'); });
     s.letters.forEach(function (l) { rows += line('k-letter', '기도 편지', esc(l.verse || '편지 보기'), 'data-letter="' + l.id + '"'); });
@@ -1157,7 +1165,8 @@ button.cal-row b { color: var(--accent); }
       '<div class="cal-nav"><button class="x" data-calm="-1" aria-label="이전 달">‹</button><b>' + y + '년 ' + m + '월</b><button class="x" data-calm="1" aria-label="다음 달">›</button></div>' +
       '<div class="cal-sum">이번 달 <b>' + attN + '일</b> 기도했어요 · 기도 시간 <b>' + fmtMin(minN) + '</b></div>' +
       '<div class="cal-grid">' + '일월화수목금토'.split('').map(function (w, i) { return '<em' + (i === 0 ? ' class="sun"' : '') + '>' + w + '</em>'; }).join('') + cells + '</div>' +
-      '<div class="cal-legend"><span><i class="k-att"></i>출석</span><span><i class="k-band"></i>작정 기간</span><span><i class="k-relay"></i>릴레이 기도</span><span><i class="k-letter"></i>기도 편지</span></div>' +
+      '<div class="cal-legend"><span><i class="k-att"></i>기도한 날</span><span><i class="k-letter"></i>기도 편지</span><span><i class="k-relay"></i>릴레이 기도</span></div>' +
+      (lanes.length ? '<div class="cal-legend lanes-k">' + lanes.map(function (it) { return '<span><i class="k-line" style="background:' + itemColor(it) + '"></i>' + esc(it.title) + '</span>'; }).join('') + '</div>' : '') +
       '<div class="cal-detail"><div class="cal-dh">' + (+sd[1]) + '월 ' + (+sd[2]) + '일 ' + '일월화수목금토'[new Date(+sd[0], +sd[1] - 1, +sd[2]).getDay()] + '요일</div>' + (rows || '<div class="small muted">이날은 기록이 없어요.</div>') + '</div>');
   }
 
