@@ -477,8 +477,8 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 
   function seedConcerns(now, H) {
     return [
-      { id: uid(), board: 'concern', cat: '', scope: ['목회자·선교사', '상담사'], title: '영적 싸움이 커서 우울감에 사로잡혀 있어요', body: '몇 달째 기도가 되지 않고 무기력합니다. 교회 사람들에게는 말하기가 어려워서 여기 적어요. 어떻게 다시 일어설 수 있을지 조언과 기도 부탁드려요.', author: '익명의 성도', created: now - 16 * H, prayers: 9, prayed: false, comments: [], example: true },
-      { id: uid(), board: 'concern', cat: '', scope: ['상담사', '목회자·선교사', '일반 성도'], title: '가족에게 신앙을 이야기하는 게 너무 어려워요', body: '믿지 않는 남편과 신앙 이야기만 나오면 다투게 됩니다. 지혜롭게 대화하고 싶어요.', author: '익명의 성도', created: now - 40 * H, prayers: 14, prayed: false, comments: [{ author: '바나바 상담사', role: '상담사', text: '먼저 남편분의 이야기를 충분히 들어주는 시간을 가져 보세요. 함께 기도하겠습니다.', created: now - 30 * H }], example: true }
+      { id: uid(), board: 'concern', cat: '', scope: ['목회자·선교사', '상담사'], title: '영적 싸움이 커서 우울감에 사로잡혀 있어요', body: '몇 달째 기도가 되지 않고 무기력합니다. 교회 사람들에게는 말하기가 어려워서 여기 적어요. 어떻게 다시 일어설 수 있을지 조언과 기도 부탁드려요.', author: '새벽이슬', created: now - 16 * H, prayers: 9, prayed: false, comments: [], example: true },
+      { id: uid(), board: 'concern', cat: '', scope: ['상담사', '목회자·선교사', '일반 성도'], title: '가족에게 신앙을 이야기하는 게 너무 어려워요', body: '믿지 않는 남편과 신앙 이야기만 나오면 다투게 됩니다. 지혜롭게 대화하고 싶어요.', author: '들꽃', created: now - 40 * H, prayers: 14, prayed: false, comments: [{ author: '바나바 상담사', role: '상담사', text: '먼저 남편분의 이야기를 충분히 들어주는 시간을 가져 보세요. 함께 기도하겠습니다.', created: now - 30 * H }], example: true }
     ];
   }
   function seedTips(now, H) {
@@ -575,6 +575,11 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
     S.alarm = defAlarm(); S.daily = null; S.v = 5; save();
   }
   if (S.v < 6) { seedRooms(S); S.v = 6; save(); } // 기도모임방이 생긴 버전
+  if (S.v < 7) { // 말못할 사연은 닉네임으로 보이는 버전
+    var NICK = { '영적 싸움이': '새벽이슬', '가족에게 신앙을': '들꽃' };
+    S.posts.forEach(function (p) { if (p.board === 'concern' && p.author === '익명의 성도') { var k = Object.keys(NICK).find(function (x) { return p.title.indexOf(x) === 0; }); p.author = k ? NICK[k] : (p.mine ? (S.me.name || '성도') : p.author); } });
+    S.v = 7; save();
+  }
 
   // ---------- ui state ----------
   var tab = 'home', ptab = 'all', roomId = '', cat = '전체', q = '', dtab = 'items', range = 7, gtab = 'guides', searchQ = '', cFrom = '', cTo = '', picking = false, tDay = '', bump = false, rDay = '';
@@ -898,7 +903,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 
   function vConcern() {
     var list = board('concern');
-    return pageHead('사연 · 고민 상담', 'write-concern', '사연 쓰기') + '<div class="note">가까운 사람에게 말하기 어려운 사연을 털어놓으세요. 사연은 항상 익명이고, 공개 범위로 고른 분들만 답글을 달 수 있어요. 지금 나의 구분은 <b>' + esc(S.me.role) + '</b>이에요.</div><div class="crisis-bar">마음이 많이 힘들 땐 <a href="tel:109">109</a> (자살예방 상담전화, 24시간)</div>' +
+    return pageHead('사연 · 고민 상담', 'write-concern', '사연 쓰기') + '<div class="note">가까운 사람에게 말하기 어려운 사연을 털어놓으세요. 사연은 닉네임으로만 보이고, 공개 범위로 고른 분들만 답글을 달 수 있어요. 지금 나의 구분은 <b>' + esc(S.me.role) + '</b>이에요.</div><div class="crisis-bar">마음이 많이 힘들 땐 <a href="tel:109">109</a> (자살예방 상담전화, 24시간)</div>' +
       (list.length ? list.map(postCard).join('') : '<div class="empty">아직 올라온 사연이 없어요.</div>');
   }
 
@@ -1123,7 +1128,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
     ['3. 보관 기간', '탈퇴하면 계정 정보는 바로 지워요. 올린 글은 "탈퇴한 성도"로 이름을 바꿔 남기고, 원하시면 탈퇴 전에 모두 지울 수 있어요. 법에서 정한 기록(접속 기록 3개월 등)만 정해진 기간 동안 보관해요.'],
     ['4. 다른 곳에 주는 경우', '이용자의 동의 없이 다른 곳에 주지 않아요. 법에 따라 수사기관이 요청할 때만 예외예요.'],
     ['5. 맡기는 업무', '서버와 데이터 저장: [서버 업체] (서울 지역)\n로그인: 카카오, 네이버, 애플\n장소 확인: 카카오 (장소 검색)\n알림: 구글 Firebase'],
-    ['6. 말못할 사연 보호', '사연은 항상 익명으로 보여요. 운영자만 작성자를 확인할 수 있고, 신고 처리나 생명이 위험한 경우에만 확인해요. 답글에는 연락처와 링크를 쓸 수 없어요.'],
+    ['6. 말못할 사연 보호', '사연은 닉네임으로만 보이고 실명과 연락처는 드러나지 않아요. 운영자만 계정을 확인할 수 있고, 신고 처리나 생명이 위험한 경우에만 확인해요. 답글에는 연락처와 링크를 쓸 수 없어요.'],
     ['7. 이용자의 권리', '내 정보에서 언제든 정보를 보고 고치거나 지울 수 있어요. 동의는 언제든 철회할 수 있고, 탈퇴도 바로 할 수 있어요.'],
     ['8. 만 14세 미만', '만 14세 미만은 보호자 동의 절차를 갖추기 전까지 가입을 받지 않아요.'],
     ['9. 안전하게 지키는 방법', '데이터는 암호화해서 보관하고, 운영자 접근은 꼭 필요한 사람에게만 열어 두고 기록을 남겨요.'],
@@ -1342,7 +1347,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
         ROLES.slice().reverse().map(function (r, i) { return '<label class="check"><input type="checkbox" class="sc" value="' + r + '"' + (r !== '일반 성도' ? ' checked' : '') + '> ' + r + '</label>'; }).join('') + '</div>' : '') +
       (boardName === 'pray' || boardName === 'concern' ? '<div class="small muted guide-line">다른 사람의 실명이나 병명은 적지 말아 주세요. "어머니의 수술"처럼 써 주시면 충분해요.</div>' : '') +
       (boardName === 'concern' ? '<label class="field"><span>자동으로 숨기기</span><select class="input" id="wHide"><option value="">계속 보이기</option><option value="7">7일 뒤 숨기기</option><option value="30">30일 뒤 숨기기</option></select></label>' +
-        '<div class="note">사연은 항상 익명으로 올라가요. 상담사와 목회자에게도 누가 썼는지 보이지 않아요. 답글에는 전화번호, 카톡 아이디, 링크를 쓸 수 없어요.</div><input type="checkbox" id="wAnon" checked hidden>' :
+        '<div class="note">사연은 내 닉네임 <b>' + esc(S.me.name || '성도') + '</b>(으)로 올라가요. 실명과 연락처는 상담사와 목회자에게도 보이지 않아요. 답글에는 전화번호, 카톡 아이디, 링크를 쓸 수 없어요.</div><input type="checkbox" id="wAnon" hidden>' :
       '<div class="checks"><label class="check"><input type="checkbox" id="wAnon"' + (cfg[3] ? ' checked' : '') + '> 익명으로 올리기</label>') +
       (boardName === 'pray' ? '<label class="check urgent"><input type="checkbox" id="wUrgent"' + (preset && preset.urgent ? ' checked' : '') + '> 긴급기도 요청</label>' : '') + (boardName === 'concern' ? '' : '</div>') +
       '<button class="btn block" data-submit="' + boardName + '"' + (preset && preset.itemId ? ' data-item="' + preset.itemId + '"' : '') + (preset && preset.roomId ? ' data-room-id="' + preset.roomId + '"' : '') + '>올리기</button>');
@@ -1519,7 +1524,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
       if (!title || !body) return toast('제목과 내용을 모두 적어 주세요');
       if (d.submit === 'concern') { document.querySelectorAll('.sc:checked').forEach(function (c) { scope.push(c.value); }); if (!scope.length) return toast('답글을 달 수 있는 분을 1개 이상 골라 주세요'); }
       if (d.submit === 'concern' && hasContact(title + ' ' + body)) return toast('전화번호, 카톡 아이디, 링크는 쓸 수 없어요');
-      var np = { id: uid(), board: d.submit, cat: d.submit === 'pray' ? val('wCat') : '', scope: scope, mine: true, urgent: !!(el('wUrgent') && el('wUrgent').checked), title: title, body: body, author: d.submit === 'concern' || el('wAnon').checked ? '익명의 성도' : (S.me.name || '성도'), created: Date.now(), prayers: 0, prayed: false, comments: [] };
+      var np = { id: uid(), board: d.submit, cat: d.submit === 'pray' ? val('wCat') : '', scope: scope, mine: true, urgent: !!(el('wUrgent') && el('wUrgent').checked), title: title, body: body, author: d.submit === 'concern' ? (S.me.name || '성도') : el('wAnon').checked ? '익명의 성도' : (S.me.name || '성도'), created: Date.now(), prayers: 0, prayed: false, comments: [] };
       if (d.submit === 'concern' && val('wHide')) np.hideAfter = +val('wHide');
       var job = { np: np, room: d.roomId, item: d.item };
       if (isCrisis(title + ' ' + body)) { pendingPost = job; return crisisSheet(); }
@@ -1671,7 +1676,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
         S.me.name = val('meName') || '성도'; S.me.role = el('meRole').value; save(); render(); toast('저장했어요'); return;
       case 'reset':
         if (!arm(b, '모든 기록이 지워져요. 한 번 더 누르세요')) return;
-        S = seed(); seedRooms(S); S.v = 6; save(); ptab = 'all'; go('home'); toast('처음 상태로 되돌렸어요'); return;
+        S = seed(); seedRooms(S); S.v = 7; save(); ptab = 'all'; go('home'); toast('처음 상태로 되돌렸어요'); return;
     }
   });
 
