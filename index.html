@@ -136,7 +136,8 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); font-weight: 700; box-shadow: 0 1px 3px rgba(18, 25, 51, .08); }
 
 .search { width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 12px; padding: 10px 14px; }
-.page-title { font-size: 19px; font-family: var(--font-display); color: var(--navy); padding-inline: 2px; }
+.page-title { display: flex; align-items: center; gap: 9px; font-family: var(--font-body); font-size: 22px; font-weight: 800; color: var(--ink); letter-spacing: -0.03em; line-height: 1.2; padding-inline: 2px; }
+.page-title::before { content: ""; flex: none; width: 5px; height: 20px; border-radius: 3px; background: linear-gradient(180deg, #E6A92E, #C98A12); }
 .note { background: var(--accent-soft); color: var(--ink-2); border-radius: 12px; padding: 10px 14px; font-size: 13px; }
 
 .field { display: flex; flex-direction: column; gap: 6px; }
