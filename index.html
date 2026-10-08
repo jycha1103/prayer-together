@@ -23,7 +23,7 @@
   --r: 16px;
 }
 * { box-sizing: border-box; }
-body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 14.5px; line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; margin: 0; padding-inline: 16px; padding-block: 0 100px; -webkit-font-smoothing: antialiased; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 14.5px; line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; margin: 0; padding-inline: 16px; padding-block: 0 150px; -webkit-font-smoothing: antialiased; }
 .app { max-width: 560px; margin: 0 auto; }
 h1, h2, h3 { text-wrap: balance; margin: 0; line-height: 1.4; }
 button, input, select, textarea { font: inherit; color: inherit; }
@@ -31,9 +31,15 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* top bar */
-.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 12px 10px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.brand { min-width: 0; font-family: var(--font-display); font-weight: 700; font-size: 16px; color: var(--navy); background: none; border: 0; padding: 0; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: -0.01em; }
-.brand small { display: block; overflow: hidden; text-overflow: ellipsis; font-family: var(--font-body); font-weight: 400; font-size: 11.5px; color: var(--muted); letter-spacing: 0; }
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 14px 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.brand { min-width: 0; display: flex; align-items: center; gap: 9px; background: none; border: 0; padding: 0; text-align: left; }
+.brand .mark { flex: none; width: 32px; height: 32px; border-radius: 10px; background: radial-gradient(110% 100% at 100% 0%, var(--navy-2), var(--navy) 70%); display: grid; place-items: center; box-shadow: 0 3px 10px rgba(23, 32, 74, .25); }
+.brand .mark svg { width: 22px; height: 22px; }
+.brand-name { min-width: 0; font-family: var(--font-display); font-weight: 700; font-size: 19px; color: var(--navy); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: -0.02em; }
+.fab { position: fixed; z-index: 9; right: max(16px, calc((100vw - 560px) / 2 + 16px)); bottom: calc(72px + env(safe-area-inset-bottom, 0px)); display: inline-flex; align-items: center; gap: 6px; border: 0; border-radius: 999px; padding: 13px 20px 13px 16px; font-size: 15px; font-weight: 700; color: #FFFFFF; background: linear-gradient(135deg, var(--accent), var(--navy)); box-shadow: 0 8px 22px rgba(35, 50, 140, .38), 0 2px 6px rgba(18, 25, 51, .15); }
+.fab svg { width: 18px; height: 18px; }
+.drawer-brand { font-family: var(--font-display); font-weight: 700; font-size: 17px; color: var(--navy); }
+.drawer-brand small { display: block; font-family: var(--font-body); font-weight: 400; font-size: 12px; color: var(--muted); }
 .top-actions { display: flex; align-items: center; gap: 0; flex: none; }
 .icon-btn { background: none; border: 0; width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; color: var(--navy); }
 .icon-btn svg { width: 23px; height: 23px; }
@@ -64,7 +70,7 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 /* sections */
 .sec { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
 .sec-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-inline: 2px; }
-.sec-head h2 { font-size: 15px; font-weight: 700; color: var(--ink); letter-spacing: -0.01em; }
+.sec-head h2 { font-family: var(--font-display); font-size: 16.5px; font-weight: 700; color: var(--navy); letter-spacing: -0.01em; }
 .sec-head .date { font-size: 12px; color: var(--muted); }
 .more { background: none; border: 0; padding: 2px 0; color: var(--muted); font-size: 12.5px; display: inline-flex; align-items: center; gap: 2px; }
 .more::after { content: ""; width: 6px; height: 6px; border-right: 1.5px solid currentColor; border-top: 1.5px solid currentColor; transform: rotate(45deg); margin-left: 3px; }
@@ -193,16 +199,16 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 
 <div class="app">
   <header class="topbar">
-    <button class="brand" data-tab="home">합력하여 선을 이루는 기도<small>얼굴을 몰라도, 서로를 위해 기도하는 곳</small></button>
+    <button class="brand" data-tab="home" aria-label="홈으로"><span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="#F2C46B" d="M12 3.5c2 2.4 4 4.4 4 7.4a4 4 0 0 1-8 0c0-1.6.8-2.8 1.6-3.6.3 1.3.9 2 1.7 2.3-.5-2.1-.1-4.1.7-6.1z"/><rect x="10" y="15.5" width="4" height="5.5" rx="1.2" fill="#F4F6FF"/></svg></span><span class="brand-name">합력하여 선을 이루는 기도</span></button>
     <div class="top-actions">
-      <button class="btn sm navy" id="topWrite">기도 요청</button>
       <button class="icon-btn" data-tab="me" aria-label="내 정보"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 21c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/></svg></button>
-      <button class="icon-btn" data-act="menu" aria-label="전체 메뉴"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+      <button class="icon-btn" data-act="menu" aria-label="전체 메뉴"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6.5h16M4 12h16M4 17.5h16"/></svg></button>
     </div>
   </header>
   <main id="view" class="stack"></main>
 </div>
 <div class="tabbar"><nav id="tabs" aria-label="메뉴"></nav></div>
+<button class="fab" id="topWrite"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>기도 요청</button>
 <div id="sheetRoot"></div>
 <div id="drawerRoot"></div>
 <div id="toastRoot"></div>
@@ -512,7 +518,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
   function openDrawer() {
     var M = [['pray', '중보기도'], ['diary', '기도 다이어리'], ['concern', '말못할 사연 · 고민 상담'], ['story', '간증']];
     el('drawerRoot').innerHTML = '<div class="drawer-back" data-dclose="1"><nav class="drawer" aria-label="전체 메뉴">' +
-      '<div class="srow"><input class="search" id="dq" type="search" placeholder="Search..." aria-label="전체 글 검색"><button class="icon-btn" data-tab="me" aria-label="설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div>' +
+      '<div class="drawer-brand">합력하여 선을 이루는 기도<small>얼굴을 몰라도, 서로를 위해 기도하는 곳</small></div><div class="srow"><input class="search" id="dq" type="search" placeholder="Search..." aria-label="전체 글 검색"><button class="icon-btn" data-tab="me" aria-label="설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div>' +
       '<ul class="menu">' + M.map(function (m) { return '<li><button data-tab="' + m[0] + '">' + m[1] + '</button></li>'; }).join('') +
       '<li><button data-guide-tab="guides">기도란</button><ul class="menu sub"><li><button data-guide-tab="guides">기도의 모든 것</button></li><li><button data-guide-tab="tips">나만의 기도 노하우</button></li></ul></li>' +
       '<li><button data-act="invite">초대</button></li></ul></nav></div>';
