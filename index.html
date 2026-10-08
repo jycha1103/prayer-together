@@ -240,18 +240,27 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 .chk.on i { background: var(--gold); border-color: var(--gold); color: #FFFFFF; }
 .ic-foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; border-top: 1px solid var(--line-2); padding-top: 10px; }
 .widgets { display: flex; gap: 12px; flex-wrap: wrap; align-items: stretch; }
-.wg { background: radial-gradient(120% 100% at 100% 0%, var(--navy-2), var(--navy) 70%); color: var(--on-navy); border-radius: 22px; padding: 14px; box-shadow: 0 8px 22px rgba(23, 32, 74, .25); }
-.wg .wl { font-size: 11px; color: var(--navy-sub); font-weight: 500; }
-.wg b { font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; }
-.wg.s { width: 148px; height: 148px; display: flex; flex-direction: column; justify-content: space-between; flex: none; }
-.wg.m { flex: 1 1 260px; min-height: 148px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; }
-.wg .wcheck { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; }
-.wg .wcheck i { width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; border: 2px solid var(--navy-sub); }
-.wg .wcheck.on i { background: #7BE0A6; border-color: #7BE0A6; color: var(--navy); }
-.wg .wcheck svg { width: 11px; height: 11px; }
-.wg ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
-.wg li { font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-left: 10px; position: relative; }
-.wg li::before { content: ""; position: absolute; left: 0; top: .6em; width: 4px; height: 4px; border-radius: 50%; background: #F2C46B; }
+.wg { background: radial-gradient(120% 100% at 100% 0%, var(--navy-2), var(--navy) 70%); color: var(--on-navy); border-radius: 24px; padding: 14px; box-shadow: 0 8px 22px rgba(23, 32, 74, .25); }
+.wl { font-size: 11.5px; color: var(--navy-sub); font-weight: 500; }
+.wnum { display: flex; align-items: baseline; gap: 2px; font-family: var(--font-display); line-height: 1.05; }
+.wnum b { font-size: 34px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.wnum span { font-size: 14px; font-weight: 700; color: var(--navy-sub); }
+.wnum.bump { animation: bump .35s ease-out; }
+.wg.s { width: 150px; height: 150px; display: flex; flex-direction: column; justify-content: space-between; flex: none; }
+.wplus { border: 0; border-radius: 14px; padding: 10px 0; background: #F2C46B; color: var(--navy); font-size: 15px; font-weight: 700; }
+.wg.m { flex: 1 1 280px; min-height: 150px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; }
+.wtop { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.wcheck { display: inline-flex; align-items: center; gap: 6px; border: 0; background: rgba(255, 255, 255, .1); color: var(--on-navy); border-radius: 999px; padding: 6px 12px 6px 7px; font-size: 12.5px; font-weight: 700; }
+.wcheck i { width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; border: 2px solid var(--navy-sub); }
+.wcheck.on { background: rgba(123, 224, 166, .18); color: #9BEBC0; }
+.wcheck.on i { background: #7BE0A6; border-color: #7BE0A6; color: var(--navy); }
+.wcheck svg { width: 11px; height: 11px; }
+.wadds { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.wadds button { border: 0; border-radius: 12px; padding: 9px 0; background: rgba(255, 255, 255, .12); color: var(--on-navy); font-size: 14px; font-weight: 700; }
+.wadds button:first-child { }
+.wadds button:active, .wplus:active { transform: scale(.95); }
+.wtitle { font-size: 12px; color: var(--navy-sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-left: 10px; position: relative; }
+.wtitle::before { content: ""; position: absolute; left: 0; top: .55em; width: 5px; height: 5px; border-radius: 50%; background: #F2C46B; }
 .range-pick { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .range-pick .input { flex: 1 1 130px; min-width: 0; }
 .item-body { margin: 0; font-size: 13.5px; color: var(--ink-2); white-space: pre-wrap; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
@@ -696,15 +705,19 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 
   function widgetPreview() {
     var t = today(), act = activeItems(), done = act.filter(function (i) { return i.checks.indexOf(t) >= 0; }).length, all = act.length > 0 && done === act.length;
-    var mins = +S.times[t] || 0;
-    var chk = '<span class="wcheck' + (all ? ' on' : '') + '"><i>' + (all ? CHECK : '') + '</i>' + (all ? '오늘 출석 완료' : '출석 ' + done + '/' + act.length) + '</span>';
+    var mins = +S.times[t] || 0, top = act[0];
+    var att = '<button class="wcheck' + (all ? ' on' : '') + '" data-act="w-attend"><i>' + (all ? CHECK : '') + '</i>' + (all ? '출석 완료' : '출석 체크') + '</button>';
+    var r = bump; bump = false;
+    var num = '<div class="wnum' + (r ? ' bump' : '') + '"><b>' + mins + '</b><span>분</span></div>';
     return '<div class="card stack" style="gap:12px"><h2 style="font-size:17px">홈 화면 위젯 미리보기</h2>' +
+      '<div class="small muted">위젯의 버튼을 직접 눌러 보세요. 기도 시간이 바로 더해져요.</div>' +
       '<div class="widgets">' +
-        '<div class="wg s"><span class="wl">오늘의 기도</span><div><b>' + mins + '</b><span class="wl"> 분</span></div>' + chk + '</div>' +
-        '<div class="wg m"><div style="display:flex;flex-direction:column;justify-content:space-between"><span class="wl">오늘의 기도</span><div><b>' + mins + '</b><span class="wl"> 분</span></div>' + chk + '</div>' +
-          '<div style="min-width:0;display:flex;flex-direction:column;gap:8px"><span class="wl">주요 기도 제목</span><ul>' + (act.length ? act.slice(0, 3).map(function (i) { return '<li>' + esc(i.title) + '</li>'; }).join('') : '<li>작정 중인 기도 제목이 없어요</li>') + '</ul></div></div>' +
+        '<div class="wg s"><div class="wl">오늘 기도</div>' + num + '<button class="wplus" data-wadd="10" aria-label="기도 10분 더하기">+10분</button></div>' +
+        '<div class="wg m"><div class="wtop"><div><div class="wl">오늘 기도</div>' + num + '</div>' + att + '</div>' +
+          '<div class="wadds">' + [5, 10, 30].map(function (n) { return '<button data-wadd="' + n + '">+' + n + '분</button>'; }).join('') + '</div>' +
+          (top ? '<div class="wtitle">' + esc(top.title) + (act.length > 1 ? ' 외 ' + (act.length - 1) + '개' : '') + '</div>' : '') + '</div>' +
       '</div>' +
-      '<div class="small muted">휴대폰 바탕화면 위젯은 앱스토어용 앱으로 출시할 때 넣을 수 있어요. 지금 웹앱으로는 브라우저 메뉴의 "홈 화면에 추가"로 앱 아이콘을 만들 수 있어요.</div></div>';
+      '<div class="small muted">휴대폰 바탕화면 위젯은 앱스토어와 플레이스토어용 앱으로 출시할 때 넣을 수 있어요. 지금은 미리보기예요.</div></div>';
   }
   function vMe() {
     return '<h1 class="page-title">내 정보</h1><div class="card stack">' +
@@ -890,6 +903,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
     if (d.dtab) { dtab = d.dtab; render(); return; }
     if (d.gtab) { gtab = d.gtab; render(); return; }
     if (d.add) return addTime(tDay || today(), +d.add);
+    if (d.wadd) return addTime(today(), +d.wadd);
     if (d.undo) {
       var ud = tDay || today(), ue = S.log[ud].splice(+d.undo, 1)[0];
       S.times[ud] = Math.max(0, (+S.times[ud] || 0) - ue.m); if (!S.times[ud]) delete S.times[ud];
@@ -967,6 +981,11 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
     }
     switch (d.act) {
       case 'menu': return openDrawer();
+      case 'w-attend':
+        var wa = activeItems(), wt = today(); if (!wa.length) return toast('작정 중인 기도 제목이 없어요');
+        var allOn = wa.every(function (i) { return i.checks.indexOf(wt) >= 0; });
+        wa.forEach(function (i) { var x = i.checks.indexOf(wt); if (allOn && x >= 0) i.checks.splice(x, 1); if (!allOn && x < 0) i.checks.push(wt); });
+        save(); render(); toast(allOn ? '오늘 출석을 취소했어요' : '오늘 기도 출석 완료!'); return;
       case 'invite': closeDrawer(); return invite();
       case 'attend': return attendSheet();
       case 'write-pray': return writePost('pray', { cat: cat !== '전체' ? cat : '' });
