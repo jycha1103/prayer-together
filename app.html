@@ -235,8 +235,16 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 .chk.on i { background: var(--gold); border-color: var(--gold); color: #FFFFFF; }
 .ic-foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; border-top: 1px solid var(--line-2); padding-top: 10px; }
 .wbtn { display: inline-flex; align-items: center; gap: 5px; }
-.hd-btns { gap: 6px; flex-wrap: nowrap; }
-.wbtn.bell-on svg { color: var(--gold); }
+.add-row { display: flex; gap: 8px; align-items: stretch; }
+.add-row .btn.block { flex: 1; width: auto; }
+.alm-pill { flex: none; display: flex; align-items: center; gap: 8px; background: var(--surface); border-radius: 999px; box-shadow: var(--shadow); padding: 5px 6px 5px 12px; }
+.alm-lbl { display: flex; align-items: center; gap: 6px; border: 0; background: none; padding: 0; text-align: left; color: var(--muted); }
+.alm-lbl svg { width: 18px; height: 18px; flex: none; }
+.alm-lbl span { display: flex; flex-direction: column; line-height: 1.2; }
+.alm-lbl b { font-size: 13px; color: var(--ink); }
+.alm-lbl small { font-size: 11px; }
+.alm-pill.on .alm-lbl { color: var(--gold); }
+.alm-pill .switch { width: 44px; height: 26px; } .alm-pill .switch i { width: 20px; height: 20px; } .alm-pill .switch.on i { left: 21px; }
 .wbell { display: inline-flex; align-items: center; gap: 4px; font-size: 11.5px; font-weight: 700; color: #F2C46B; margin-top: 4px; }
 .wbell svg { width: 13px; height: 13px; }
 .wg.s .wbell { margin-top: 0; }
@@ -258,21 +266,17 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 .alm-ring p { margin: 6px 0 0; color: var(--ink-2); font-size: 14px; line-height: 1.6; }
 .dly-u { font-style: normal; font-weight: 700; color: #B42A1A; margin-right: 5px; }
 .dly-cnt { font-size: 12.5px; font-weight: 700; color: var(--accent); }
-.daily .dly-bar { height: 4px; background: var(--line-2); }
-.daily .dly-bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--accent), #F2C46B); transition: width .3s; }
-.dly { display: flex; align-items: center; gap: 8px; padding: 10px 12px 10px 4px; }
-.dly + .dly { border-top: 1px solid var(--line-2); }
-.dly-n { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; background: none; border: 0; text-align: left; padding: 2px 0 2px 10px; }
-.dly-n em { flex: none; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-family: var(--font-display); font-weight: 700; font-size: 14px; background: var(--navy); color: var(--on-navy); }
-.dly-n span { min-width: 0; display: flex; flex-direction: column; }
-.dly-n small { font-size: 11.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.dly-n b { font-size: 14.5px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.dly-btn { flex: none; border: 0; border-radius: 999px; padding: 8px 12px; font-size: 13px; font-weight: 700; background: var(--gold-soft); color: var(--gold); display: inline-flex; align-items: center; gap: 4px; }
-.dly-btn svg { width: 13px; height: 13px; }
+.dly-track { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -16px; padding: 2px 16px 6px; scroll-padding-inline: 16px; scrollbar-width: none; }
+.dly-track::-webkit-scrollbar { display: none; }
+.dly { flex: 0 0 86%; scroll-snap-align: start; display: flex; align-items: center; gap: 6px; background: var(--surface); border-radius: 999px; box-shadow: var(--shadow); padding: 5px 5px 5px 6px; min-width: 0; }
+.dly-n { flex: 1; min-width: 0; display: flex; align-items: center; gap: 9px; background: none; border: 0; text-align: left; padding: 0; }
+.dly-n em { flex: none; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-style: normal; font-family: var(--font-display); font-weight: 700; font-size: 14px; background: var(--navy); color: var(--on-navy); }
+.dly-n b { min-width: 0; font-size: 14px; font-weight: 700; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dly-btn { flex: none; border: 0; border-radius: 999px; min-width: 52px; height: 34px; padding: 0 12px; font-size: 13px; font-weight: 700; background: var(--gold-soft); color: var(--gold); display: inline-grid; place-items: center; }
+.dly-btn svg { width: 15px; height: 15px; }
 .dly.on .dly-n em { background: #7BE0A6; color: var(--navy); }
 .dly.on .dly-n b { color: var(--muted); }
-.dly.on .dly-btn { background: var(--bg); color: var(--green); }
-.dly-foot { padding: 10px 16px 12px; font-size: 12.5px; color: var(--muted); border-top: 1px solid var(--line-2); }
+.dly.on .dly-btn { background: var(--green-soft); color: var(--green); }
 .wbtn svg { width: 15px; height: 15px; }
 .widgets { display: flex; gap: 12px; flex-wrap: wrap; align-items: stretch; }
 .wg { background: radial-gradient(120% 100% at 100% 0%, var(--navy-2), var(--navy) 70%); color: var(--on-navy); border-radius: 24px; padding: 14px; box-shadow: 0 8px 22px rgba(23, 32, 74, .25); }
@@ -541,12 +545,11 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
     var done = ps.filter(function (p) { return S.daily.done.indexOf(p.id) >= 0; }).length;
     var rows = ps.map(function (p, i) {
       var on = S.daily.done.indexOf(p.id) >= 0;
-      return '<div class="dly' + (on ? ' on' : '') + '"><button class="dly-n" data-open="' + p.id + '"><em>' + (i + 1) + '</em><span><small>' + (p.urgent ? '<i class="dly-u">긴급</i>' : '') + esc(p.cat || '중보기도') + ' · 함께 기도 ' + p.prayers + '</small><b>' + esc(p.title) + '</b></span></button>' +
-        '<button class="dly-btn" data-dpray="' + p.id + '">' + (on ? CHECK + '기도함' : '기도했어요') + '</button></div>';
+      return '<div class="dly' + (on ? ' on' : '') + '"><button class="dly-n" data-open="' + p.id + '"><em>' + (i + 1) + '</em><b>' + (p.urgent ? '<i class="dly-u">긴급</i>' : '') + esc(p.title) + '</b></button>' +
+        '<button class="dly-btn" data-dpray="' + p.id + '" aria-label="' + (on ? '기도함' : '기도했어요') + '">' + (on ? CHECK : '기도') + '</button></div>';
     }).join('');
-    return '<section class="sec"><div class="sec-head"><h2>오늘의 중보 ' + ps.length + '</h2><span class="dly-cnt">' + done + ' / ' + ps.length + '</span></div>' +
-      '<div class="group daily"><div class="dly-bar"><i style="width:' + Math.round(done / ps.length * 100) + '%"></i></div>' + rows +
-      '<div class="dly-foot">' + (done === ps.length ? '오늘의 중보를 모두 마쳤어요. 함께 기도해 주셔서 고마워요.' : '오늘 꼭 함께 기도할 글을 골라 두었어요. 기도하고 나서 눌러 주세요.') + '</div></div></section>';
+    return '<section class="sec"><div class="sec-head"><h2>오늘의 중보</h2><span class="dly-cnt">' + (done === ps.length ? '모두 마쳤어요 ' : '') + done + ' / ' + ps.length + '</span></div>' +
+      '<div class="dly-track" id="dlyTrack">' + rows + '</div></section>';
   }
 
   function alarmNext() {
@@ -713,7 +716,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 
   // ---------- diary ----------
   function vDiary() {
-    var h = '<div class="page-head"><h1 class="page-title">기도다이어리</h1><div class="row hd-btns"><button class="btn sm ghost wbtn' + (S.alarm && S.alarm.on ? ' bell-on' : '') + '" data-act="alarm">' + BELL + '알림</button><button class="btn sm ghost wbtn" data-act="widget"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="17" height="7" rx="2"/></svg>위젯</button></div></div><div class="seg" role="group">' + [['items', '기도 제목'], ['time', '기도 시간'], ['letter', '기도 편지'], ['scrap', '스크랩']].map(function (s) {
+    var h = '<div class="page-head"><h1 class="page-title">기도다이어리</h1><button class="btn sm ghost wbtn" data-act="widget"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="17" height="7" rx="2"/></svg>위젯 설정</button></div><div class="seg" role="group">' + [['items', '기도 제목'], ['time', '기도 시간'], ['letter', '기도 편지'], ['scrap', '스크랩']].map(function (s) {
       return '<button data-dtab="' + s[0] + '" aria-pressed="' + (dtab === s[0]) + '">' + s[1] + '</button>'; }).join('') + '</div>';
     if (S.example && dtab !== 'scrap') h += '<div class="note row between"><span>예시 기록이 채워져 있어요. 내 기록으로 시작하려면 지워 주세요.</span><button class="linkbtn blue" data-act="clear-example">예시 지우기</button></div>';
     if (dtab === 'items') h += vItems(); else if (dtab === 'time') h += vTime(); else if (dtab === 'scrap') h += vScraps(); else h += vLetters();
@@ -723,7 +726,10 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
   var CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
   function vItems() {
     var t = today();
-    var h = '<button class="btn block" data-act="add-item">기도 제목 추가</button>';
+    var a = S.alarm, ts = a.times.slice().sort();
+    var h = '<div class="add-row"><button class="btn block" data-act="add-item">+ 기도 제목 추가</button>' +
+      '<div class="alm-pill' + (a.on ? ' on' : '') + '"><button class="alm-lbl" data-act="alarm">' + BELL + '<span><b>기도 알림</b><small>' + (a.on ? (ts.length ? esc(ts[0]) + (ts.length > 1 ? ' 외 ' + (ts.length - 1) : '') : '시간 설정') : '꺼짐') + '</small></span></button>' +
+      '<button class="switch' + (a.on ? ' on' : '') + '" data-act="alm-toggle" role="switch" aria-checked="' + a.on + '" aria-label="기도 알림"><i></i></button></div></div>';
     if (!S.items.length) return h + '<div class="empty">기도 제목을 정하고 작정 기간을 세워 보세요.<br>매일 출석 체크로 꾸준히 기도할 수 있어요.</div>';
     S.items.slice().sort(function (a, b) { return (a.answered - b.answered); }).forEach(function (i) {
       var linked = i.postId && postById(i.postId);
@@ -1105,7 +1111,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
       case 'alarm': return alarmSheet();
       case 'alm-home': closeSheet(); return go('home');
       case 'alm-toggle':
-        S.alarm.on = !S.alarm.on; save(); alarmSheet(); render();
+        S.alarm.on = !S.alarm.on; save(); render(); if (S.alarm.on || el('almTime') || document.querySelector('.alm-on')) alarmSheet();
         if (S.alarm.on) { try { if (window.Notification && Notification.permission === 'default') Notification.requestPermission(); } catch (err) {} toast('기도 알림을 켰어요'); } else toast('기도 알림을 껐어요');
         return;
       case 'alm-add':
