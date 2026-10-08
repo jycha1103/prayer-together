@@ -186,6 +186,26 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 .scrap svg { width: 17px; height: 17px; }
 .scrap[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
 .scrap[aria-pressed="true"] svg { fill: currentColor; }
+.time-card { background: linear-gradient(160deg, #FFFFFF 0%, var(--accent-soft) 100%); border-radius: 20px; padding: 18px 18px 16px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 14px; }
+.time-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.time-top .label { font-size: 13px; color: var(--ink-2); font-weight: 700; letter-spacing: 0; }
+.date-chip { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 4px 10px; font-size: 12.5px; color: var(--ink-2); max-width: 150px; }
+.time-big { display: flex; align-items: baseline; gap: 4px; color: var(--navy); font-family: var(--font-display); line-height: 1; }
+.time-big b { font-size: 46px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.time-big span { font-size: 18px; font-weight: 700; margin-right: 6px; }
+.time-big.bump { animation: bump .35s ease-out; }
+@keyframes bump { 40% { transform: scale(1.06); } }
+.time-sub { font-size: 13px; color: var(--ink-2); margin-top: -6px; }
+.quick { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.quick button { border: 0; border-radius: 12px; padding: 11px 0; background: var(--accent); color: var(--on-accent); font-weight: 700; font-size: 14.5px; box-shadow: 0 3px 10px rgba(51, 72, 179, .22); }
+.quick button:active { transform: scale(.96); }
+.manual { display: flex; gap: 8px; }
+.manual .input { flex: 1; min-width: 0; background: var(--surface); }
+.log { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.log li { display: flex; align-items: center; gap: 10px; padding: 9px 2px; border-bottom: 1px solid var(--line-2); font-size: 13.5px; }
+.log li .at { color: var(--muted); font-variant-numeric: tabular-nums; width: 64px; flex: none; }
+.log li b { flex: 1; color: var(--accent); }
+.log li button { background: none; border: 0; color: var(--muted); font-size: 12px; padding: 4px; }
 .range-pick { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .range-pick .input { flex: 1 1 130px; min-width: 0; }
 .item-body { margin: 0; font-size: 13.5px; color: var(--ink-2); white-space: pre-wrap; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
@@ -316,7 +336,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
   }
 
   // ---------- ui state ----------
-  var tab = 'home', cat = '전체', q = '', dtab = 'items', range = 7, gtab = 'guides', searchQ = '', cFrom = '', cTo = '', picking = false;
+  var tab = 'home', cat = '전체', q = '', dtab = 'items', range = 7, gtab = 'guides', searchQ = '', cFrom = '', cTo = '', picking = false, tDay = '', bump = false;
   var TABS = [
     ['home', '홈', '<path class="edge" d="M3.5 10.5 12 3.5l8.5 7V20a1 1 0 0 1-1 1H15v-6H9v6H4.5a1 1 0 0 1-1-1z"/>'],
     ['pray', '중보기도', '<path class="edge" d="M12 2.8c2.6 3 5.2 5.6 5.2 9.6a5.2 5.2 0 0 1-10.4 0c0-2 1-3.6 2.1-4.6.3 1.7 1.2 2.6 2.3 2.9-.6-2.8-.2-5.4.8-7.9z"/><path d="M12 17.6v-3"/><path class="edge" d="M8.5 21h7"/>'],
@@ -506,9 +526,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
     var cols = 'grid-template-columns: repeat(' + n + ', 1fr)';
     var chips = [[7, '최근 7일'], [14, '최근 2주'], [30, '최근 30일']].map(function (r) { return '<button class="chip" data-range="' + r[0] + '" aria-pressed="' + (range === r[0]) + '">' + r[1] + '</button>'; }).join('') +
       '<button class="chip" data-act="pick-range" aria-pressed="' + (range === 'custom') + '">' + (range === 'custom' ? md(from) + ' ~ ' + md(to) : '기간 설정') + '</button>';
-    return '<div class="card stack" style="gap:10px"><div class="row between"><span class="label">기도한 시간 더하기</span><button class="linkbtn blue" data-act="edit-time">기록 고치기</button></div>' +
-      '<div class="row"><input class="input" style="flex:1 1 140px;min-width:0" type="date" id="tDate" value="' + t + '"><input class="input" style="flex:1 1 80px;min-width:0" type="number" inputmode="numeric" min="1" id="tMin" placeholder="분"><button class="btn" data-act="add-time">추가</button></div>' +
-      '<div class="small muted" id="tTotal">' + dayTotalText(t) + '</div></div>' +
+    return timeCard() +
       '<div class="chips">' + chips + '</div>' +
       (picking ? '<div class="card range-pick"><input class="input" type="date" id="rFrom" value="' + (cFrom || from) + '" aria-label="시작일"><span class="muted">~</span><input class="input" type="date" id="rTo" value="' + (cTo || to) + '" aria-label="종료일"><button class="btn sm" data-act="apply-range">보기</button></div>' : '') +
       '<div class="stats"><div class="stat"><b>' + statMin(total) + '</b><span>기간 누적</span></div><div class="stat"><b>' + statMin(days ? total / days : 0) + '</b><span>기도한 날 평균</span></div><div class="stat"><b>' + (diff >= 0 ? '+' : '−') + statMin(Math.abs(diff)) + '</b><span>직전 ' + n + '일 대비</span></div></div>' +
@@ -516,7 +534,30 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
       '<div class="chart-x" style="' + cols + '">' + bars.map(function (b, i) { return '<span>' + (i % step === 0 || i === n - 1 ? md(b[0]) : '') + '</span>'; }).join('') + '</div>' +
       '<div class="small muted" style="margin-top:8px">' + (n <= 14 ? '막대 위 숫자는 분 단위예요. ' : '') + '지금까지 모두 ' + fmtMin(all) + ' 기도했어요.</div></div>';
   }
-  function dayTotalText(d) { var v = +S.times[d] || 0; return (d === today() ? '오늘' : md(d)) + ' 누적 <b>' + fmtMin(v) + '</b>' + (v ? '' : ' · 기도한 만큼 분을 적고 추가를 눌러 주세요'); }
+  function timeCard() {
+    var t = today(), d = tDay || t, v = +S.times[d] || 0, entries = (S.log && S.log[d]) || [];
+    var h = Math.floor(v / 60), m = v % 60;
+    var big = h ? '<b>' + h + '</b><span>시간</span>' + (m ? '<b>' + m + '</b><span>분</span>' : '') : '<b>' + v + '</b><span>분</span>';
+    var sub = v ? (entries.length ? entries.length + '번 기도했어요' : '기도한 시간이 쌓였어요') + ' · 최근 7일 ' + fmtMin(sumRange(addDays(t, -6), t)) : '기도를 마치면 아래 버튼으로 시간을 더해 주세요';
+    var clock = function (ts) { var x = new Date(ts), hh = x.getHours(); return (hh < 12 ? '오전 ' : '오후 ') + ((hh + 11) % 12 + 1) + ':' + pad(x.getMinutes()); };
+    var r = bump; bump = false;
+    return '<div class="time-card" id="timeCard">' +
+      '<div class="time-top"><span class="label">' + (d === t ? '오늘의 기도 시간' : md(d) + ' 기도 시간') + '</span><input class="date-chip" type="date" id="tDate" value="' + d + '" max="' + t + '" aria-label="날짜 바꾸기"></div>' +
+      '<div><div class="time-big' + (r ? ' bump' : '') + '">' + big + '</div></div>' +
+      '<div class="time-sub">' + sub + '</div>' +
+      '<div class="quick">' + [5, 10, 20, 30].map(function (n) { return '<button data-add="' + n + '">+' + n + '분</button>'; }).join('') + '</div>' +
+      '<div class="manual"><input class="input" type="number" inputmode="numeric" min="1" id="tMin" placeholder="직접 입력 (분)"><button class="btn" data-act="add-time">더하기</button></div>' +
+      (entries.length ? '<ul class="log">' + entries.map(function (e, i) { return '<li><span class="at">' + clock(e.at) + '</span><b>+' + e.m + '분</b><button data-undo="' + i + '">지우기</button></li>'; }).join('') + '</ul>' : '') +
+      '<div class="row between"><span class="small muted">' + (entries.length ? '' : '') + '</span><button class="linkbtn" data-act="edit-time">합계 고치기</button></div>' +
+      '</div>';
+  }
+  function addTime(d, n) {
+    S.times[d] = (+S.times[d] || 0) + n;
+    S.log = S.log || {}; (S.log[d] = S.log[d] || []).push({ at: Date.now(), m: n });
+    save(); bump = true; refreshTime();
+    toast('+' + n + '분 · ' + (d === today() ? '오늘' : md(d)) + ' 누적 ' + fmtMin(S.times[d]));
+  }
+  function refreshTime() { if (el('sheet') && el('timeCard')) logTime(); else render(); }
 
   function vScraps() {
     var list = (S.scraps || []).map(postById).filter(Boolean);
@@ -685,15 +726,9 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
       '<div class="row"><button class="btn ghost" data-copy="letter:' + id + '">글 복사하기</button><button class="btn line" data-del-letter="' + id + '">삭제</button></div>');
   }
 
-  function logTime() {
-    sheet('기도 시간 더하기',
-      '<label class="field"><span>날짜</span><input class="input" type="date" id="tDate" value="' + today() + '"></label>' +
-      '<label class="field"><span>방금 기도한 시간 (분)</span><input class="input" type="number" min="1" inputmode="numeric" id="tMin" placeholder="예: 10"></label>' +
-      '<div class="small muted" id="tTotal">' + dayTotalText(today()) + '</div>' +
-      '<button class="btn block" data-act="add-time">추가</button>');
-  }
+  function logTime() { sheet('기도 시간 기록', timeCard()); }
   function editTime() {
-    var d = (el('tDate') && el('tDate').value) || today();
+    var d = tDay || today();
     sheet('기도 시간 고치기',
       '<label class="field"><span>날짜</span><input class="input" type="date" id="eDate" value="' + d + '"></label>' +
       '<label class="field"><span>그날 기도한 시간 합계 (분)</span><input class="input" type="number" min="0" inputmode="numeric" id="eMin" value="' + (S.times[d] || 0) + '"></label>' +
@@ -723,6 +758,12 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
     if (d.cat) { cat = d.cat; render(); return; }
     if (d.dtab) { dtab = d.dtab; render(); return; }
     if (d.gtab) { gtab = d.gtab; render(); return; }
+    if (d.add) return addTime(tDay || today(), +d.add);
+    if (d.undo) {
+      var ud = tDay || today(), ue = S.log[ud].splice(+d.undo, 1)[0];
+      S.times[ud] = Math.max(0, (+S.times[ud] || 0) - ue.m); if (!S.times[ud]) delete S.times[ud];
+      save(); refreshTime(); toast(ue.m + '분 기록을 지웠어요'); return;
+    }
     if (d.range) { range = +d.range; picking = false; render(); return; }
     if (d.scrap) {
       S.scraps = S.scraps || []; var si = S.scraps.indexOf(d.scrap);
@@ -794,7 +835,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
       case 'write-tips': return writePost('tips');
       case 'add-item': return addItem();
       case 'write-letter': return writeLetter();
-      case 'logtime': return logTime();
+      case 'logtime': tDay = ''; return logTime();
       case 'save-item': case 'save-item-share':
         var ti = val('iTitle'), days = Math.max(1, Math.min(365, parseInt(val('iDays'), 10) || 40)), ib = val('iBody');
         if (!ti) return toast('기도 제목을 적어 주세요');
@@ -807,15 +848,15 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
         save(); closeSheet(); tab = 'diary'; dtab = 'items'; render();
         toast(d.act === 'save-item-share' ? '다이어리에 추가하고 중보기도 탭에도 올렸어요' : days + '일 작정 기도를 시작해요'); return;
       case 'add-time':
-        var dt = val('tDate') || today(), mn = parseInt(val('tMin'), 10);
+        var mn = parseInt(val('tMin'), 10);
         if (isNaN(mn) || mn <= 0) return toast('방금 기도한 시간을 분으로 적어 주세요');
-        S.times[dt] = (+S.times[dt] || 0) + mn;
-        save(); closeSheet(); render(); toast(fmtMin(mn) + ' 더했어요 · ' + (dt === today() ? '오늘' : md(dt)) + ' 누적 ' + fmtMin(S.times[dt])); return;
+        return addTime(tDay || today(), mn);
       case 'edit-time': return editTime();
       case 'save-edit-time':
         var ed = val('eDate') || today(), em = parseInt(val('eMin'), 10);
         if (isNaN(em) || em < 0) return toast('기도한 시간을 분으로 적어 주세요');
         if (em === 0) delete S.times[ed]; else S.times[ed] = em;
+        if (S.log) delete S.log[ed];
         save(); closeSheet(); render(); toast(md(ed) + ' 기록을 ' + fmtMin(em) + '으로 고쳤어요'); return;
       case 'pick-range': picking = !picking; render(); return;
       case 'apply-range':
@@ -842,7 +883,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
   });
 
   document.addEventListener('change', function (e) {
-    if (e.target.id === 'tDate' && el('tTotal')) el('tTotal').innerHTML = dayTotalText(e.target.value || today());
+    if (e.target.id === 'tDate') { tDay = e.target.value && e.target.value !== today() ? e.target.value : ''; refreshTime(); }
     if (e.target.id === 'scAll') document.querySelectorAll('.sc').forEach(function (c) { c.checked = e.target.checked; });
     else if (e.target.classList.contains('sc')) el('scAll').checked = Array.prototype.every.call(document.querySelectorAll('.sc'), function (c) { return c.checked; });
   });
