@@ -206,6 +206,47 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 .log li .at { color: var(--muted); font-variant-numeric: tabular-nums; width: 64px; flex: none; }
 .log li b { flex: 1; color: var(--accent); }
 .log li button { background: none; border: 0; color: var(--muted); font-size: 12px; padding: 4px; }
+.relay-bar { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.relay-bar .progress { flex: 1; }
+.slot-group { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+.slots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.slot { display: flex; flex-direction: column; align-items: center; gap: 1px; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 7px 2px; min-width: 0; }
+.slot b { font-size: 13px; color: var(--ink); font-variant-numeric: tabular-nums; }
+.slot span { font-size: 11px; color: var(--muted); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.slot.taken { background: #EEF1F6; border-color: transparent; }
+.slot.taken b { color: var(--ink-2); }
+.slot.mine { background: var(--accent); border-color: var(--accent); }
+.slot.mine b, .slot.mine span { color: #FFFFFF; }
+.slot.past { opacity: .4; }
+.legend { display: inline-flex; align-items: center; gap: 4px; color: var(--muted); }
+.lg { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-left: 6px; }
+.lg.mine { background: var(--accent); } .lg.taken { background: #DCE2EE; }
+.ic-top { display: flex; gap: 12px; align-items: flex-start; justify-content: space-between; }
+.att { flex: none; display: flex; flex-direction: column; align-items: center; gap: 5px; background: none; border: 0; padding: 0; width: 70px; font-size: 11.5px; font-weight: 700; color: var(--muted); }
+.att i { width: 50px; height: 50px; border-radius: 50%; border: 2px dashed #C3CBDE; display: grid; place-items: center; color: #C3CBDE; transition: background .2s, border-color .2s; }
+.att svg { width: 26px; height: 26px; }
+.att.on { color: var(--green); }
+.att.on i { background: var(--green); border: 2px solid var(--green); color: #FFFFFF; }
+.att:disabled { opacity: .5; }
+.chk { display: inline-flex; align-items: center; gap: 8px; background: var(--bg); border: 0; border-radius: 999px; padding: 8px 14px 8px 9px; font-size: 13.5px; font-weight: 700; color: var(--muted); align-self: flex-start; }
+.chk i { width: 22px; height: 22px; border-radius: 50%; border: 2px solid #C3CBDE; display: grid; place-items: center; color: transparent; }
+.chk svg { width: 14px; height: 14px; }
+.chk.on { background: var(--gold-soft); color: var(--gold); }
+.chk.on i { background: var(--gold); border-color: var(--gold); color: #FFFFFF; }
+.ic-foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; border-top: 1px solid var(--line-2); padding-top: 10px; }
+.widgets { display: flex; gap: 12px; flex-wrap: wrap; align-items: stretch; }
+.wg { background: radial-gradient(120% 100% at 100% 0%, var(--navy-2), var(--navy) 70%); color: var(--on-navy); border-radius: 22px; padding: 14px; box-shadow: 0 8px 22px rgba(23, 32, 74, .25); }
+.wg .wl { font-size: 11px; color: var(--navy-sub); font-weight: 500; }
+.wg b { font-family: var(--font-display); font-size: 26px; font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.wg.s { width: 148px; height: 148px; display: flex; flex-direction: column; justify-content: space-between; flex: none; }
+.wg.m { flex: 1 1 260px; min-height: 148px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; }
+.wg .wcheck { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; }
+.wg .wcheck i { width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; border: 2px solid var(--navy-sub); }
+.wg .wcheck.on i { background: #7BE0A6; border-color: #7BE0A6; color: var(--navy); }
+.wg .wcheck svg { width: 11px; height: 11px; }
+.wg ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.wg li { font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-left: 10px; position: relative; }
+.wg li::before { content: ""; position: absolute; left: 0; top: .6em; width: 4px; height: 4px; border-radius: 50%; background: #F2C46B; }
 .range-pick { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .range-pick .input { flex: 1 1 130px; min-width: 0; }
 .item-body { margin: 0; font-size: 13.5px; color: var(--ink-2); white-space: pre-wrap; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
@@ -274,7 +315,9 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
   function firstLine(s) { var m = String(s).split('\n')[0], i = m.search(/[.!?]\s/); return i > 0 ? m.slice(0, i + 1) : m; }
 
   // ---------- data ----------
-  var CATS = ['개인 중보기도', '선교지에서 온 편지', '나라와 열방', '미자립교회', '릴레이 기도'];
+  var CATS = ['개인 중보', '선교지 편지', '열방', '릴레이 기도'];
+  var POST_CATS = ['개인 중보', '선교지 편지', '열방'];
+  var CAT_RENAME = { '개인 중보기도': '개인 중보', '선교지에서 온 편지': '선교지 편지', '나라와 열방': '열방', '미자립교회': '개인 중보' };
   var ROLES = ['일반 성도', '목회자·선교사', '상담사'];
 
   // 운영자가 올리는 "기도의 모든 것" 컨텐츠 (예시)
@@ -298,18 +341,33 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
     ];
   }
 
+  function seedRelays(t) {
+    var names = ['소망', '다윗', '한나', '요셉', '마리아', '바울', '에스더', '디모데', '룻', '사무엘'];
+    var R = [
+      { id: 'r1', example: true, by: '청년부 기도팀', title: '수능 수험생을 위한 40일 릴레이 기도', desc: '수능 날까지 40일 동안 하루를 30분씩 48개 시간대로 나눠, 한 사람씩 이어서 기도해요. 수험생의 건강과 평안, 지혜를 위해 함께해 주세요.', start: addDays(t, -5), days: 40, slots: {} },
+      { id: 'r2', example: true, by: '운영자', title: '열방의 평화를 위한 7일 릴레이', desc: '전쟁과 재난 가운데 있는 나라들을 위해 일주일 동안 쉬지 않고 기도해요. 원하는 시간대를 골라 30분 동안 기도해 주세요.', start: t, days: 7, slots: {} }
+    ];
+    R.forEach(function (r, ri) {
+      for (var dd = -1; dd <= 1; dd++) {
+        var day = addDays(t, dd); if (day < r.start) continue;
+        var m = {};
+        for (var k = 12; k < 46; k++) if ((k * 7 + dd * 3 + ri * 5) % 5 < 2) m[k] = { n: names[(k + ri) % names.length] };
+        r.slots[day] = m;
+      }
+    });
+    return R;
+  }
+
   function seed() {
     var H = 3600000, now = Date.now(), t = today();
     return {
-      v: 3, scraps: [],
+      v: 4, scraps: [], relays: seedRelays(t),
       me: { name: '은혜', role: '일반 성도' },
       example: true,
       posts: [
-        { id: uid(), board: 'pray', cat: '개인 중보기도', urgent: true, title: '어머니의 수술이 잘 끝나도록 기도 부탁드려요', body: '다음 주 화요일에 어머니가 심장 수술을 받으세요. 연세가 있으셔서 걱정이 많습니다. 의료진의 손길을 주님께서 붙들어 주시고, 회복 기간 동안 평안을 주시도록 함께 기도해 주세요.', author: '익명의 성도', created: now - 2 * H, prayers: 23, prayed: false, comments: [{ author: '소망', text: '어머님과 가족 모두를 위해 기도했어요. 주님의 평강이 함께하시길.', created: now - H }], example: true },
-        { id: uid(), board: 'pray', cat: '선교지에서 온 편지', title: '캄보디아 시엠립에서 인사드립니다', body: '이번 달부터 마을 아이들 30명과 방과후 성경공부를 시작했습니다. 우기라 길이 자주 끊기는데, 아이들이 안전하게 오갈 수 있도록, 그리고 현지 교사 두 분이 지치지 않도록 기도해 주세요.', author: '김요셉 선교사', created: now - 9 * H, prayers: 41, prayed: false, comments: [], example: true },
-        { id: uid(), board: 'pray', cat: '나라와 열방', title: '홍수 피해를 입은 지역을 위해', body: '갑작스러운 폭우로 집을 잃은 이웃들이 많습니다. 구호의 손길이 빠르게 닿고, 슬픔 속에 있는 이들에게 위로가 있기를 함께 기도합니다.', author: '열방기도모임', created: now - 26 * H, prayers: 112, prayed: false, comments: [], example: true },
-        { id: uid(), board: 'pray', cat: '미자립교회', title: '성도 12명의 작은 교회입니다', body: '예배당 임대 계약이 다음 달에 끝납니다. 새로운 예배 처소를 주님께서 예비해 주시고, 남은 성도들이 낙심하지 않도록 기도해 주세요.', author: '이사무엘 목사', created: now - 50 * H, prayers: 37, prayed: false, comments: [], example: true },
-        { id: uid(), board: 'pray', cat: '릴레이 기도', title: '수능 수험생을 위한 40일 릴레이 기도', body: '오늘부터 수능 날까지 하루씩 이어서 기도해요. 기도하신 분은 댓글로 이름과 날짜를 남겨주세요.', author: '청년부 소망', created: now - 72 * H, prayers: 64, prayed: false, comments: [{ author: '다윗', text: '오늘 기도했습니다.', created: now - 3 * H }], example: true },
+        { id: uid(), board: 'pray', cat: '개인 중보', urgent: true, title: '어머니의 수술이 잘 끝나도록 기도 부탁드려요', body: '다음 주 화요일에 어머니가 심장 수술을 받으세요. 연세가 있으셔서 걱정이 많습니다. 의료진의 손길을 주님께서 붙들어 주시고, 회복 기간 동안 평안을 주시도록 함께 기도해 주세요.', author: '익명의 성도', created: now - 2 * H, prayers: 23, prayed: false, comments: [{ author: '소망', text: '어머님과 가족 모두를 위해 기도했어요. 주님의 평강이 함께하시길.', created: now - H }], example: true },
+        { id: uid(), board: 'pray', cat: '선교지 편지', title: '캄보디아 시엠립에서 인사드립니다', body: '이번 달부터 마을 아이들 30명과 방과후 성경공부를 시작했습니다. 우기라 길이 자주 끊기는데, 아이들이 안전하게 오갈 수 있도록, 그리고 현지 교사 두 분이 지치지 않도록 기도해 주세요.', author: '김요셉 선교사', created: now - 9 * H, prayers: 41, prayed: false, comments: [], example: true },
+        { id: uid(), board: 'pray', cat: '열방', title: '홍수 피해를 입은 지역을 위해', body: '갑작스러운 폭우로 집을 잃은 이웃들이 많습니다. 구호의 손길이 빠르게 닿고, 슬픔 속에 있는 이들에게 위로가 있기를 함께 기도합니다.', author: '열방기도모임', created: now - 26 * H, prayers: 112, prayed: false, comments: [], example: true },
         { id: uid(), board: 'story', cat: '', title: '기도 응답, 6개월 만에 취업했어요', body: '여기에 취업 기도 제목을 올렸을 때 모르는 분들이 댓글로 기도해 주셨어요. 지치던 날마다 그 댓글을 다시 읽었습니다. 이번 주 첫 출근을 했어요. 함께 기도해 주신 모든 분께 감사드리고 하나님께 영광 돌립니다.', author: '사랑', created: now - 30 * H, prayers: 58, prayed: false, comments: [], example: true },
         { id: uid(), board: 'story', cat: '', title: '기도 편지를 쓰면서 달라진 아침', body: '눈 감고 기도하면 자꾸 딴생각이 들었는데, 편지로 쓰기 시작하니 하나님께 말하는 시간이 기다려져요. 한 달째 매일 쓰고 있습니다.', author: '익명의 성도', created: now - 80 * H, prayers: 21, prayed: false, comments: [], example: true }
       ].concat(seedConcerns(now, H), seedTips(now, H)),
@@ -334,9 +392,14 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
     S.posts.forEach(function (p) { if (p.example && p.title.indexOf('어머니의 수술') === 0) p.urgent = true; });
     S.v = 3; save();
   }
+  if (S.v < 4) { // 카테고리 정리와 릴레이 기도 시간대 예약이 생긴 버전
+    S.posts = S.posts.filter(function (p) { return !(p.example && (p.cat === '미자립교회' || p.cat === '릴레이 기도')); });
+    S.posts.forEach(function (p) { if (CAT_RENAME[p.cat]) p.cat = CAT_RENAME[p.cat]; if (p.cat === '릴레이 기도') p.cat = '개인 중보'; });
+    S.relays = seedRelays(today()); S.v = 4; save();
+  }
 
   // ---------- ui state ----------
-  var tab = 'home', cat = '전체', q = '', dtab = 'items', range = 7, gtab = 'guides', searchQ = '', cFrom = '', cTo = '', picking = false, tDay = '', bump = false;
+  var tab = 'home', cat = '전체', q = '', dtab = 'items', range = 7, gtab = 'guides', searchQ = '', cFrom = '', cTo = '', picking = false, tDay = '', bump = false, rDay = '';
   var TABS = [
     ['home', '홈', '<path class="edge" d="M3.5 10.5 12 3.5l8.5 7V20a1 1 0 0 1-1 1H15v-6H9v6H4.5a1 1 0 0 1-1-1z"/>'],
     ['pray', '중보기도', '<path class="edge" d="M12 2.8c2.6 3 5.2 5.6 5.2 9.6a5.2 5.2 0 0 1-10.4 0c0-2 1-3.6 2.1-4.6.3 1.7 1.2 2.6 2.3 2.9-.6-2.8-.2-5.4.8-7.9z"/><path d="M12 17.6v-3"/><path class="edge" d="M8.5 21h7"/>'],
@@ -423,7 +486,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
   function postCard(p) {
     var mode = p.board;
     return '<button class="post" data-open="' + p.id + '">' +
-      '<div class="row" style="gap:6px">' + flags(p) + (p.cat ? '<span class="tag' + (p.cat === '선교지에서 온 편지' ? ' gold' : '') + '">' + esc(p.cat) + '</span>' : '') +
+      '<div class="row" style="gap:6px">' + flags(p) + (p.cat ? '<span class="tag' + (p.cat === '선교지 편지' ? ' gold' : '') + '">' + esc(p.cat) + '</span>' : '') +
       (mode === 'concern' ? p.scope.map(function (r) { return '<span class="tag">' + esc(r) + '</span>'; }).join('') : '') + exampleTag(p) + '</div>' +
       '<h3>' + esc(p.title) + '</h3>' + (mode === 'concern' ? '' : '<p>' + esc(p.body) + '</p>') +
       '<div class="meta"><span>' + esc(p.author) + '</span><span>' + ago(p.created) + '</span>' +
@@ -432,12 +495,62 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 
   function pageHead(title, act, label) { return '<div class="page-head"><h1 class="page-title">' + title + '</h1><button class="btn sm ghost" data-act="' + act + '">+ ' + label + '</button></div>'; }
 
+  function prayHead() {
+    return '<h1 class="page-title">중보기도</h1><div class="chips" role="group" aria-label="게시판">' + ['전체'].concat(CATS).map(function (c) {
+      return '<button class="chip" data-cat="' + esc(c) + '" aria-pressed="' + (cat === c) + '">' + esc(c) + '</button>'; }).join('') + '</div>';
+  }
+  function slotLabel(k) { var h = Math.floor(k / 2), m = k % 2 ? '30' : '00'; return pad(h) + ':' + m; }
+  function slotRange(k) { return slotLabel(k) + '~' + (k === 47 ? '24:00' : slotLabel(k + 1)); }
+  function relayEnd(r) { return addDays(r.start, r.days - 1); }
+  function mySlots(r) {
+    var out = [], t = today();
+    Object.keys(r.slots).sort().forEach(function (d) { if (d < t) return; Object.keys(r.slots[d]).forEach(function (k) { if (r.slots[d][k].me) out.push([d, +k]); }); });
+    return out.sort(function (a, b) { return a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : a[1] - b[1]; });
+  }
+  function vRelays() {
+    var t = today();
+    var h = '<div class="note">운영자가 올린 주제로, 하루를 30분씩 48개 시간대로 나눠 이어서 기도해요. 원하는 시간대를 예약하고 그 시간에 기도해 주세요.</div>';
+    (S.relays || []).forEach(function (r) {
+      var on = t >= r.start && t <= relayEnd(r), filled = on ? Object.keys(r.slots[t] || {}).length : 0, mine = mySlots(r).length;
+      h += '<button class="post" data-relay="' + r.id + '"><div class="row" style="gap:6px"><span class="tag gold">릴레이 기도</span>' + (on ? '<span class="pill green">진행 중</span>' : '<span class="pill amber">' + (t < r.start ? '시작 전' : '마감') + '</span>') + exampleTag(r) + '</div>' +
+        '<h3>' + esc(r.title) + '</h3><p>' + esc(r.desc) + '</p>' +
+        '<div class="meta"><span>' + esc(r.by) + '</span><span>' + md(r.start) + ' ~ ' + md(relayEnd(r)) + ' · ' + r.days + '일</span>' + (mine ? '<span class="cnt">내 예약 ' + mine + '</span>' : '') + '</div>' +
+        (on ? '<div class="relay-bar"><div class="progress"><i style="width:' + Math.round(filled / 48 * 100) + '%"></i></div><span>오늘 ' + filled + '/48 시간대</span></div>' : '') + '</button>';
+    });
+    return h;
+  }
+  function openRelay(id) {
+    var r = S.relays.find(function (x) { return x.id === id; }), t = today();
+    var first = r.start > t ? r.start : t, last = relayEnd(r);
+    if (!rDay || rDay < first || rDay > last) rDay = first;
+    var days = []; for (var d = first, i = 0; d <= last && i < 14; d = addDays(d, 1), i++) days.push(d);
+    var now = new Date(), nowK = now.getHours() * 2 + (now.getMinutes() >= 30 ? 1 : 0), map = r.slots[rDay] || {};
+    var mine = mySlots(r);
+    var groups = [['새벽', 0, 12], ['오전', 12, 24], ['오후', 24, 36], ['저녁', 36, 48]];
+    var grid = groups.map(function (g) {
+      var cells = '';
+      for (var k = g[1]; k < g[2]; k++) {
+        var s0 = map[k], past = rDay === t && k < nowK;
+        if (past) continue;
+        cells += '<button class="slot' + (s0 ? (s0.me ? ' mine' : ' taken') : '') + (past ? ' past' : '') + '" data-slot="' + k + '"' + ((past || (s0 && !s0.me)) ? ' disabled' : '') + '><b>' + slotLabel(k) + '</b><span>' + (s0 ? (s0.me ? '내 시간' : esc(s0.n)) : past ? '지남' : '비어 있음') + '</span></button>';
+      }
+      return cells ? '<div class="slot-group"><div class="label">' + g[0] + '</div><div class="slots">' + cells + '</div></div>' : '';
+    }).join('');
+    sheet('릴레이 기도',
+      '<div><div class="row" style="gap:6px"><span class="tag gold">릴레이 기도</span>' + exampleTag(r) + '</div><h2 style="font-size:19px;margin-top:8px">' + esc(r.title) + '</h2><div class="meta" style="margin-top:4px"><span>' + esc(r.by) + '</span><span>' + md(r.start) + ' ~ ' + md(last) + '</span></div></div>' +
+      '<p class="body-text" style="font-size:14px">' + esc(r.desc) + '</p>' +
+      (mine.length ? '<div class="note"><b>내 예약</b> ' + mine.slice(0, 4).map(function (m) { return md(m[0]) + ' ' + slotRange(m[1]); }).join(', ') + (mine.length > 4 ? ' 외 ' + (mine.length - 4) + '개' : '') + '</div>' : '') +
+      '<div class="chips">' + days.map(function (d) { return '<button class="chip" data-rday="' + d + '" data-rid="' + r.id + '" aria-pressed="' + (d === rDay) + '">' + (d === t ? '오늘' : md(d)) + '</button>'; }).join('') + '</div>' +
+      '<div class="row between small"><span class="muted">' + (rDay === t ? '오늘' : md(rDay)) + ' · ' + Object.keys(map).length + '/48 시간대 채워짐</span><span class="legend"><i class="lg mine"></i>내 시간 <i class="lg taken"></i>예약됨</span></div>' +
+      (rDay === t ? '<div class="small muted">지난 시간대는 숨겼어요.</div>' : '') + '<div id="relayGrid" data-rid="' + r.id + '">' + grid + '</div>');
+  }
+
   function vPray() {
+    if (cat === '릴레이 기도') return prayHead() + vRelays();
     var list = board('pray').filter(function (p) {
       return (cat === '전체' || p.cat === cat) && (!q || (p.title + p.body + p.author).toLowerCase().indexOf(q.toLowerCase()) >= 0);
     });
-    return '<h1 class="page-title">중보기도</h1><div class="chips" role="group" aria-label="게시판">' + ['전체'].concat(CATS).map(function (c) {
-        return '<button class="chip" data-cat="' + esc(c) + '" aria-pressed="' + (cat === c) + '">' + esc(c) + '</button>'; }).join('') + '</div>' +
+    return prayHead() +
       '<input class="search" id="q" type="search" placeholder="기도 제목 검색 (예: 수술, 취업, 선교)" value="' + esc(q) + '">' +
       (list.length ? list.map(postCard).join('') : '<div class="empty">아직 올라온 기도 제목이 없어요.<br>오른쪽 아래 기도 요청 버튼으로 첫 기도 제목을 나눠 주세요.</div>');
   }
@@ -487,6 +600,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
     return h;
   }
 
+  var CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
   function vItems() {
     var t = today();
     var h = '<button class="btn block" data-act="add-item">기도 제목 추가</button>';
@@ -496,18 +610,18 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
       var day = diffDays(i.start, t) + 1, cnt = i.checks.length, inRange = day >= 1 && day <= i.days, checked = i.checks.indexOf(t) >= 0;
       var dots = '';
       for (var k = 0; k < i.days; k++) { var d = addDays(i.start, k); dots += '<i class="' + (i.checks.indexOf(d) >= 0 ? 'on' : d > t ? 'future' : '') + (d === t ? ' today' : '') + '" title="' + md(d) + '"></i>'; }
+      var attBtn = i.answered ? '' : '<button class="att' + (checked ? ' on' : '') + '" data-check="' + i.id + '"' + (inRange ? '' : ' disabled') + '><i>' + CHECK + '</i>' + (!inRange ? (day < 1 ? '시작 전' : '기간 끝') : checked ? '오늘 출석 완료' : '출석 체크') + '</button>';
       h += '<div class="card stack" style="gap:10px">' +
-        '<div><div class="row" style="gap:6px">' + (i.answered ? '<span class="tag good">응답받음</span>' : '<span class="tag">' + i.days + '일 작정</span>') + exampleTag(i) + '</div>' +
-        '<h3 style="font-size:17px;margin-top:6px">' + esc(i.title) + '</h3>' +
-        '<div class="small muted">' + md(i.start) + ' ~ ' + md(addDays(i.start, i.days - 1)) + ' · ' + (day < 1 ? '시작 전' : day > i.days ? '작정 기간 끝' : day + '일째') + ' · 출석 ' + cnt + '일</div></div>' +
+        '<div class="ic-top"><div style="min-width:0"><div class="row" style="gap:6px">' + (i.answered ? '<span class="tag good">응답받음</span>' : '<span class="tag">' + i.days + '일 작정</span>') + exampleTag(i) + '</div>' +
+        '<h3 style="font-size:16.5px;margin-top:6px">' + esc(i.title) + '</h3>' +
+        '<div class="small muted">' + md(i.start) + ' ~ ' + md(addDays(i.start, i.days - 1)) + ' · ' + (day < 1 ? '시작 전' : day > i.days ? '작정 기간 끝' : day + '일째') + ' · 출석 ' + cnt + '일</div></div>' + attBtn + '</div>' +
         (i.body ? '<p class="item-body">' + esc(i.body) + '</p>' : '') +
         '<div class="progress"><i style="width:' + Math.min(100, Math.round(cnt / i.days * 100)) + '%"></i></div>' +
         '<div class="dots">' + dots + '</div>' +
+        '<button class="chk' + (i.answered ? ' on' : '') + '" data-answer="' + i.id + '"><i>' + CHECK + '</i>' + (i.answered ? '응답 받았어요' : '응답 기다리는 중') + '</button>' +
         (i.memo ? '<div class="note"><b>응답 메모</b> ' + esc(i.memo) + '</div>' : '') +
-        '<div class="row">' + (inRange && !i.answered ? '<button class="btn sm ' + (checked ? 'done' : '') + '" data-check="' + i.id + '">' + (checked ? '오늘 출석 완료' : '오늘 기도 출석') + '</button>' : '') +
-        '<button class="btn sm gold" data-answer="' + i.id + '">' + (i.answered ? '응답 메모 고치기' : '응답받았어요') + '</button>' +
-        (linked ? '<button class="btn sm line" data-open="' + linked.id + '">요청 보기 · 함께 기도 ' + linked.prayers + '</button>' : '<button class="btn sm line" data-share="' + i.id + '">중보기도 요청</button>') +
-        '<button class="btn sm line" data-del-item="' + i.id + '">삭제</button></div></div>';
+        '<div class="ic-foot">' + (linked ? '<button class="linkbtn blue" data-open="' + linked.id + '">중보기도 요청 보기 · 함께 기도 ' + linked.prayers + '</button>' : '<button class="linkbtn blue" data-share="' + i.id + '">중보기도 요청하기</button>') +
+        '<button class="linkbtn" data-del-item="' + i.id + '">삭제</button></div></div>';
     });
     return h;
   }
@@ -575,11 +689,24 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
     return h;
   }
 
+  function widgetPreview() {
+    var t = today(), act = activeItems(), done = act.filter(function (i) { return i.checks.indexOf(t) >= 0; }).length, all = act.length > 0 && done === act.length;
+    var mins = +S.times[t] || 0;
+    var chk = '<span class="wcheck' + (all ? ' on' : '') + '"><i>' + (all ? CHECK : '') + '</i>' + (all ? '오늘 출석 완료' : '출석 ' + done + '/' + act.length) + '</span>';
+    return '<div class="card stack" style="gap:12px"><h2 style="font-size:17px">홈 화면 위젯 미리보기</h2>' +
+      '<div class="widgets">' +
+        '<div class="wg s"><span class="wl">오늘의 기도</span><div><b>' + mins + '</b><span class="wl"> 분</span></div>' + chk + '</div>' +
+        '<div class="wg m"><div style="display:flex;flex-direction:column;justify-content:space-between"><span class="wl">오늘의 기도</span><div><b>' + mins + '</b><span class="wl"> 분</span></div>' + chk + '</div>' +
+          '<div style="min-width:0;display:flex;flex-direction:column;gap:8px"><span class="wl">주요 기도 제목</span><ul>' + (act.length ? act.slice(0, 3).map(function (i) { return '<li>' + esc(i.title) + '</li>'; }).join('') : '<li>작정 중인 기도 제목이 없어요</li>') + '</ul></div></div>' +
+      '</div>' +
+      '<div class="small muted">휴대폰 바탕화면 위젯은 앱스토어용 앱으로 출시할 때 넣을 수 있어요. 지금 웹앱으로는 브라우저 메뉴의 "홈 화면에 추가"로 앱 아이콘을 만들 수 있어요.</div></div>';
+  }
   function vMe() {
     return '<h1 class="page-title">내 정보</h1><div class="card stack">' +
       '<label class="field"><span>닉네임</span><input class="input" id="meName" value="' + esc(S.me.name) + '" maxlength="20"></label>' +
       '<label class="field"><span>구분</span><select class="input" id="meRole">' + ROLES.map(function (r) { return '<option' + (S.me.role === r ? ' selected' : '') + '>' + r + '</option>'; }).join('') + '</select></label>' +
       '<button class="btn" data-act="save-me">저장</button></div>' +
+      widgetPreview() +
       '<div class="card stack" style="gap:8px"><h2 style="font-size:17px">준비 중인 메뉴</h2>' +
       '<div class="row"><span class="tag">라이브 중보기도 방송</span><span class="tag">회원 가입 · 실명 인증</span></div></div>' +
       '<div class="card stack" style="gap:8px"><h2 style="font-size:17px">이 버전에 대해</h2><div class="small muted">지금은 시험 버전이라 글과 기록이 이 기기에만 저장돼요. 다른 성도와 실제로 함께 쓰려면 회원 가입과 서버 연결이 다음 단계로 필요해요.</div>' +
@@ -670,7 +797,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
       concern: ['사연 올리기', '사연의 제목', '가까운 사람에게 말하기 어려운 이야기를 편하게 적어 주세요.', true],
       tips: ['기도 노하우 나누기', '나만의 기도 노하우', '어떻게 기도하시는지 나눠 주세요.', false] }[boardName];
     sheet(cfg[0],
-      (boardName === 'pray' ? '<label class="field"><span>게시판</span><select class="input" id="wCat">' + CATS.map(function (c) { return '<option' + ((preset && preset.cat) === c ? ' selected' : '') + '>' + c + '</option>'; }).join('') + '</select></label>' : '') +
+      (boardName === 'pray' ? '<label class="field"><span>게시판</span><select class="input" id="wCat">' + POST_CATS.map(function (c) { return '<option' + ((preset && preset.cat) === c ? ' selected' : '') + '>' + c + '</option>'; }).join('') + '</select></label>' : '') +
       '<label class="field"><span>제목</span><input class="input" id="wTitle" maxlength="60" value="' + esc(preset && preset.title) + '" placeholder="' + cfg[1] + '"></label>' +
       '<label class="field"><span>내용</span><textarea class="input" id="wBody" placeholder="' + cfg[2] + '">' + esc(preset && preset.body) + '</textarea></label>' +
       (boardName === 'concern' ? '<div class="field"><span>누가 답글을 달 수 있나요? (1개 이상)</span><label class="check"><input type="checkbox" id="scAll"> 전체</label>' +
@@ -687,8 +814,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
       '<input class="input" type="number" min="1" max="365" id="iDays" value="40" inputmode="numeric"></div>' +
       '<label class="field"><span>시작일</span><input class="input" type="date" id="iStart" value="' + today() + '"></label>' +
       '<label class="field"><span>기도 내용</span><textarea class="input" id="iBody" style="min-height:110px" placeholder="어떤 마음으로, 무엇을 구하며 기도할지 적어 두세요"></textarea></label>' +
-      '<div class="checks"><label class="check"><input type="checkbox" id="iAnon" checked> 익명으로 요청</label><label class="check urgent"><input type="checkbox" id="iUrgent"> 긴급기도 요청</label></div>' +
-      '<div class="small muted">중보기도 요청하기를 누르면 다이어리에 추가되고 중보기도 탭에도 함께 올라가요.</div>' +
+      '<div class="small muted">기도 제목은 나만 볼 수 있어요. 중보기도 요청하기를 누르면 다이어리에 추가되고, 이어서 중보기도 탭에 올릴 내용을 확인할 수 있어요.</div>' +
       '<div class="two"><button class="btn line" data-act="save-item">추가하기</button><button class="btn" data-act="save-item-share">중보기도 요청하기</button></div>');
   }
 
@@ -705,7 +831,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
     var i = S.items.find(function (x) { return x.id === id; });
     sheet('응답 기록',
       '<h3>' + esc(i.title) + '</h3>' +
-      '<label class="check"><input type="checkbox" id="aDone"' + (i.answered ? ' checked' : '') + '> 응답받았어요</label>' +
+      '<label class="check"><input type="checkbox" id="aDone" checked> 응답 받았어요</label>' +
       '<label class="field"><span>간단 메모</span><textarea class="input" id="aMemo" style="min-height:90px" placeholder="어떻게 응답하셨는지 적어 두세요">' + esc(i.memo) + '</textarea></label>' +
       '<button class="btn block" data-save-answer="' + id + '">저장</button>' +
       '<button class="btn block ghost" data-to-story="' + id + '">간증으로 나누기</button>');
@@ -771,6 +897,15 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
       save(); openPost(d.scrap); render(); return;
     }
     if (d.open) return openPost(d.open);
+    if (d.relay) { rDay = ''; return openRelay(d.relay); }
+    if (d.rday) { rDay = d.rday; return openRelay(d.rid); }
+    if (d.slot) {
+      var rg = el('relayGrid'), rr = S.relays.find(function (x) { return x.id === rg.dataset.rid; });
+      var mp = rr.slots[rDay] = rr.slots[rDay] || {}, sk = +d.slot;
+      if (mp[sk] && mp[sk].me) { delete mp[sk]; toast('예약을 취소했어요'); }
+      else if (!mp[sk]) { mp[sk] = { n: S.me.name || '성도', me: true }; toast((rDay === today() ? '오늘' : md(rDay)) + ' ' + slotRange(sk) + ' 기도 시간을 예약했어요'); }
+      save(); openRelay(rr.id); render(); return;
+    }
     if (d.guide) return openGuide(d.guide);
     if (d.letter) return openLetter(d.letter);
     if (d.days) { el('iDays').value = d.days; el('iDaysChips').querySelectorAll('.chip').forEach(function (c) { c.setAttribute('aria-pressed', c === b); }); return; }
@@ -816,7 +951,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
       it3.answered = el('aDone').checked; it3.memo = val('aMemo'); save();
       writePost('story', { title: it3.title + ' 기도 응답', body: it3.memo }); return;
     }
-    if (d.share) { var it4 = S.items.find(function (x) { return x.id === d.share; }); writePost('pray', { cat: '개인 중보기도', title: it4.title, body: it4.body || '', itemId: it4.id }); return; }
+    if (d.share) { var it4 = S.items.find(function (x) { return x.id === d.share; }); writePost('pray', { cat: '개인 중보', title: it4.title, body: it4.body || '', itemId: it4.id }); return; }
     if (d.delItem) { if (!arm(b, '한 번 더 누르면 삭제')) return; S.items = S.items.filter(function (x) { return x.id !== d.delItem; }); save(); render(); return; }
     if (d.delLetter) { if (!arm(b, '한 번 더 누르면 삭제')) return; S.letters = S.letters.filter(function (x) { return x.id !== d.delLetter; }); save(); closeSheet(); render(); return; }
     if (d.copy) {
@@ -841,12 +976,9 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
         if (!ti) return toast('기도 제목을 적어 주세요');
         var ni = { id: uid(), title: ti, body: ib, start: val('iStart') || today(), days: days, checks: [], answered: false, memo: '' };
         S.items.push(ni);
-        if (d.act === 'save-item-share') {
-          var sp = { id: uid(), board: 'pray', cat: '개인 중보기도', scope: [], mine: true, urgent: el('iUrgent').checked, title: ti, body: ib || ti, author: el('iAnon').checked ? '익명의 성도' : (S.me.name || '성도'), created: Date.now(), prayers: 0, prayed: false, comments: [] };
-          S.posts.push(sp); ni.postId = sp.id;
-        }
         save(); closeSheet(); tab = 'diary'; dtab = 'items'; render();
-        toast(d.act === 'save-item-share' ? '다이어리에 추가하고 중보기도 탭에도 올렸어요' : days + '일 작정 기도를 시작해요'); return;
+        if (d.act === 'save-item-share') { writePost('pray', { cat: '개인 중보', title: ti, body: ib, itemId: ni.id }); toast('다이어리에 추가했어요. 요청 내용을 확인하고 올려 주세요'); return; }
+        toast(days + '일 작정 기도를 시작해요'); return;
       case 'add-time':
         var mn = parseInt(val('tMin'), 10);
         if (isNaN(mn) || mn <= 0) return toast('방금 기도한 시간을 분으로 적어 주세요');
