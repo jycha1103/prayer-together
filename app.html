@@ -267,6 +267,51 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 .alm-ring p { margin: 6px 0 0; color: var(--ink-2); font-size: 14px; line-height: 1.6; }
 .dly-u { display: inline-block; vertical-align: -3px; color: #D93A25; margin-right: 5px; }
 .dly-u svg { width: 17px; height: 17px; display: block; }
+.chips.wrap { flex-wrap: wrap; overflow: visible; }
+.req, .opt { font-size: 10.5px; font-weight: 700; padding: 1px 6px; border-radius: 6px; margin-left: 2px; vertical-align: 1px; }
+.req { color: #B42A1A; background: #FDEBE8; } .opt { color: var(--muted); background: var(--line-2); }
+.join-top { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--muted); font-weight: 700; }
+.join-bar { height: 5px; border-radius: 3px; background: var(--line); overflow: hidden; margin-top: -4px; }
+.join-bar i { display: block; height: 100%; background: linear-gradient(90deg, #E6A92E, #C98A12); transition: width .3s; }
+.join-hero { text-align: center; padding: 26px 0 8px; }
+.join-hero .mark { display: inline-grid; place-items: center; width: 64px; height: 64px; border-radius: 20px; background: radial-gradient(110% 100% at 100% 0%, var(--navy-2), var(--navy) 70%); box-shadow: 0 8px 22px rgba(23, 32, 74, .3); }
+.join-hero .mark svg { width: 40px; height: 40px; }
+.join-hero h1 { font-family: var(--font-display); font-size: 23px; color: var(--navy); margin-top: 14px; }
+.join-hero p { color: var(--ink-2); margin: 6px 0 0; }
+.join-hero .ok { display: inline-grid; place-items: center; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(160deg, #E6A92E, #C98A12); color: #FFFFFF; }
+.join-hero .ok svg { width: 30px; height: 30px; }
+.sso { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; border: 0; border-radius: 14px; padding: 14px; font-size: 15px; font-weight: 700; }
+.sso svg { width: 20px; height: 20px; }
+.sso.kakao { background: #FEE500; color: #191600; }
+.sso.naver { background: #03C75A; color: #FFFFFF; } .sso.naver b { font-size: 17px; font-weight: 900; }
+.sso.apple { background: #000000; color: #FFFFFF; }
+.sso.phone { background: var(--surface); color: var(--ink); border: 1px solid var(--line); font-weight: 500; }
+.check.all { font-size: 16px; font-weight: 700; padding: 4px 0; }
+.card hr { border: 0; border-top: 1px solid var(--line-2); margin: 6px 0; width: 100%; }
+.card .check { padding: 6px 0; align-items: flex-start; }
+.check input { flex: none; width: 18px; height: 18px; margin-top: 3px; accent-color: var(--accent); }
+.check small { display: block; font-size: 12px; color: var(--muted); }
+.faith-list { display: flex; flex-direction: column; gap: 8px; }
+.faith { text-align: left; border: 1.5px solid var(--line); background: var(--surface); border-radius: 14px; padding: 12px 14px; }
+.faith b { display: block; font-size: 15px; color: var(--ink); } .faith small { font-size: 12.5px; color: var(--muted); }
+.faith.on { border-color: var(--accent); background: var(--accent-soft); }
+.place-sel { display: flex; align-items: center; justify-content: space-between; gap: 10px; border: 1.5px solid #9BD8B5; background: #F1FAF5; border-radius: 14px; padding: 10px 14px; }
+.place-sel b { display: block; font-size: 15px; } .place-sel small { display: block; font-size: 12.5px; color: var(--muted); }
+.place-sel em { display: inline-flex; align-items: center; gap: 4px; font-style: normal; font-size: 12px; font-weight: 700; color: var(--green); margin-top: 2px; }
+.place-sel em svg { width: 12px; height: 12px; }
+.place-list { border: 1px solid var(--line); border-radius: 14px; background: var(--surface); overflow: hidden; }
+.place-list button { display: block; width: 100%; text-align: left; border: 0; background: none; padding: 10px 12px; border-bottom: 1px solid var(--line-2); }
+.place-list b { display: block; font-size: 14px; } .place-list small { font-size: 12px; color: var(--muted); }
+.verify { background: #FFF8EA; box-shadow: none; border: 1px solid #F3DFB4; }
+.verify .vt { color: #A0650A; }
+.prow { display: flex; justify-content: space-between; gap: 12px; font-size: 13.5px; padding: 3px 0; }
+.prow span { color: var(--muted); flex: none; } .prow b { font-weight: 500; text-align: right; }
+.me-head { display: flex; align-items: center; gap: 12px; padding-bottom: 6px; border-bottom: 1px solid var(--line-2); }
+.me-head .face { width: 48px; height: 48px; font-size: 18px; }
+.me-head b { font-size: 17px; display: block; margin-bottom: 2px; }
+.join-cta { background: var(--navy); color: var(--on-navy); }
+.join-cta b { font-family: var(--font-display); font-size: 18px; } .join-cta .muted { color: var(--navy-sub); }
+.join-cta .btn { background: #F2C46B; color: var(--navy); }
 .seg-n { display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: #E6A92E; color: #FFFFFF; font-size: 11px; font-weight: 700; margin-left: 3px; vertical-align: 1px; }
 .room-card h3 { margin-top: 6px; }
 .room-faces { display: flex; align-items: center; margin-top: 10px; }
@@ -581,6 +626,14 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
   function secHead(title, go) { return '<div class="sec-head"><h2>' + title + '</h2>' + (go ? '<button class="more" data-go="' + go + '">전체 보기</button>' : '') + '</div>'; }
   function group(html) { return '<div class="group">' + html + '</div>'; }
 
+  // 가입할 때 고른 관심 기도 분야와 닿는 글을 먼저 골라요
+  var INTEREST_WORDS = { '가정': ['가정', '가족', '남편', '아내', '부모', '어머니', '아버지'], '건강 · 치유': ['수술', '건강', '치유', '회복', '병원'], '자녀 · 다음세대': ['자녀', '아이', '다음세대', '학생', '수험'],
+    '진로 · 취업': ['취업', '진로', '직장', '이직', '면접'], '물질': ['물질', '재정', '경제'], '관계': ['관계', '갈등', '화해'], '교회': ['교회', '예배', '목회'], '선교 · 열방': ['선교', '열방', '민족'], '나라 · 사회': ['나라', '사회', '재난', '홍수', '전쟁'] };
+  function interestScore(p) {
+    var it = S.me.profile && S.me.profile.interests; if (!it || !it.length) return 0;
+    var txt = p.cat + ' ' + p.title + ' ' + p.body;
+    return it.filter(function (k) { return (INTEREST_WORDS[k] || []).some(function (w) { return txt.indexOf(w) >= 0; }); }).length ? 1 : 0;
+  }
   // 오늘의 중보 3: 매일 아침 한 번 골라 두고 하루 동안 유지해요
   function dailyPicks() {
     var t = today(), live = S.posts.filter(function (p) { return p.board === 'pray' && !p.roomId && !p.mine && !p.answered; });
@@ -590,7 +643,8 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
       var pool = live.filter(function (p) { return !p.prayed; });
       if (pool.length < 3) pool = pool.concat(live.filter(function (p) { return p.prayed; }));
       // 긴급 먼저, 어제 고른 글은 뒤로, 함께 기도한 사람이 적은 글 먼저
-      pool.sort(function (a, b) { return (b.urgent ? 1 : 0) - (a.urgent ? 1 : 0) || (prev.indexOf(a.id) >= 0) - (prev.indexOf(b.id) >= 0) || a.prayers - b.prayers || b.created - a.created; });
+      var like = interestScore;
+      pool.sort(function (a, b) { return (b.urgent ? 1 : 0) - (a.urgent ? 1 : 0) || like(b) - like(a) || (prev.indexOf(a.id) >= 0) - (prev.indexOf(b.id) >= 0) || a.prayers - b.prayers || b.created - a.created; });
       var picks = [], used = {};
       pool.forEach(function (p) { if (picks.length < 3 && !used[p.cat]) { picks.push(p); used[p.cat] = 1; } });
       pool.forEach(function (p) { if (picks.length < 3 && picks.indexOf(p) < 0) picks.push(p); });
@@ -982,20 +1036,149 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
       '<div class="note">휴대폰 바탕화면에 실제로 놓는 위젯은 앱스토어와 플레이스토어용 앱으로 출시할 때 제공돼요. 지금은 미리보기예요.</div>');
   }
   function vMe() {
-    return '<h1 class="page-title">내 정보</h1><div class="card stack">' +
+    var pf = S.me.profile;
+    if (pf) return '<h1 class="page-title">내 정보</h1><div class="card stack"><div class="me-head"><i class="face on">' + esc((S.me.name || '나').charAt(0)) + '</i><div><b>' + esc(S.me.name) + '</b><div class="row" style="gap:6px"><span class="tag">' + esc(S.me.role) + '</span>' + (verifyLabel(pf) ? '<span class="pill ' + (pf.proof ? 'amber' : 'green') + '">' + verifyLabel(pf) + '</span>' : '') + '</div></div></div>' + profileRows(pf) +
+      '<button class="btn line" data-act="j-edit">정보 고치기</button></div>' + meTail();
+    return '<h1 class="page-title">내 정보</h1><div class="card stack join-cta"><b>회원 가입하고 함께 기도해요</b><div class="small muted">카카오나 네이버로 3초 만에 시작할 수 있어요.</div><button class="btn" data-act="join">회원 가입</button></div><div class="card stack">' +
       '<label class="field"><span>닉네임</span><input class="input" id="meName" value="' + esc(S.me.name) + '" maxlength="20"></label>' +
       '<label class="field"><span>구분</span><select class="input" id="meRole">' + ROLES.map(function (r) { return '<option' + (S.me.role === r ? ' selected' : '') + '>' + r + '</option>'; }).join('') + '</select></label>' +
-      '<button class="btn" data-act="save-me">저장</button></div>' +
-      '<div class="card stack" style="gap:8px"><h2 style="font-size:17px">준비 중인 메뉴</h2>' +
-      '<div class="row"><span class="tag">라이브 중보기도 방송</span><span class="tag">회원 가입 · 실명 인증</span></div></div>' +
+      '<button class="btn" data-act="save-me">저장</button></div>' + meTail();
+  }
+  function meTail() {
+    return '<div class="card stack" style="gap:8px"><h2 style="font-size:17px">준비 중인 메뉴</h2>' +
+      '<div class="row"><span class="tag">라이브 중보기도 방송</span></div></div>' +
       '<div class="card stack" style="gap:8px"><h2 style="font-size:17px">이 버전에 대해</h2><div class="small muted">지금은 시험 버전이라 글과 기록이 이 기기에만 저장돼요. 다른 성도와 실제로 함께 쓰려면 회원 가입과 서버 연결이 다음 단계로 필요해요.</div>' +
       '<button class="btn line" data-act="reset">처음 상태로 되돌리기</button></div>';
   }
 
-  var VIEWS = { room: vRoom, home: vHome, pray: vPray, diary: vDiary, concern: vConcern, story: vStory, me: vMe, guide: vGuide, search: vSearch };
+  // ---------- 회원 가입 ----------
+  // 실제 서비스에서는 카카오·네이버·애플 로그인과 카카오 장소 검색에 연결해요. 지금은 같은 흐름을 체험만 해요.
+  var J = null;
+  var PROVIDERS = { kakao: '카카오', naver: '네이버', apple: 'Apple', phone: '휴대폰 번호' };
+  var AGREES = [['age14', '만 14세 이상이에요', 1], ['terms', '서비스 이용약관 동의', 1], ['privacy', '개인정보 수집·이용 동의', 1], ['faith', '신앙 정보 수집·이용 동의', 1, '성도 여부와 직분은 민감정보라 따로 동의를 받아요.'], ['push', '기도 알림과 응답 소식 받기', 0], ['news', '앱 소식과 이벤트 받기', 0]];
+  var SIDO = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종', '경기', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주', '해외'];
+  var FAITH = [['성도', '교회에 다니고 있어요'], ['가나안 성도', '신앙은 있지만 지금은 교회에 나가지 않아요'], ['비신도', '신앙을 알아가는 중이에요']];
+  var DUTIES = ['평신도', '집사', '권사', '장로', '전도사', '목사', '선교사', '기타'];
+  var JOBS = ['학생', '직장인', '프리랜서', '사업자', '주부', '목회자', '심리상담사', '기타', '입력 안 함'];
+  var INTERESTS = ['가정', '건강 · 치유', '자녀 · 다음세대', '진로 · 취업', '물질', '관계', '교회', '선교 · 열방', '나라 · 사회'];
+  var REFERS = ['지인 추천', '교회', 'SNS', '검색', '기타'];
+  var PLACES = { church: [['은혜와평강교회', '서울 마포구 망원로 12'], ['새소망교회', '경기 성남시 분당구 정자일로 45'], ['빛과소금교회', '부산 해운대구 센텀로 88'], ['사랑나눔교회', '대전 서구 둔산로 31'], ['한빛선교교회', '서울 강남구 테헤란로 210']],
+    center: [['마음쉼 심리상담센터', '서울 송파구 올림픽로 300'], ['온누리 가족상담센터', '경기 고양시 일산동구 중앙로 1200'], ['함께걷는 상담연구소', '대구 수성구 달구벌대로 2450']] };
+  var JSTEPS = ['', '약관 동의', '기본 정보', '신앙 정보', '직업', '관심 기도'];
+  function needsOrg() { return J.job === '목회자' || J.job === '심리상담사' || ['전도사', '목사', '선교사'].indexOf(J.duty) >= 0; }
+  function orgType() { return J.job === '심리상담사' ? 'center' : 'church'; }
+  function jRole(pf) {
+    if (!pf.org) return '일반 성도';
+    return pf.job === '심리상담사' ? '상담사' : '목회자·선교사';
+  }
+  function jSync() {
+    document.querySelectorAll('[data-jf]').forEach(function (e) { J[e.dataset.jf] = e.type === 'checkbox' ? e.checked : e.value.trim(); });
+  }
+  function jChips(field, list, multi) {
+    return '<div class="chips wrap">' + list.map(function (v) {
+      var on = multi ? (J[field] || []).indexOf(v) >= 0 : J[field] === v;
+      return '<button class="chip" type="button" data-jpick="' + field + '" data-jv="' + esc(v) + '"' + (multi ? ' data-jmulti="1"' : '') + ' aria-pressed="' + on + '">' + esc(v) + '</button>'; }).join('') + '</div>';
+  }
+  function jPlace(key, type, label, hint) {
+    var sel = J[key];
+    if (sel) return '<div class="field"><span>' + label + '</span><div class="place-sel"><div><b>' + esc(sel[0]) + '</b><small>' + esc(sel[1]) + '</small><em>' + CHECK + '카카오맵에서 확인된 곳</em></div><button class="linkbtn blue" type="button" data-act="j-unplace" data-for="' + key + '">바꾸기</button></div></div>';
+    var res = J['res_' + key];
+    return '<div class="field"><span>' + label + '</span><div class="row" style="flex-wrap:nowrap"><input class="input" style="flex:1;min-width:0" data-jf="q_' + key + '" value="' + esc(J['q_' + key] || '') + '" placeholder="' + (type === 'center' ? '상담센터 이름' : '교회 이름') + '으로 찾기"><button class="btn sm" type="button" data-act="j-search" data-for="' + key + '" data-type="' + type + '">검색</button></div>' +
+      (hint ? '<div class="small muted">' + hint + '</div>' : '') +
+      (res ? (res.length ? '<div class="place-list">' + res.map(function (r, i) { return '<button type="button" data-jplace="' + key + '" data-ji="' + i + '"><b>' + esc(r[0]) + '</b><small>' + esc(r[1]) + '</small></button>'; }).join('') + '<div class="small muted" style="padding:6px 12px">체험용 예시 결과예요. 실제로는 카카오맵에 등록된 곳이 나와요.</div></div>'
+        : '<div class="small muted">찾는 곳이 없어요. 이름을 다시 확인해 주세요.</div>') : '') + '</div>';
+  }
+  function vJoin() {
+    if (!J) J = { step: 0 };
+    var st = J.step, h = '';
+    if (st > 0 && st < 6) h += '<div class="join-top"><button class="back" data-act="j-back">‹ 이전</button><span>' + st + ' / 5</span></div><div class="join-bar"><i style="width:' + (st * 20) + '%"></i></div><h1 class="page-title">' + JSTEPS[st] + '</h1>';
+    if (st === 0) {
+      h += '<div class="join-hero"><span class="mark">' + document.querySelector('.brand .mark').innerHTML + '</span><h1>합력하여 선을 이루는 기도</h1><p>얼굴을 몰라도, 서로를 위해 기도하는 곳<br>3초 만에 시작해요</p></div>' +
+        '<div class="stack" style="gap:10px"><button class="sso kakao" data-jlogin="kakao"><svg viewBox="0 0 24 24"><path fill="#191600" d="M12 4C7 4 3 7.2 3 11.1c0 2.5 1.7 4.7 4.2 6l-1 3.6c-.1.3.3.6.6.4l4.3-2.8c.3 0 .6.1.9.1 5 0 9-3.2 9-7.2S17 4 12 4z"/></svg>카카오로 시작하기</button>' +
+        '<button class="sso naver" data-jlogin="naver"><b>N</b>네이버로 시작하기</button>' +
+        '<button class="sso apple" data-jlogin="apple"><svg viewBox="0 0 24 24"><path fill="#FFFFFF" d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.6-1-2.6-3.9zM14 5.4c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1 .1 2.1-.6 2.8-1.4z"/></svg>Apple로 시작하기</button>' +
+        '<button class="sso phone" data-jlogin="phone">휴대폰 번호로 시작하기</button></div>' +
+        '<div class="note">지금은 체험판이라 버튼을 누르면 실제 로그인 없이 다음 단계로 넘어가요. 서비스를 시작할 때 카카오·네이버·애플 로그인에 연결해요.</div>';
+    } else if (st === 1) {
+      var all = AGREES.every(function (a) { return J['ag_' + a[0]]; });
+      h += '<div class="card stack" style="gap:4px"><label class="check all"><input type="checkbox" data-act="j-agall"' + (all ? ' checked' : '') + '> 모두 동의해요</label><hr>' +
+        AGREES.map(function (a) { return '<label class="check"><input type="checkbox" data-jf="ag_' + a[0] + '"' + (J['ag_' + a[0]] ? ' checked' : '') + '> <span><b class="' + (a[2] ? 'req' : 'opt') + '">' + (a[2] ? '필수' : '선택') + '</b> ' + a[1] + (a[3] ? '<small>' + a[3] + '</small>' : '') + '</span></label>'; }).join('') + '</div>' +
+        '<div class="small muted">약관 전문은 서비스를 시작하기 전에 준비해서 각 항목에 연결할게요.</div>';
+    } else if (st === 2) {
+      h += '<label class="field"><span>닉네임 <b class="req">필수</b></span><input class="input" data-jf="name" maxlength="12" value="' + esc(J.name || '') + '" placeholder="앱에서 보이는 이름이에요"></label>' +
+        '<label class="field"><span>생년월일 <b class="req">필수</b></span><input class="input" type="date" data-jf="birth" value="' + esc(J.birth || '') + '" max="' + today() + '"></label>' +
+        '<div class="field"><span>성별 <b class="req">필수</b></span>' + jChips('gender', ['남성', '여성']) + '</div>' +
+        '<div class="field"><span>사는 지역 <b class="opt">선택</b></span><div class="row" style="flex-wrap:nowrap"><select class="input" data-jf="sido" style="flex:0 0 110px"><option value="">시 · 도</option>' + SIDO.map(function (x) { return '<option' + (J.sido === x ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select><input class="input" style="flex:1;min-width:0" data-jf="sigungu" value="' + esc(J.sigungu || '') + '" placeholder="시 · 군 · 구 (예: 마포구)"></div><div class="small muted">자세한 주소는 받지 않아요. 가까운 모임방을 추천할 때만 써요.</div></div>' +
+        '<label class="field"><span>이메일 <b class="opt">선택</b></span><input class="input" type="email" data-jf="email" value="' + esc(J.email || '') + '" placeholder="계정 찾기와 소식 안내에 써요"></label>';
+    } else if (st === 3) {
+      h += '<div class="field"><span>신앙 <b class="req">필수</b></span><div class="faith-list">' + FAITH.map(function (f) { return '<button type="button" class="faith' + (J.faith === f[0] ? ' on' : '') + '" data-jpick="faith" data-jv="' + f[0] + '"><b>' + (f[0] === '비신도' ? '아직 믿지 않아요' : f[0]) + '</b><small>' + f[1] + '</small></button>'; }).join('') + '</div></div>';
+      if (J.faith === '성도') h += '<div class="field"><span>직분 <b class="req">필수</b></span>' + jChips('duty', DUTIES) + (J.duty === '기타' ? '<input class="input" data-jf="dutyEtc" value="' + esc(J.dutyEtc || '') + '" placeholder="직분을 적어 주세요">' : '') + '</div>' +
+        jPlace('church', 'church', '출석 교회 <b class="opt">선택</b>', '같은 교회 성도와 모임방을 만들 때 도움이 돼요.');
+    } else if (st === 4) {
+      h += '<div class="field"><span>직업 <b class="req">필수</b></span>' + jChips('job', JOBS) + (J.job === '기타' ? '<input class="input" data-jf="jobEtc" value="' + esc(J.jobEtc || '') + '" placeholder="직업을 적어 주세요">' : '') + '</div>';
+      if (needsOrg()) {
+        if (!J.org && orgType() === 'church' && J.church) J.org = J.church;
+        h += '<div class="card stack verify"><b class="vt">' + (orgType() === 'center' ? '상담사' : '목회자 · 선교사') + ' 확인</b><div class="small">' + (orgType() === 'center' ? '사연·고민 게시판에서 상담사로 답글을 달 수 있어요.' : '사연·고민 게시판에서 목회자로 답글을 달 수 있어요.') + ' 소속이 실제로 있는 곳인지 확인해요.</div>' +
+          jPlace('org', orgType(), orgType() === 'center' ? '일하는 상담센터 <b class="req">필수</b>' : '섬기는 교회 · 선교 단체 <b class="req">필수</b>') +
+          '<label class="field"><span>' + (orgType() === 'center' ? '상담 자격증' : '안수증 · 재직 증명') + ' <b class="opt">선택</b></span><input class="input" type="file" accept="image/*,.pdf" data-act="j-proof"><div class="small muted">' + (J.proof ? '올린 파일: ' + esc(J.proof) + ' · ' : '') + '운영자가 확인하면 "인증됨" 배지가 붙어요. 나중에 내 정보에서 올려도 돼요.</div></label></div>';
+      }
+    } else if (st === 5) {
+      h += '<div class="field"><span>함께 기도하고 싶은 분야 <b class="opt">선택 · 여러 개</b></span>' + jChips('interests', INTERESTS, true) + '<div class="small muted">고른 분야의 기도 요청을 오늘의 중보에 먼저 보여 드려요.</div></div>' +
+        '<div class="field"><span>이 앱을 어떻게 알게 됐나요? <b class="opt">선택</b></span>' + jChips('refer', REFERS) + '</div>';
+    } else {
+      var pf = S.me.profile;
+      h += '<div class="join-hero done"><span class="ok">' + CHECK + '</span><h1>환영해요, ' + esc(S.me.name) + '님</h1><p>이제 서로를 위해 함께 기도해요.</p></div>' +
+        '<div class="card stack" style="gap:8px">' + profileRows(pf) + '</div>' +
+        '<button class="btn block" data-act="j-finish">시작하기</button>';
+    }
+    if (st > 0 && st < 6) h += '<button class="btn block" data-act="j-next">' + (st === 5 ? '가입 완료' : '다음') + '</button>';
+    return h;
+  }
+  function verifyLabel(pf) { return pf.org ? (pf.proof ? '서류 확인 중' : '소속 확인됨') : ''; }
+  function profileRows(pf) {
+    var rows = [['로그인', PROVIDERS[pf.provider] + ' 계정'], ['구분', jRole(pf) + (verifyLabel(pf) ? ' · ' + verifyLabel(pf) : '')], ['생년월일', pf.birth.replace(/-/g, '. ')], ['성별', pf.gender],
+      ['지역', [pf.sido, pf.sigungu].filter(Boolean).join(' ')], ['이메일', pf.email], ['신앙', pf.faith === '비신도' ? '아직 믿지 않아요' : pf.faith], ['직분', pf.faith === '성도' ? (pf.duty === '기타' ? pf.dutyEtc : pf.duty) : ''],
+      ['출석 교회', pf.church ? pf.church[0] : ''], ['직업', pf.job === '기타' ? pf.jobEtc : pf.job], ['소속', pf.org ? pf.org[0] : ''], ['관심 기도', (pf.interests || []).join(', ')]];
+    return rows.filter(function (r) { return r[1]; }).map(function (r) { return '<div class="prow"><span>' + r[0] + '</span><b>' + esc(r[1]) + '</b></div>'; }).join('');
+  }
+  function jNext() {
+    jSync(); var st = J.step;
+    if (st === 1) { var miss = AGREES.filter(function (a) { return a[2] && !J['ag_' + a[0]]; }); if (miss.length) return toast('필수 항목에 동의해 주세요'); }
+    if (st === 2) {
+      if (!J.name) return toast('닉네임을 적어 주세요');
+      if (!J.birth) return toast('생년월일을 골라 주세요');
+      var b = J.birth.split('-'), n = new Date(), age = n.getFullYear() - b[0] - ((n.getMonth() + 1 < +b[1] || (n.getMonth() + 1 === +b[1] && n.getDate() < +b[2])) ? 1 : 0);
+      if (age < 14) return toast('만 14세 미만은 보호자 동의가 필요해서 지금은 가입할 수 없어요');
+      if (!J.gender) return toast('성별을 골라 주세요');
+      if (J.email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(J.email)) return toast('이메일 주소를 확인해 주세요');
+    }
+    if (st === 3) {
+      if (!J.faith) return toast('신앙을 골라 주세요');
+      if (J.faith === '성도' && !J.duty) return toast('직분을 골라 주세요');
+      if (J.duty === '기타' && !J.dutyEtc) return toast('직분을 적어 주세요');
+    }
+    if (st === 4) {
+      if (!J.job) return toast('직업을 골라 주세요');
+      if (J.job === '기타' && !J.jobEtc) return toast('직업을 적어 주세요');
+      if (needsOrg() && !J.org) return toast('소속을 검색해서 골라 주세요');
+      if (!needsOrg()) { J.org = null; J.proof = ''; }
+    }
+    if (st === 5) {
+      var pf = { provider: J.provider, birth: J.birth, gender: J.gender, sido: J.sido, sigungu: J.sigungu, email: J.email, faith: J.faith, duty: J.faith === '성도' ? J.duty : '', dutyEtc: J.dutyEtc || '',
+        church: J.faith === '성도' ? J.church || null : null, job: J.job, jobEtc: J.jobEtc || '', org: J.org || null, proof: J.proof || '', interests: J.interests || [], refer: J.refer || '',
+        agree: AGREES.reduce(function (o, a) { o[a[0]] = !!J['ag_' + a[0]]; return o; }, {}), joined: S.me.profile ? S.me.profile.joined : Date.now() };
+      S.me.name = J.name; S.me.role = jRole(pf); S.me.profile = pf;
+      if (pf.agree.push && S.alarm && !S.alarm.on) S.alarm.on = true;
+      save();
+    }
+    J.step++; render(); window.scrollTo(0, 0);
+  }
+
+  var VIEWS = { join: vJoin, room: vRoom, home: vHome, pray: vPray, diary: vDiary, concern: vConcern, story: vStory, me: vMe, guide: vGuide, search: vSearch };
   function render() {
     renderTabs();
     el('view').innerHTML = VIEWS[tab]();
+    el('topWrite').hidden = tab === 'join';
   }
   function go(t) { tab = t; closeSheet(); closeDrawer(); render(); window.scrollTo(0, 0); }
 
@@ -1006,7 +1189,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
       '<div class="drawer-brand">합력하여 선을 이루는 기도<small>얼굴을 몰라도, 서로를 위해 기도하는 곳</small></div><div class="srow"><input class="search" id="dq" type="search" placeholder="Search..." aria-label="전체 글 검색"><button class="icon-btn" data-tab="me" aria-label="설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div>' +
       '<ul class="menu">' + M.map(function (m) { return '<li><button data-tab="' + m[0] + '">' + m[1] + '</button></li>'; }).join('') +
       '<li><button data-guide-tab="guides">기도란</button><ul class="menu sub"><li><button data-guide-tab="guides">기도의 모든 것</button></li><li><button data-guide-tab="tips">나만의 기도 노하우</button></li></ul></li>' +
-      '<li><button data-act="invite">초대</button></li></ul></nav></div>';
+      '<li><button data-act="invite">초대</button></li>' + (S.me.profile ? '' : '<li><button data-act="join">회원 가입</button></li>') + '</ul></nav></div>';
   }
   function closeDrawer() { el('drawerRoot').innerHTML = ''; }
 
@@ -1185,6 +1368,15 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
     }
     if (d.almdel) { S.alarm.times = S.alarm.times.filter(function (x) { return x !== d.almdel; }); save(); alarmSheet(); render(); return; }
     if (d.almday) { var ad = +d.almday, ai = S.alarm.days.indexOf(ad); if (ai >= 0) S.alarm.days.splice(ai, 1); else S.alarm.days.push(ad); save(); alarmSheet(); render(); return; }
+    if (d.jlogin) { J = { step: 1, provider: d.jlogin, name: S.me.name && S.me.name !== '성도' ? S.me.name : '' }; toast(PROVIDERS[d.jlogin] + ' 계정으로 연결했어요 (체험)'); render(); window.scrollTo(0, 0); return; }
+    if (d.jpick) {
+      jSync();
+      if (d.jmulti) { var arr = J[d.jpick] = J[d.jpick] || [], ix = arr.indexOf(d.jv); if (ix >= 0) arr.splice(ix, 1); else arr.push(d.jv); }
+      else J[d.jpick] = J[d.jpick] === d.jv && d.jpick !== 'faith' ? '' : d.jv;
+      if (d.jpick === 'job' || d.jpick === 'duty') { J.org = null; J.res_org = null; }
+      render(); return;
+    }
+    if (d.jplace) { jSync(); J[d.jplace] = J['res_' + d.jplace][+d.ji]; J['res_' + d.jplace] = null; render(); return; }
     if (d.ptab) { ptab = d.ptab; render(); return; }
     if (d.room) { roomId = d.room; return go('room'); }
     if (d.rrdays) { el('rrDays').querySelectorAll('.chip').forEach(function (c) { c.setAttribute('aria-pressed', c === b); }); return; }
@@ -1262,6 +1454,22 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
     switch (d.act) {
       case 'menu': return openDrawer();
       case 'widget': return widgetSheet();
+      case 'join': J = null; closeDrawer(); return go('join');
+      case 'j-next': return jNext();
+      case 'j-back': jSync(); J.step--; render(); window.scrollTo(0, 0); return;
+      case 'j-agall':
+        jSync(); var allOn2 = AGREES.every(function (a) { return J['ag_' + a[0]]; });
+        AGREES.forEach(function (a) { J['ag_' + a[0]] = !allOn2; }); render(); return;
+      case 'j-search':
+        jSync(); var qq = (J['q_' + d.for] || '').replace(/\s/g, '');
+        J['res_' + d.for] = PLACES[d.type].filter(function (pl) { return !qq || pl[0].replace(/\s/g, '').indexOf(qq) >= 0 || qq.split('').every(function (ch) { return pl[0].indexOf(ch) >= 0; }); });
+        render(); return;
+      case 'j-unplace': jSync(); J[d.for] = null; render(); return;
+      case 'j-edit':
+        var pf2 = S.me.profile; J = { step: 2, provider: pf2.provider, name: S.me.name };
+        Object.keys(pf2).forEach(function (k) { if (k !== 'agree') J[k] = Array.isArray(pf2[k]) ? pf2[k].slice() : pf2[k]; });
+        AGREES.forEach(function (a) { J['ag_' + a[0]] = pf2.agree[a[0]]; }); return go('join');
+      case 'j-finish': J = null; return go('home');
       case 'rooms': ptab = 'rooms'; return go('pray');
       case 'room-back': ptab = 'rooms'; return go('pray');
       case 'room-new': return roomNew();
@@ -1362,6 +1570,10 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
   });
 
   document.addEventListener('change', function (e) {
+    if (e.target.dataset && e.target.dataset.act === 'j-agall') { jSync(); var on = e.target.checked; AGREES.forEach(function (x) { J['ag_' + x[0]] = on; }); render(); return; }
+    if (e.target.dataset && e.target.dataset.act === 'j-proof') { jSync(); J.proof = e.target.files[0] ? e.target.files[0].name : ''; render(); return; }
+    if (e.target.dataset && e.target.dataset.jf && e.target.dataset.jf.indexOf('ag_') === 0) { jSync(); render(); return; }
+    if (false) { jSync(); J.proof = e.target.files[0] ? e.target.files[0].name : ''; render(); return; }
     if (e.target.id === 'tDate') { tDay = e.target.value && e.target.value !== today() ? e.target.value : ''; refreshTime(); }
     if (e.target.id === 'scAll') document.querySelectorAll('.sc').forEach(function (c) { c.checked = e.target.checked; });
     else if (e.target.classList.contains('sc')) el('scAll').checked = Array.prototype.every.call(document.querySelectorAll('.sc'), function (c) { return c.checked; });
