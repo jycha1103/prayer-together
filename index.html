@@ -1394,10 +1394,12 @@ button.cal-row b { color: var(--accent); }
 
   // ---------- drawer ----------
   function openDrawer() {
+    var SUB = { pray: [['pray-all', '전체'], ['pray-rooms', '내 모임방']],
+      diary: [['diary-add', '기도 제목'], ['diary-time', '기도 시간'], ['diary-letter', '기도 편지'], ['diary-scrap', '스크랩'], ['calendar', '캘린더'], ['widget', '위젯']] };
     var M = [['pray', '중보기도'], ['diary', '기도 다이어리'], ['concern', '말못할 사연 · 고민 상담'], ['story', '간증']];
     el('drawerRoot').innerHTML = '<div class="drawer-back" data-dclose="1"><nav class="drawer" aria-label="전체 메뉴">' +
       '<div class="drawer-brand">합력하여 선을 이루는 기도<small>얼굴을 몰라도, 서로를 위해 기도하는 곳</small></div><div class="srow"><input class="search" id="dq" type="search" placeholder="Search..." aria-label="전체 글 검색"><button class="icon-btn" data-tab="me" aria-label="설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div>' +
-      '<ul class="menu">' + M.map(function (m) { return '<li><button data-tab="' + m[0] + '">' + m[1] + '</button></li>'; }).join('') +
+      '<ul class="menu">' + M.map(function (m) { return '<li><button data-tab="' + m[0] + '">' + m[1] + '</button>' + (SUB[m[0]] ? '<ul class="menu sub">' + SUB[m[0]].map(function (x) { return '<li><button data-dm="' + x[0] + '">' + x[1] + '</button></li>'; }).join('') + '</ul>' : '') + '</li>'; }).join('') +
       '<li><button data-guide-tab="guides">기도란</button><ul class="menu sub"><li><button data-guide-tab="guides">기도의 모든 것</button></li><li><button data-guide-tab="tips">나만의 기도 노하우</button></li></ul></li>' +
       '<li><button data-act="invite">초대</button></li><li><button data-act="policy">개인정보 처리방침</button></li>' + (S.me.profile ? '' : '<li><button data-act="join">회원 가입</button></li>') + '</ul></nav></div>';
   }
@@ -1690,6 +1692,16 @@ button.cal-row b { color: var(--accent); }
     }
     if (d.cald) { calSel = d.cald; return calendarSheet(); }
     if (d.calm) { var cy = +calM.slice(0, 4), cmo = +calM.slice(5, 7) - 1 + (+d.calm), cdt = new Date(cy, cmo, 1); calM = cdt.getFullYear() + '-' + pad(cdt.getMonth() + 1); calSel = calM === today().slice(0, 7) ? today() : calM + '-01'; return calendarSheet(); }
+    if (d.dm) {
+      closeDrawer();
+      if (d.dm === 'pray-all' || d.dm === 'pray-rooms') { ptab = d.dm === 'pray-all' ? 'all' : 'rooms'; cat = '전체'; return go('pray'); }
+      tab = 'diary';
+      dtab = { 'diary-add': 'items', 'diary-time': 'time', 'diary-letter': 'letter', 'diary-scrap': 'scrap' }[d.dm] || 'items';
+      go('diary');
+      if (d.dm === 'calendar') { calM = ''; calSel = ''; return calendarSheet(); }
+      if (d.dm === 'widget') return widgetSheet();
+      return;
+    }
     if (d.itemOpen) return openItem(d.itemOpen);
     if (d.chat) return openChat(d.chat, d.with);
     if (d.chatBack) return openPost(d.chatBack);
