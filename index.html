@@ -521,6 +521,10 @@ button.cal-row b { color: var(--accent); }
   }
   function fmtMin(m) { m = Math.round(m); if (m < 60) return m + '분'; var h = Math.floor(m / 60), r = m % 60; return h + '시간' + (r ? ' ' + r + '분' : ''); }
   function statMin(m) { m = Math.round(m); return m < 600 ? m + '분' : (m / 60).toFixed(1) + '시간'; }
+  // 글에 보이는 내 이름: 가입할 때 고른 실명 또는 닉네임
+  function myName() { return S.me.show === 'real' && S.me.real ? S.me.real : (S.me.name || '성도'); }
+  var ALIAS = ['새벽별', '들꽃', '작은등불', '물댄동산', '겨자씨', '흰구름', '오솔길', '단비', '등대', '소나무', '봄햇살', '은빛물결'];
+  function randAlias() { var a = ALIAS.filter(function (x) { return x !== S.me.name && x !== S.me.real; }); return a[Math.floor(Math.random() * a.length)]; }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
   function firstLine(s) { var m = String(s).split('\n')[0], i = m.search(/[.!?]\s/); return i > 0 ? m.slice(0, i + 1) : m; }
@@ -692,7 +696,7 @@ button.cal-row b { color: var(--accent); }
   }
   // 말못할 사연의 답은 작성자와 답하는 사람 둘만 보는 1:1 대화예요
   function concernChats(p, can) {
-    var ch = p.chats || {}, keys = Object.keys(ch), me = S.me.name || '성도';
+    var ch = p.chats || {}, keys = Object.keys(ch), me = myName();
     var h = '<div class="label">1:1 상담 대화</div>';
     if (p.mine) {
       if (!keys.length) return h + '<div class="note">아직 답이 오지 않았어요. 상담사나 목회자가 답하면 여기에서 1:1로 이야기할 수 있어요. 대화는 나와 그분만 볼 수 있어요.</div>';
@@ -834,7 +838,7 @@ button.cal-row b { color: var(--accent); }
       (tips[0] ? lineItem('data-open="' + tips[0].id + '"', '노하우', tips[0].title) : lineItem('data-guide="' + GUIDES[1].id + '"', GUIDES[1].kind, GUIDES[1].title));
     return '' +
       '<div class="verse">' + GLOBE + '<div class="eyebrow">오늘의 말씀</div><p>모든 기도와 간구를 하되 항상 성령 안에서 기도하고 이를 위하여 깨어 구하기를 항상 힘쓰며 여러 성도를 위하여 구하라</p><cite>에베소서 6:18</cite></div>' +
-      '<section class="sec"><div class="sec-head"><h2>' + esc(S.me.name || '성도') + '님의 오늘</h2><span class="date">' + (d.getMonth() + 1) + '월 ' + d.getDate() + '일 ' + '일월화수목금토'[d.getDay()] + '요일</span></div>' +
+      '<section class="sec"><div class="sec-head"><h2>' + esc(myName()) + '님의 오늘</h2><span class="date">' + (d.getMonth() + 1) + '월 ' + d.getDate() + '일 ' + '일월화수목금토'[d.getDay()] + '요일</span></div>' +
       '<div class="today">' +
         '<div class="tile"><div><span>연속 기도</span><b>' + streak() + '<small>일째</small></b></div><button class="circle' + (allDone ? ' done' : '') + '" data-act="attend">' + (allDone ? '출석<br>완료' : '출석<br>체크') + '</button></div>' +
         '<div class="tile"><div><span>최근 7일</span><b>' + sumRange(addDays(t, -6), t) + '<small>분</small></b></div><button class="circle" data-act="logtime">시간<br>기록</button></div>' +
@@ -927,7 +931,7 @@ button.cal-row b { color: var(--accent); }
   function roomById(id) { return S.rooms.find(function (r) { return r.id === id; }); }
   function roomPosts(r) { return S.posts.filter(function (p) { return p.roomId === r.id; }).sort(function (a, b) { return (b.urgent ? 1 : 0) - (a.urgent ? 1 : 0) || b.created - a.created; }); }
   function roomPeople(r) {
-    var t = today(), me = { n: S.me.name || '나', me: true, on: prayedOn(t), w: sumRange(addDays(t, -6), t) };
+    var t = today(), me = { n: myName(), me: true, on: prayedOn(t), w: sumRange(addDays(t, -6), t) };
     return [me].concat(r.members.map(function (m) { return { n: m.n, on: m.last === t, w: m.w, lead: m.n === r.leader }; }));
   }
   function isLeader(r) { return !!r.mine; }
@@ -1000,7 +1004,7 @@ button.cal-row b { color: var(--accent); }
 
   function vConcern() {
     var list = board('concern');
-    return pageHead('사연 · 고민 상담', 'write-concern', '사연 쓰기') + '<div class="note">가까운 사람에게 말하기 어려운 사연을 털어놓으세요. 사연은 닉네임으로만 보이고, 공개 범위로 고른 분들만 답글을 달 수 있어요. 지금 나의 구분은 <b>' + esc(S.me.role) + '</b>이에요.</div><div class="crisis-bar">마음이 많이 힘들 땐 <a href="tel:109">109</a> (자살예방 상담전화, 24시간)</div>' +
+    return pageHead('사연 · 고민 상담', 'write-concern', '사연 쓰기') + '<div class="note">가까운 사람에게 말하기 어려운 사연을 털어놓으세요. 사연은 그때그때 정한 별명으로만 보이고, 공개 범위로 고른 분들만 답글을 달 수 있어요. 지금 나의 구분은 <b>' + esc(S.me.role) + '</b>이에요.</div><div class="crisis-bar">마음이 많이 힘들 땐 <a href="tel:109">109</a> (자살예방 상담전화, 24시간)</div>' +
       (list.length ? list.map(postCard).join('') : '<div class="empty">아직 올라온 사연이 없어요.</div>');
   }
 
@@ -1217,7 +1221,7 @@ button.cal-row b { color: var(--accent); }
   }
   function vMe() {
     var pf = S.me.profile;
-    if (pf) return '<h1 class="page-title">내 정보</h1><div class="card stack"><div class="me-head"><i class="face on">' + esc((S.me.name || '나').charAt(0)) + '</i><div><b>' + esc(S.me.name) + '</b><div class="row" style="gap:6px"><span class="tag">' + esc(S.me.role) + '</span>' + (verifyLabel(pf) ? '<span class="pill ' + (pf.proof ? 'amber' : 'green') + '">' + verifyLabel(pf) + '</span>' : '') + '</div></div></div>' + profileRows(pf) +
+    if (pf) return '<h1 class="page-title">내 정보</h1><div class="card stack"><div class="me-head"><i class="face on">' + esc(myName().charAt(0)) + '</i><div><b>' + esc(myName()) + '</b><div class="row" style="gap:6px"><span class="tag">' + esc(S.me.role) + '</span>' + (verifyLabel(pf) ? '<span class="pill ' + (pf.proof ? 'amber' : 'green') + '">' + verifyLabel(pf) + '</span>' : '') + '</div></div></div>' + profileRows(pf) +
       '<button class="btn line" data-act="j-edit">정보 고치기</button></div>' + meTail();
     return '<h1 class="page-title">내 정보</h1><div class="card stack join-cta"><b>회원 가입하고 함께 기도해요</b><div class="small muted">카카오나 네이버로 3초 만에 시작할 수 있어요.</div><button class="btn" data-act="join">회원 가입</button></div><div class="card stack">' +
       '<label class="field"><span>닉네임</span><input class="input" id="meName" value="' + esc(S.me.name) + '" maxlength="20"></label>' +
@@ -1283,12 +1287,12 @@ button.cal-row b { color: var(--accent); }
       '<select class="input" data-jf="bd" aria-label="태어난 날"><option value="">일</option>' + opt(ds, bp[2], '일') + '</select></div>';
   }
   var POLICY = [
-    ['1. 모으는 정보', '필수: 닉네임, 생년월일, 성별, 로그인에 쓴 계정 정보(카카오·네이버·애플의 회원 번호)\n선택: 사는 지역(시·군·구까지), 이메일, 출석 교회, 직업, 소속, 관심 기도 분야\n민감정보: 신앙 여부와 직분, 기도 제목과 사연에 담긴 건강·가정 이야기 (따로 동의를 받아요)\n자동으로 모이는 정보: 접속 기록, 기기 정보'],
+    ['1. 모으는 정보', '필수: 실명, 닉네임, 글에 보일 이름(실명 또는 닉네임), 생년월일, 성별, 로그인에 쓴 계정 정보(카카오·네이버·애플의 회원 번호)\n선택: 사는 지역(시·군·구까지), 이메일, 출석 교회, 직업, 소속, 관심 기도 분야\n민감정보: 신앙 여부와 직분, 기도 제목과 사연에 담긴 건강·가정 이야기 (따로 동의를 받아요)\n자동으로 모이는 정보: 접속 기록, 기기 정보'],
     ['2. 쓰는 목적', '회원 확인, 중보기도·모임방·사연 상담 제공, 상담사·목회자 소속 확인, 기도 알림 보내기, 오늘의 중보 추천, 신고 처리와 부정 이용 막기'],
     ['3. 보관 기간', '탈퇴하면 계정 정보는 바로 지워요. 올린 글은 "탈퇴한 성도"로 이름을 바꿔 남기고, 원하시면 탈퇴 전에 모두 지울 수 있어요. 법에서 정한 기록(접속 기록 3개월 등)만 정해진 기간 동안 보관해요.'],
     ['4. 다른 곳에 주는 경우', '이용자의 동의 없이 다른 곳에 주지 않아요. 법에 따라 수사기관이 요청할 때만 예외예요.'],
     ['5. 맡기는 업무', '서버와 데이터 저장: [서버 업체] (서울 지역)\n로그인: 카카오, 네이버, 애플\n장소 확인: 카카오 (장소 검색)\n알림: 구글 Firebase'],
-    ['6. 말못할 사연 보호', '사연은 닉네임으로만 보이고 실명과 연락처는 드러나지 않아요. 운영자만 계정을 확인할 수 있고, 신고 처리나 생명이 위험한 경우에만 확인해요. 답글에는 연락처와 링크를 쓸 수 없어요.'],
+    ['6. 말못할 사연 보호', '사연은 글마다 새로 정한 별명으로만 보이고, 평소 닉네임과 실명, 연락처는 드러나지 않아요. 운영자만 계정을 확인할 수 있고, 신고 처리나 생명이 위험한 경우에만 확인해요. 답글에는 연락처와 링크를 쓸 수 없어요.'],
     ['7. 이용자의 권리', '내 정보에서 언제든 정보를 보고 고치거나 지울 수 있어요. 동의는 언제든 철회할 수 있고, 탈퇴도 바로 할 수 있어요.'],
     ['8. 만 14세 미만', '만 14세 미만은 보호자 동의 절차를 갖추기 전까지 가입을 받지 않아요.'],
     ['9. 안전하게 지키는 방법', '데이터는 암호화해서 보관하고, 운영자 접근은 꼭 필요한 사람에게만 열어 두고 기록을 남겨요.'],
@@ -1315,7 +1319,9 @@ button.cal-row b { color: var(--accent); }
         AGREES.map(function (a) { return '<label class="check"><input type="checkbox" data-jf="ag_' + a[0] + '"' + (J['ag_' + a[0]] ? ' checked' : '') + '> <span><b class="' + (a[2] ? 'req' : 'opt') + '">' + (a[2] ? '필수' : '선택') + '</b> ' + a[1] + (a[3] ? '<small>' + a[3] + '</small>' : '') + '</span></label>'; }).join('') + '</div>' +
         '<button class="linkbtn blue" type="button" data-act="policy">개인정보 처리방침 보기</button><div class="small muted">이용약관 전문은 서비스를 시작하기 전에 준비할게요.</div>';
     } else if (st === 2) {
-      h += '<label class="field"><span>닉네임 <b class="req">필수</b></span><input class="input" data-jf="name" maxlength="12" value="' + esc(J.name || '') + '" placeholder="앱에서 보이는 이름이에요"></label>' +
+      h += '<label class="field"><span>실명 <b class="req">필수</b></span><input class="input" data-jf="real" maxlength="12" value="' + esc(J.real || '') + '" placeholder="예: 홍길동"></label>' +
+        '<label class="field"><span>닉네임 <b class="req">필수</b></span><input class="input" data-jf="name" maxlength="12" value="' + esc(J.name || '') + '" placeholder="예: 은혜"></label>' +
+        '<div class="field"><span>글에 보일 이름 <b class="req">필수</b></span>' + jChips('show', ['닉네임', '실명']) + '<div class="small muted">기도 제목, 댓글, 모임방에 이 이름이 보여요. 말 못할 사연은 쓸 때마다 따로 별명을 정해요.</div></div>' +
         '<div class="field"><span>생년월일 <b class="req">필수</b></span>' + birthSelects() + '</div>' +
         '<div class="field"><span>성별 <b class="req">필수</b></span>' + jChips('gender', ['남성', '여성']) + '</div>' +
         '<div class="field"><span>사는 지역 <b class="opt">선택</b></span><div class="row" style="flex-wrap:nowrap"><select class="input" data-jf="sido" style="flex:0 0 110px"><option value="">시 · 도</option>' + SIDO.map(function (x) { return '<option' + (J.sido === x ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select><input class="input" style="flex:1;min-width:0" data-jf="sigungu" value="' + esc(J.sigungu || '') + '" placeholder="시 · 군 · 구 (예: 마포구)"></div><div class="small muted">자세한 주소는 받지 않아요. 가까운 모임방을 추천할 때만 써요.</div></div>' +
@@ -1337,7 +1343,7 @@ button.cal-row b { color: var(--accent); }
         '<div class="field"><span>이 앱을 어떻게 알게 됐나요? <b class="opt">선택</b></span>' + jChips('refer', REFERS) + '</div>';
     } else {
       var pf = S.me.profile;
-      h += '<div class="join-hero done"><span class="ok">' + CHECK + '</span><h1>환영해요, ' + esc(S.me.name) + '님</h1><p>이제 서로를 위해 함께 기도해요.</p></div>' +
+      h += '<div class="join-hero done"><span class="ok">' + CHECK + '</span><h1>환영해요, ' + esc(myName()) + '님</h1><p>이제 서로를 위해 함께 기도해요.</p></div>' +
         '<div class="card stack" style="gap:8px">' + profileRows(pf) + '</div>' +
         '<button class="btn block" data-act="j-finish">시작하기</button>';
     }
@@ -1346,7 +1352,7 @@ button.cal-row b { color: var(--accent); }
   }
   function verifyLabel(pf) { return pf.org ? (pf.proof ? '서류 확인 중' : '소속 확인됨') : ''; }
   function profileRows(pf) {
-    var rows = [['로그인', PROVIDERS[pf.provider] + ' 계정'], ['구분', jRole(pf) + (verifyLabel(pf) ? ' · ' + verifyLabel(pf) : '')], ['생년월일', pf.birth.replace(/-/g, '. ')], ['성별', pf.gender],
+    var rows = [['로그인', PROVIDERS[pf.provider] + ' 계정'], ['실명', pf.real], ['닉네임', S.me.name], ['글에 보일 이름', pf.show ? pf.show + '으로 보여요' : ''], ['구분', jRole(pf) + (verifyLabel(pf) ? ' · ' + verifyLabel(pf) : '')], ['생년월일', pf.birth.replace(/-/g, '. ')], ['성별', pf.gender],
       ['지역', [pf.sido, pf.sigungu].filter(Boolean).join(' ')], ['이메일', pf.email], ['신앙', pf.faith === '비신도' ? '아직 믿지 않아요' : pf.faith], ['직분', pf.faith === '성도' ? (pf.duty === '기타' ? pf.dutyEtc : pf.duty) : ''],
       ['출석 교회', pf.church ? pf.church[0] : ''], ['직업', pf.job === '기타' ? pf.jobEtc : pf.job], ['소속', pf.org ? pf.org[0] : ''], ['관심 기도', (pf.interests || []).join(', ')]];
     return rows.filter(function (r) { return r[1]; }).map(function (r) { return '<div class="prow"><span>' + r[0] + '</span><b>' + esc(r[1]) + '</b></div>'; }).join('');
@@ -1355,7 +1361,9 @@ button.cal-row b { color: var(--accent); }
     jSync(); var st = J.step;
     if (st === 1) { var miss = AGREES.filter(function (a) { return a[2] && !J['ag_' + a[0]]; }); if (miss.length) return toast('필수 항목에 동의해 주세요'); }
     if (st === 2) {
+      if (!J.real) return toast('실명을 적어 주세요');
       if (!J.name) return toast('닉네임을 적어 주세요');
+      if (!J.show) return toast('글에 보일 이름을 골라 주세요');
       if (!J.birth) return toast('생년월일을 골라 주세요');
       var b = J.birth.split('-'), n = new Date(), age = n.getFullYear() - b[0] - ((n.getMonth() + 1 < +b[1] || (n.getMonth() + 1 === +b[1] && n.getDate() < +b[2])) ? 1 : 0);
       if (age < 14) return toast('만 14세 미만은 보호자 동의가 필요해서 지금은 가입할 수 없어요');
@@ -1374,10 +1382,10 @@ button.cal-row b { color: var(--accent); }
       if (!needsOrg()) { J.org = null; J.proof = ''; }
     }
     if (st === 5) {
-      var pf = { provider: J.provider, birth: J.birth, gender: J.gender, sido: J.sido, sigungu: J.sigungu, email: J.email, faith: J.faith, duty: J.faith === '성도' ? J.duty : '', dutyEtc: J.dutyEtc || '',
+      var pf = { provider: J.provider, real: J.real, show: J.show, birth: J.birth, gender: J.gender, sido: J.sido, sigungu: J.sigungu, email: J.email, faith: J.faith, duty: J.faith === '성도' ? J.duty : '', dutyEtc: J.dutyEtc || '',
         church: J.faith === '성도' ? J.church || null : null, job: J.job, jobEtc: J.jobEtc || '', org: J.org || null, proof: J.proof || '', interests: J.interests || [], refer: J.refer || '',
         agree: AGREES.reduce(function (o, a) { o[a[0]] = !!J['ag_' + a[0]]; return o; }, {}), joined: S.me.profile ? S.me.profile.joined : Date.now() };
-      S.me.name = J.name; S.me.role = jRole(pf); S.me.profile = pf;
+      S.me.name = J.name; S.me.real = J.real; S.me.show = J.show === '실명' ? 'real' : 'nick'; S.me.role = jRole(pf); S.me.profile = pf;
       if (pf.agree.push && S.alarm && !S.alarm.on) S.alarm.on = true;
       save();
     }
@@ -1503,13 +1511,14 @@ button.cal-row b { color: var(--accent); }
       tips: ['기도 노하우 나누기', '나만의 기도 노하우', '어떻게 기도하시는지 나눠 주세요.', false] }[boardName];
     sheet(cfg[0],
       (preset && preset.roomId ? '<div class="note">"' + esc(roomById(preset.roomId).name) + '" 식구들만 볼 수 있어요.</div>' : boardName === 'pray' ? '<label class="field"><span>게시판</span><select class="input" id="wCat">' + POST_CATS.map(function (c) { return '<option' + ((preset && preset.cat) === c ? ' selected' : '') + '>' + c + '</option>'; }).join('') + '</select></label>' : '') +
+      (boardName === 'concern' ? '<label class="field"><span>이번 사연에 쓸 별명</span><div class="row" style="flex-wrap:nowrap"><input class="input" id="wAlias" maxlength="10" style="flex:1;min-width:0" value="' + esc(randAlias()) + '"><button class="btn line sm" type="button" data-act="alias-new">다른 별명</button></div><div class="small muted">평소 닉네임과 따로 쓰는 별명이에요. 사연마다 새로 정할 수 있어서 내 다른 글과 연결되지 않아요.</div></label>' : '') +
       '<label class="field"><span>제목</span><input class="input" id="wTitle" maxlength="60" value="' + esc(preset && preset.title) + '" placeholder="' + cfg[1] + '"></label>' +
       '<label class="field"><span>내용</span><textarea class="input" id="wBody" placeholder="' + cfg[2] + '">' + esc(preset && preset.body) + '</textarea></label>' +
       (boardName === 'concern' ? '<div class="field"><span>누가 답글을 달 수 있나요? (1개 이상)</span><label class="check"><input type="checkbox" id="scAll"> 전체</label>' +
         ROLES.slice().reverse().map(function (r, i) { return '<label class="check"><input type="checkbox" class="sc" value="' + r + '"' + (r !== '일반 성도' ? ' checked' : '') + '> ' + r + '</label>'; }).join('') + '</div>' : '') +
       (boardName === 'pray' || boardName === 'concern' ? '<div class="small muted guide-line">다른 사람의 실명이나 병명은 적지 말아 주세요. "어머니의 수술"처럼 써 주시면 충분해요.</div>' : '') +
       (boardName === 'concern' ? '<label class="field"><span>자동으로 숨기기</span><select class="input" id="wHide"><option value="">계속 보이기</option><option value="7">7일 뒤 숨기기</option><option value="30">30일 뒤 숨기기</option></select></label>' +
-        '<div class="note">사연은 내 닉네임 <b>' + esc(S.me.name || '성도') + '</b>(으)로 올라가요. 실명과 연락처는 상담사와 목회자에게도 보이지 않아요. 답글에는 전화번호, 카톡 아이디, 링크를 쓸 수 없어요.</div><input type="checkbox" id="wAnon" hidden>' :
+                '<div class="note">닉네임, 실명, 연락처는 상담사와 목회자에게도 보이지 않아요. 답글에는 전화번호, 카톡 아이디, 링크를 쓸 수 없어요.</div><input type="checkbox" id="wAnon" hidden>' :
       '<div class="checks"><label class="check"><input type="checkbox" id="wAnon"' + (cfg[3] ? ' checked' : '') + '> 익명으로 올리기</label>') +
       (boardName === 'pray' ? '<label class="check urgent"><input type="checkbox" id="wUrgent"' + (preset && preset.urgent ? ' checked' : '') + '> 긴급기도 요청</label>' : '') + (boardName === 'concern' ? '' : '</div>') +
       '<button class="btn block" data-submit="' + boardName + '"' + (preset && preset.itemId ? ' data-item="' + preset.itemId + '"' : '') + (preset && preset.roomId ? ' data-room-id="' + preset.roomId + '"' : '') + '>올리기</button>');
@@ -1672,7 +1681,7 @@ button.cal-row b { color: var(--accent); }
       var rg = el('relayGrid'), rr = S.relays.find(function (x) { return x.id === rg.dataset.rid; });
       var mp = rr.slots[rDay] = rr.slots[rDay] || {}, sk = +d.slot;
       if (mp[sk] && mp[sk].me) { delete mp[sk]; toast('예약을 취소했어요'); }
-      else if (!mp[sk]) { mp[sk] = { n: S.me.name || '성도', me: true }; toast((rDay === today() ? '오늘' : md(rDay)) + ' ' + slotRange(sk) + ' 기도 시간을 예약했어요'); }
+      else if (!mp[sk]) { mp[sk] = { n: myName(), me: true }; toast((rDay === today() ? '오늘' : md(rDay)) + ' ' + slotRange(sk) + ' 기도 시간을 예약했어요'); }
       save(); openRelay(rr.id); render(); return;
     }
     if (d.guide) return openGuide(d.guide);
@@ -1688,7 +1697,7 @@ button.cal-row b { color: var(--accent); }
       var t = val('cText'); if (!t) return toast('내용을 적어 주세요');
       var p2 = postById(d.comment);
       if (p2.board === 'concern' && hasContact(t)) return toast('사연 답글에는 전화번호, 카톡 아이디, 링크를 쓸 수 없어요');
-      p2.comments.push({ author: S.me.name || '성도', role: S.me.role, text: t, created: Date.now() }); save(); openPost(p2.id); render(); return;
+      p2.comments.push({ author: myName(), role: S.me.role, text: t, created: Date.now() }); save(); openPost(p2.id); render(); return;
     }
     if (d.cald) { calSel = d.cald; return calendarSheet(); }
     if (d.calm) { var cy = +calM.slice(0, 4), cmo = +calM.slice(5, 7) - 1 + (+d.calm), cdt = new Date(cy, cmo, 1); calM = cdt.getFullYear() + '-' + pad(cdt.getMonth() + 1); calSel = calM === today().slice(0, 7) ? today() : calM + '-01'; return calendarSheet(); }
@@ -1728,7 +1737,12 @@ button.cal-row b { color: var(--accent); }
       if (!title || !body) return toast('제목과 내용을 모두 적어 주세요');
       if (d.submit === 'concern') { document.querySelectorAll('.sc:checked').forEach(function (c) { scope.push(c.value); }); if (!scope.length) return toast('답글을 달 수 있는 분을 1개 이상 골라 주세요'); }
       if (d.submit === 'concern' && hasContact(title + ' ' + body)) return toast('전화번호, 카톡 아이디, 링크는 쓸 수 없어요');
-      var np = { id: uid(), board: d.submit, cat: d.submit === 'pray' ? val('wCat') : '', scope: scope, mine: true, urgent: !!(el('wUrgent') && el('wUrgent').checked), title: title, body: body, author: d.submit === 'concern' ? (S.me.name || '성도') : el('wAnon').checked ? '익명의 성도' : (S.me.name || '성도'), created: Date.now(), prayers: 0, prayed: false, comments: [] };
+      var alias = val('wAlias');
+      if (d.submit === 'concern') {
+        if (!alias) return toast('이번 사연에 쓸 별명을 적어 주세요');
+        if (alias === S.me.name || alias === S.me.real) return toast('평소 닉네임이나 실명과 다른 별명을 써 주세요');
+      }
+      var np = { id: uid(), board: d.submit, cat: d.submit === 'pray' ? val('wCat') : '', scope: scope, mine: true, urgent: !!(el('wUrgent') && el('wUrgent').checked), title: title, body: body, author: d.submit === 'concern' ? alias : el('wAnon').checked ? '익명의 성도' : myName(), created: Date.now(), prayers: 0, prayed: false, comments: [] };
       if (d.submit === 'concern' && val('wHide')) np.hideAfter = +val('wHide');
       var job = { np: np, room: d.roomId, item: d.item };
       if (isCrisis(title + ' ' + body)) { pendingPost = job; return crisisSheet(); }
@@ -1801,7 +1815,7 @@ button.cal-row b { color: var(--accent); }
       case 'room-create':
         var rnm = val('rName'); if (!rnm) return toast('모임방 이름을 적어 주세요');
         var code = ''; for (var ci = 0; ci < 6; ci++) code += 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'.charAt(Math.floor(Math.random() * 32));
-        var nr = { id: uid(), mine: true, name: rnm, intro: val('rIntro'), leader: S.me.name || '나', code: code, notice: '', members: [] };
+        var nr = { id: uid(), mine: true, name: rnm, intro: val('rIntro'), leader: myName(), code: code, notice: '', members: [] };
         S.rooms.unshift(nr); save(); roomId = nr.id; go('room'); toast('모임방을 만들었어요. 식구들을 초대해 보세요'); return;
       case 'room-join-go':
         var cd = val('rCode').toUpperCase(); if (!cd) return toast('초대 코드를 넣어 주세요');
@@ -1887,6 +1901,7 @@ button.cal-row b { color: var(--accent); }
         S.items = S.items.filter(function (x) { return !x.example; });
         S.letters = S.letters.filter(function (x) { return !x.example; });
         S.times = {}; S.example = false; save(); render(); toast('예시 기록을 지웠어요'); return;
+      case 'alias-new': el('wAlias').value = randAlias(); return;
       case 'save-me':
         S.me.name = val('meName') || '성도'; S.me.role = el('meRole').value; save(); render(); toast('저장했어요'); return;
       case 'reset':
