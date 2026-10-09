@@ -519,6 +519,12 @@ button.cal-row b { color: var(--gold); }
   .fb-item{width:100%;font:inherit;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);display:flex;flex-direction:column;gap:6px;text-align:left;cursor:default}button.fb-item{cursor:pointer}
   .fb-body{margin:0;font-size:13.5px;line-height:1.6;color:var(--ink-2);white-space:pre-wrap}.fb-item.done{opacity:.7}
   .fb-ans{font-size:13px;line-height:1.55;color:var(--ink-2);background:var(--bg);border-radius:8px;padding:8px 10px}.fb-ans b{display:block;font-size:11.5px;color:var(--gold);margin-bottom:2px}
+  .pic-row{display:flex;gap:8px;flex-wrap:wrap}
+  .pic-th{position:relative;width:84px;height:84px;border-radius:10px;overflow:hidden;background:var(--bg)}.pic-th img{width:100%;height:100%;object-fit:cover;display:block}
+  .pic-x{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;border:0;background:rgba(18,25,51,.72);color:#fff;font-size:16px;line-height:1;cursor:pointer}
+  .pic-add{width:84px;height:84px;border-radius:10px;border:1px dashed var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:var(--muted);cursor:pointer}.pic-add span{font-size:22px;line-height:1}.pic-add small{font-size:11px}
+  .pics{display:grid;gap:6px;margin:4px 0 14px}.pics.n2,.pics.n3{grid-template-columns:1fr 1fr}.pics.n3 a:first-child{grid-column:1 / -1}
+  .pics a{display:block;border-radius:10px;overflow:hidden;background:var(--bg)}.pics img{width:100%;display:block;max-height:420px;object-fit:cover}.pics.n2 img,.pics.n3 a+a img{aspect-ratio:1;height:auto}
 </style>
 
 <div class="app">
@@ -786,7 +792,7 @@ button.cal-row b { color: var(--gold); }
   function countSpan(p) { return '<span class="cnt">' + CANDLE + (p.board === 'story' ? '아멘 ' : p.board === 'tips' ? '공감 ' : '함께 기도 ') + p.prayers + '</span>'; }
   function item(p, mode) {
     var meta = '<div class="meta"><span>' + esc(p.author) + '</span><span>' + ago(p.created) + '</span>' +
-      (mode === 'concern' ? concernStatus(p) : countSpan(p) + '<span>댓글 ' + p.comments.length + '</span>') + '</div>';
+      (mode === 'concern' ? concernStatus(p) : countSpan(p) + '<span>댓글 ' + p.comments.length + '</span>') + (p.images && p.images.length ? '<span>사진 ' + p.images.length + '</span>' : '') + '</div>';
     return '<button class="row-item" data-open="' + p.id + '"><h3>' + flags(p) + esc(p.title) + '</h3>' +
       (mode === 'full' ? '<p>' + esc(firstLine(p.body)) + '</p>' : '') + meta + '</button>';
   }
@@ -1615,11 +1621,12 @@ button.cal-row b { color: var(--gold); }
       '<button class="btn block" data-adm="verse-save" data-day="' + d + '">저장</button>' + (S.admin.verses[d] ? '<button class="btn block line" data-adm="verse-clear" data-day="' + d + '">기본 말씀으로 되돌리기</button>' : ''));
   }
   function guideForm(g) {
-    g = g || { kind: GUIDE_KINDS[0], title: '', body: '' };
+    g = g || { kind: GUIDE_KINDS[0], title: '', body: '' }; PICS = (g.images || []).map(function (u) { return { url: u }; });
     sheet(g.id ? '기도의 모든 것 고치기' : '기도의 모든 것 올리기',
       '<div class="field"><span>종류</span><div class="chips wrap" id="agKind">' + GUIDE_KINDS.map(function (k) { return '<button class="chip" type="button" data-agk="' + k + '" aria-pressed="' + (g.kind === k) + '">' + k + '</button>'; }).join('') + '</div></div>' +
       '<label class="field"><span>제목</span><input class="input" id="agT" maxlength="60" value="' + esc(g.title) + '" placeholder="예: 시편 23편으로 기도하기"></label>' +
       '<label class="field"><span>내용</span><textarea class="input" id="agB" style="min-height:180px" placeholder="기도문, 기도 방법, 책 소개, 영상 링크와 설명 등을 적어 주세요">' + esc(g.body) + '</textarea></label>' +
+      picPicker('책 표지, 기도문 카드, 현장 사진 등을 붙일 수 있어요. 저작권이 있는 그림은 출처를 밝혀 주세요.', true) +
       '<div class="small muted">올리면 바로 기도란 &gt; 기도의 모든 것과 홈에 보여요.</div>' +
       '<button class="btn block" data-adm="g-save"' + (g.id ? ' data-id="' + g.id + '"' : '') + '>' + (g.id ? '저장' : '올리기') + '</button>' + (g.id ? '<button class="btn block line danger" data-adm="g-del" data-id="' + g.id + '">삭제</button>' : ''));
   }
@@ -1693,7 +1700,8 @@ button.cal-row b { color: var(--gold); }
         var og = id && S.guides.find(function (x) { return x.id === id; });
         var gid = og ? og.id : uid();
         if (og) { og.kind = gk; og.title = gt; og.body = gb; } else S.guides.unshift({ id: gid, kind: gk, title: gt, body: gb, mine: true, at: Date.now() });
-        cloud('adm_guide', { p_id: gid, p_kind: gk, p_title: gt, p_body: gb, p_delete: false });
+        var gp = cloud('adm_guide', { p_id: gid, p_kind: gk, p_title: gt, p_body: gb, p_delete: false }), gobj = og || S.guides[0];
+        if (PICS.length || (og && og.images && og.images.length)) attachPics('guide', gobj, PICS.slice(), gp);
         closeSheet(); toast(og ? '고쳤어요' : '올렸어요. 기도란에서 바로 보여요'); break;
       case 'g-del': if (!arm(b, '한 번 더 누르면 삭제돼요')) return; cloud('adm_guide', { p_id: id, p_kind: '', p_title: '', p_body: '', p_delete: true }); S.guides = S.guides.filter(function (x) { return x.id !== id; }); closeSheet(); toast('삭제했어요'); break;
       case 'r-new': return relayForm();
@@ -1783,7 +1791,7 @@ button.cal-row b { color: var(--gold); }
     var c = canComment(p), scrapped = (S.scraps || []).indexOf(p.id) >= 0, rm = p.roomId && roomById(p.roomId);
     sheet(rm ? rm.name : B[0],
       '<div><div class="row" style="gap:6px">' + flags(p) + (p.cat ? '<span class="tag">' + esc(p.cat) + '</span>' : '') + (p.board === 'concern' ? p.scope.map(function (r) { return '<span class="tag">' + esc(r) + '</span>'; }).join('') : '') + exampleTag(p) + '</div><h2 style="font-size:20px;margin-top:8px">' + esc(p.title) + '</h2><div class="meta" style="margin-top:4px"><span>' + esc(p.author) + '</span><span>' + ago(p.created) + '</span></div></div>' +
-      '<p class="body-text">' + esc(p.body) + '</p>' +
+      '<p class="body-text">' + esc(p.body) + '</p>' + picsHtml(p.images) +
       '<div class="row" style="flex-wrap:nowrap;align-items:stretch"><button class="btn ' + (p.prayed ? 'done' : 'gold') + '" style="flex:1;padding:13px" data-pray="' + p.id + '">' + (p.prayed ? B[2] : B[1]) + ' · ' + p.prayers + '명</button>' +
       '<button class="scrap" data-scrap="' + p.id + '" aria-pressed="' + scrapped + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6 3.5h12v17l-6-4-6 4z"/></svg>' + (scrapped ? '스크랩됨' : '스크랩') + '</button></div>' +
       (p.board === 'concern' ? concernChats(p, c) : '<div class="label">댓글 ' + p.comments.length + '</div>' +
@@ -1798,7 +1806,7 @@ button.cal-row b { color: var(--gold); }
 
   function openGuide(id) {
     var g = allGuides().find(function (x) { return x.id === id; });
-    sheet(g.kind, '<div class="row" style="gap:6px"><span class="tag">' + esc(g.kind) + '</span>' + (g.mine ? '' : '<span class="tag example">예시</span>') + '</div><h2 style="font-size:20px">' + esc(g.title) + '</h2><p class="body-text">' + esc(g.body) + '</p>');
+    sheet(g.kind, '<div class="row" style="gap:6px"><span class="tag">' + esc(g.kind) + '</span>' + (g.mine ? '' : '<span class="tag example">예시</span>') + '</div><h2 style="font-size:20px">' + esc(g.title) + '</h2><p class="body-text">' + esc(g.body) + '</p>' + picsHtml(g.images));
   }
 
   // ---------- 안전 장치 ----------
@@ -1816,7 +1824,8 @@ button.cal-row b { color: var(--gold); }
   }
   function publishPost(job) {
     var np = job.np;
-    cloud('create_post', { p_id: np.id, p_board: np.board, p_cat: np.cat || '', p_room: job.room || null, p_title: np.title, p_body: np.body, p_urgent: !!np.urgent, p_scope: np.scope || [], p_hide_after: np.hideAfter || null, p_author: np.author });
+    var cp = cloud('create_post', { p_id: np.id, p_board: np.board, p_cat: np.cat || '', p_room: job.room || null, p_title: np.title, p_body: np.body, p_urgent: !!np.urgent, p_scope: np.scope || [], p_hide_after: np.hideAfter || null, p_author: np.author });
+    if (job.pics && job.pics.length && np.board === 'pray' && np.cat === '선교지 편지' && !job.room) attachPics('post', np, job.pics, cp);
     if (job.room) { np.roomId = job.room; np.cat = ''; S.posts.push(np); save(); closeSheet(); render(); toast('모임방에 올렸어요'); return; }
     S.posts.push(np);
     if (job.item) { var li = S.items.find(function (x) { return x.id === job.item; }); if (li) li.postId = np.id; }
@@ -1830,7 +1839,59 @@ button.cal-row b { color: var(--gold); }
     return p.hideAfter && Date.now() - p.created > p.hideAfter * 86400000;
   }
 
+  // ---------- 사진 첨부 (선교지 편지, 기도의 모든 것) ----------
+  var PICS = [], PIC_MAX = 3;
+  function picsHtml(list) {
+    if (!list || !list.length) return '';
+    return '<div class="pics n' + list.length + '">' + list.map(function (u) { return '<a href="' + esc(u) + '" target="_blank" rel="noopener"><img src="' + esc(u) + '" alt="첨부한 사진" loading="lazy"></a>'; }).join('') + '</div>';
+  }
+  function picPicker(note, show) {
+    return '<div class="field" id="picWrap"' + (show ? '' : ' hidden') + '><span>사진 <b class="opt">선택 · 최대 ' + PIC_MAX + '장</b></span><div class="pic-row" id="picRow">' + picRowHtml() + '</div><div class="small muted">' + note + '</div></div>';
+  }
+  function picRowHtml() {
+    return PICS.map(function (p, i) { return '<div class="pic-th"><img src="' + esc(p.url) + '" alt=""><button type="button" class="pic-x" data-pic-del="' + i + '" aria-label="사진 빼기">×</button></div>'; }).join('') +
+      (PICS.length < PIC_MAX ? '<label class="pic-add"><input type="file" accept="image/*" multiple hidden data-act="pic-add"><span>＋</span><small>사진 추가</small></label>' : '');
+  }
+  function refreshPics() { var r = el('picRow'); if (r) r.innerHTML = picRowHtml(); }
+  // 휴대폰 사진(3~5MB)을 긴 변 1280px, 약 200KB 로 줄여요
+  function shrinkPic(file) {
+    return new Promise(function (ok, no) {
+      var img = new Image(), u = URL.createObjectURL(file);
+      img.onload = function () {
+        var w = img.naturalWidth, h = img.naturalHeight, k = Math.min(1, 1280 / Math.max(w, h)), c = document.createElement('canvas');
+        c.width = Math.round(w * k); c.height = Math.round(h * k);
+        var x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height); x.drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(u);
+        c.toBlob(function (b) { if (b && b.size > 450000) c.toBlob(function (b2) { ok(b2 || b); }, 'image/jpeg', 0.6); else if (b) ok(b); else no(new Error('사진')); }, 'image/jpeg', 0.8);
+      };
+      img.onerror = function () { URL.revokeObjectURL(u); no(new Error('사진')); };
+      img.src = u;
+    });
+  }
+  function addPics(files) {
+    var list = Array.prototype.slice.call(files || [], 0, PIC_MAX - PICS.length);
+    if ((files || []).length > list.length) toast('사진은 ' + PIC_MAX + '장까지 붙일 수 있어요');
+    list.reduce(function (pr, f) { return pr.then(function () { return shrinkPic(f).then(function (b) { PICS.push({ blob: b, url: URL.createObjectURL(b) }); refreshPics(); }); }); }, Promise.resolve())
+      .catch(function () { toast('이 사진은 열 수 없어요. 다른 사진을 골라 주세요'); refreshPics(); });
+  }
+  function blobUrl(b) { return new Promise(function (ok) { var r = new FileReader(); r.onload = function () { ok(r.result); }; r.readAsDataURL(b); }); }
+  // 사진을 올리고 글에 연결해요. after: 글 저장이 끝나면 풀리는 약속
+  function attachPics(kind, obj, pics, after) {
+    if (!SB) {
+      return Promise.all(pics.map(function (p) { return p.blob ? blobUrl(p.blob) : p.url; })).then(function (urls) { obj.images = urls; save(); render(); });
+    }
+    obj.images = pics.map(function (p) { return p.url; }); C.pendPics = C.pendPics || {}; C.pendPics[obj.id] = obj.images;
+    if (pics.some(function (p) { return p.blob; })) toast('사진을 올리고 있어요…');
+    return Promise.all(pics.map(function (p, i) {
+      if (!p.blob) return p.url;
+      var path = C.user.id + '/' + obj.id + '-' + Date.now().toString(36) + i + '.jpg';
+      return SB.storage.from('pics').upload(path, p.blob, { contentType: 'image/jpeg' }).then(function (r) { if (r.error) throw r.error; return SB.storage.from('pics').getPublicUrl(path).data.publicUrl; });
+    })).then(function (urls) {
+      return Promise.resolve(after).then(function () { return cloud(kind === 'post' ? 'set_post_images' : 'adm_guide_images', { p_id: obj.id, p_images: urls }); });
+    }).then(function () { delete C.pendPics[obj.id]; }, function (e) { delete C.pendPics[obj.id]; obj.images = []; render(); toast('사진을 올리지 못했어요. 글은 올라갔어요'); });
+  }
+
   function writePost(boardName, preset) {
+    PICS = [];
     var cfg = { pray: ['기도 제목 올리기', '어떤 기도가 필요하신가요?', '상황과 구체적인 기도 제목을 적어 주세요. 얼굴을 모르는 성도들이 함께 기도합니다.', true],
       story: ['간증 나누기', '어떤 은혜를 받으셨나요?', '기도 응답, 삶 속의 은혜를 자유롭게 나눠 주세요.', false],
       concern: ['사연 올리기', '사연의 제목', '가까운 사람에게 말하기 어려운 이야기를 편하게 적어 주세요.', true],
@@ -1840,6 +1901,7 @@ button.cal-row b { color: var(--gold); }
       (boardName === 'concern' ? '<label class="field"><span>이번 사연에 쓸 별명</span><div class="row" style="flex-wrap:nowrap"><input class="input" id="wAlias" maxlength="10" style="flex:1;min-width:0" value="' + esc(randAlias()) + '"><button class="btn line sm" type="button" data-act="alias-new">다른 별명</button></div><div class="small muted">평소 닉네임과 따로 쓰는 별명이에요. 사연마다 새로 정할 수 있어서 내 다른 글과 연결되지 않아요.</div></label>' : '') +
       '<label class="field"><span>제목</span><input class="input" id="wTitle" maxlength="60" value="' + esc(preset && preset.title) + '" placeholder="' + cfg[1] + '"></label>' +
       '<label class="field"><span>내용</span><textarea class="input" id="wBody" placeholder="' + cfg[2] + '">' + esc(preset && preset.body) + '</textarea></label>' +
+      (boardName === 'pray' && !(preset && preset.roomId) ? picPicker('선교지 편지에는 현지 사진을 붙일 수 있어요. 사람 얼굴이 크게 나온 사진은 피해 주세요.', (preset && preset.cat) === '선교지 편지') : '') +
       (boardName === 'concern' ? '<div class="field"><span>누가 답글을 달 수 있나요? (1개 이상)</span><label class="check"><input type="checkbox" id="scAll"> 전체</label>' +
         ROLES.slice().reverse().map(function (r, i) { return '<label class="check"><input type="checkbox" class="sc" value="' + r + '"' + (r !== '일반 성도' ? ' checked' : '') + '> ' + r + '</label>'; }).join('') + '</div>' : '') +
       (boardName === 'pray' || boardName === 'concern' ? '<div class="small muted guide-line">다른 사람의 실명이나 병명은 적지 말아 주세요. "어머니의 수술"처럼 써 주시면 충분해요.</div>' : '') +
@@ -2148,7 +2210,7 @@ button.cal-row b { color: var(--gold); }
       }
       var np = { id: uid(), board: d.submit, cat: d.submit === 'pray' ? val('wCat') : '', scope: scope, mine: true, urgent: !!(el('wUrgent') && el('wUrgent').checked), title: title, body: body, author: d.submit === 'concern' ? alias : el('wAnon').checked ? '익명의 성도' : myName(), created: Date.now(), prayers: 0, prayed: false, comments: [] };
       if (d.submit === 'concern' && val('wHide')) np.hideAfter = +val('wHide');
-      var job = { np: np, room: d.roomId, item: d.item };
+      var job = { np: np, room: d.roomId, item: d.item, pics: PICS.slice() };
       if (isCrisis(title + ' ' + body)) { pendingPost = job; return crisisSheet(); }
       return publishPost(job);
     }
@@ -2176,6 +2238,7 @@ button.cal-row b { color: var(--gold); }
     if (d.share) { var it4 = S.items.find(function (x) { return x.id === d.share; }); writePost('pray', { cat: '개인 중보', title: it4.title, body: it4.body || '', itemId: it4.id }); return; }
     if (d.delItem) { if (!arm(b, '한 번 더 누르면 삭제')) return; S.items = S.items.filter(function (x) { return x.id !== d.delItem; }); save(); closeSheet(); render(); toast('기도 제목을 지웠어요'); return; }
     if (d.delLetter) { if (!arm(b, '한 번 더 누르면 삭제')) return; S.letters = S.letters.filter(function (x) { return x.id !== d.delLetter; }); save(); closeSheet(); render(); return; }
+    if (d.picDel != null) { PICS.splice(+d.picDel, 1); refreshPics(); return; }
     if (d.fbk) { fbKind = d.fbk; el('fbKinds').querySelectorAll('.chip').forEach(function (c) { c.setAttribute('aria-pressed', c.dataset.fbk === fbKind); }); return; }
     if (d.copy) {
       var txt = d.copy === 'url' ? APP_URL : INVITE;
@@ -2331,6 +2394,8 @@ button.cal-row b { color: var(--gold); }
 
   document.addEventListener('change', function (e) {
     if (e.target.dataset && e.target.dataset.act === 'j-agall') { jSync(); var on = e.target.checked; AGREES.forEach(function (x) { J['ag_' + x[0]] = on; }); render(); return; }
+    if (e.target.dataset && e.target.dataset.act === 'pic-add') { addPics(e.target.files); e.target.value = ''; return; }
+    if (e.target.id === 'wCat') { var pw = el('picWrap'); if (pw) pw.hidden = e.target.value !== '선교지 편지'; return; }
     if (e.target.dataset && e.target.dataset.act === 'j-proof') { jSync(); J.proof = e.target.files[0] ? e.target.files[0].name : ''; render(); return; }
     if (e.target.dataset && e.target.dataset.jf && e.target.dataset.jf.indexOf('ag_') === 0) { jSync(); render(); return; }
     if (false) { jSync(); J.proof = e.target.files[0] ? e.target.files[0].name : ''; render(); return; }
@@ -2369,7 +2434,7 @@ button.cal-row b { color: var(--gold); }
   function pull() {
     if (!SB || !C.user) return Promise.resolve();
     return Promise.all([qv('v_me'), qv('v_posts', function (b) { return b.order('created_at', { ascending: false }).limit(400); }), qv('v_chats'), qv('v_rooms'), qv('v_relays'), qv('v_verses'),
-      qv('v_guides', function (b) { return b.order('created_at', { ascending: false }); }), qv('v_my_state').catch(function () { return null; })])
+      qv('v_guides', function (b) { return b.order('created_at', { ascending: false }); }), qv('v_my_state').catch(function () { return null; }), qv('v_post_pics').catch(function () { return []; })])
       .then(function (r) { applyPull(r); if (C.joined && r[7]) pApply(r[7][0] ? r[7][0].data : null); C.ready = true; return C.staff ? pullAdmin() : null; })
       .then(function () {
         save();
@@ -2449,17 +2514,18 @@ button.cal-row b { color: var(--gold); }
       (o.chats[c.with_name] = o.chats[c.with_name] || []).push({ from: c.from_author ? 'a' : 'r', text: c.text, at: Date.parse(c.created_at) });
       if (c.with_role) o.roles[c.with_name] = c.with_role;
     });
+    var pics = {}; (r[8] || []).forEach(function (x) { pics[x.id] = x.images || []; });
     S.posts = r[1].map(function (p) {
       var ch = chats[p.id] || { chats: {}, roles: {} };
       return { id: p.id, board: p.board, cat: p.cat, roomId: p.room_id || undefined, title: p.title, body: p.body, urgent: p.urgent, scope: p.scope || [], hideAfter: p.hide_after || undefined,
         answered: p.answered, author: p.author_name, created: Date.parse(p.created_at), mine: p.mine, prayers: p.prayers, prayed: p.prayed, reported: p.reported, reports: p.reports,
-        reviewed: p.reviewed, crisisSeen: p.crisis_seen, chats: ch.chats, chatRoles: ch.roles,
+        reviewed: p.reviewed, crisisSeen: p.crisis_seen, chats: ch.chats, chatRoles: ch.roles, images: pics[p.id] || (C.pendPics && C.pendPics[p.id]) || [],
         comments: (p.comments || []).map(function (c) { return { author: c.author, role: c.role, text: c.text, created: Date.parse(c.created) }; }) };
     });
     S.rooms = r[3].map(function (x) { return { id: x.id, name: x.name, intro: x.intro, code: x.code, notice: x.notice, leader: x.leader, mine: x.mine, members: x.members || [] }; });
     S.relays = r[4].map(function (x) { return { id: x.id, roomId: x.room_id || undefined, by: x.by_name, title: x.title, desc: x.descr, start: x.start_day, days: x.days, slots: x.slots || {} }; });
     S.cloudVerses = {}; r[5].forEach(function (v) { S.cloudVerses[v.day] = { t: v.text, ref: v.ref }; });
-    S.guides = r[6].map(function (g) { return { id: g.id, kind: g.kind, title: g.title, body: g.body, mine: true, at: Date.parse(g.created_at) }; });
+    S.guides = r[6].map(function (g) { return { id: g.id, kind: g.kind, title: g.title, body: g.body, images: (g.images && g.images.length ? g.images : C.pendPics && C.pendPics[g.id]) || [], mine: true, at: Date.parse(g.created_at) }; });
   }
   function staffCan(area) { return !SB || (ADM_ROLES[C.staff] || []).indexOf(area) >= 0; }
   function pullAdmin() {
