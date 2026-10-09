@@ -1090,7 +1090,7 @@ button.cal-row b { color: var(--gold); }
 
   function vConcern() {
     var list = board('concern');
-    return pageHead('사연 · 고민 상담', 'write-concern', '사연 쓰기') + '<div class="note">가까운 사람에게 말하기 어려운 사연을 털어놓으세요. 사연은 그때그때 정한 별명으로만 보이고, 공개 범위로 고른 분들만 답글을 달 수 있어요. 지금 나의 구분은 <b>' + esc(S.me.role) + '</b>이에요.</div><div class="crisis-bar">마음이 많이 힘들 땐 <a href="tel:109">109</a> (자살예방 상담전화, 24시간)</div>' +
+    return pageHead('사연 · 고민 상담', 'write-concern', '사연 쓰기') + '<div class="note">가까운 사람에게 말하기 어려운 사연을 털어놓으세요. 사연은 그때그때 정한 별명으로만 보이고, 공개 범위로 고른 분들만 답글을 달 수 있어요. 지금 나의 구분은 <b>' + esc(myRole()) + (myRole() !== S.me.role ? ' (' + esc(S.me.role) + ' 확인 기다리는 중)' : '') + '</b>이에요.</div><div class="crisis-bar">마음이 많이 힘들 땐 <a href="tel:109">109</a> (자살예방 상담전화, 24시간)</div>' +
       (list.length ? list.map(postCard).join('') : '<div class="empty">아직 올라온 사연이 없어요.</div>');
   }
 
@@ -1303,7 +1303,8 @@ button.cal-row b { color: var(--gold); }
     sheet('위젯 설정',
       '<div class="small muted">버튼을 눌러 보세요. 한 번 누를 때마다 오늘 기도 시간이 5분씩 더해져요.</div>' + widgetPreview() +
       '<div class="small muted">중간 위젯에는 내가 가장 최근에 추가한 기도 제목이 자동으로 보여요.</div>' +
-      '<div class="note">휴대폰 바탕화면에 실제로 놓는 위젯은 앱스토어와 플레이스토어용 앱으로 출시할 때 제공돼요. 지금은 미리보기예요.</div>');
+      '<div class="note"><b>지금은 미리보기예요.</b> 휴대폰 바탕화면에 놓는 진짜 위젯은 웹 앱으로는 만들 수 없어서, 앱스토어·플레이스토어용 앱을 낼 때 함께 넣을게요.</div>' +
+      '<div class="note"><b>대신 바로가기를 쓸 수 있어요 (안드로이드)</b><br>홈 화면의 <b>기도의 촛불</b> 아이콘을 꾹 누르면 <b>기도 시간 +10분 · 오늘 출석 체크 · 기도 요청 올리기</b>가 바로 나와요. 아이폰은 아직 이 기능을 지원하지 않아요.</div>');
   }
   function bigToggle() {
     return '<div class="card big-toggle"><div><b>큰 글씨로 보기</b><small>' + (BIG ? '켜짐 · 글씨를 크게, 꼭 필요한 메뉴만 보여요' : '글씨를 크게, 꼭 필요한 메뉴만 보여요') + '</small></div>' +
@@ -1345,8 +1346,9 @@ button.cal-row b { color: var(--gold); }
   function needsOrg() { return J.job === '목회자' || J.job === '심리상담사' || ['전도사', '목사', '선교사'].indexOf(J.duty) >= 0; }
   function orgType() { return J.job === '심리상담사' ? 'center' : 'church'; }
   function jRole(pf) {
-    if (!pf.org) return '일반 성도';
-    return pf.job === '심리상담사' ? '상담사' : '목회자·선교사';
+    if (pf.job === '심리상담사') return '상담사';
+    if (pf.job === '목회자' || ['전도사', '목사', '선교사'].indexOf(pf.duty) >= 0) return '목회자·선교사';
+    return '일반 성도';
   }
   function jSync() {
     document.querySelectorAll('[data-jf]').forEach(function (e) { J[e.dataset.jf] = e.type === 'checkbox' ? e.checked : e.value.trim(); });
@@ -1427,8 +1429,9 @@ button.cal-row b { color: var(--gold); }
       h += '<div class="field"><span>직업 <b class="req">필수</b></span>' + jChips('job', JOBS) + (J.job === '기타' ? '<input class="input" data-jf="jobEtc" value="' + esc(J.jobEtc || '') + '" placeholder="직업을 적어 주세요">' : '') + '</div>';
       if (needsOrg()) {
         if (!J.org && orgType() === 'church' && J.church) J.org = J.church;
-        h += '<div class="card stack verify"><b class="vt">' + (orgType() === 'center' ? '상담사' : '목회자 · 선교사') + ' 확인</b><div class="small">' + (orgType() === 'center' ? '사연·고민 게시판에서 상담사로 답글을 달 수 있어요.' : '사연·고민 게시판에서 목회자로 답글을 달 수 있어요.') + ' 소속이 실제로 있는 곳인지 확인해요.</div>' +
-          jPlace('org', orgType(), orgType() === 'center' ? '일하는 상담센터 <b class="req">필수</b>' : '섬기는 교회 · 선교 단체 <b class="req">필수</b>') +
+        h += '<div class="card stack verify"><b class="vt">' + (orgType() === 'center' ? '상담사' : '목회자 · 선교사') + ' 확인</b><div class="small">' + (orgType() === 'center' ? '사연·고민 게시판에서 상담사로 답할 수 있어요.' : '사연·고민 게시판에서 목회자로 답할 수 있어요.') + ' 먼저 가입하시면 운영자가 확인한 뒤 답할 수 있게 열어 드려요. 그전에는 일반 성도로 함께해요.</div>' +
+          jPlace('org', orgType(), orgType() === 'center' ? '일하는 상담센터 <b class="opt">선택</b>' : '섬기는 교회 · 선교 단체 <b class="opt">선택</b>') +
+          (J.org ? '' : '<label class="field"><span>목록에 없으면 직접 적기</span><input class="input" data-jf="orgManual" maxlength="60" value="' + esc(J.orgManual || '') + '" placeholder="' + (orgType() === 'center' ? '예: 마음쉼 상담센터, 서울 마포구' : '예: 새생명교회, 경기 수원시 / OO선교회') + '"></label>') +
           '<label class="field"><span>' + (orgType() === 'center' ? '상담 자격증' : '안수증 · 재직 증명') + ' <b class="opt">선택</b></span><input class="input" type="file" accept="image/*,.pdf" data-act="j-proof"><div class="small muted">' + (J.proof ? '올린 파일: ' + esc(J.proof) + ' · ' : '') + '운영자가 확인하면 "인증됨" 배지가 붙어요. 나중에 내 정보에서 올려도 돼요.</div></label></div>';
       }
     } else if (st === 5) {
@@ -1443,7 +1446,10 @@ button.cal-row b { color: var(--gold); }
     if (st > 0 && st < 6) h += '<button class="btn block" data-act="j-next">' + (st === 5 ? '가입 완료' : '다음') + '</button>';
     return h;
   }
-  function verifyLabel(pf) { return pf.org ? (pf.proof ? '서류 확인 중' : '소속 확인됨') : ''; }
+  function verifyLabel(pf) {
+    if (SB) return S.me.role === '일반 성도' ? '' : C.verified ? '운영자 확인 완료' : '운영자 확인 기다리는 중';
+    return pf.org ? (pf.proof ? '서류 확인 중' : '소속 확인됨') : '';
+  }
   function profileRows(pf) {
     var rows = [['로그인', PROVIDERS[pf.provider] + ' 계정'], ['실명', pf.real], ['닉네임', S.me.name], ['글에 보일 이름', pf.show ? pf.show + '으로 보여요' : ''], ['구분', jRole(pf) + (verifyLabel(pf) ? ' · ' + verifyLabel(pf) : '')], ['생년월일', pf.birth.replace(/-/g, '. ')], ['성별', pf.gender],
       ['지역', [pf.sido, pf.sigungu].filter(Boolean).join(' ')], ['이메일', pf.email], ['신앙', pf.faith === '비신도' ? '아직 믿지 않아요' : pf.faith], ['직분', pf.faith === '성도' ? (pf.duty === '기타' ? pf.dutyEtc : pf.duty) : ''],
@@ -1471,12 +1477,11 @@ button.cal-row b { color: var(--gold); }
     if (st === 4) {
       if (!J.job) return toast('직업을 골라 주세요');
       if (J.job === '기타' && !J.jobEtc) return toast('직업을 적어 주세요');
-      if (needsOrg() && !J.org) return toast('소속을 검색해서 골라 주세요');
       if (!needsOrg()) { J.org = null; J.proof = ''; }
     }
     if (st === 5) {
       var pf = { provider: J.provider, real: J.real, show: J.show, birth: J.birth, gender: J.gender, sido: J.sido, sigungu: J.sigungu, email: J.email, faith: J.faith, duty: J.faith === '성도' ? J.duty : '', dutyEtc: J.dutyEtc || '',
-        church: J.faith === '성도' ? J.church || null : null, job: J.job, jobEtc: J.jobEtc || '', org: J.org || null, proof: J.proof || '', interests: J.interests || [], refer: J.refer || '',
+        church: J.faith === '성도' ? J.church || null : null, job: J.job, jobEtc: J.jobEtc || '', org: J.org || (needsOrg() && J.orgManual ? [J.orgManual, '직접 입력 · 운영자 확인 필요'] : null), proof: J.proof || '', interests: J.interests || [], refer: J.refer || '',
         agree: AGREES.reduce(function (o, a) { o[a[0]] = !!J['ag_' + a[0]]; return o; }, {}), joined: S.me.profile ? S.me.profile.joined : Date.now() };
       S.me.name = J.name; S.me.real = J.real; S.me.show = J.show === '실명' ? 'real' : 'nick'; S.me.role = jRole(pf); S.me.profile = pf;
       if (pf.agree.push && S.alarm && !S.alarm.on) S.alarm.on = true;
@@ -1628,7 +1633,7 @@ button.cal-row b { color: var(--gold); }
     h += w.length ? w.map(function (m) {
       return '<div class="card stack adm-card"><div class="row between"><b>' + esc(m.nick) + '</b><span class="tag">' + m.role + '</span></div>' +
         '<div class="prow"><span>실명</span><b>' + esc(m.real) + '</b></div><div class="prow"><span>소속</span><b>' + esc(m.org) + '</b></div><div class="prow"><span>증빙</span><b>' + esc(m.proof || '없음') + '</b></div><div class="prow"><span>가입</span><b>' + ago(m.joined) + '</b></div>' +
-        '<div class="small muted">소속은 카카오 장소 검색으로 실제 있는 곳인지 확인된 상태예요. 증빙을 보고 승인해 주세요.</div>' +
+        '<div class="small muted">' + (SB ? '본인이 적은 소속이에요. 교회·단체 홈페이지나 전화로 실제 있는 곳인지 확인해 주세요. 승인하면 말 못할 사연에 ' + esc(m.role) + '(으)로 답할 수 있어요.' : '소속은 카카오 장소 검색으로 실제 있는 곳인지 확인된 상태예요. 증빙을 보고 승인해 주세요.') + '</div>' +
         '<div class="row adm-btns"><button class="btn sm" data-adm="v-ok" data-id="' + m.id + '">승인</button><button class="btn sm line" data-adm="v-no" data-id="' + m.id + '">반려</button></div></div>'; }).join('') : '<div class="empty">인증을 기다리는 분이 없어요.</div>';
     h += '</section><section class="sec"><div class="sec-head"><h2>전체 회원 ' + (S.admin.members.length + 1) + '명</h2></div>';
     return h + group(S.admin.members.map(function (m) {
@@ -1847,7 +1852,9 @@ button.cal-row b { color: var(--gold); }
   })();
   function closeSheet() { el('sheetRoot').innerHTML = ''; }
 
-  function canComment(p) { return p.board !== 'concern' || p.scope.indexOf(S.me.role) >= 0 || p.mine; }
+  // 목회자·선교사·상담사는 운영자가 확인한 뒤에만 그 자격으로 답할 수 있어요
+  function myRole() { return SB && S.me.role !== '일반 성도' && !C.verified ? '일반 성도' : S.me.role; }
+  function canComment(p) { return p.board !== 'concern' || p.scope.indexOf(myRole()) >= 0 || p.scope.indexOf('전체') >= 0 || p.mine; }
 
   function openPost(id) {
     var p = postById(id); if (!p) return;
@@ -2573,7 +2580,7 @@ button.cal-row b { color: var(--gold); }
     C.joined = !!me;
     if (me) {
       var info = me.info || {};
-      S.me.name = me.nick; S.me.real = info.real || ''; S.me.show = info.show === '실명' ? 'real' : 'nick'; S.me.role = me.role; S.me.profile = info;
+      S.me.name = me.nick; S.me.real = info.real || ''; S.me.show = info.show === '실명' ? 'real' : 'nick'; S.me.role = me.role; S.me.profile = info; C.verified = !!me.verified;
       C.staff = me.staff_role || ''; C.suspended = !!(me.suspended_until && Date.parse(me.suspended_until) > Date.now());
     } else { S.me.profile = null; C.staff = ''; }
     var chats = {};
@@ -2659,6 +2666,18 @@ button.cal-row b { color: var(--gold); }
   }
 
   render();
+  // 홈 화면 아이콘 바로가기 (안드로이드에서 아이콘을 꾹 누르면 나와요)
+  (function () {
+    var m = /[?&]do=([a-z0-9]+)/.exec(location.search); if (!m) return;
+    try { history.replaceState(null, '', location.pathname); } catch (e) {}
+    var run = function () {
+      if (tab === 'join') return;
+      if (m[1] === 'time10') { tab = 'home'; render(); addTime(today(), 10); }
+      else if (m[1] === 'attend') { tab = 'home'; render(); attendSheet(); }
+      else if (m[1] === 'write') { tab = 'pray'; render(); writePost('pray', {}); }
+    };
+    if (SB) { var tries = 0, w = setInterval(function () { if (C.ready || ++tries > 40) { clearInterval(w); if (C.ready) run(); } }, 250); } else run();
+  })();
   setInterval(alarmTick, 15000); alarmTick();
   if ('serviceWorker' in navigator && location.protocol === 'https:' && document.querySelector('link[rel=manifest]')) {
     try { navigator.serviceWorker.register('sw.js').catch(function () {}); } catch (e) {}

@@ -369,7 +369,7 @@ begin
   select board into b from v_posts where id = p_id;
   if b is null then raise exception '글을 찾을 수 없어요'; end if;
   if b = 'concern' then raise exception '사연에는 1:1 대화로만 답할 수 있어요'; end if;
-  insert into comments (post_id, author_id, author_name, role, text) values (p_id, u, me.show_name, me.role, p_text);
+  insert into comments (post_id, author_id, author_name, role, text) values (p_id, u, me.show_name, (case when me.verified then me.role else '일반 성도' end), p_text);
 end $$;
 
 -- 1:1 대화. 작성자는 p_with(상대 이름)로, 답하는 사람은 자기 자신으로 보내요.
@@ -387,7 +387,7 @@ begin
     insert into chats (post_id, responder_id, label, from_author, text)
       values (p_id, rid, (select label from chats where post_id = p_id and responder_id = rid and label is not null limit 1), true, p_text);
   else
-    if not (me.role = any (p.scope) or '전체' = any (p.scope) or pt_can('안전')) then raise exception '이 사연은 고른 분들만 답할 수 있어요'; end if;
+    if not ((case when me.verified then me.role else '일반 성도' end) = any (p.scope) or '전체' = any (p.scope) or pt_can('안전')) then raise exception '이 사연은 고른 분들만 답할 수 있어요'; end if;
     insert into chats (post_id, responder_id, from_author, text) values (p_id, u, false, p_text);
   end if;
 end $$;

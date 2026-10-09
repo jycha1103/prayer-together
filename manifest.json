@@ -31,5 +31,40 @@
       "type": "image/svg+xml",
       "purpose": "any"
     }
+  ],
+  "shortcuts": [
+    {
+      "name": "기도 시간 +10분",
+      "short_name": "+10분",
+      "url": "./?do=time10",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "오늘 출석 체크",
+      "short_name": "출석 체크",
+      "url": "./?do=attend",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "기도 요청 올리기",
+      "short_name": "기도 요청",
+      "url": "./?do=write",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
   ]
 }
