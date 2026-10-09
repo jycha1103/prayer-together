@@ -1,6 +1,6 @@
 // 오프라인에서도 열리도록 기본 파일을 저장해 둡니다.
-const CACHE = 'prayer-together-v3';
-const FILES = ['./', './index.html', './manifest.json', './icon.svg', './config.js', './vendor/supabase.js'];
+const CACHE = 'prayer-together-v4';
+const FILES = ['./', './index.html', './manifest.json', './icon.svg', './icon-192.png', './apple-touch-icon.png', './config.js', './vendor/supabase.js'];
 self.addEventListener('install', e => e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES))));
 self.addEventListener('activate', e => e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k))))));
 self.addEventListener('fetch', e => {
