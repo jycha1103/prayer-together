@@ -519,6 +519,40 @@ button.cal-row b { color: var(--gold); }
   .pic-add{width:84px;height:84px;border-radius:10px;border:1px dashed var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:var(--muted);cursor:pointer}.pic-add span{font-size:22px;line-height:1}.pic-add small{font-size:11px}
   .pics{display:grid;gap:6px;margin:4px 0 14px}.pics.n2,.pics.n3{grid-template-columns:1fr 1fr}.pics.n3 a:first-child{grid-column:1 / -1}
   .pics a{display:block;border-radius:10px;overflow:hidden;background:var(--bg)}.pics img{width:100%;display:block;max-height:420px;object-fit:cover}.pics.n2 img,.pics.n3 a+a img{aspect-ratio:1;height:auto}
+  /* 큰 글씨 모드 */
+  .big-toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px}.big-toggle b{display:block;font-size:16px}.big-toggle small{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}
+  .big{font-size:19px}
+  .big .page-title{font-size:30px}
+  .big .brand-name{font-size:19px}.big .brand-sub{font-size:13px}
+  .big .tabbar nav{grid-template-columns:repeat(4,1fr)}.big .tabbar button{font-size:15px;padding:9px 2px 10px;gap:4px}.big .tabbar svg{width:30px;height:30px}
+  .big .fab{font-size:19px;padding:15px 22px}.big .fab svg{width:22px;height:22px}
+  .big .sec-head h2{font-size:23px}.big .sec-head .date{font-size:15px}.big .sec-head button,.big .sec-head a{font-size:16px}
+  .big .verse .eyebrow{font-size:15px}.big .verse p{font-size:22px;line-height:1.7}.big .verse cite{font-size:16px}
+  .big .today{grid-template-columns:1fr}.big .tile{padding:16px 16px 16px 20px}.big .tile span{font-size:17px}.big .tile b{font-size:34px}.big .tile b small{font-size:18px}.big .circle{width:74px;height:74px;font-size:16px}
+  .big .row-item{padding:20px 18px}.big .row-item h3{font-size:21px;line-height:1.45}.big .row-item p{font-size:17px}.big .row-item .kind{font-size:15px}
+  .big .meta{font-size:16px}.big .meta .cnt svg{width:17px;height:17px}.big .tag{font-size:14px}
+  .big .empty,.big .note{font-size:17px}.big .small{font-size:15.5px}
+  .big .sheet-head h2{font-size:22px}.big .sheet h2{font-size:24px!important}.big .body-text{font-size:20px;line-height:1.8}
+  .big .btn{font-size:19px;padding:15px 20px}.big .btn.sm{font-size:16px;padding:10px 14px}
+  .big .field>span{font-size:17px}.big .input,.big textarea.input,.big select.input{font-size:20px;padding:14px}
+  .big .check{font-size:18px}.big .comment b{font-size:16px}.big .comment p{font-size:18px}.big .linkbtn{font-size:16px}
+  .big .chip{font-size:17px;padding:9px 16px}.big .quick button{font-size:19px;padding:14px 0}
+  .big-cta{font-size:22px!important;padding:20px!important;margin:14px 0 6px;border-radius:18px}
+  .b-sub{font-size:17px;color:var(--muted);margin:8px 2px 14px;line-height:1.55}
+  .bstack{display:flex;flex-direction:column;gap:12px}
+  .bcard{display:flex;flex-direction:column;align-items:flex-start;gap:6px;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px 20px 18px;font:inherit;color:inherit}
+  .bcard b{font-size:22px;line-height:1.45;color:var(--title)}.b-meta{font-size:16.5px;color:var(--muted)}.b-cnt{font-size:17px;font-weight:700;color:var(--gold)}
+  .b-urgent{font-size:15px;font-weight:700;color:#C0392B;border:1.5px solid #C0392B;border-radius:8px;padding:1px 8px}
+  .bsec{margin-top:30px}.bsec h2{font-family:var(--font-display);font-size:25px;color:var(--navy);margin:0 2px 4px}
+  .bitem{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+  .bitem-main{display:flex;flex-direction:column;gap:4px;width:100%;text-align:left;background:none;border:0;padding:20px 20px 14px;font:inherit;color:inherit}.bitem-main b{font-size:22px;line-height:1.45;color:var(--title)}
+  .bcheck{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:0;border-top:1px solid var(--line);background:var(--bg);padding:17px;font:inherit;font-size:19px;font-weight:700;color:var(--navy)}
+  .bcheck.on{background:var(--gold-soft);color:var(--gold)}.bcheck svg{width:22px;height:22px}
+  .btime{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px;margin:12px 0}.btime span{display:block;font-size:17px;color:var(--muted)}.btime b{display:block;font-family:var(--font-display);font-size:40px;color:var(--navy);line-height:1.25}.btime small{font-size:16px;color:var(--ink-2)}
+  .bgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.bgrid button{border:1.5px solid var(--accent);background:var(--surface);color:var(--accent);border-radius:16px;padding:20px 0;font:inherit;font-size:23px;font-weight:700}
+  .bgrid button:active{background:var(--accent);color:#fff}
+  .big .big-toggle{padding:20px}.big .big-toggle b{font-size:21px}.big .big-toggle small{font-size:15.5px}.big .big-toggle .switch{width:62px;height:36px}.big .big-toggle .switch i{width:30px;height:30px}.big .big-toggle .switch.on i{left:29px}
+  .big .scrap{font-size:16px}.big .label{font-size:16px}.big .pill,.big .flag,.big .row-item .kind{font-size:14px}.big .check input{width:24px;height:24px}.big .kind{font-size:15px}
 </style>
 
 <div class="app">
@@ -726,8 +760,13 @@ button.cal-row b { color: var(--gold); }
   function flags(p) { return (p.urgent ? '<span class="pill red">긴급</span> ' : '') + (p.answered ? '<span class="pill green">응답받음</span> ' : ''); }
   function postById(id) { return S.posts.find(function (x) { return x.id === id; }); }
 
+  // ---------- 큰 글씨 모드 (기기마다 따로 켜요) ----------
+  var BIG = (function () { try { return localStorage.getItem('pt-big') === '1'; } catch (e) { return false; } })();
+  var ME_TAB = ['me', '내 정보', '<circle class="edge" cx="12" cy="8.5" r="4"/><path class="edge" d="M4.5 20.5c1.2-3.8 4-5.7 7.5-5.7s6.3 1.9 7.5 5.7"/>'];
+  function setBig(on) { BIG = on; try { localStorage.setItem('pt-big', on ? '1' : '0'); } catch (e) {} render(); window.scrollTo(0, 0); toast(on ? '큰 글씨로 바꿨어요' : '보통 글씨로 바꿨어요'); }
   function renderTabs() {
-    el('tabs').innerHTML = TABS.map(function (t) {
+    var list = BIG ? TABS.filter(function (t) { return ['home', 'pray', 'diary'].indexOf(t[0]) >= 0; }).concat([ME_TAB]) : TABS;
+    el('tabs').innerHTML = list.map(function (t) {
       return '<button data-tab="' + t[0] + '"' + (tab === t[0] || (tab === 'room' && t[0] === 'pray') ? ' aria-current="page"' : '') + '><svg viewBox="0 0 24 24" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' + t[2] + '</svg>' + t[1] + '</button>';
     }).join('');
   }
@@ -1266,11 +1305,15 @@ button.cal-row b { color: var(--gold); }
       '<div class="small muted">중간 위젯에는 내가 가장 최근에 추가한 기도 제목이 자동으로 보여요.</div>' +
       '<div class="note">휴대폰 바탕화면에 실제로 놓는 위젯은 앱스토어와 플레이스토어용 앱으로 출시할 때 제공돼요. 지금은 미리보기예요.</div>');
   }
+  function bigToggle() {
+    return '<div class="card big-toggle"><div><b>큰 글씨로 보기</b><small>' + (BIG ? '켜짐 · 글씨를 크게, 꼭 필요한 메뉴만 보여요' : '글씨를 크게, 꼭 필요한 메뉴만 보여요') + '</small></div>' +
+      '<button class="switch' + (BIG ? ' on' : '') + '" data-act="big-toggle" role="switch" aria-checked="' + BIG + '" aria-label="큰 글씨로 보기"><i></i></button></div>';
+  }
   function vMe() {
     var pf = S.me.profile;
-    if (pf) return '<h1 class="page-title">내 정보</h1><div class="card stack"><div class="me-head"><i class="face on">' + esc(myName().charAt(0)) + '</i><div><b>' + esc(myName()) + '</b><div class="row" style="gap:6px"><span class="tag">' + esc(S.me.role) + '</span>' + (verifyLabel(pf) ? '<span class="pill ' + (pf.proof ? 'amber' : 'green') + '">' + verifyLabel(pf) + '</span>' : '') + '</div></div></div>' + profileRows(pf) +
+    if (pf) return '<h1 class="page-title">내 정보</h1>' + bigToggle() + '<div class="card stack"><div class="me-head"><i class="face on">' + esc(myName().charAt(0)) + '</i><div><b>' + esc(myName()) + '</b><div class="row" style="gap:6px"><span class="tag">' + esc(S.me.role) + '</span>' + (verifyLabel(pf) ? '<span class="pill ' + (pf.proof ? 'amber' : 'green') + '">' + verifyLabel(pf) + '</span>' : '') + '</div></div></div>' + profileRows(pf) +
       '<button class="btn line" data-act="j-edit">정보 고치기</button></div>' + meTail();
-    return '<h1 class="page-title">내 정보</h1><div class="card stack join-cta"><b>회원 가입하고 함께 기도해요</b><div class="small muted">카카오나 네이버로 3초 만에 시작할 수 있어요.</div><button class="btn" data-act="join">회원 가입</button></div><div class="card stack">' +
+    return '<h1 class="page-title">내 정보</h1>' + bigToggle() + '<div class="card stack join-cta"><b>회원 가입하고 함께 기도해요</b><div class="small muted">카카오나 네이버로 3초 만에 시작할 수 있어요.</div><button class="btn" data-act="join">회원 가입</button></div><div class="card stack">' +
       '<label class="field"><span>닉네임</span><input class="input" id="meName" value="' + esc(S.me.name) + '" maxlength="20"></label>' +
       '<label class="field"><span>구분</span><select class="input" id="meRole">' + ROLES.map(function (r) { return '<option' + (S.me.role === r ? ' selected' : '') + '>' + r + '</option>'; }).join('') + '</select></label>' +
       '<button class="btn" data-act="save-me">저장</button></div>' + meTail();
@@ -1718,12 +1761,40 @@ button.cal-row b { color: var(--gold); }
     save(); render();
   }
 
+  function bigPost(p) {
+    return '<button class="bcard" data-open="' + p.id + '">' + (p.urgent ? '<span class="b-urgent">긴급</span>' : '') + '<b>' + esc(p.title) + '</b>' +
+      '<span class="b-meta">' + esc(p.author) + ' · ' + ago(p.created) + '</span><span class="b-cnt">함께 기도 ' + p.prayers + '명' + (p.prayed ? ' · 나도 기도했어요' : '') + '</span></button>';
+  }
+  function bigPray() {
+    var list = urgentFirst(board('pray')).slice(0, 40);
+    return '<h1 class="page-title">중보기도</h1>' +
+      '<button class="btn block big-cta" data-act="write-pray">＋ 기도 요청 올리기</button>' +
+      '<div class="b-sub">함께 기도할 제목이에요. 눌러서 읽고 "함께 기도할게요"를 눌러 주세요.</div>' +
+      (list.length ? '<div class="bstack">' + list.map(bigPost).join('') + '</div>' : '<div class="empty">아직 올라온 기도 요청이 없어요.</div>');
+  }
+  function bigDiary() {
+    var t = today(), open = S.items.filter(function (i) { return !i.answered; }), scr = (S.scraps || []).map(postById).filter(Boolean);
+    var h = '<h1 class="page-title">기도다이어리</h1>';
+    h += '<section class="bsec"><h2>내 기도 제목</h2><button class="btn block big-cta" data-act="add-item">＋ 기도 제목 올리기</button>' +
+      (open.length ? '<div class="bstack">' + open.map(function (i) {
+        var st = itemState(i);
+        return '<div class="bitem"><button class="bitem-main" data-item-open="' + i.id + '"><b>' + esc(i.title) + '</b><span class="b-meta">' + st.label + ' · 기도한 날 ' + st.cnt + '일</span></button>' +
+          '<button class="bcheck' + (st.checked ? ' on' : '') + '" data-check="' + i.id + '" aria-pressed="' + st.checked + '">' + (st.checked ? CHECK + ' 오늘 기도했어요' : '오늘 기도했어요 누르기') + '</button></div>';
+      }).join('') + '</div>' : '<div class="b-sub">아직 기도 제목이 없어요. 위 버튼을 눌러 적어 보세요.</div>') + '</section>';
+    h += '<section class="bsec"><h2>기도 시간 쌓기</h2><div class="btime"><span>오늘 기도한 시간</span><b>' + fmtMin(+S.times[t] || 0) + '</b><small>최근 7일 ' + fmtMin(sumRange(addDays(t, -6), t)) + '</small></div>' +
+      '<div class="bgrid">' + [5, 10, 20, 30].map(function (n) { return '<button data-add="' + n + '">＋' + n + '분</button>'; }).join('') + '</div>' +
+      '<div class="b-sub">기도를 마치면 한 시간만큼 눌러 주세요. 눌러서 더해져요.</div></section>';
+    h += '<section class="bsec"><h2>스크랩한 기도</h2>' + (scr.length ? '<div class="bstack">' + scr.map(bigPost).join('') + '</div>' : '<div class="b-sub">중보기도 글에서 "스크랩"을 누르면 여기에 모여요.</div>') + '</section>';
+    return h;
+  }
+  var BIG_VIEWS = { pray: bigPray, diary: bigDiary };
   var VIEWS = { admin: vAdmin, join: vJoin, room: vRoom, home: vHome, pray: vPray, diary: vDiary, concern: vConcern, story: vStory, me: vMe, guide: vGuide, search: vSearch };
   function render() {
     if (SB && (!C.user || !C.joined) && tab !== 'join') tab = 'join';
+    document.body.classList.toggle('big', BIG);
     renderTabs();
-    el('view').innerHTML = VIEWS[tab]();
-    el('topWrite').hidden = tab === 'join' || tab === 'admin';
+    el('view').innerHTML = (BIG && BIG_VIEWS[tab] ? BIG_VIEWS[tab] : VIEWS[tab])();
+    el('topWrite').hidden = tab === 'join' || tab === 'admin' || (BIG && tab !== 'home');
   }
   function go(t) { tab = t; closeSheet(); closeDrawer(); render(); window.scrollTo(0, 0); }
 
@@ -2250,6 +2321,7 @@ button.cal-row b { color: var(--gold); }
       case 'calendar': calM = ''; calSel = ''; return calendarSheet();
       case 'policy': closeDrawer(); return policySheet();
       case 'install': closeDrawer(); return installSheet();
+      case 'big-toggle': return setBig(!BIG);
       case 'feedback': closeDrawer(); return openFeedback();
       case 'fb-send':
         var fbb = val('fbBody'); if (!fbb) return toast('내용을 적어 주세요');
