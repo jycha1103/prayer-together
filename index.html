@@ -126,6 +126,18 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .adm-role + .adm-role { border-top: 1px solid var(--line-2); padding-top: 8px; }
 .adm-role b { font-size: 13.5px; }
 .adm-stats .stat span { display: block; }
+.hbars { display: flex; flex-direction: column; gap: 10px; }
+.hb { display: grid; grid-template-columns: 84px 1fr 38px; align-items: center; gap: 10px; font-size: 12.5px; }
+.hb span { color: var(--ink-2); } .hb em { font-style: normal; text-align: right; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.hb i { height: 8px; background: var(--line-2); border-radius: 4px; overflow: hidden; } .hb i b { display: block; height: 100%; background: var(--navy-2); border-radius: 0 4px 4px 0; }
+.vbars { display: flex; align-items: flex-end; gap: 6px; height: 140px; padding-top: 18px; }
+.vb { flex: 1; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; position: relative; }
+.vb b { width: 100%; max-width: 22px; background: var(--navy-2); border-radius: 4px 4px 0 0; }
+.vb:last-child b { background: var(--gold); }
+.vb em { position: absolute; top: -16px; font-style: normal; font-size: 11px; font-weight: 700; color: var(--ink-2); white-space: nowrap; }
+.vb span { font-size: 10px; color: var(--muted); margin-top: 4px; white-space: nowrap; }
+.split { display: flex; gap: 2px; height: 12px; border-radius: 6px; overflow: hidden; } .split b { background: var(--navy-2); } .split b.g2 { background: var(--gold); }
+.sw { display: inline-block; width: 8px; height: 8px; border-radius: 2px; background: var(--navy-2); margin-right: 6px; } .sw.g2 { background: var(--gold); }
 .btn.block { width: 100%; padding: 13px; }
 .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .row.between { justify-content: space-between; }
@@ -1437,13 +1449,42 @@ button.cal-row b { color: var(--gold); }
   function admNoVerse() { var n = 0; for (var i = 0; i < 7; i++) if (!S.admin.verses[addDays(today(), i)]) n++; return n; }
   var BOARD_NAME = { pray: '중보기도', story: '간증', concern: '사연&고민', tips: '기도 노하우' };
 
+
+  // 통계 (예시 숫자: 서버 연결 후 실제 회원 정보로 계산)
+  var ADM_STATS = {
+    total: [['전체 회원', '1,284명'], ['누적 기도', '23,410번'], ['누적 기도 시간', '3,920시간'], ['누적 글', '812개'], ['기도 모임방', '46개'], ['릴레이 참여', '1,930번']],
+    weeks: [38, 52, 47, 61, 74, 69, 88, 97],
+    age: [['10대', 6], ['20대', 21], ['30대', 27], ['40대', 22], ['50대', 15], ['60대 이상', 9]],
+    gender: [['여성', 62], ['남성', 38]],
+    region: [['서울', 31], ['경기', 28], ['인천', 7], ['부산', 6], ['대구', 5], ['대전', 4], ['그 밖의 지역', 19]],
+    faith: [['성도', 71], ['가나안 성도', 18], ['아직 믿지 않아요', 11]],
+    board: [['중보기도', 58], ['기도 다이어리', 24], ['사연&고민', 9], ['간증', 6], ['기도란', 3]]
+  };
+  function hbars(rows) {
+    var mx = Math.max.apply(null, rows.map(function (r) { return r[1]; }));
+    return '<div class="card hbars">' + rows.map(function (r) { return '<div class="hb" title="' + r[0] + ' ' + r[1] + '%"><span>' + r[0] + '</span><i><b style="width:' + Math.round(r[1] / mx * 100) + '%"></b></i><em>' + r[1] + '%</em></div>'; }).join('') + '</div>';
+  }
+  function admStats() {
+    var A = ADM_STATS, wk = A.weeks, mx = Math.max.apply(null, wk);
+    var g = A.gender;
+    return '<button class="back" data-atab="dash">‹ 현황</button><div class="note">아래 숫자는 모두 예시예요. 서버를 연결하면 가입 정보로 자동 계산돼요.</div>' +
+      '<section class="sec"><div class="sec-head"><h2>누적</h2></div><div class="stats adm-stats">' + A.total.map(function (t) { return '<div class="stat"><b>' + t[1] + '</b><span>' + t[0] + '</span></div>'; }).join('') + '</div></section>' +
+      '<section class="sec"><div class="sec-head"><h2>주간 가입자</h2><span class="date">최근 8주</span></div><div class="card"><div class="vbars">' + wk.map(function (n, i) {
+        return '<div class="vb" title="' + (8 - i) + '주 전 ' + n + '명">' + (i === wk.length - 1 ? '<em>' + n + '명</em>' : '') + '<b style="height:' + Math.round(n / mx * 100) + '%"></b><span>' + (i === wk.length - 1 ? '이번 주' : (wk.length - 1 - i) + '주 전') + '</span></div>'; }).join('') + '</div></div></section>' +
+      '<section class="sec"><div class="sec-head"><h2>성별</h2></div><div class="card"><div class="split"><b style="width:' + g[0][1] + '%"></b><b class="g2" style="width:' + g[1][1] + '%"></b></div><div class="row between small" style="margin-top:8px"><span><i class="sw"></i>' + g[0][0] + ' ' + g[0][1] + '%</span><span><i class="sw g2"></i>' + g[1][0] + ' ' + g[1][1] + '%</span></div></div></section>' +
+      '<section class="sec"><div class="sec-head"><h2>연령대</h2></div>' + hbars(A.age) + '</section>' +
+      '<section class="sec"><div class="sec-head"><h2>지역</h2><span class="date">시 · 도</span></div>' + hbars(A.region) + '</section>' +
+      '<section class="sec"><div class="sec-head"><h2>신앙</h2></div>' + hbars(A.faith) + '</section>' +
+      '<section class="sec"><div class="sec-head"><h2>많이 쓰는 메뉴</h2><span class="date">방문 비율</span></div>' + hbars(A.board) + '</section>' +
+      '<div class="small muted">지역은 가입할 때 선택으로 받은 시·도 기준이고, 적지 않은 분은 빼고 계산해요. 개인을 알아볼 수 없게 묶은 숫자만 보여줘요.</div>';
+  }
   function vAdmin() {
     admInit();
     var h = '<h1 class="page-title">운영자 관리</h1><div class="note">운영진만 들어오는 화면이에요. 지금은 예시 데이터로 움직이고, 서버를 연결하면 실제 회원과 글이 보여요.</div>' +
       '<div class="chips adm-tabs" role="group" aria-label="관리 메뉴">' + ADM_TABS.map(function (t) {
         var n = t[0] === 'safe' ? admReported().length + admCrisis().length : t[0] === 'member' ? admWaiting().length : 0;
-        return '<button class="chip" data-atab="' + t[0] + '" aria-pressed="' + (atab === t[0]) + '">' + t[1] + (n ? ' <span class="seg-n">' + n + '</span>' : '') + '</button>'; }).join('') + '</div>';
-    return h + { dash: admDash, safe: admSafe, member: admMember, content: admContent, relay: admRelay, staff: admStaff }[atab]();
+        return '<button class="chip" data-atab="' + t[0] + '" aria-pressed="' + (atab === t[0] || (atab === 'stats' && t[0] === 'dash')) + '">' + t[1] + (n ? ' <span class="seg-n">' + n + '</span>' : '') + '</button>'; }).join('') + '</div>';
+    return h + { stats: admStats, dash: admDash, safe: admSafe, member: admMember, content: admContent, relay: admRelay, staff: admStaff }[atab]();
   }
   function admTodo(label, n, to, sub) {
     return '<button class="row-item line" data-atab="' + to + '"><h3>' + label + (sub ? '<div class="small muted" style="font-weight:400">' + sub + '</div>' : '') + '</h3><span class="room-on">' + n + '</span></button>';
@@ -1453,6 +1494,7 @@ button.cal-row b { color: var(--gold); }
     var todo = [[admCrisis().length, '위기 단어가 들어간 사연', 'safe', '가장 먼저 확인해 주세요'], [admReported().length, '신고된 글', 'safe', '3번 쌓이면 자동으로 숨겨져요'], [admWaiting().length, '목회자 · 상담사 인증 대기', 'member', ''], [admNoVerse(), '오늘의 말씀 미편성 (7일 중)', 'content', '편성하지 않은 날은 기본 말씀이 나가요']]
       .filter(function (x) { return x[0]; });
     return '<div class="stats adm-stats"><div class="stat"><b>7</b><span>오늘 가입 · 예시</span></div><div class="stat"><b>128</b><span>오늘 방문 · 예시</span></div><div class="stat"><b>' + newPosts + '</b><span>새 글 (24시간)</span></div></div>' +
+      '<button class="btn block line" data-atab="stats">누적 숫자와 연령 · 성별 · 지역 분포 보기 ›</button>' +
       '<section class="sec"><div class="sec-head"><h2>오늘 할 일</h2></div>' + (todo.length ? group(todo.map(function (x) { return admTodo(x[1], x[0] + '건', x[2], x[3]); }).join('')) : '<div class="empty">확인할 일이 없어요. 평안한 하루예요.</div>') + '</section>' +
       '<section class="sec"><div class="sec-head"><h2>운영 습관</h2></div><div class="card stack adm-habit"><div class="prow"><span>매일 10분</span><b>안전 확인 (위기 사연, 신고)</b></div><div class="prow"><span>매주 한 번</span><b>인증 승인, 다음 주 말씀 편성</b></div><div class="prow"><span>매달 한 번</span><b>릴레이 주제 정하기, 숫자 살펴보기</b></div></div></section>';
   }
