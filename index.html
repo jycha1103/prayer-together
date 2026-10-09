@@ -80,6 +80,30 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 
 /* today */
 .today { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.hello { padding: 18px 2px 12px; }
+.hello .date { font-size: 13px; color: var(--muted); }
+.hello h1 { font-family: var(--font-display); font-size: 22px; color: var(--navy); margin: 4px 0 0; line-height: 1.35; }
+.doors { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+.door { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; text-align: left; border: 0; border-radius: 20px; padding: 16px 14px 18px; font: inherit; cursor: pointer; min-height: 158px; box-shadow: var(--shadow); }
+.door i { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 14px; margin-bottom: 4px; }
+.door i svg { width: 24px; height: 24px; }
+.door b { font-family: var(--font-display); font-size: 19px; line-height: 1.3; }
+.door span { font-size: 13px; line-height: 1.45; }
+.door em { font-style: normal; font-weight: 700; }
+.door.give { background: radial-gradient(110% 100% at 100% 0%, var(--navy-2), var(--navy) 70%); color: #FFFFFF; }
+.door.give i { background: rgba(255, 255, 255, .14); color: #F2C14E; }
+.door.give span { color: var(--navy-sub); }
+.door.give em { color: #F2C14E; }
+.door.ask { background: #FFF5DE; color: #6B4A08; }
+.door.ask i { background: #FFFFFF; color: #C98A12; }
+.door.ask b { color: #4A3305; }
+.verse.mid { margin: 4px 0 18px; border-radius: var(--r); }
+.big .hello h1 { font-size: 28px; }
+.big .hello .date { font-size: 17px; }
+.big .doors { grid-template-columns: 1fr; }
+.big .door { min-height: 0; flex-direction: row; flex-wrap: wrap; align-items: center; column-gap: 12px; padding: 18px; }
+.big .door span { flex-basis: 100%; font-size: 18px; }
+.big .door b { font-size: 26px; }
 .tile { background: var(--surface); box-shadow: var(--shadow); border-radius: var(--r); padding: 12px 10px 12px 14px; display: flex; align-items: center; justify-content: space-between; gap: 6px; min-width: 0; }
 .tile span { display: block; font-size: 12px; color: var(--muted); }
 .tile b { display: block; font-family: var(--font-display); font-size: 21px; font-weight: 700; color: var(--navy); font-variant-numeric: tabular-nums; line-height: 1.3; white-space: nowrap; }
@@ -936,17 +960,23 @@ button.cal-row b { color: var(--gold); }
     var tips = board('tips');
     var AG = allGuides(), allThings = (AG[0] ? lineItem('data-guide="' + AG[0].id + '"', AG[0].kind, AG[0].title) : '') +
       (tips[0] ? lineItem('data-open="' + tips[0].id + '"', '노하우', tips[0].title) : AG[1] ? lineItem('data-guide="' + AG[1].id + '"', AG[1].kind, AG[1].title) : '');
-    return installBanner() + (SB ? '<button class="beta" data-act="feedback">시험 운영 중이에요. 불편한 점은 <u>운영자에게 한마디</u>로 알려 주세요.</button>' : '') +
-      '<div class="verse">' + GLOBE + '<div class="eyebrow">오늘의 말씀</div><p>' + esc(todayVerse().t) + '</p><cite>' + esc(todayVerse().ref) + '</cite></div>' +
-      '<section class="sec"><div class="sec-head"><h2>' + esc(myName()) + '님의 오늘</h2><span class="date">' + (d.getMonth() + 1) + '월 ' + d.getDate() + '일 ' + '일월화수목금토'[d.getDay()] + '요일</span></div>' +
-      '<div class="today">' +
+    var waiting = S.posts.filter(function (p) { return p.board === 'pray' && !p.roomId && !p.mine && !p.answered && !p.prayed && !hiddenPost(p); }).length;
+    // 첫눈에 '서로 기도해 주는 앱'으로 보이게: 기도해 주기 / 기도 부탁하기 두 문으로 시작해요
+    return '<section class="hello"><span class="date">' + (d.getMonth() + 1) + '월 ' + d.getDate() + '일 ' + '일월화수목금토'[d.getDay()] + '요일</span><h1>' + esc(myName()) + '님, 오늘 무엇을 할까요?</h1></section>' +
+      '<div class="doors">' +
+        '<button class="door give" data-go="pray"><i>' + CANDLE + '</i><b>기도해 주기</b><span>' + (waiting ? '<em>' + waiting + '개</em>의 기도 제목이 기다려요' : '성도들의 기도 제목을 보고 함께 기도해요') + '</span></button>' +
+        '<button class="door ask" data-act="write-pray"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4z"/><path d="M12 8v5M9.5 10.5h5"/></svg></i><b>기도 부탁하기</b><span>내 기도 제목을 올리면 성도들이 함께 기도해요</span></button>' +
+      '</div>' + installBanner() + dailySec() +
+      '<section class="sec"><div class="sec-head"><h2>나의 기도 생활</h2></div><div class="today">' +
         '<div class="tile"><div><span>연속 기도</span><b>' + streak() + '<small>일째</small></b></div><button class="circle' + (allDone ? ' done' : '') + '" data-act="attend">' + (allDone ? '출석<br>완료' : '출석<br>체크') + '</button></div>' +
         '<div class="tile"><div><span>최근 7일</span><b>' + sumRange(addDays(t, -6), t) + '<small>분</small></b></div><button class="circle" data-act="logtime">시간<br>기록</button></div>' +
       '</div></section>' + homeRooms() +
       '<section class="sec">' + secHead('지금 기도가 필요해요', 'pray') + group(urgentFirst(board('pray')).slice(0, 3).map(function (p) { return item(p); }).join('')) + '</section>' +
+      '<div class="verse mid">' + GLOBE + '<div class="eyebrow">오늘의 말씀</div><p>' + esc(todayVerse().t) + '</p><cite>' + esc(todayVerse().ref) + '</cite></div>' +
       '<section class="sec">' + secHead('말못할 사연', 'concern') + group(board('concern').slice(0, 2).map(function (p) { return item(p, 'concern'); }).join('')) + '</section>' +
       '<section class="sec">' + secHead('간증', 'story') + group(board('story').slice(0, 2).map(function (p) { return item(p); }).join('')) + '</section>' +
-      (allThings ? '<section class="sec">' + secHead('기도의 모든 것', 'guide') + group(allThings) + '</section>' : '');
+      (allThings ? '<section class="sec">' + secHead('기도의 모든 것', 'guide') + group(allThings) + '</section>' : '') +
+      (SB ? '<button class="beta" data-act="feedback">시험 운영 중이에요. 불편한 점은 <u>운영자에게 한마디</u>로 알려 주세요.</button>' : '');
   }
 
   // ---------- boards ----------
@@ -1813,7 +1843,7 @@ button.cal-row b { color: var(--gold); }
     document.body.classList.toggle('big', BIG);
     renderTabs();
     el('view').innerHTML = (BIG && BIG_VIEWS[tab] ? BIG_VIEWS[tab] : VIEWS[tab])();
-    el('topWrite').hidden = tab === 'join' || tab === 'admin' || (BIG && tab !== 'home');
+    el('topWrite').hidden = tab === 'join' || tab === 'admin' || tab === 'home' || BIG;
   }
   function go(t) { tab = t; closeSheet(); closeDrawer(); render(); window.scrollTo(0, 0); }
 
