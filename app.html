@@ -1819,7 +1819,7 @@ button.cal-row b { color: var(--gold); }
   function publishPost(job) {
     var np = job.np;
     var cp = cloud('create_post', { p_id: np.id, p_board: np.board, p_cat: np.cat || '', p_room: job.room || null, p_title: np.title, p_body: np.body, p_urgent: !!np.urgent, p_scope: np.scope || [], p_hide_after: np.hideAfter || null, p_author: np.author });
-    if (job.pics && job.pics.length && np.board === 'pray' && np.cat === '선교지 편지' && !job.room) attachPics('post', np, job.pics, cp);
+    if (job.pics && job.pics.length && picBoard(np) && !job.room) attachPics('post', np, job.pics, cp);
     if (job.room) { np.roomId = job.room; np.cat = ''; S.posts.push(np); save(); closeSheet(); render(); toast('모임방에 올렸어요'); return; }
     S.posts.push(np);
     if (job.item) { var li = S.items.find(function (x) { return x.id === job.item; }); if (li) li.postId = np.id; }
@@ -1835,6 +1835,7 @@ button.cal-row b { color: var(--gold); }
 
   // ---------- 사진 첨부 (선교지 편지, 기도의 모든 것) ----------
   var PICS = [], PIC_MAX = 3;
+  function picBoard(p) { return p.board === 'tips' || (p.board === 'pray' && p.cat === '선교지 편지'); }
   function picsHtml(list) {
     if (!list || !list.length) return '';
     return '<div class="pics n' + list.length + '">' + list.map(function (u) { return '<a href="' + esc(u) + '" target="_blank" rel="noopener"><img src="' + esc(u) + '" alt="첨부한 사진" loading="lazy"></a>'; }).join('') + '</div>';
@@ -1896,6 +1897,7 @@ button.cal-row b { color: var(--gold); }
       '<label class="field"><span>제목</span><input class="input" id="wTitle" maxlength="60" value="' + esc(preset && preset.title) + '" placeholder="' + cfg[1] + '"></label>' +
       '<label class="field"><span>내용</span><textarea class="input" id="wBody" placeholder="' + cfg[2] + '">' + esc(preset && preset.body) + '</textarea></label>' +
       (boardName === 'pray' && !(preset && preset.roomId) ? picPicker('선교지 편지에는 현지 사진을 붙일 수 있어요. 사람 얼굴이 크게 나온 사진은 피해 주세요.', (preset && preset.cat) === '선교지 편지') : '') +
+      (boardName === 'tips' ? picPicker('기도 노트, 기도하는 자리, 말씀 카드처럼 노하우를 보여 주는 사진을 붙여 보세요.', true) : '') +
       (boardName === 'concern' ? '<div class="field"><span>누가 답글을 달 수 있나요? (1개 이상)</span><label class="check"><input type="checkbox" id="scAll"> 전체</label>' +
         ROLES.slice().reverse().map(function (r, i) { return '<label class="check"><input type="checkbox" class="sc" value="' + r + '"' + (r !== '일반 성도' ? ' checked' : '') + '> ' + r + '</label>'; }).join('') + '</div>' : '') +
       (boardName === 'pray' || boardName === 'concern' ? '<div class="small muted guide-line">다른 사람의 실명이나 병명은 적지 말아 주세요. "어머니의 수술"처럼 써 주시면 충분해요.</div>' : '') +
