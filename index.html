@@ -253,6 +253,29 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 .time-big.bump { animation: bump .35s ease-out; }
 @keyframes bump { 40% { transform: scale(1.06); } }
 .time-sub { font-size: 13px; color: var(--ink-2); margin-top: -6px; }
+.tadd { display: grid; grid-template-columns: repeat(4, 1fr) 1.15fr 38px; gap: 6px; align-items: center; }
+.tchip { border: 1px solid var(--line); background: #F3F5FA; color: var(--navy); border-radius: 999px; padding: 9px 0; font-size: 13.5px; font-weight: 600; white-space: nowrap; }
+.tchip:active { background: #E6EAF4; }
+.tin { min-width: 0; width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 9px 8px; font-size: 13.5px; text-align: center; -moz-appearance: textfield; }
+.tin::-webkit-inner-spin-button, .tin::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.tplus { width: 38px; height: 38px; border-radius: 50%; border: 0; background: var(--navy); color: #FFFFFF; font-size: 22px; line-height: 1; display: grid; place-items: center; }
+.big .tadd { grid-template-columns: repeat(2, 1fr); } .big .tchip, .big .tin { font-size: 18px; padding: 12px 0; } .big .tplus { width: 100%; height: 48px; border-radius: 999px; }
+.ptag { display: inline-block; font-size: 12px; font-weight: 700; color: #2F6FD6; background: #EAF1FC; border-radius: 6px; padding: 1px 6px; margin-right: 6px; vertical-align: 2px; line-height: 1.5; }
+.rsum { font-size: 12.5px; }
+.rbar { position: relative; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.rchip { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 4px 10px; font-size: 14px; }
+.rchip.on { border-color: var(--accent); background: #EEF2FC; font-weight: 700; }
+.radd { display: inline-flex; align-items: center; gap: 4px; border: 1px dashed var(--line); background: none; border-radius: 999px; padding: 4px 10px; color: var(--muted); font-size: 13px; }
+.radd svg { width: 20px; height: 20px; }
+.rpick { position: absolute; left: 0; top: calc(100% + 6px); z-index: 3; display: flex; gap: 4px; background: var(--surface); border-radius: 16px; box-shadow: 0 8px 26px rgba(18, 25, 51, .18); padding: 8px; }
+.rpick[hidden] { display: none; }
+.rpick button { display: flex; flex-direction: column; align-items: center; gap: 2px; border: 0; background: none; border-radius: 12px; padding: 6px 7px; font-size: 11px; color: var(--ink-2); white-space: nowrap; }
+.rpick button b { font-size: 24px; font-weight: 400; line-height: 1.1; }
+.rpick button.on { background: #EEF2FC; }
+.icon-btn.bell { position: relative; }
+.ndot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #E0483A; vertical-align: 3px; }
+.icon-btn .ndot { position: absolute; top: 9px; right: 9px; }
+.icon-btn .ndot[hidden] { display: none; }
 .quick { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
 .quick button { border: 0; border-radius: 12px; padding: 11px 0; background: var(--accent); color: var(--on-accent); font-weight: 700; font-size: 14.5px; box-shadow: 0 3px 10px rgba(38, 55, 119, .22); }
 .quick button:active { transform: scale(.96); }
@@ -529,12 +552,13 @@ button.cal-row b { color: var(--gold); }
 .x { background: var(--bg); border: 0; border-radius: 999px; width: 32px; height: 32px; font-size: 18px; color: var(--ink); flex: none; }
 
 .drawer-back { position: fixed; inset: 0; z-index: 25; background: rgba(12, 18, 40, 0.42); display: flex; justify-content: flex-end; }
-.drawer { background: var(--surface); width: min(320px, 86%); height: 100%; overflow-y: auto; padding: calc(16px + env(safe-area-inset-top, 0px)) 18px calc(24px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 14px; }
+.drawer { background: var(--surface); width: min(320px, 86%); height: 100%; overflow-y: auto; padding: calc(14px + env(safe-area-inset-top, 0px)) 18px calc(24px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 10px; }
 .drawer .srow { display: flex; gap: 6px; align-items: center; }
 .drawer .search { background: var(--bg); border-color: transparent; border-radius: 999px; }
 .menu { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
-.menu button { width: 100%; text-align: left; background: none; border: 0; border-bottom: 1px solid var(--line-2); padding: 13px 4px; font-size: 15px; font-weight: 700; color: var(--ink); }
-.menu .sub button { font-size: 14px; font-weight: 400; color: var(--ink-2); padding: 9px 4px 9px 16px; border-bottom: 0; }
+.menu button { width: 100%; text-align: left; background: none; border: 0; border-bottom: 1px solid var(--line-2); padding: 11px 4px; font-size: 15px; font-weight: 700; color: var(--ink); }
+.menu .sub button { font-size: 14px; font-weight: 400; color: var(--ink-2); padding: 5px 4px 5px 16px; border-bottom: 0; }
+.menu .sub { padding-bottom: 4px; }
 .menu .sub button::before { content: "· "; color: var(--muted); }
 
 .toast { position: fixed; left: 50%; top: calc(64px + env(safe-area-inset-top, 0px)); text-align: center; width: max-content; transform: translateX(-50%); background: var(--navy); color: var(--on-navy); padding: 10px 16px; border-radius: 999px; font-size: 13.5px; z-index: 30; max-width: calc(100% - 32px); box-shadow: var(--shadow); }
@@ -604,6 +628,7 @@ button.cal-row b { color: var(--gold); }
     <button class="nav-back" id="navBack" data-act="nav-back" aria-label="이전으로" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
     <button class="brand" data-tab="home" aria-label="홈으로"><span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="#F2C46B" d="M8.4 2.6c1.4 1.9 2.8 3.4 2.8 5.6a2.8 2.8 0 0 1-5.6 0c0-2.2 1.4-3.7 2.8-5.6z"/><rect x="6.5" y="12.2" width="3.8" height="9" rx=".9" fill="#FBF0DA"/><path fill="#F2C46B" d="M15.6 1.8c1.4 1.9 2.8 3.4 2.8 5.6a2.8 2.8 0 0 1-5.6 0c0-2.2 1.4-3.7 2.8-5.6z"/><rect x="13.7" y="11.4" width="3.8" height="9.8" rx=".9" fill="#FBF0DA"/></svg></span><span class="brand-txt"><span class="brand-name">합력하여 선을 이루는 기도</span><small class="brand-sub">얼굴을 몰라도, 서로를 위해 기도하는 곳</small></span></button>
     <div class="top-actions">
+      <button class="icon-btn bell" data-act="notices" aria-label="공지사항"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg><i class="ndot" id="bellDot" hidden></i></button>
       <button class="icon-btn" data-tab="me" aria-label="내 정보"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 21c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/></svg></button>
       <button class="icon-btn" data-act="menu" aria-label="전체 메뉴"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6.5h16M4 12h16M4 17.5h16"/></svg></button>
     </div>
@@ -662,6 +687,7 @@ button.cal-row b { color: var(--gold); }
 
   // 운영자가 올리는 "기도의 모든 것" 컨텐츠 (예시)
   var GUIDES = [
+    { id: 'n1', kind: '공지', at: Date.now() - 86400000, title: '함께 기도하는 시험 운영을 시작했어요', body: '불편한 점이나 바라는 기능은 전체 메뉴의 "운영자에게 한마디"로 알려 주세요. 하나하나 읽고 반영할게요.' },
     { id: 'g1', kind: '책 소개', title: '《스릴 있고 성취감 넘치는 중보기도》 조이 도우슨', body: '중보기도가 무엇인지, 어떻게 하나님의 마음을 구하며 다른 사람을 위해 기도할 수 있는지 다루는 책이에요. 중보기도를 처음 시작하는 분께 권해요.' },
     { id: 'g2', kind: '따라하는 기도', title: '주기도문으로 기도하기', body: '하늘에 계신 우리 아버지여,\n이름이 거룩히 여김을 받으시오며\n나라가 임하시오며\n뜻이 하늘에서 이루어진 것 같이 땅에서도 이루어지이다.\n오늘 우리에게 일용할 양식을 주시옵고\n우리가 우리에게 죄 지은 자를 사하여 준 것 같이 우리 죄를 사하여 주시옵고\n우리를 시험에 들게 하지 마시옵고\n다만 악에서 구하시옵소서.\n대개 나라와 권세와 영광이 아버지께 영원히 있사옵나이다. 아멘.\n\n한 구절씩 천천히 읽고, 그 구절 안에서 오늘 내 삶에 필요한 고백을 덧붙여 보세요.' },
     { id: 'g3', kind: '기도의 방법', title: '감사 기도: 오늘 받은 은혜 세 가지 세기', body: '기도를 시작할 때 오늘 받은 은혜 세 가지를 구체적으로 떠올리고 감사로 고백해 보세요. 문제를 말하기 전에 감사로 시작하면 마음이 하나님께 향합니다.' },
@@ -732,7 +758,7 @@ button.cal-row b { color: var(--gold); }
       me: { name: '은혜', role: '일반 성도' },
       example: true,
       posts: [
-        { id: uid(), board: 'pray', cat: '개인 중보', urgent: true, title: '어머니의 수술이 잘 끝나도록 기도 부탁드려요', body: '다음 주 화요일에 어머니가 심장 수술을 받으세요. 연세가 있으셔서 걱정이 많습니다. 의료진의 손길을 주님께서 붙들어 주시고, 회복 기간 동안 평안을 주시도록 함께 기도해 주세요.', author: '익명의 성도', created: now - 2 * H, prayers: 23, prayed: false, comments: [{ author: '소망', text: '어머님과 가족 모두를 위해 기도했어요. 주님의 평강이 함께하시길.', created: now - H }], example: true },
+        { id: uid(), board: 'pray', cat: '개인 중보', tag: '건강', urgent: true, title: '어머니의 수술이 잘 끝나도록 기도 부탁드려요', body: '다음 주 화요일에 어머니가 심장 수술을 받으세요. 연세가 있으셔서 걱정이 많습니다. 의료진의 손길을 주님께서 붙들어 주시고, 회복 기간 동안 평안을 주시도록 함께 기도해 주세요.', author: '익명의 성도', created: now - 2 * H, prayers: 23, prayed: false, comments: [{ author: '소망', text: '어머님과 가족 모두를 위해 기도했어요. 주님의 평강이 함께하시길.', created: now - H }], example: true },
         { id: uid(), board: 'pray', cat: '선교지 편지', title: '캄보디아 시엠립에서 인사드립니다', body: '이번 달부터 마을 아이들 30명과 방과후 성경공부를 시작했습니다. 우기라 길이 자주 끊기는데, 아이들이 안전하게 오갈 수 있도록, 그리고 현지 교사 두 분이 지치지 않도록 기도해 주세요.', author: '김요셉 선교사', created: now - 9 * H, prayers: 41, prayed: false, comments: [], example: true },
         { id: uid(), board: 'pray', cat: '열방', title: '홍수 피해를 입은 지역을 위해', body: '갑작스러운 폭우로 집을 잃은 이웃들이 많습니다. 구호의 손길이 빠르게 닿고, 슬픔 속에 있는 이들에게 위로가 있기를 함께 기도합니다.', author: '열방기도모임', created: now - 26 * H, prayers: 112, prayed: false, comments: [], example: true },
         { id: uid(), board: 'story', cat: '', title: '기도 응답, 6개월 만에 취업했어요', body: '여기에 취업 기도 제목을 올렸을 때 모르는 분들이 댓글로 기도해 주셨어요. 지치던 날마다 그 댓글을 다시 읽었습니다. 이번 주 첫 출근을 했어요. 함께 기도해 주신 모든 분께 감사드리고 하나님께 영광 돌립니다.', author: '사랑', created: now - 30 * H, prayers: 58, prayed: false, comments: [], example: true },
@@ -803,6 +829,23 @@ button.cal-row b { color: var(--gold); }
   function board(b) { return S.posts.filter(function (p) { return p.board === b && !p.roomId && !p.adminOnly && (p.mine || !hiddenPost(p)); }).sort(function (a, c) { return c.created - a.created; }); }
   function urgentFirst(list) { return list.slice().sort(function (a, b) { return (b.urgent ? 1 : 0) - (a.urgent ? 1 : 0) || b.created - a.created; }); }
   function flags(p) { return (p.urgent ? '<span class="pill red">긴급</span> ' : '') + (p.answered ? '<span class="pill green">응답받음</span> ' : ''); }
+  // 기도 제목 태그 (고르지 않아도 돼요). 제목 앞에 붙어서 보여요.
+  var TAGS = ['건강', '가정', '자녀', '직장', '진로', '결혼', '경제', '관계', '학업', '신앙'];
+  function tagHtml(p) { return p.tag ? '<span class="ptag">' + esc(p.tag) + '</span>' : ''; }
+  // 글에 남기는 마음 표현 (기도했어요와 따로)
+  var REACTS = [['comfort', '🤗', '위로해요'], ['cheer', '💪', '힘내요'], ['like', '👍', '좋아요'], ['moved', '🥹', '감동이에요'], ['praise', '🙌', '할렐루야']];
+  function reactSum(p) {
+    var r = p.reacts || {}, n = 0, icons = REACTS.filter(function (x) { n += r[x[0]] || 0; return r[x[0]]; }).map(function (x) { return x[1]; });
+    return n ? '<span class="rsum">' + icons.slice(0, 3).join('') + ' ' + n + '</span>' : '';
+  }
+  function reactBar(p) {
+    var r = p.reacts || {}, my = p.myReacts || [];
+    var chips = REACTS.filter(function (x) { return r[x[0]]; }).map(function (x) {
+      return '<button class="rchip' + (my.indexOf(x[0]) >= 0 ? ' on' : '') + '" data-react="' + x[0] + '" data-pid="' + p.id + '">' + x[1] + ' ' + r[x[0]] + '</button>'; }).join('');
+    return '<div class="rbar">' + chips + '<button class="radd" data-act="react-open" data-pid="' + p.id + '" aria-label="마음 표현하기">' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="12" r="8"/><path d="M8 14.2c.8 1 1.8 1.5 3 1.5s2.2-.5 3-1.5"/><path d="M8.6 9.6h.01M13.4 9.6h.01"/><path d="M19.5 3v4M17.5 5h4"/></svg>' + (chips ? '' : '<span>마음 표현</span>') + '</button>' +
+      '<div class="rpick" id="rpick-' + p.id + '" hidden>' + REACTS.map(function (x) { return '<button data-react="' + x[0] + '" data-pid="' + p.id + '"' + (my.indexOf(x[0]) >= 0 ? ' class="on"' : '') + '><b>' + x[1] + '</b><span>' + x[2] + '</span></button>'; }).join('') + '</div></div>';
+  }
   function postById(id) { return S.posts.find(function (x) { return x.id === id; }); }
 
   // ---------- 큰 글씨 모드 (기기마다 따로 켜요) ----------
@@ -870,8 +913,8 @@ button.cal-row b { color: var(--gold); }
   function countSpan(p) { return '<span class="cnt">' + CANDLE + (p.board === 'story' ? '아멘 ' : p.board === 'tips' ? '공감 ' : '함께 기도 ') + p.prayers + '</span>'; }
   function item(p, mode) {
     var meta = '<div class="meta"><span>' + esc(p.author) + '</span><span>' + ago(p.created) + '</span>' +
-      (mode === 'concern' ? concernStatus(p) : countSpan(p) + '<span>댓글 ' + p.comments.length + '</span>') + (p.images && p.images.length ? '<span>사진 ' + p.images.length + '</span>' : '') + '</div>';
-    return '<button class="row-item" data-open="' + p.id + '"><h3>' + flags(p) + esc(p.title) + '</h3>' +
+      (mode === 'concern' ? concernStatus(p) : countSpan(p) + '<span>댓글 ' + p.comments.length + '</span>') + (p.images && p.images.length ? '<span>사진 ' + p.images.length + '</span>' : '') + reactSum(p) + '</div>';
+    return '<button class="row-item" data-open="' + p.id + '"><h3>' + flags(p) + tagHtml(p) + esc(p.title) + '</h3>' +
       (mode === 'full' ? '<p>' + esc(firstLine(p.body)) + '</p>' : '') + meta + '</button>';
   }
   function lineItem(attr, kind, title) { return '<button class="row-item line" ' + attr + '><span class="kind">' + kind + '</span><h3>' + esc(title) + '</h3></button>'; }
@@ -917,6 +960,17 @@ button.cal-row b { color: var(--gold); }
       '<div class="dly-track" id="dlyTrack">' + rows + '</div></section>';
   }
 
+  // 오늘의 중보가 2개 이상이면 4초마다 다음 카드로 넘겨요. 손으로 넘기면 잠시 멈춰요.
+  var dlyTouch = 0;
+  document.addEventListener('touchstart', function (e) { if (e.target.closest && e.target.closest('#dlyTrack')) dlyTouch = Date.now(); }, { passive: true });
+  document.addEventListener('mousedown', function (e) { if (e.target.closest && e.target.closest('#dlyTrack')) dlyTouch = Date.now(); });
+  setInterval(function () {
+    var tr = el('dlyTrack'); if (!tr || document.hidden || el('sheet') || Date.now() - dlyTouch < 8000) return;
+    var items = tr.children; if (items.length < 2 || tr.scrollWidth <= tr.clientWidth + 4) return;
+    var w = items[1].offsetLeft - items[0].offsetLeft, i = Math.round(tr.scrollLeft / w) + 1;
+    if (tr.scrollLeft + tr.clientWidth >= tr.scrollWidth - 4) i = 0;
+    tr.scrollTo({ left: i * w, behavior: 'smooth' });
+  }, 4000);
   function alarmNext() {
     var a = S.alarm; if (!a || !a.on || !a.times.length || !a.days.length) return null;
     var now = new Date(), hm = pad(now.getHours()) + ':' + pad(now.getMinutes()), ts = a.times.slice().sort();
@@ -964,7 +1018,7 @@ button.cal-row b { color: var(--gold); }
   function vHome() {
     var t = today(), act = attendItems(), allDone = act.length > 0 && act.every(function (i) { return i.checks.indexOf(t) >= 0; });
     var tips = board('tips');
-    var AG = allGuides(), allThings = (AG[0] ? lineItem('data-guide="' + AG[0].id + '"', AG[0].kind, AG[0].title) : '') +
+    var AG = prayGuides(), allThings = (AG[0] ? lineItem('data-guide="' + AG[0].id + '"', AG[0].kind, AG[0].title) : '') +
       (tips[0] ? lineItem('data-open="' + tips[0].id + '"', '노하우', tips[0].title) : AG[1] ? lineItem('data-guide="' + AG[1].id + '"', AG[1].kind, AG[1].title) : '');
     return homeHero(allDone) + (BIG ? '' : quickMenu()) + installBanner() +
       (SB ? '<button class="beta" data-act="feedback">시험 운영 중이에요. 불편한 점은 <u>운영자에게 한마디</u>로 알려 주세요.</button>' : '') +
@@ -1016,9 +1070,9 @@ button.cal-row b { color: var(--gold); }
     return '<button class="post" data-open="' + p.id + '">' +
       '<div class="row" style="gap:6px">' + flags(p) + (p.cat ? '<span class="tag' + (p.cat === '선교지 편지' ? ' gold' : '') + '">' + esc(p.cat) + '</span>' : '') +
       (mode === 'concern' ? p.scope.map(function (r) { return '<span class="tag">' + esc(r) + '</span>'; }).join('') : '') + exampleTag(p) + '</div>' +
-      '<h3>' + esc(p.title) + '</h3>' + (mode === 'concern' ? '' : '<p>' + esc(p.body) + '</p>') +
+      '<h3>' + tagHtml(p) + esc(p.title) + '</h3>' + (mode === 'concern' ? '' : '<p>' + esc(p.body) + '</p>') +
       '<div class="meta"><span>' + esc(p.author) + '</span><span>' + ago(p.created) + '</span>' +
-      (mode === 'concern' ? concernStatus(p) : countSpan(p) + '<span>댓글 ' + p.comments.length + '</span>') + '</div></button>';
+      (mode === 'concern' ? concernStatus(p) : countSpan(p) + '<span>댓글 ' + p.comments.length + '</span>') + reactSum(p) + '</div></button>';
   }
 
   function pageHead(title, act, label) { return '<div class="page-head"><h1 class="page-title">' + title + '</h1><button class="btn sm ghost" data-act="' + act + '">+ ' + label + '</button></div>'; }
@@ -1144,10 +1198,12 @@ button.cal-row b { color: var(--gold); }
     return list.filter(function (r) { return mine.indexOf(r.id) < 0; });
   }
   function openRoomsSec() {
-    var list = openRooms();
-    var rows = list.slice(0, 4).map(function (r) {
+    var list = openRooms(), mineOpen = S.rooms.filter(function (r) { return r.isOpen; });
+    var rows = mineOpen.map(function (r) {
+      return '<button class="row-item line" data-room="' + r.id + '"><span class="kind room-k">오픈</span><h3>' + esc(r.name) + '</h3><span class="room-on">' + (isLeader(r) ? '내가 만든 방' : '내 방') + '</span></button>';
+    }).concat(list.map(function (r) {
       return '<button class="row-item line" data-oroom="' + r.id + '"><span class="kind room-k">오픈</span><h3>' + esc(r.name) + '</h3><span class="room-on">' + (r.requested ? '신청함' : (r.count || 1) + '명') + '</span></button>';
-    }).join('');
+    })).slice(0, 5).join('');
     return '<section class="sec"><div class="sec-head"><h2><button class="sec-t" data-act="rooms">오픈 기도 모임방</button></h2><button class="more" data-act="rooms">전체 보기</button></div>' +
       (rows ? group(rows) : '<div class="group"><div class="empty-row">아직 열린 모임방이 없어요. 모임방을 만들 때 "오픈"을 고르면 여기에 보여요.</div></div>') + '</section>';
   }
@@ -1221,7 +1277,7 @@ button.cal-row b { color: var(--gold); }
       return '<button data-gtab="' + s[0] + '" aria-pressed="' + (gtab === s[0]) + '">' + s[1] + '</button>'; }).join('') + '</div>';
     if (gtab === 'guides') {
       h += '<div class="note">따라하는 기도, 기도의 방법, 책 소개 등 운영자가 모아 둔 기도 컨텐츠예요.</div>';
-      allGuides().forEach(function (g) { h += '<button class="post" data-guide="' + g.id + '"><div class="row" style="gap:6px"><span class="tag">' + esc(g.kind) + '</span>' + (g.mine ? '' : '<span class="tag example">예시</span>') + '</div><h3>' + esc(g.title) + '</h3><p>' + esc(g.body) + '</p></button>'; });
+      prayGuides().forEach(function (g) { h += '<button class="post" data-guide="' + g.id + '"><div class="row" style="gap:6px"><span class="tag">' + esc(g.kind) + '</span>' + (g.mine ? '' : '<span class="tag example">예시</span>') + '</div><h3>' + esc(g.title) + '</h3><p>' + esc(g.body) + '</p></button>'; });
     } else {
       var list = board('tips');
       h += '<div class="note">나만의 기도 습관과 노하우를 나눠 주세요.</div>' + list.map(postCard).join('');
@@ -1233,7 +1289,7 @@ button.cal-row b { color: var(--gold); }
     var s = searchQ.toLowerCase();
     var names = { pray: '중보기도', story: '간증', concern: '사연&고민', tips: '기도 노하우' };
     var hits = S.posts.filter(function (p) { return !p.roomId && !p.adminOnly && (p.mine || !hiddenPost(p)) && (p.title + ' ' + p.body).toLowerCase().indexOf(s) >= 0; }).sort(function (a, b) { return b.created - a.created; });
-    var gh = allGuides().filter(function (g) { return (g.title + g.body).toLowerCase().indexOf(s) >= 0; });
+    var gh = prayGuides().filter(function (g) { return (g.title + g.body).toLowerCase().indexOf(s) >= 0; });
     return '<h1 class="page-title">"' + esc(searchQ) + '" 검색 결과</h1>' +
       (hits.length + gh.length ? hits.map(function (p) { return '<div class="label">' + names[p.board] + '</div>' + postCard(p); }).join('') +
         gh.map(function (g) { return '<div class="label">기도의 모든 것</div><button class="post" data-guide="' + g.id + '"><h3>' + esc(g.title) + '</h3><p>' + esc(g.body) + '</p></button>'; }).join('')
@@ -1326,8 +1382,8 @@ button.cal-row b { color: var(--gold); }
       '<div class="time-top"><span class="label">' + (d === t ? '오늘의 기도 시간' : md(d) + ' 기도 시간') + '</span><input class="date-chip" type="date" id="tDate" value="' + d + '" max="' + t + '" aria-label="날짜 바꾸기"></div>' +
       '<div><div class="time-big' + (r ? ' bump' : '') + '">' + big + '</div></div>' +
       '<div class="time-sub">' + sub + '</div>' +
-      '<div class="quick">' + [5, 10, 20, 30].map(function (n) { return '<button data-add="' + n + '">+' + n + '분</button>'; }).join('') + '</div>' +
-      '<div class="manual"><input class="input" type="number" inputmode="numeric" min="1" id="tMin" placeholder="직접 입력 (분)"><button class="btn" data-act="add-time">더하기</button></div>' +
+      '<div class="tadd">' + [5, 10, 20, 30].map(function (n) { return '<button class="tchip" data-add="' + n + '">+' + n + '분</button>'; }).join('') +
+        '<input class="tin" type="number" inputmode="numeric" min="1" id="tMin" placeholder="직접" aria-label="직접 입력 (분)"><button class="tplus" data-act="add-time" aria-label="입력한 시간 더하기">+</button></div>' +
       (entries.length ? '<ul class="log">' + entries.map(function (e, i) { return '<li><span class="at">' + clock(e.at) + '</span><b>+' + e.m + '분</b><button data-undo="' + i + '">지우기</button></li>'; }).join('') + '</ul>' : '') +
       '<div class="row between"><span class="small muted">' + (entries.length ? '' : '') + '</span><button class="linkbtn" data-act="edit-time">합계 고치기</button></div>' +
       '</div>';
@@ -1617,10 +1673,22 @@ button.cal-row b { color: var(--gold); }
   var atab = 'dash';
   var ADM_TABS = [['dash', '현황'], ['voice', '의견'], ['safe', '안전'], ['member', '회원'], ['content', '콘텐츠'], ['relay', '릴레이'], ['staff', '운영진']];
   var ADM_ROLES = { '최고 관리자': ['현황', '안전', '회원', '콘텐츠', '릴레이', '운영진'], '운영자': ['현황', '안전', '회원', '콘텐츠', '릴레이'], '콘텐츠 담당': ['현황', '콘텐츠', '릴레이'], '안전 담당': ['현황', '안전', '회원'] };
-  var GUIDE_KINDS = ['따라하는 기도', '기도의 방법', '책 소개', '묵상', '영상'];
+  var GUIDE_KINDS = ['따라하는 기도', '기도의 방법', '책 소개', '묵상', '영상', '공지'];
   var DEF_VERSE = { t: '모든 기도와 간구를 하되 항상 성령 안에서 기도하고 이를 위하여 깨어 구하기를 항상 힘쓰며 여러 성도를 위하여 구하라', ref: '에베소서 6:18' };
   function todayVerse() { return (SB ? (S.cloudVerses || {})[today()] : S.admin && S.admin.verses[today()]) || DEF_VERSE; }
   function allGuides() { return SB ? (S.guides || []) : (S.guides || []).concat(GUIDES); }
+  function prayGuides() { return allGuides().filter(function (g) { return g.kind !== '공지'; }); }
+  function notices() { return allGuides().filter(function (g) { return g.kind === '공지'; }).sort(function (a, b) { return (b.at || 0) - (a.at || 0); }); }
+  function noticeSeen() { try { return +localStorage.getItem('pt-notice-seen') || 0; } catch (e) { return 0; } }
+  function noticeNew() { return notices().some(function (n) { return (n.at || 0) > noticeSeen(); }); }
+  function vNotice() {
+    var list = notices();
+    try { localStorage.setItem('pt-notice-seen', String(Date.now())); } catch (e) {}
+    return '<h1 class="page-title">공지사항</h1>' + (list.length ? list.map(function (n) {
+      return '<button class="post" data-guide="' + n.id + '"><div class="row" style="gap:6px"><span class="tag gold">공지</span>' + (n.mine ? '' : '<span class="tag example">예시</span>') + (n.at ? '<span class="small muted">' + ago(n.at) + '</span>' : '') + '</div><h3>' + esc(n.title) + '</h3><p>' + esc(n.body) + '</p></button>';
+    }).join('') : '<div class="empty">아직 올라온 공지가 없어요.</div>') +
+      (staffCan('콘텐츠') && SB ? '<div class="small muted">공지는 운영자 관리의 콘텐츠에서 종류를 "공지"로 골라 올려요.</div>' : '');
+  }
   function admInit() {
     if (SB) { S.admin = S.admin || { members: [], staff: [], verses: S.cloudVerses || {}, blocked: [] }; return; }
     if (S.admin) return;
@@ -1915,7 +1983,7 @@ button.cal-row b { color: var(--gold); }
     return h;
   }
   var BIG_VIEWS = { pray: bigPray, diary: bigDiary };
-  var VIEWS = { admin: vAdmin, join: vJoin, room: vRoom, home: vHome, pray: vPray, diary: vDiary, concern: vConcern, story: vStory, me: vMe, guide: vGuide, search: vSearch };
+  var VIEWS = { notice: vNotice, admin: vAdmin, join: vJoin, room: vRoom, home: vHome, pray: vPray, diary: vDiary, concern: vConcern, story: vStory, me: vMe, guide: vGuide, search: vSearch };
   function render() {
     if (SB && (!C.user || !C.joined) && tab !== 'join') tab = 'join';
     document.body.classList.toggle('big', BIG);
@@ -1923,6 +1991,7 @@ button.cal-row b { color: var(--gold); }
     el('view').innerHTML = (BIG && BIG_VIEWS[tab] ? BIG_VIEWS[tab] : VIEWS[tab])();
     el('topWrite').hidden = tab === 'join' || tab === 'admin' || (BIG && tab !== 'home');
     navTrack();
+    if (el('bellDot')) el('bellDot').hidden = !noticeNew() || tab === 'notice';
   }
   // 모든 페이지 위쪽 꺽쇠(‹)로 바로 전 화면에 돌아가요. 휴대폰 뒤로 가기 버튼도 같은 방식으로 움직여요.
   var NAV = [], navCur = null, navBack = false, navPushed = 0;
@@ -1957,10 +2026,10 @@ button.cal-row b { color: var(--gold); }
       diary: [['diary-add', '기도 제목'], ['diary-time', '기도 시간'], ['diary-letter', '기도 편지'], ['diary-scrap', '스크랩'], ['calendar', '캘린더'], ['widget', '위젯']] };
     var M = [['pray', '중보기도'], ['diary', '기도 다이어리'], ['concern', '말못할 사연 · 고민 상담'], ['story', '간증']];
     el('drawerRoot').innerHTML = '<div class="drawer-back" data-dclose="1"><nav class="drawer" aria-label="전체 메뉴">' +
-      '<div class="drawer-brand">합력하여 선을 이루는 기도<small>얼굴을 몰라도, 서로를 위해 기도하는 곳</small></div><div class="srow"><input class="search" id="dq" type="search" placeholder="Search..." aria-label="전체 글 검색"><button class="icon-btn" data-tab="me" aria-label="설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div>' +
+      '<div class="drawer-brand">합력하여 선을 이루는 기도</div><div class="srow"><input class="search" id="dq" type="search" placeholder="Search..." aria-label="전체 글 검색"><button class="icon-btn" data-tab="me" aria-label="설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div>' +
       '<ul class="menu">' + M.map(function (m) { return '<li><button data-tab="' + m[0] + '">' + m[1] + '</button>' + (SUB[m[0]] ? '<ul class="menu sub">' + SUB[m[0]].map(function (x) { return '<li><button data-dm="' + x[0] + '">' + x[1] + '</button></li>'; }).join('') + '</ul>' : '') + '</li>'; }).join('') +
       '<li><button data-guide-tab="guides">기도란</button><ul class="menu sub"><li><button data-guide-tab="guides">기도의 모든 것</button></li><li><button data-guide-tab="tips">나만의 기도 노하우</button></li></ul></li>' +
-      '<li><button data-act="invite">초대</button></li><li><button data-act="install">앱 설치 방법</button></li><li><button data-act="feedback">운영자에게 한마디</button></li><li><button data-act="policy">개인정보 처리방침</button></li>' + (!SB || C.staff ? '<li><button data-tab="admin">운영자 관리 <span class="tag">운영진</span></button></li>' : '') + (S.me.profile ? '' : '<li><button data-act="join">회원 가입</button></li>') + '</ul></nav></div>';
+      '<li><button data-act="notices">공지사항' + (noticeNew() ? ' <i class="ndot"></i>' : '') + '</button></li><li><button data-act="invite">초대</button></li><li><button data-act="install">앱 설치 방법</button></li><li><button data-act="feedback">운영자에게 한마디</button></li><li><button data-act="policy">개인정보 처리방침</button></li>' + (!SB || C.staff ? '<li><button data-tab="admin">운영자 관리 <span class="tag">운영진</span></button></li>' : '') + (S.me.profile ? '' : '<li><button data-act="join">회원 가입</button></li>') + '</ul></nav></div>';
   }
   function closeDrawer() { el('drawerRoot').innerHTML = ''; }
 
@@ -2010,8 +2079,8 @@ button.cal-row b { color: var(--gold); }
       concern: ['말못할 사연', '마음으로 함께해요', '함께하고 있어요', '공감과 상담의 말을 남겨 주세요'], tips: ['나만의 기도 노하우', '공감해요', '공감했어요', '나의 노하우도 나눠 주세요'] }[p.board];
     var c = canComment(p), scrapped = (S.scraps || []).indexOf(p.id) >= 0, rm = p.roomId && roomById(p.roomId);
     sheet(rm ? rm.name : B[0],
-      '<div><div class="row" style="gap:6px">' + flags(p) + (p.cat ? '<span class="tag">' + esc(p.cat) + '</span>' : '') + (p.board === 'concern' ? p.scope.map(function (r) { return '<span class="tag">' + esc(r) + '</span>'; }).join('') : '') + exampleTag(p) + '</div><h2 style="font-size:20px;margin-top:8px">' + esc(p.title) + '</h2><div class="meta" style="margin-top:4px"><span>' + esc(p.author) + '</span><span>' + ago(p.created) + '</span></div></div>' +
-      '<p class="body-text">' + esc(p.body) + '</p>' + picsHtml(p.images) +
+      '<div><div class="row" style="gap:6px">' + flags(p) + (p.cat ? '<span class="tag">' + esc(p.cat) + '</span>' : '') + (p.board === 'concern' ? p.scope.map(function (r) { return '<span class="tag">' + esc(r) + '</span>'; }).join('') : '') + exampleTag(p) + '</div><h2 style="font-size:20px;margin-top:8px">' + tagHtml(p) + esc(p.title) + '</h2><div class="meta" style="margin-top:4px"><span>' + esc(p.author) + '</span><span>' + ago(p.created) + '</span></div></div>' +
+      '<p class="body-text">' + esc(p.body) + '</p>' + picsHtml(p.images) + reactBar(p) +
       '<div class="row" style="flex-wrap:nowrap;align-items:stretch"><button class="btn ' + (p.prayed ? 'done' : 'gold') + '" style="flex:1;padding:13px" data-pray="' + p.id + '">' + (p.prayed ? B[2] : B[1]) + ' · ' + p.prayers + '명</button>' +
       '<button class="scrap" data-scrap="' + p.id + '" aria-pressed="' + scrapped + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6 3.5h12v17l-6-4-6 4z"/></svg>' + (scrapped ? '스크랩됨' : '스크랩') + '</button></div>' +
       (p.board === 'concern' ? concernChats(p, c) : '<div class="label">댓글 ' + p.comments.length + '</div>' +
@@ -2046,6 +2115,7 @@ button.cal-row b { color: var(--gold); }
     var np = job.np;
     var cp = cloud('create_post', { p_id: np.id, p_board: np.board, p_cat: np.cat || '', p_room: job.room || null, p_title: np.title, p_body: np.body, p_urgent: !!np.urgent, p_scope: np.scope || [], p_hide_after: np.hideAfter || null, p_author: np.author });
     if (job.pics && job.pics.length && picBoard(np) && !job.room) attachPics('post', np, job.pics, cp);
+    if (np.tag) Promise.resolve(cp).then(function () { return cloud('set_post_tag', { p_id: np.id, p_tag: np.tag }); });
     if (job.room) { np.roomId = job.room; np.cat = ''; S.posts.push(np); S.items.push({ id: uid(), title: np.title, body: np.body, start: today(), days: 40, checks: [], answered: false, memo: '', postId: np.id }); save(); closeSheet(); render(); toast('모임방에 올렸어요. 내 기도제목에도 담았어요'); return; }
     S.posts.push(np);
     var autoItem = false;
@@ -2123,6 +2193,7 @@ button.cal-row b { color: var(--gold); }
       (preset && preset.roomId ? '<div class="note">"' + esc(roomById(preset.roomId).name) + '" 식구들만 볼 수 있어요.</div>' : boardName === 'pray' ? '<label class="field"><span>게시판</span><select class="input" id="wCat">' + POST_CATS.map(function (c) { return '<option' + ((preset && preset.cat) === c ? ' selected' : '') + '>' + c + '</option>'; }).join('') + '</select></label>' : '') +
       (boardName === 'concern' ? '<label class="field"><span>이번 사연에 쓸 별명</span><div class="row" style="flex-wrap:nowrap"><input class="input" id="wAlias" maxlength="10" style="flex:1;min-width:0" value="' + esc(randAlias()) + '"><button class="btn line sm" type="button" data-act="alias-new">다른 별명</button></div><div class="small muted">평소 닉네임과 따로 쓰는 별명이에요. 사연마다 새로 정할 수 있어서 내 다른 글과 연결되지 않아요.</div></label>' : '') +
       '<label class="field"><span>제목</span><input class="input" id="wTitle" maxlength="60" value="' + esc(preset && preset.title) + '" placeholder="' + cfg[1] + '"></label>' +
+      (boardName === 'pray' ? '<div class="field"><span>태그 <b class="opt">선택</b></span><div class="chips wrap" id="wTags">' + TAGS.map(function (t) { return '<button class="chip" type="button" data-wtag="' + t + '" aria-pressed="false">' + t + '</button>'; }).join('') + '</div></div>' : '') +
       '<label class="field"><span>내용</span><textarea class="input" id="wBody" placeholder="' + cfg[2] + '">' + esc(preset && preset.body) + '</textarea></label>' +
       (boardName === 'pray' && !(preset && preset.roomId) ? picPicker('선교지 편지에는 현지 사진을 붙일 수 있어요. 사람 얼굴이 크게 나온 사진은 피해 주세요.', (preset && preset.cat) === '선교지 편지') : '') +
       (boardName === 'tips' ? picPicker('기도 노트, 기도하는 자리, 말씀 카드처럼 노하우를 보여 주는 사진을 붙여 보세요.', true) : '') +
@@ -2312,9 +2383,9 @@ button.cal-row b { color: var(--gold); }
     if (b.dataset.close && (e.target === b || b.classList.contains('x'))) return closeSheet();
     if (b.classList.contains('sheet-back')) return;
     var d = b.dataset;
-    if (d.tab) { if (d.tab === 'diary' && tab !== 'diary') dtab = 'items'; return go(d.tab); }
+    if (d.tab) { if (d.tab === 'diary' && tab !== 'diary') dtab = 'items'; if (d.tab === 'pray' && tab !== 'pray') { ptab = 'all'; cat = '전체'; q = ''; } return go(d.tab); }
     if (d.guideTab) { gtab = d.guideTab; return go('guide'); }
-    if (d.go) { if (d.go === 'guide') gtab = 'guides'; return go(d.go); }
+    if (d.go) { if (d.go === 'guide') gtab = 'guides'; if (d.go === 'pray') { ptab = 'all'; cat = '전체'; q = ''; } return go(d.go); }
     if (d.cat) { cat = d.cat; render(); return; }
     if (d.dtab) { dtab = d.dtab; render(); return; }
     if (d.gtab) { gtab = d.gtab; render(); return; }
@@ -2330,6 +2401,15 @@ button.cal-row b { color: var(--gold); }
       S.scraps = S.scraps || []; var si = S.scraps.indexOf(d.scrap);
       if (si >= 0) S.scraps.splice(si, 1); else { S.scraps.unshift(d.scrap); toast('스크랩했어요. 기도다이어리에서 볼 수 있어요'); }
       save(); openPost(d.scrap); render(); return;
+    }
+    if (d.wtag) { var on3 = b.getAttribute('aria-pressed') !== 'true'; document.querySelectorAll('#wTags [data-wtag]').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); }); b.setAttribute('aria-pressed', on3); return; }
+    if (d.react) {
+      var rp = postById(d.pid); if (!rp) return;
+      rp.reacts = rp.reacts || {}; rp.myReacts = rp.myReacts || [];
+      var ri = rp.myReacts.indexOf(d.react);
+      if (ri >= 0) { rp.myReacts.splice(ri, 1); rp.reacts[d.react] = Math.max(0, (rp.reacts[d.react] || 1) - 1); if (!rp.reacts[d.react]) delete rp.reacts[d.react]; }
+      else { rp.myReacts.push(d.react); rp.reacts[d.react] = (rp.reacts[d.react] || 0) + 1; }
+      cloud('toggle_react', { p_id: rp.id, p_kind: d.react }); save(); openPost(rp.id); render(); return;
     }
     if (d.qm) {
       if (d.qm === 'pray') { ptab = 'all'; cat = '전체'; return go('pray'); }
@@ -2454,7 +2534,8 @@ button.cal-row b { color: var(--gold); }
         if (!alias) return toast('이번 사연에 쓸 별명을 적어 주세요');
         if (alias === S.me.name || alias === S.me.real) return toast('평소 닉네임이나 실명과 다른 별명을 써 주세요');
       }
-      var np = { id: uid(), board: d.submit, cat: d.submit === 'pray' ? val('wCat') : '', scope: scope, mine: true, urgent: !!(el('wUrgent') && el('wUrgent').checked), title: title, body: body, author: d.submit === 'concern' ? alias : el('wAnon').checked ? '익명의 성도' : myName(), created: Date.now(), prayers: 0, prayed: false, comments: [] };
+      var wt = document.querySelector('#wTags [aria-pressed="true"]');
+      var np = { id: uid(), tag: d.submit === 'pray' && wt ? wt.getAttribute('data-wtag') : '', board: d.submit, cat: d.submit === 'pray' ? val('wCat') : '', scope: scope, mine: true, urgent: !!(el('wUrgent') && el('wUrgent').checked), title: title, body: body, author: d.submit === 'concern' ? alias : el('wAnon').checked ? '익명의 성도' : myName(), created: Date.now(), prayers: 0, prayed: false, comments: [] };
       if (d.submit === 'concern' && val('wHide')) np.hideAfter = +val('wHide');
       var job = { np: np, room: d.roomId, item: d.item, pics: PICS.slice() };
       if (isCrisis(title + ' ' + body)) { pendingPost = job; return crisisSheet(); }
@@ -2546,6 +2627,8 @@ button.cal-row b { color: var(--gold); }
       case 'hero-go': dtab = 'time'; return go('diary');
       case 'tpick-go': var tpm = parseInt(val('tpMin'), 10); if (!(tpm > 0)) return toast('분을 숫자로 적어 주세요'); closeSheet(); return addTime(today(), Math.min(tpm, 1440));
       case 'nav-back': if (navPushed > 0 && NAV.length) { history.back(); return; } return navGoBack();
+      case 'react-open': var rpk = el('rpick-' + d.pid); if (rpk) rpk.hidden = !rpk.hidden; return;
+      case 'notices': closeDrawer(); return go('notice');
       case 'room-create':
         var rnm = val('rName'); if (!rnm) return toast('모임방 이름을 적어 주세요');
         var code = ''; for (var ci = 0; ci < 6; ci++) code += 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'.charAt(Math.floor(Math.random() * 32));
@@ -2679,6 +2762,7 @@ button.cal-row b { color: var(--gold); }
     if (/Invalid login credentials/i.test(m)) m = '이메일이나 비밀번호가 맞지 않아요';
     if (/already registered|already exists/i.test(m)) m = '이미 가입한 이메일이에요. 로그인해 주세요';
     if (/Password should be/i.test(m)) m = '비밀번호는 6자 이상으로 정해 주세요';
+    if (/Could not find the function|schema cache|does not exist/i.test(m)) m = '서버 업데이트가 아직 안 됐어요. 운영자가 서버 지시서를 실행하면 돼요';
     toast(m);
   }
   function cloud(fn, args) {
@@ -2690,7 +2774,7 @@ button.cal-row b { color: var(--gold); }
   function pull() {
     if (!SB || !C.user) return Promise.resolve();
     return Promise.all([qv('v_me'), qv('v_posts', function (b) { return b.order('created_at', { ascending: false }).limit(400); }), qv('v_chats'), qv('v_rooms'), qv('v_relays'), qv('v_verses'),
-      qv('v_guides', function (b) { return b.order('created_at', { ascending: false }); }), qv('v_my_state').catch(function () { return null; }), qv('v_post_pics').catch(function () { return []; }), qv('v_open_rooms').catch(function () { return []; })])
+      qv('v_guides', function (b) { return b.order('created_at', { ascending: false }); }), qv('v_my_state').catch(function () { return null; }), qv('v_post_pics').catch(function () { return []; }), qv('v_open_rooms').catch(function () { return []; }), qv('v_post_extras').catch(function () { return []; })])
       .then(function (r) { applyPull(r); if (C.joined && r[7]) pApply(r[7][0] ? r[7][0].data : null); C.ready = true; return C.staff ? pullAdmin() : null; })
       .then(function () {
         save();
@@ -2771,11 +2855,12 @@ button.cal-row b { color: var(--gold); }
       if (c.with_role) o.roles[c.with_name] = c.with_role;
     });
     var pics = {}; (r[8] || []).forEach(function (x) { pics[x.id] = x.images || []; });
+    var ext = {}; (r[10] || []).forEach(function (x) { ext[x.id] = x; });
     S.posts = r[1].map(function (p) {
-      var ch = chats[p.id] || { chats: {}, roles: {} };
+      var ch = chats[p.id] || { chats: {}, roles: {} }, ex = ext[p.id] || {};
       return { id: p.id, board: p.board, cat: p.cat, roomId: p.room_id || undefined, title: p.title, body: p.body, urgent: p.urgent, scope: p.scope || [], hideAfter: p.hide_after || undefined,
         answered: p.answered, author: p.author_name, created: Date.parse(p.created_at), mine: p.mine, prayers: p.prayers, prayed: p.prayed, reported: p.reported, reports: p.reports,
-        reviewed: p.reviewed, crisisSeen: p.crisis_seen, chats: ch.chats, chatRoles: ch.roles, images: pics[p.id] || (C.pendPics && C.pendPics[p.id]) || [],
+        reviewed: p.reviewed, crisisSeen: p.crisis_seen, chats: ch.chats, chatRoles: ch.roles, images: pics[p.id] || (C.pendPics && C.pendPics[p.id]) || [], tag: ex.tag || '', reacts: ex.reacts || {}, myReacts: ex.my || [],
         comments: (p.comments || []).map(function (c) { return { author: c.author, role: c.role, text: c.text, created: Date.parse(c.created) }; }) };
     });
     S.rooms = r[3].map(function (x) { return { id: x.id, name: x.name, intro: x.intro, code: x.code, notice: x.notice, leader: x.leader, mine: x.mine, members: x.members || [], isOpen: !!x.is_open, requests: x.requests || [] }; });
