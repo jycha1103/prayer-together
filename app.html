@@ -500,6 +500,8 @@ button.cal-row b { color: var(--gold); }
   .sheet { animation: up .22s ease-out; } @keyframes up { from { transform: translateY(24px); opacity: .6; } }
   .drawer { animation: slide .2s ease-out; } @keyframes slide { from { transform: translateX(30px); opacity: .6; } }
 }
+  .empty-row{padding:18px 16px;font-size:12.5px;color:var(--muted)}
+  .beta{margin:0 0 12px;padding:9px 12px;border:1px solid var(--line);border-radius:10px;font-size:12px;color:var(--gold);text-align:center}
 </style>
 
 <div class="app">
@@ -521,9 +523,11 @@ button.cal-row b { color: var(--gold); }
 <script>
 (function () {
   // ---------- storage ----------
-  var KEY = 'prayer-together-v1';
+  // config.js 에 서버 주소가 있으면 서버에 연결하고, 없으면 이 기기 안에서만 움직이는 체험판이에요.
+  var CLOUD_CFG = window.PT_CLOUD && window.PT_CLOUD.url && window.supabase ? window.PT_CLOUD : null, C = null;
+  var KEY = CLOUD_CFG ? 'prayer-together-cloud-v1' : 'prayer-together-v1';
   function load() { try { var s = localStorage.getItem(KEY); return s ? JSON.parse(s) : null; } catch (e) { return null; } }
-  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} if (C && C.user && C.joined) actSoon(); }
 
   // ---------- dates ----------
   function pad(n) { return (n < 10 ? '0' : '') + n; }
@@ -545,7 +549,13 @@ button.cal-row b { color: var(--gold); }
   var ALIAS = ['새벽별', '들꽃', '작은등불', '물댄동산', '겨자씨', '흰구름', '오솔길', '단비', '등대', '소나무', '봄햇살', '은빛물결'];
   function randAlias() { var a = ALIAS.filter(function (x) { return x !== S.me.name && x !== S.me.real; }); return a[Math.floor(Math.random() * a.length)]; }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
-  function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+  function uid() {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    var b = new Uint8Array(16); (window.crypto || { getRandomValues: function (a) { for (var i = 0; i < a.length; i++) a[i] = Math.random() * 256; return a; } }).getRandomValues(b);
+    b[6] = (b[6] & 15) | 64; b[8] = (b[8] & 63) | 128;
+    var h = Array.prototype.map.call(b, function (x) { return (x + 256).toString(16).slice(1); }).join('');
+    return h.slice(0, 8) + '-' + h.slice(8, 12) + '-' + h.slice(12, 16) + '-' + h.slice(16, 20) + '-' + h.slice(20);
+  }
   function firstLine(s) { var m = String(s).split('\n')[0], i = m.search(/[.!?]\s/); return i > 0 ? m.slice(0, i + 1) : m; }
 
   // ---------- data ----------
@@ -643,7 +653,8 @@ button.cal-row b { color: var(--gold); }
     };
   }
 
-  var S = load() || seed();
+  function cloudSeed() { var s = seed(); s.v = 8; s.example = false; s.posts = []; s.items = []; s.letters = []; s.times = {}; s.relays = []; s.rooms = []; s.me = { name: '', role: '일반 성도' }; return s; }
+  var S = load() || (CLOUD_CFG ? cloudSeed() : seed());
   if (!S.v) { // 첫 버전에서 쓰던 기록에 새 게시판 예시를 더합니다
     var H0 = 3600000, n0 = Date.now();
     S.posts = S.posts.concat(seedConcerns(n0, H0), seedTips(n0, H0)); S.v = 2; save();
@@ -764,7 +775,7 @@ button.cal-row b { color: var(--gold); }
   }
   function lineItem(attr, kind, title) { return '<button class="row-item line" ' + attr + '><span class="kind">' + kind + '</span><h3>' + esc(title) + '</h3></button>'; }
   function secHead(title, go) { return '<div class="sec-head"><h2>' + title + '</h2>' + (go ? '<button class="more" data-go="' + go + '">전체 보기</button>' : '') + '</div>'; }
-  function group(html) { return '<div class="group">' + html + '</div>'; }
+  function group(html) { return '<div class="group">' + (html || '<div class="empty-row">아직 올라온 글이 없어요. 첫 글을 남겨 주세요.</div>') + '</div>'; }
 
   // 가입할 때 고른 관심 기도 분야와 닿는 글을 먼저 골라요
   var INTEREST_WORDS = { '가정': ['가정', '가족', '남편', '아내', '부모', '어머니', '아버지'], '건강 · 치유': ['수술', '건강', '치유', '회복', '병원'], '자녀 · 다음세대': ['자녀', '아이', '다음세대', '학생', '수험'],
@@ -853,9 +864,9 @@ button.cal-row b { color: var(--gold); }
     var t = today(), act = attendItems(), allDone = act.length > 0 && act.every(function (i) { return i.checks.indexOf(t) >= 0; });
     var d = new Date();
     var tips = board('tips');
-    var AG = allGuides(), allThings = lineItem('data-guide="' + AG[0].id + '"', AG[0].kind, AG[0].title) +
-      (tips[0] ? lineItem('data-open="' + tips[0].id + '"', '노하우', tips[0].title) : lineItem('data-guide="' + AG[1].id + '"', AG[1].kind, AG[1].title));
-    return '' +
+    var AG = allGuides(), allThings = (AG[0] ? lineItem('data-guide="' + AG[0].id + '"', AG[0].kind, AG[0].title) : '') +
+      (tips[0] ? lineItem('data-open="' + tips[0].id + '"', '노하우', tips[0].title) : AG[1] ? lineItem('data-guide="' + AG[1].id + '"', AG[1].kind, AG[1].title) : '');
+    return (SB ? '<div class="beta">시험 운영 중이에요. 불편한 점은 운영자에게 알려 주세요.</div>' : '') +
       '<div class="verse">' + GLOBE + '<div class="eyebrow">오늘의 말씀</div><p>' + esc(todayVerse().t) + '</p><cite>' + esc(todayVerse().ref) + '</cite></div>' +
       '<section class="sec"><div class="sec-head"><h2>' + esc(myName()) + '님의 오늘</h2><span class="date">' + (d.getMonth() + 1) + '월 ' + d.getDate() + '일 ' + '일월화수목금토'[d.getDay()] + '요일</span></div>' +
       '<div class="today">' +
@@ -865,7 +876,7 @@ button.cal-row b { color: var(--gold); }
       '<section class="sec">' + secHead('지금 기도가 필요해요', 'pray') + group(urgentFirst(board('pray')).slice(0, 3).map(function (p) { return item(p); }).join('')) + '</section>' +
       '<section class="sec">' + secHead('말못할 사연', 'concern') + group(board('concern').slice(0, 2).map(function (p) { return item(p, 'concern'); }).join('')) + '</section>' +
       '<section class="sec">' + secHead('간증', 'story') + group(board('story').slice(0, 2).map(function (p) { return item(p); }).join('')) + '</section>' +
-      '<section class="sec">' + secHead('기도의 모든 것', 'guide') + group(allThings) + '</section>';
+      (allThings ? '<section class="sec">' + secHead('기도의 모든 것', 'guide') + group(allThings) + '</section>' : '');
   }
 
   // ---------- boards ----------
@@ -1250,15 +1261,17 @@ button.cal-row b { color: var(--gold); }
   function meTail() {
     return '<div class="card stack" style="gap:8px"><h2 style="font-size:17px">준비 중인 메뉴</h2>' +
       '<div class="row"><span class="tag">라이브 중보기도 방송</span></div></div>' +
+      (SB ? '<div class="card stack" style="gap:8px"><h2 style="font-size:17px">계정</h2><div class="small muted">' + esc((C.user && C.user.email) || '') + ' 으로 로그인했어요. 글과 기록은 서버에 안전하게 저장돼요.</div>' +
+        '<button class="btn line" data-act="c-logout">로그아웃</button></div>' :
       '<div class="card stack" style="gap:8px"><h2 style="font-size:17px">이 버전에 대해</h2><div class="small muted">지금은 시험 버전이라 글과 기록이 이 기기에만 저장돼요. 다른 성도와 실제로 함께 쓰려면 회원 가입과 서버 연결이 다음 단계로 필요해요.</div>' +
-      '<button class="btn line" data-act="reset">처음 상태로 되돌리기</button></div>' +
+      '<button class="btn line" data-act="reset">처음 상태로 되돌리기</button></div>') +
       '<div class="row" style="justify-content:center;gap:16px"><button class="linkbtn" data-act="policy">개인정보 처리방침</button></div>';
   }
 
   // ---------- 회원 가입 ----------
   // 실제 서비스에서는 카카오·네이버·애플 로그인과 카카오 장소 검색에 연결해요. 지금은 같은 흐름을 체험만 해요.
   var J = null;
-  var PROVIDERS = { kakao: '카카오', naver: '네이버', apple: 'Apple', phone: '휴대폰 번호' };
+  var PROVIDERS = { email: '이메일', kakao: '카카오', naver: '네이버', apple: 'Apple', phone: '휴대폰 번호' };
   var AGREES = [['age14', '만 14세 이상이에요', 1], ['terms', '서비스 이용약관 동의', 1], ['privacy', '개인정보 수집·이용 동의', 1], ['faith', '민감정보 수집·이용 동의', 1, '신앙 여부와 직분, 기도 제목 속 건강 이야기는 민감정보라 따로 동의를 받아요.'], ['push', '기도 알림과 응답 소식 받기', 0], ['news', '앱 소식과 이벤트 받기', 0]];
   var SIDO = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종', '경기', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주', '해외'];
   var FAITH = [['성도', '교회에 다니고 있어요'], ['가나안 성도', '신앙은 있지만 지금은 교회에 나가지 않아요'], ['비신도', '신앙을 알아가는 중이에요']];
@@ -1325,7 +1338,8 @@ button.cal-row b { color: var(--gold); }
     if (!J) J = { step: 0 };
     var st = J.step, h = '';
     if (st > 0 && st < 6) h += '<div class="join-top"><button class="back" data-act="j-back">‹ 이전</button><span>' + st + ' / 5</span></div><div class="join-bar"><i style="width:' + (st * 20) + '%"></i></div><h1 class="page-title">' + JSTEPS[st] + '</h1>';
-    if (st === 0) {
+    if (st === 0 && SB) h += cloudLogin();
+    else if (st === 0) {
       h += '<div class="join-hero"><span class="mark">' + document.querySelector('.brand .mark').innerHTML + '</span><h1>합력하여 선을 이루는 기도</h1><p>얼굴을 몰라도, 서로를 위해 기도하는 곳<br>3초 만에 시작해요</p></div>' +
         '<div class="stack" style="gap:10px"><button class="sso kakao" data-jlogin="kakao"><svg viewBox="0 0 24 24"><path fill="#191600" d="M12 4C7 4 3 7.2 3 11.1c0 2.5 1.7 4.7 4.2 6l-1 3.6c-.1.3.3.6.6.4l4.3-2.8c.3 0 .6.1.9.1 5 0 9-3.2 9-7.2S17 4 12 4z"/></svg>카카오로 시작하기</button>' +
         '<button class="sso naver" data-jlogin="naver"><b>N</b>네이버로 시작하기</button>' +
@@ -1407,6 +1421,7 @@ button.cal-row b { color: var(--gold); }
       S.me.name = J.name; S.me.real = J.real; S.me.show = J.show === '실명' ? 'real' : 'nick'; S.me.role = jRole(pf); S.me.profile = pf;
       if (pf.agree.push && S.alarm && !S.alarm.on) S.alarm.on = true;
       save();
+      if (SB) { cloud('save_profile', { p_nick: J.name, p_show_name: J.show === '실명' ? J.real : J.name, p_role: S.me.role, p_info: pf }).then(function (ok) { if (ok) pull(); }); }
     }
     J.step++; render(); window.scrollTo(0, 0);
   }
@@ -1417,9 +1432,10 @@ button.cal-row b { color: var(--gold); }
   var ADM_ROLES = { '최고 관리자': ['현황', '안전', '회원', '콘텐츠', '릴레이', '운영진'], '운영자': ['현황', '안전', '회원', '콘텐츠', '릴레이'], '콘텐츠 담당': ['현황', '콘텐츠', '릴레이'], '안전 담당': ['현황', '안전', '회원'] };
   var GUIDE_KINDS = ['따라하는 기도', '기도의 방법', '책 소개', '묵상', '영상'];
   var DEF_VERSE = { t: '모든 기도와 간구를 하되 항상 성령 안에서 기도하고 이를 위하여 깨어 구하기를 항상 힘쓰며 여러 성도를 위하여 구하라', ref: '에베소서 6:18' };
-  function todayVerse() { return (S.admin && S.admin.verses[today()]) || DEF_VERSE; }
-  function allGuides() { return (S.guides || []).concat(GUIDES); }
+  function todayVerse() { return (SB ? (S.cloudVerses || {})[today()] : S.admin && S.admin.verses[today()]) || DEF_VERSE; }
+  function allGuides() { return SB ? (S.guides || []) : (S.guides || []).concat(GUIDES); }
   function admInit() {
+    if (SB) { S.admin = S.admin || { members: [], staff: [], verses: S.cloudVerses || {}, blocked: [] }; return; }
     if (S.admin) return;
     var now = Date.now(), H = 3600000, D = 24 * H;
     S.admin = {
@@ -1439,7 +1455,7 @@ button.cal-row b { color: var(--gold); }
     S.posts.push({ id: uid(), board: 'concern', cat: '', scope: ['상담사', '목회자·선교사'], title: '요즘은 다 끝내고 싶다는 생각뿐이에요', body: '아무에게도 말을 못 하겠어요. 요즘은 다 끝내고 싶다는 생각만 들어요.', author: '작은새', created: now - 50 * 60000, prayers: 0, prayed: false, comments: [], adminOnly: true, example: true });
     save();
   }
-  function memberName(id) { if (id === 'me') return myName(); var m = S.admin.members.find(function (x) { return x.id === id; }); return m ? m.nick : '알 수 없음'; }
+  function memberName(id) { if (id === 'me') return myName(); var st = S.admin.staff.find(function (x) { return x.id === id && x.name; }); if (st) return st.name; var m = S.admin.members.find(function (x) { return x.id === id; }); return m ? m.nick : '알 수 없음'; }
   function admReported() { return S.posts.filter(function (p) { return (p.reports || 0) > 0 && !p.reviewed; }); }
   function admCrisis() { return S.posts.filter(function (p) { return p.board === 'concern' && !p.crisisSeen && isCrisis(p.title + ' ' + p.body); }); }
   function admWaiting() { return S.admin.members.filter(function (m) { return m.verify === 'wait'; }); }
@@ -1458,13 +1474,26 @@ button.cal-row b { color: var(--gold); }
     board: [['중보기도', 58], ['기도 다이어리', 24], ['사연&고민', 9], ['간증', 6], ['기도란', 3]]
   };
   function hbars(rows) {
+    if (!rows.length) return '<div class="card small muted">아직 자료가 없어요.</div>';
     var mx = Math.max.apply(null, rows.map(function (r) { return r[1]; }));
     return '<div class="card hbars">' + rows.map(function (r) { return '<div class="hb" title="' + r[0] + ' ' + r[1] + '%"><span>' + r[0] + '</span><i><b style="width:' + Math.round(r[1] / mx * 100) + '%"></b></i><em>' + r[1] + '%</em></div>'; }).join('') + '</div>';
   }
+  function pctRows(obj, order, label) {
+    obj = obj || {}; var keys = Object.keys(obj).filter(function (k) { return k !== '' && obj[k]; }), tot = keys.reduce(function (a, k) { return a + obj[k]; }, 0);
+    if (order) keys.sort(function (a, b) { return (order.indexOf(a) + 1 || 99) - (order.indexOf(b) + 1 || 99); }); else keys.sort(function (a, b) { return obj[b] - obj[a]; });
+    return keys.map(function (k) { return [label ? label(k) : k, Math.round(obj[k] / tot * 100)]; });
+  }
+  function cloudStats() {
+    var t = C.stats || {}, n = function (x) { return (x || 0).toLocaleString('ko-KR'); };
+    var g = pctRows(t.gender, ['여성', '남성']);
+    return { total: [['전체 회원', n(t.members) + '명'], ['누적 기도', n(t.prayers) + '번'], ['누적 기도 시간', n(Math.round((t.minutes || 0) / 60)) + '시간'], ['누적 글', n(t.posts) + '개'], ['기도 모임방', n(t.rooms) + '개'], ['릴레이 참여', n(t.relay_slots) + '번']],
+      weeks: t.weeks || [0, 0, 0, 0, 0, 0, 0, 0], gender: g.length === 2 ? g : g.length === 1 ? g.concat([[g[0][0] === '여성' ? '남성' : '여성', 0]]) : [['여성', 0], ['남성', 0]],
+      age: pctRows(t.age, ['1', '2', '3', '4', '5', '6'], function (k) { return k === '6' ? '60대 이상' : k + '0대'; }), region: pctRows(t.region), faith: pctRows(t.faith, null, function (k) { return k === '비신도' ? '아직 믿지 않아요' : k; }), board: [] };
+  }
   function admStats() {
-    var A = ADM_STATS, wk = A.weeks, mx = Math.max.apply(null, wk);
+    var A = SB ? cloudStats() : ADM_STATS, wk = A.weeks, mx = Math.max.apply(null, wk.concat([1]));
     var g = A.gender;
-    return '<button class="back" data-atab="dash">‹ 현황</button><div class="note">아래 숫자는 모두 예시예요. 서버를 연결하면 가입 정보로 자동 계산돼요.</div>' +
+    return '<button class="back" data-atab="dash">‹ 현황</button>' + (SB ? '' : '<div class="note">아래 숫자는 모두 예시예요. 서버를 연결하면 가입 정보로 자동 계산돼요.</div>') +
       '<section class="sec"><div class="sec-head"><h2>누적</h2></div><div class="stats adm-stats">' + A.total.map(function (t) { return '<div class="stat"><b>' + t[1] + '</b><span>' + t[0] + '</span></div>'; }).join('') + '</div></section>' +
       '<section class="sec"><div class="sec-head"><h2>주간 가입자</h2><span class="date">최근 8주</span></div><div class="card"><div class="vbars">' + wk.map(function (n, i) {
         return '<div class="vb" title="' + (8 - i) + '주 전 ' + n + '명">' + (i === wk.length - 1 ? '<em>' + n + '명</em>' : '') + '<b style="height:' + Math.round(n / mx * 100) + '%"></b><span>' + (i === wk.length - 1 ? '이번 주' : (wk.length - 1 - i) + '주 전') + '</span></div>'; }).join('') + '</div></div></section>' +
@@ -1472,13 +1501,16 @@ button.cal-row b { color: var(--gold); }
       '<section class="sec"><div class="sec-head"><h2>연령대</h2></div>' + hbars(A.age) + '</section>' +
       '<section class="sec"><div class="sec-head"><h2>지역</h2><span class="date">시 · 도</span></div>' + hbars(A.region) + '</section>' +
       '<section class="sec"><div class="sec-head"><h2>신앙</h2></div>' + hbars(A.faith) + '</section>' +
-      '<section class="sec"><div class="sec-head"><h2>많이 쓰는 메뉴</h2><span class="date">방문 비율</span></div>' + hbars(A.board) + '</section>' +
+      (A.board.length ? '<section class="sec"><div class="sec-head"><h2>많이 쓰는 메뉴</h2><span class="date">방문 비율</span></div>' + hbars(A.board) + '</section>' : '') +
       '<div class="small muted">지역은 가입할 때 선택으로 받은 시·도 기준이고, 적지 않은 분은 빼고 계산해요. 개인을 알아볼 수 없게 묶은 숫자만 보여줘요.</div>';
   }
   function vAdmin() {
     admInit();
-    var h = '<h1 class="page-title">운영자 관리</h1><div class="note">운영진만 들어오는 화면이에요. 지금은 예시 데이터로 움직이고, 서버를 연결하면 실제 회원과 글이 보여요.</div>' +
-      '<div class="chips adm-tabs" role="group" aria-label="관리 메뉴">' + ADM_TABS.map(function (t) {
+    if (SB && !C.staff) return '<h1 class="page-title">운영자 관리</h1><div class="empty">운영진만 들어올 수 있어요.</div>';
+    var tabs = ADM_TABS.filter(function (t) { return staffCan(t[1]); });
+    if (!tabs.some(function (t) { return t[0] === atab; }) && atab !== 'stats') atab = tabs[0][0];
+    var h = '<h1 class="page-title">운영자 관리</h1><div class="note">' + (SB ? '운영진만 들어오는 화면이에요. 내 역할은 <b>' + esc(C.staff) + '</b>이에요.' : '운영진만 들어오는 화면이에요. 지금은 예시 데이터로 움직이고, 서버를 연결하면 실제 회원과 글이 보여요.') + '</div>' +
+      '<div class="chips adm-tabs" role="group" aria-label="관리 메뉴">' + tabs.map(function (t) {
         var n = t[0] === 'safe' ? admReported().length + admCrisis().length : t[0] === 'member' ? admWaiting().length : 0;
         return '<button class="chip" data-atab="' + t[0] + '" aria-pressed="' + (atab === t[0] || (atab === 'stats' && t[0] === 'dash')) + '">' + t[1] + (n ? ' <span class="seg-n">' + n + '</span>' : '') + '</button>'; }).join('') + '</div>';
     return h + { stats: admStats, dash: admDash, safe: admSafe, member: admMember, content: admContent, relay: admRelay, staff: admStaff }[atab]();
@@ -1490,7 +1522,7 @@ button.cal-row b { color: var(--gold); }
     var day = Date.now() - 86400000, newPosts = S.posts.filter(function (p) { return p.created > day && !p.roomId; }).length;
     var todo = [[admCrisis().length, '위기 단어가 들어간 사연', 'safe', '가장 먼저 확인해 주세요'], [admReported().length, '신고된 글', 'safe', '3번 쌓이면 자동으로 숨겨져요'], [admWaiting().length, '목회자 · 상담사 인증 대기', 'member', ''], [admNoVerse(), '오늘의 말씀 미편성 (7일 중)', 'content', '편성하지 않은 날은 기본 말씀이 나가요']]
       .filter(function (x) { return x[0]; });
-    return '<div class="stats adm-stats"><div class="stat"><b>7</b><span>오늘 가입 · 예시</span></div><div class="stat"><b>128</b><span>오늘 방문 · 예시</span></div><div class="stat"><b>' + newPosts + '</b><span>새 글 (24시간)</span></div></div>' +
+    return '<div class="stats adm-stats"><div class="stat"><b>' + (SB ? (C.stats ? C.stats.members_today : '-') : 7) + '</b><span>오늘 가입' + (SB ? '' : ' · 예시') + '</span></div><div class="stat"><b>' + (SB ? (C.stats ? C.stats.active_today : '-') : 128) + '</b><span>' + (SB ? '오늘 기도한 사람' : '오늘 방문 · 예시') + '</span></div><div class="stat"><b>' + newPosts + '</b><span>새 글 (24시간)</span></div></div>' +
       '<button class="btn block line" data-atab="stats">누적 숫자와 연령 · 성별 · 지역 분포 보기 ›</button>' +
       '<section class="sec"><div class="sec-head"><h2>오늘 할 일</h2></div>' + (todo.length ? group(todo.map(function (x) { return admTodo(x[1], x[0] + '건', x[2], x[3]); }).join('')) : '<div class="empty">확인할 일이 없어요. 평안한 하루예요.</div>') + '</section>' +
       '<section class="sec"><div class="sec-head"><h2>운영 습관</h2></div><div class="card stack adm-habit"><div class="prow"><span>매일 10분</span><b>안전 확인 (위기 사연, 신고)</b></div><div class="prow"><span>매주 한 번</span><b>인증 승인, 다음 주 말씀 편성</b></div><div class="prow"><span>매달 한 번</span><b>릴레이 주제 정하기, 숫자 살펴보기</b></div></div></section>';
@@ -1589,25 +1621,27 @@ button.cal-row b { color: var(--gold); }
     sheet(memberName(id), roleChips(s.role) + '<button class="btn block" data-adm="s-save" data-id="' + id + '">저장</button>' + (id === 'me' ? '' : '<button class="btn block line danger" data-adm="s-del" data-id="' + id + '">운영진에서 빼기</button>'));
   }
   function pressedIn(boxId, attr) { var c = el(boxId).querySelector('[aria-pressed="true"]'); return c ? c.getAttribute(attr) : ''; }
+  var COMFORT = '많이 힘드시죠. 혼자 견디지 않으셔도 돼요. 지금 109(자살예방 상담전화, 24시간)에 전화하면 바로 이야기를 들어 드려요. 저희도 함께 기도할게요.';
   function admAct(d, b) {
     var id = d.id, p = id && S.posts.find(function (x) { return x.id === id; }), m = id && S.admin.members.find(function (x) { return x.id === id; });
     switch (d.adm) {
-      case 'crisis-ok': p.crisisSeen = true; break;
-      case 'crisis-msg': p.crisisSeen = true; p.chats = p.chats || {}; p.chatRoles = p.chatRoles || {}; (p.chats['운영자'] = p.chats['운영자'] || []).push({ from: 'r', text: '많이 힘드시죠. 혼자 견디지 않으셔도 돼요. 지금 109(자살예방 상담전화, 24시간)에 전화하면 바로 이야기를 들어 드려요. 저희도 함께 기도할게요.', at: Date.now() }); p.chatRoles['운영자'] = '운영자'; toast('작성자에게 1:1 위로 메시지를 보냈어요'); break;
-      case 'rp-keep': p.reports = 0; p.reported = false; p.reviewed = true; toast('글을 복구했어요'); break;
+      case 'crisis-ok': p.crisisSeen = true; cloud('adm_review', { p_id: id, p_action: 'crisis' }); break;
+      case 'crisis-msg': cloud('adm_comfort', { p_id: id, p_text: COMFORT }); p.crisisSeen = true; p.chats = p.chats || {}; p.chatRoles = p.chatRoles || {}; (p.chats['운영자'] = p.chats['운영자'] || []).push({ from: 'r', text: COMFORT, at: Date.now() }); p.chatRoles['운영자'] = '운영자'; toast('작성자에게 1:1 위로 메시지를 보냈어요'); break;
+      case 'rp-keep': cloud('adm_review', { p_id: id, p_action: 'keep' }); p.reports = 0; p.reported = false; p.reviewed = true; toast('글을 복구했어요'); break;
       case 'rp-warn': case 'rp-del':
         if (!arm(b, '한 번 더 누르면 삭제돼요')) return;
+        cloud('adm_review', { p_id: id, p_action: d.adm === 'rp-warn' ? 'warn' : 'delete' });
         if (d.adm === 'rp-warn') { var wm = S.admin.members.find(function (x) { return x.nick === p.author; }); if (wm) wm.warns = (wm.warns || 0) + 1; }
         S.posts = S.posts.filter(function (x) { return x.id !== id; }); toast(d.adm === 'rp-warn' ? '삭제하고 작성자에게 경고를 보냈어요' : '삭제했어요'); break;
-      case 'v-ok': m.verify = 'ok'; toast(m.nick + '님 인증을 승인했어요'); break;
-      case 'v-no': m.verify = 'no'; toast('반려했어요. 다시 신청할 수 있다고 안내돼요'); break;
+      case 'v-ok': cloud('adm_member', { p_user: id, p_action: 'verify-ok' }); m.verify = 'ok'; toast(m.nick + '님 인증을 승인했어요'); break;
+      case 'v-no': cloud('adm_member', { p_user: id, p_action: 'verify-no' }); m.verify = 'no'; toast('반려했어요. 다시 신청할 수 있다고 안내돼요'); break;
       case 'm-open': return memberSheet(id);
-      case 'm-warn': m.warns = (m.warns || 0) + 1; closeSheet(); toast('경고를 보냈어요'); break;
-      case 'm-sus': m.until = Date.now() + (+d.days) * 86400000; closeSheet(); toast(d.days + '일 정지했어요'); break;
-      case 'm-free': m.until = 0; closeSheet(); toast('정지를 풀었어요'); break;
+      case 'm-warn': cloud('adm_member', { p_user: id, p_action: 'warn' }); m.warns = (m.warns || 0) + 1; closeSheet(); toast('경고를 보냈어요'); break;
+      case 'm-sus': cloud('adm_member', { p_user: id, p_action: 'suspend', p_days: +d.days }); m.until = Date.now() + (+d.days) * 86400000; closeSheet(); toast(d.days + '일 정지했어요'); break;
+      case 'm-free': cloud('adm_member', { p_user: id, p_action: 'free' }); m.until = 0; closeSheet(); toast('정지를 풀었어요'); break;
       case 'verse': return verseSheet(d.day);
-      case 'verse-save': var vt = val('avT'), vr = val('avR'); if (!vt || !vr) return toast('말씀과 출처를 모두 적어 주세요'); S.admin.verses[d.day] = { t: vt, ref: vr }; closeSheet(); toast('편성했어요'); break;
-      case 'verse-clear': delete S.admin.verses[d.day]; closeSheet(); break;
+      case 'verse-save': var vt = val('avT'), vr = val('avR'); if (!vt || !vr) return toast('말씀과 출처를 모두 적어 주세요'); cloud('adm_verse', { p_day: d.day, p_text: vt, p_ref: vr }); S.admin.verses[d.day] = { t: vt, ref: vr }; closeSheet(); toast('편성했어요'); break;
+      case 'verse-clear': cloud('adm_verse', { p_day: d.day, p_text: '', p_ref: '' }); delete S.admin.verses[d.day]; closeSheet(); break;
       case 'g-new': return guideForm();
       case 'g-view': return openGuide(id);
       case 'g-edit': return guideForm((S.guides || []).find(function (x) { return x.id === id; }));
@@ -1615,29 +1649,34 @@ button.cal-row b { color: var(--gold); }
         var gk = pressedIn('agKind', 'data-agk'), gt = val('agT'), gb = val('agB'); if (!gt || !gb) return toast('제목과 내용을 모두 적어 주세요');
         S.guides = S.guides || [];
         var og = id && S.guides.find(function (x) { return x.id === id; });
-        if (og) { og.kind = gk; og.title = gt; og.body = gb; } else S.guides.unshift({ id: uid(), kind: gk, title: gt, body: gb, mine: true, at: Date.now() });
+        var gid = og ? og.id : uid();
+        if (og) { og.kind = gk; og.title = gt; og.body = gb; } else S.guides.unshift({ id: gid, kind: gk, title: gt, body: gb, mine: true, at: Date.now() });
+        cloud('adm_guide', { p_id: gid, p_kind: gk, p_title: gt, p_body: gb, p_delete: false });
         closeSheet(); toast(og ? '고쳤어요' : '올렸어요. 기도란에서 바로 보여요'); break;
-      case 'g-del': if (!arm(b, '한 번 더 누르면 삭제돼요')) return; S.guides = S.guides.filter(function (x) { return x.id !== id; }); closeSheet(); toast('삭제했어요'); break;
+      case 'g-del': if (!arm(b, '한 번 더 누르면 삭제돼요')) return; cloud('adm_guide', { p_id: id, p_kind: '', p_title: '', p_body: '', p_delete: true }); S.guides = S.guides.filter(function (x) { return x.id !== id; }); closeSheet(); toast('삭제했어요'); break;
       case 'r-new': return relayForm();
       case 'r-save':
         var rt = val('arT'); if (!rt) return toast('주제를 적어 주세요');
-        S.relays.push({ id: uid(), by: val('arBy') || '운영자', title: rt, desc: val('arD') || '30분씩 이어서 함께 기도해요.', start: val('arS') || today(), days: +pressedIn('arDays', 'data-ard') || 7, slots: {} });
+        var nr2 = { id: uid(), by: val('arBy') || '운영자', title: rt, desc: val('arD') || '30분씩 이어서 함께 기도해요.', start: val('arS') || today(), days: +pressedIn('arDays', 'data-ard') || 7, slots: {} }; S.relays.push(nr2);
+        cloud('relay_create', { p_id: nr2.id, p_room: null, p_by: nr2.by, p_title: nr2.title, p_descr: nr2.desc, p_start: nr2.start, p_days: nr2.days });
         closeSheet(); toast('릴레이 기도를 올렸어요'); break;
-      case 'r-del': if (!arm(b, '한 번 더 누르면 내려가요')) return; S.relays = S.relays.filter(function (x) { return x.id !== id; }); toast('내렸어요'); break;
+      case 'r-del': if (!arm(b, '한 번 더 누르면 내려가요')) return; cloud('relay_delete', { p_id: id }); S.relays = S.relays.filter(function (x) { return x.id !== id; }); toast('내렸어요'); break;
       case 's-new': return staffSheet('');
       case 's-open': return staffSheet(id);
       case 's-save':
         var role = pressedIn('asRole', 'data-asr');
         if (id) { if (id === 'me' && role !== '최고 관리자' && !S.admin.staff.some(function (x) { return x.id !== 'me' && x.role === '최고 관리자'; })) return toast('최고 관리자가 한 명은 있어야 해요'); S.admin.staff.find(function (x) { return x.id === id; }).role = role; }
         else { var nm = val('asM'); if (!nm) return toast('추가할 회원이 없어요'); S.admin.staff.push({ id: nm, role: role }); }
+        cloud('adm_staff', { p_user: id === 'me' ? C.user.id : id || nm, p_role: role });
         closeSheet(); toast('저장했어요'); break;
-      case 's-del': S.admin.staff = S.admin.staff.filter(function (x) { return x.id !== id; }); closeSheet(); toast('운영진에서 뺐어요'); break;
+      case 's-del': cloud('adm_staff', { p_user: id, p_role: null }); S.admin.staff = S.admin.staff.filter(function (x) { return x.id !== id; }); closeSheet(); toast('운영진에서 뺐어요'); break;
     }
     save(); render();
   }
 
   var VIEWS = { admin: vAdmin, join: vJoin, room: vRoom, home: vHome, pray: vPray, diary: vDiary, concern: vConcern, story: vStory, me: vMe, guide: vGuide, search: vSearch };
   function render() {
+    if (SB && (!C.user || !C.joined) && tab !== 'join') tab = 'join';
     renderTabs();
     el('view').innerHTML = VIEWS[tab]();
     el('topWrite').hidden = tab === 'join' || tab === 'admin';
@@ -1653,7 +1692,7 @@ button.cal-row b { color: var(--gold); }
       '<div class="drawer-brand">합력하여 선을 이루는 기도<small>얼굴을 몰라도, 서로를 위해 기도하는 곳</small></div><div class="srow"><input class="search" id="dq" type="search" placeholder="Search..." aria-label="전체 글 검색"><button class="icon-btn" data-tab="me" aria-label="설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div>' +
       '<ul class="menu">' + M.map(function (m) { return '<li><button data-tab="' + m[0] + '">' + m[1] + '</button>' + (SUB[m[0]] ? '<ul class="menu sub">' + SUB[m[0]].map(function (x) { return '<li><button data-dm="' + x[0] + '">' + x[1] + '</button></li>'; }).join('') + '</ul>' : '') + '</li>'; }).join('') +
       '<li><button data-guide-tab="guides">기도란</button><ul class="menu sub"><li><button data-guide-tab="guides">기도의 모든 것</button></li><li><button data-guide-tab="tips">나만의 기도 노하우</button></li></ul></li>' +
-      '<li><button data-act="invite">초대</button></li><li><button data-act="policy">개인정보 처리방침</button></li><li><button data-tab="admin">운영자 관리 <span class="tag">운영진</span></button></li>' + (S.me.profile ? '' : '<li><button data-act="join">회원 가입</button></li>') + '</ul></nav></div>';
+      '<li><button data-act="invite">초대</button></li><li><button data-act="policy">개인정보 처리방침</button></li>' + (!SB || C.staff ? '<li><button data-tab="admin">운영자 관리 <span class="tag">운영진</span></button></li>' : '') + (S.me.profile ? '' : '<li><button data-act="join">회원 가입</button></li>') + '</ul></nav></div>';
   }
   function closeDrawer() { el('drawerRoot').innerHTML = ''; }
 
@@ -1735,6 +1774,7 @@ button.cal-row b { color: var(--gold); }
   }
   function publishPost(job) {
     var np = job.np;
+    cloud('create_post', { p_id: np.id, p_board: np.board, p_cat: np.cat || '', p_room: job.room || null, p_title: np.title, p_body: np.body, p_urgent: !!np.urgent, p_scope: np.scope || [], p_hide_after: np.hideAfter || null, p_author: np.author });
     if (job.room) { np.roomId = job.room; np.cat = ''; S.posts.push(np); save(); closeSheet(); render(); toast('모임방에 올렸어요'); return; }
     S.posts.push(np);
     if (job.item) { var li = S.items.find(function (x) { return x.id === job.item; }); if (li) li.postId = np.id; }
@@ -1915,7 +1955,8 @@ button.cal-row b { color: var(--gold); }
     if (d.rrdays) { el('rrDays').querySelectorAll('.chip').forEach(function (c) { c.setAttribute('aria-pressed', c === b); }); return; }
     if (d.pub) {
       var pp = postById(d.pub);
-      S.posts.push({ id: uid(), board: 'pray', cat: '개인 중보', scope: [], mine: true, urgent: !!pp.urgent, title: pp.title, body: pp.body, author: pp.author, created: Date.now(), prayers: 0, prayed: false, comments: [] });
+      var cp0 = { id: uid(), board: 'pray', cat: '개인 중보', scope: [], mine: true, urgent: !!pp.urgent, title: pp.title, body: pp.body, author: pp.author, created: Date.now(), prayers: 0, prayed: false, comments: [] }; S.posts.push(cp0);
+      cloud('create_post', { p_id: cp0.id, p_board: 'pray', p_cat: '개인 중보', p_room: null, p_title: cp0.title, p_body: cp0.body, p_urgent: cp0.urgent, p_scope: [], p_hide_after: null, p_author: '' });
       save(); closeSheet(); toast('전체 중보기도에도 올렸어요'); return;
     }
     if (d.open) return openPost(d.open);
@@ -1924,6 +1965,8 @@ button.cal-row b { color: var(--gold); }
     if (d.slot) {
       var rg = el('relayGrid'), rr = S.relays.find(function (x) { return x.id === rg.dataset.rid; });
       var mp = rr.slots[rDay] = rr.slots[rDay] || {}, sk = +d.slot;
+      if (mp[sk] && !mp[sk].me) return toast('이미 다른 분이 예약한 시간이에요');
+      cloud('relay_slot_toggle', { p_id: rr.id, p_day: rDay, p_slot: sk });
       if (mp[sk] && mp[sk].me) { delete mp[sk]; toast('예약을 취소했어요'); }
       else if (!mp[sk]) { mp[sk] = { n: myName(), me: true }; toast((rDay === today() ? '오늘' : md(rDay)) + ' ' + slotRange(sk) + ' 기도 시간을 예약했어요'); }
       save(); openRelay(rr.id); render(); return;
@@ -1936,7 +1979,7 @@ button.cal-row b { color: var(--gold); }
     if (d.days) { el('iDays').value = d.days; el('iDaysChips').querySelectorAll('.chip').forEach(function (c) { c.setAttribute('aria-pressed', c === b); }); return; }
     if (d.pray) {
       var p = postById(d.pray);
-      p.prayed = !p.prayed; p.prayers += p.prayed ? 1 : -1; save(); openPost(p.id); render();
+      p.prayed = !p.prayed; p.prayers += p.prayed ? 1 : -1; save(); openPost(p.id); render(); cloud('toggle_pray', { p_id: p.id });
       if (p.prayed) toast(p.board === 'pray' ? '함께 기도한다고 알렸어요' : '마음을 전했어요');
       return;
     }
@@ -1944,7 +1987,7 @@ button.cal-row b { color: var(--gold); }
       var t = val('cText'); if (!t) return toast('내용을 적어 주세요');
       var p2 = postById(d.comment);
       if (p2.board === 'concern' && hasContact(t)) return toast('사연 답글에는 전화번호, 카톡 아이디, 링크를 쓸 수 없어요');
-      p2.comments.push({ author: myName(), role: S.me.role, text: t, created: Date.now() }); save(); openPost(p2.id); render(); return;
+      p2.comments.push({ author: myName(), role: S.me.role, text: t, created: Date.now() }); cloud('add_comment', { p_id: p2.id, p_text: t }); save(); openPost(p2.id); render(); return;
     }
     if (d.cald) { calSel = d.cald; return calendarSheet(); }
     if (d.calm) { var cy = +calM.slice(0, 4), cmo = +calM.slice(5, 7) - 1 + (+d.calm), cdt = new Date(cy, cmo, 1); calM = cdt.getFullYear() + '-' + pad(cdt.getMonth() + 1); calSel = calM === today().slice(0, 7) ? today() : calM + '-01'; return calendarSheet(); }
@@ -1967,23 +2010,25 @@ button.cal-row b { color: var(--gold); }
       var cp = postById(d.chatSend); cp.chats = cp.chats || {}; cp.chatRoles = cp.chatRoles || {};
       (cp.chats[d.with] = cp.chats[d.with] || []).push({ from: cp.mine ? 'a' : 'r', text: cm, at: Date.now() });
       if (!cp.mine) cp.chatRoles[d.with] = S.me.role;
+      cloud('send_chat', { p_id: cp.id, p_with: d.with, p_text: cm });
       save(); render(); return openChat(cp.id, d.with);
     }
     if (d.delPost) {
       if (!arm(b, '한 번 더 누르면 삭제')) return;
+      cloud('delete_post', { p_id: d.delPost });
       S.posts = S.posts.filter(function (x) { return x.id !== d.delPost; }); S.items.forEach(function (i) { if (i.postId === d.delPost) delete i.postId; });
       save(); closeSheet(); render(); toast('글을 지웠어요'); return;
     }
     if (d.report) {
       if (!arm(b, '정말 신고할까요? 한 번 더 누르세요')) return;
-      var rp = postById(d.report); rp.reports = (rp.reports || 0) + 1; rp.reported = true; save(); render();
+      var rp = postById(d.report); rp.reports = (rp.reports || 0) + 1; rp.reported = true; save(); render(); cloud('report_post', { p_id: rp.id });
       el('repMsg').textContent = '신고가 접수됐어요. 신고가 3번 쌓이면 운영자가 확인할 때까지 숨겨져요.'; b.hidden = true; return;
     }
     if (d.submit) {
       var title = val('wTitle'), body = val('wBody'), scope = [];
       if (!title || !body) return toast('제목과 내용을 모두 적어 주세요');
       if (d.submit === 'concern') { document.querySelectorAll('.sc:checked').forEach(function (c) { scope.push(c.value); }); if (!scope.length) return toast('답글을 달 수 있는 분을 1개 이상 골라 주세요'); }
-      if (d.submit === 'concern' && hasContact(title + ' ' + body)) { if (S.admin) { S.admin.blocked.push({ at: Date.now(), who: val('wAlias') || myName(), text: (title + ' ' + body).slice(0, 60) }); save(); } return toast('전화번호, 카톡 아이디, 링크는 쓸 수 없어요'); }
+      if (d.submit === 'concern' && hasContact(title + ' ' + body)) { if (S.admin && !SB) { S.admin.blocked.push({ at: Date.now(), who: val('wAlias') || myName(), text: (title + ' ' + body).slice(0, 60) }); save(); } cloud('log_blocked', { p_alias: val('wAlias'), p_text: title + ' ' + body }); return toast('전화번호, 카톡 아이디, 링크는 쓸 수 없어요'); }
       var alias = val('wAlias');
       if (d.submit === 'concern') {
         if (!alias) return toast('이번 사연에 쓸 별명을 적어 주세요');
@@ -2009,7 +2054,7 @@ button.cal-row b { color: var(--gold); }
     if (d.answer) return answerItem(d.answer);
     if (d.saveAnswer) {
       var it2 = S.items.find(function (x) { return x.id === d.saveAnswer; });
-      it2.answered = el('aDone').checked; it2.memo = val('aMemo'); var lp = it2.postId && postById(it2.postId); if (lp) lp.answered = it2.answered; save(); closeSheet(); render(); if (it2.answered) toast('응답을 기록했어요. 할렐루야!'); return;
+      it2.answered = el('aDone').checked; it2.memo = val('aMemo'); var lp = it2.postId && postById(it2.postId); if (lp) { lp.answered = it2.answered; if (lp.mine) cloud('set_answered', { p_id: lp.id, p_on: lp.answered }); } save(); closeSheet(); render(); if (it2.answered) toast('응답을 기록했어요. 할렐루야!'); return;
     }
     if (d.toStory) {
       var it3 = S.items.find(function (x) { return x.id === d.toStory; });
@@ -2043,6 +2088,10 @@ button.cal-row b { color: var(--gold); }
         J['res_' + d.for] = PLACES[d.type].filter(function (pl) { return !qq || pl[0].replace(/\s/g, '').indexOf(qq) >= 0 || qq.split('').every(function (ch) { return pl[0].indexOf(ch) >= 0; }); });
         render(); return;
       case 'j-unplace': jSync(); J[d.for] = null; render(); return;
+      case 'c-signup': return cloudAuth('signup');
+      case 'c-login': return cloudAuth('login');
+      case 'c-mode': J = J || { step: 0 }; J.cMode = J.cMode === 'signup' ? '' : 'signup'; render(); return;
+      case 'c-logout': if (!arm(b, '한 번 더 누르면 로그아웃해요')) return; SB.auth.signOut().then(function () { try { localStorage.removeItem(KEY); } catch (e) {} location.reload(); }); return;
       case 'j-edit':
         var pf2 = S.me.profile; J = { step: 2, provider: pf2.provider, name: S.me.name };
         Object.keys(pf2).forEach(function (k) { if (k !== 'agree') J[k] = Array.isArray(pf2[k]) ? pf2[k].slice() : pf2[k]; });
@@ -2058,25 +2107,28 @@ button.cal-row b { color: var(--gold); }
       case 'room-notice':
         var rn = roomById(roomId);
         sheet('방장 한마디', '<textarea class="input" id="rNotice" style="min-height:120px" placeholder="이번 주 말씀이나 모임 공지를 적어 주세요">' + esc(rn.notice) + '</textarea><button class="btn block" data-act="room-notice-save">저장</button>'); return;
-      case 'room-notice-save': roomById(roomId).notice = val('rNotice'); save(); closeSheet(); render(); toast('방장 한마디를 고쳤어요'); return;
+      case 'room-notice-save': roomById(roomId).notice = val('rNotice'); cloud('room_notice', { p_id: roomId, p_text: val('rNotice') }); save(); closeSheet(); render(); toast('방장 한마디를 고쳤어요'); return;
       case 'room-create':
         var rnm = val('rName'); if (!rnm) return toast('모임방 이름을 적어 주세요');
         var code = ''; for (var ci = 0; ci < 6; ci++) code += 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'.charAt(Math.floor(Math.random() * 32));
         var nr = { id: uid(), mine: true, name: rnm, intro: val('rIntro'), leader: myName(), code: code, notice: '', members: [] };
-        S.rooms.unshift(nr); save(); roomId = nr.id; go('room'); toast('모임방을 만들었어요. 식구들을 초대해 보세요'); return;
+        S.rooms.unshift(nr); cloud('room_create', { p_id: nr.id, p_name: nr.name, p_intro: nr.intro, p_code: code }); save(); roomId = nr.id; go('room'); toast('모임방을 만들었어요. 식구들을 초대해 보세요'); return;
       case 'room-join-go':
         var cd = val('rCode').toUpperCase(); if (!cd) return toast('초대 코드를 넣어 주세요');
         var hit = S.rooms.find(function (x) { return x.code === cd; });
         if (hit) { roomId = hit.id; go('room'); return toast('이미 들어가 있는 모임방이에요'); }
+        if (SB) { cloud('room_join', { p_code: cd }).then(function (rid) { if (!rid) return toast('모임방을 찾지 못했어요. 코드를 다시 확인해 주세요'); pull().then(function () { roomId = rid; go('room'); toast('모임방에 들어왔어요'); }); }); return; }
         if (cd !== 'AMEN77') return toast('모임방을 찾지 못했어요. 코드를 다시 확인해 주세요');
         joinSampleRoom(); save(); roomId = 'room2'; go('room'); toast('모임방에 들어왔어요'); return;
       case 'room-relay-go':
         var rr0 = roomById(roomId), rt = val('rrTitle'); if (!rt) return toast('주제를 적어 주세요');
         var dch = el('rrDays').querySelector('[aria-pressed="true"]');
-        S.relays.push({ id: uid(), roomId: rr0.id, by: rr0.name, title: rt, desc: '모임 식구들이 30분씩 이어서 기도해요.', start: val('rrStart') || today(), days: dch ? +dch.dataset.rrdays : 1, slots: {} });
+        var nrl = { id: uid(), roomId: rr0.id, by: rr0.name, title: rt, desc: '모임 식구들이 30분씩 이어서 기도해요.', start: val('rrStart') || today(), days: dch ? +dch.dataset.rrdays : 1, slots: {} }; S.relays.push(nrl);
+        cloud('relay_create', { p_id: nrl.id, p_room: nrl.roomId, p_by: nrl.by, p_title: nrl.title, p_descr: nrl.desc, p_start: nrl.start, p_days: nrl.days });
         save(); closeSheet(); render(); toast('모임 릴레이 기도를 열었어요'); return;
       case 'room-leave':
         var rl = roomById(roomId); if (!arm(b, isLeader(rl) ? '모임방과 글이 모두 지워져요. 한 번 더 누르세요' : '한 번 더 누르면 나가요')) return;
+        cloud('room_leave', { p_id: rl.id });
         S.rooms = S.rooms.filter(function (x) { return x.id !== rl.id; });
         S.posts = S.posts.filter(function (x) { return x.roomId !== rl.id; }); S.relays = S.relays.filter(function (x) { return x.roomId !== rl.id; });
         save(); ptab = 'rooms'; go('pray'); toast(isLeader(rl) ? '모임방을 없앴어요' : '모임방에서 나왔어요'); return;
@@ -2176,6 +2228,121 @@ button.cal-row b { color: var(--gold); }
     if (e.key === 'Enter' && e.target.id === 'cText') { var b = document.querySelector('[data-comment]'); if (b) b.click(); }
     if (e.key === 'Enter' && e.target.id === 'dq' && e.target.value.trim()) { searchQ = e.target.value.trim(); go('search'); }
   });
+
+  // ---------- 서버 연결 (config.js 에 주소와 키가 있을 때만 켜져요) ----------
+  var SB = CLOUD_CFG ? window.supabase.createClient(CLOUD_CFG.url, CLOUD_CFG.key) : null;
+  C = { user: null, checked: !SB, joined: false, ready: false, staff: '', stats: null, timer: 0, at: 0, sent: {} };
+  function cloudErr(e) {
+    var m = (e && (e.message || e.error_description || e.msg)) || '';
+    if (/fetch|network/i.test(m) || !m) m = '서버에 연결하지 못했어요. 인터넷 연결을 확인해 주세요';
+    if (/Invalid login credentials/i.test(m)) m = '이메일이나 비밀번호가 맞지 않아요';
+    if (/already registered|already exists/i.test(m)) m = '이미 가입한 이메일이에요. 로그인해 주세요';
+    if (/Password should be/i.test(m)) m = '비밀번호는 6자 이상으로 정해 주세요';
+    toast(m);
+  }
+  function cloud(fn, args) {
+    if (!SB || !C.user) return Promise.resolve(null);
+    return SB.rpc(fn, args || {}).then(function (r) { pullSoon(); if (r.error) { cloudErr(r.error); return null; } return r.data === null ? true : r.data; }, function (e) { cloudErr(e); return null; });
+  }
+  function pullSoon() { clearTimeout(C.timer); C.timer = setTimeout(pull, 350); }
+  function qv(view, mod) { var b = SB.from(view).select('*'); return Promise.resolve(mod ? mod(b) : b).then(function (r) { if (r.error) throw r.error; return r.data || []; }); }
+  function pull() {
+    if (!SB || !C.user) return Promise.resolve();
+    return Promise.all([qv('v_me'), qv('v_posts', function (b) { return b.order('created_at', { ascending: false }).limit(400); }), qv('v_chats'), qv('v_rooms'), qv('v_relays'), qv('v_verses'),
+      qv('v_guides', function (b) { return b.order('created_at', { ascending: false }); })])
+      .then(function (r) { applyPull(r); C.ready = true; return C.staff ? pullAdmin() : null; })
+      .then(function () {
+        save();
+        var a = document.activeElement;
+        if (!(a && /INPUT|TEXTAREA|SELECT/.test(a.tagName) && el('view').contains(a))) render();
+      }, cloudErr);
+  }
+  function applyPull(r) {
+    var me = r[0][0];
+    C.joined = !!me;
+    if (me) {
+      var info = me.info || {};
+      S.me.name = me.nick; S.me.real = info.real || ''; S.me.show = info.show === '실명' ? 'real' : 'nick'; S.me.role = me.role; S.me.profile = info;
+      C.staff = me.staff_role || ''; C.suspended = !!(me.suspended_until && Date.parse(me.suspended_until) > Date.now());
+    } else { S.me.profile = null; C.staff = ''; }
+    var chats = {};
+    r[2].forEach(function (c) {
+      var o = chats[c.post_id] = chats[c.post_id] || { chats: {}, roles: {} };
+      (o.chats[c.with_name] = o.chats[c.with_name] || []).push({ from: c.from_author ? 'a' : 'r', text: c.text, at: Date.parse(c.created_at) });
+      if (c.with_role) o.roles[c.with_name] = c.with_role;
+    });
+    S.posts = r[1].map(function (p) {
+      var ch = chats[p.id] || { chats: {}, roles: {} };
+      return { id: p.id, board: p.board, cat: p.cat, roomId: p.room_id || undefined, title: p.title, body: p.body, urgent: p.urgent, scope: p.scope || [], hideAfter: p.hide_after || undefined,
+        answered: p.answered, author: p.author_name, created: Date.parse(p.created_at), mine: p.mine, prayers: p.prayers, prayed: p.prayed, reported: p.reported, reports: p.reports,
+        reviewed: p.reviewed, crisisSeen: p.crisis_seen, chats: ch.chats, chatRoles: ch.roles,
+        comments: (p.comments || []).map(function (c) { return { author: c.author, role: c.role, text: c.text, created: Date.parse(c.created) }; }) };
+    });
+    S.rooms = r[3].map(function (x) { return { id: x.id, name: x.name, intro: x.intro, code: x.code, notice: x.notice, leader: x.leader, mine: x.mine, members: x.members || [] }; });
+    S.relays = r[4].map(function (x) { return { id: x.id, roomId: x.room_id || undefined, by: x.by_name, title: x.title, desc: x.descr, start: x.start_day, days: x.days, slots: x.slots || {} }; });
+    S.cloudVerses = {}; r[5].forEach(function (v) { S.cloudVerses[v.day] = { t: v.text, ref: v.ref }; });
+    S.guides = r[6].map(function (g) { return { id: g.id, kind: g.kind, title: g.title, body: g.body, mine: true, at: Date.parse(g.created_at) }; });
+  }
+  function staffCan(area) { return !SB || (ADM_ROLES[C.staff] || []).indexOf(area) >= 0; }
+  function pullAdmin() {
+    return Promise.all([staffCan('회원') ? qv('v_adm_members') : [], qv('v_adm_staff'), staffCan('안전') ? qv('v_adm_blocked') : [], qv('v_adm_stats')]).then(function (r) {
+      var A = S.admin = S.admin || {};
+      A.members = r[0].map(function (m) {
+        var org = m.org; org = Array.isArray(org) ? org[0] : org && typeof org === 'object' ? org.name : org;
+        return { id: m.id, nick: m.nick, real: m.real_name || '', role: m.role, org: org || '', proof: m.proof || '', verify: m.verify || '', warns: m.warns || 0,
+          until: m.suspended_until ? Date.parse(m.suspended_until) : 0, joined: Date.parse(m.created_at) };
+      });
+      A.staff = r[1].map(function (s) { return { id: s.user_id === C.user.id ? 'me' : s.user_id, role: s.role, name: s.name }; });
+      A.blocked = r[2].map(function (b) { return { at: Date.parse(b.at), who: b.alias || b.who, text: b.text }; }).reverse();
+      A.verses = S.cloudVerses;
+      C.stats = r[3][0] || null;
+    });
+  }
+  // 기도 시간과 출석은 모임방 얼굴과 주간 기도 시간에 쓰여요
+  function actSoon() {
+    clearTimeout(C.at);
+    C.at = setTimeout(function () {
+      for (var i = 0; i < 8; i++) {
+        var d = addDays(today(), -i), m = +S.times[d] || 0, pr = prayedOn(d), k = m + '|' + pr;
+        if (C.sent[d] !== k && (m || pr || C.sent[d] !== undefined || i === 0)) { C.sent[d] = k; SB.rpc('log_activity', { p_day: d, p_minutes: m, p_prayed: pr }).then(function () {}, function () {}); }
+      }
+    }, 800);
+  }
+  function afterAuth(user) {
+    C.user = user; C.checked = true;
+    if (!user) { tab = 'join'; render(); return Promise.resolve(); }
+    return pull().then(function () {
+      if (!C.joined) { J = { step: 1, provider: 'email', name: '' }; tab = 'join'; }
+      else if (tab === 'join') { J = null; tab = 'home'; }
+      render();
+    });
+  }
+  function cloudAuth(kind) {
+    var em = val('cEmail'), pw = el('cPw') ? el('cPw').value : '';
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) return toast('이메일 주소를 확인해 주세요');
+    if (pw.length < 6) return toast('비밀번호는 6자 이상으로 정해 주세요');
+    var p = kind === 'signup' ? SB.auth.signUp({ email: em, password: pw }) : SB.auth.signInWithPassword({ email: em, password: pw });
+    p.then(function (r) {
+      if (r.error) return cloudErr(r.error);
+      if (!r.data.session) return toast('가입 확인 메일을 보냈어요. 메일의 링크를 누른 뒤 로그인해 주세요');
+      afterAuth(r.data.session.user);
+    }, cloudErr);
+  }
+  function cloudLogin() {
+    if (!C.checked) return '<div class="empty">불러오는 중이에요…</div>';
+    var signup = J && J.cMode === 'signup';
+    return '<div class="join-hero"><span class="mark">' + document.querySelector('.brand .mark').innerHTML + '</span><h1>합력하여 선을 이루는 기도</h1><p>얼굴을 몰라도, 서로를 위해 기도하는 곳</p></div>' +
+      '<div class="note">지금은 시험 운영 중이에요. 이메일과 비밀번호로 ' + (signup ? '가입해' : '로그인해') + ' 주세요.</div>' +
+      '<div class="card stack"><label class="field"><span>이메일</span><input class="input" id="cEmail" type="email" autocomplete="email" placeholder="you@example.com"></label>' +
+      '<label class="field"><span>비밀번호</span><input class="input" id="cPw" type="password" autocomplete="' + (signup ? 'new-password' : 'current-password') + '" placeholder="6자 이상"></label>' +
+      '<button class="btn block" data-act="' + (signup ? 'c-signup' : 'c-login') + '">' + (signup ? '가입하기' : '로그인') + '</button>' +
+      '<button class="linkbtn blue" data-act="c-mode">' + (signup ? '이미 가입했어요. 로그인할게요' : '처음이에요. 가입할게요') + '</button></div>';
+  }
+  if (SB) {
+    SB.auth.getSession().then(function (r) { afterAuth(r.data && r.data.session ? r.data.session.user : null); }, function () { afterAuth(null); });
+    setInterval(function () { if (document.visibilityState === 'visible' && C.user) pull(); }, 30000);
+    document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible' && C.user) pull(); });
+  }
 
   render();
   setInterval(alarmTick, 15000); alarmTick();

@@ -7,6 +7,7 @@ cd "$(dirname "$0")"
   echo '<meta name="theme-color" content="#16244F"><link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg"><link rel="apple-touch-icon" href="icon.svg">'
   echo '<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}img{max-width:100%}</style>'
   echo '</head><body>'
+  echo '<script src="config.js"></script><script src="vendor/supabase.js"></script>'
   cat app.html
   echo '</body></html>'
 } > index.html
