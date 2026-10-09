@@ -508,6 +508,13 @@ button.cal-row b { color: var(--gold); }
 }
   .empty-row{padding:18px 16px;font-size:12.5px;color:var(--muted)}
   .beta{margin:0 0 12px;padding:9px 12px;border:1px solid var(--line);border-radius:10px;font-size:12px;color:var(--gold);text-align:center}
+  .install{display:flex;align-items:center;gap:10px;margin:0 0 12px;padding:12px 12px 12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:14px}
+  .install-ic{flex:0 0 36px;height:36px;border-radius:9px;background:#16244F;display:grid;place-items:center}.install-ic svg{width:24px;height:24px}
+  .install-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.install-tx b{font-size:13.5px;color:var(--ink)}.install-tx small{font-size:11.5px;color:var(--muted)}
+  .install-x{border:0;background:none;color:var(--muted);font-size:20px;line-height:1;padding:4px 2px;cursor:pointer}
+  .istep{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.55;color:var(--ink-2)}.istep>b{flex:0 0 24px;height:24px;border-radius:50%;background:var(--gold-soft);color:var(--gold);display:grid;place-items:center;font-size:12.5px}
+  .ikey{display:inline-block;padding:0 6px;border:1px solid var(--line);border-radius:6px;font-size:12px}
+  a.btn{display:flex;align-items:center;justify-content:center;text-decoration:none;color:#fff}
 </style>
 
 <div class="app">
@@ -872,7 +879,7 @@ button.cal-row b { color: var(--gold); }
     var tips = board('tips');
     var AG = allGuides(), allThings = (AG[0] ? lineItem('data-guide="' + AG[0].id + '"', AG[0].kind, AG[0].title) : '') +
       (tips[0] ? lineItem('data-open="' + tips[0].id + '"', '노하우', tips[0].title) : AG[1] ? lineItem('data-guide="' + AG[1].id + '"', AG[1].kind, AG[1].title) : '');
-    return (SB ? '<div class="beta">시험 운영 중이에요. 불편한 점은 운영자에게 알려 주세요.</div>' : '') +
+    return installBanner() + (SB ? '<div class="beta">시험 운영 중이에요. 불편한 점은 운영자에게 알려 주세요.</div>' : '') +
       '<div class="verse">' + GLOBE + '<div class="eyebrow">오늘의 말씀</div><p>' + esc(todayVerse().t) + '</p><cite>' + esc(todayVerse().ref) + '</cite></div>' +
       '<section class="sec"><div class="sec-head"><h2>' + esc(myName()) + '님의 오늘</h2><span class="date">' + (d.getMonth() + 1) + '월 ' + d.getDate() + '일 ' + '일월화수목금토'[d.getDay()] + '요일</span></div>' +
       '<div class="today">' +
@@ -1698,7 +1705,7 @@ button.cal-row b { color: var(--gold); }
       '<div class="drawer-brand">합력하여 선을 이루는 기도<small>얼굴을 몰라도, 서로를 위해 기도하는 곳</small></div><div class="srow"><input class="search" id="dq" type="search" placeholder="Search..." aria-label="전체 글 검색"><button class="icon-btn" data-tab="me" aria-label="설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div>' +
       '<ul class="menu">' + M.map(function (m) { return '<li><button data-tab="' + m[0] + '">' + m[1] + '</button>' + (SUB[m[0]] ? '<ul class="menu sub">' + SUB[m[0]].map(function (x) { return '<li><button data-dm="' + x[0] + '">' + x[1] + '</button></li>'; }).join('') + '</ul>' : '') + '</li>'; }).join('') +
       '<li><button data-guide-tab="guides">기도란</button><ul class="menu sub"><li><button data-guide-tab="guides">기도의 모든 것</button></li><li><button data-guide-tab="tips">나만의 기도 노하우</button></li></ul></li>' +
-      '<li><button data-act="invite">초대</button></li><li><button data-act="policy">개인정보 처리방침</button></li>' + (!SB || C.staff ? '<li><button data-tab="admin">운영자 관리 <span class="tag">운영진</span></button></li>' : '') + (S.me.profile ? '' : '<li><button data-act="join">회원 가입</button></li>') + '</ul></nav></div>';
+      '<li><button data-act="invite">초대</button></li><li><button data-act="install">앱 설치 방법</button></li><li><button data-act="policy">개인정보 처리방침</button></li>' + (!SB || C.staff ? '<li><button data-tab="admin">운영자 관리 <span class="tag">운영진</span></button></li>' : '') + (S.me.profile ? '' : '<li><button data-act="join">회원 가입</button></li>') + '</ul></nav></div>';
   }
   function closeDrawer() { el('drawerRoot').innerHTML = ''; }
 
@@ -1905,6 +1912,52 @@ button.cal-row b { color: var(--gold); }
   }
 
   var APP_URL = 'https://jycha1103.github.io/prayer-together/';
+
+  // ---------- 앱 설치 안내 (웹으로 들어온 분들) ----------
+  var UA = navigator.userAgent || '';
+  var IS_IOS = /iPhone|iPad|iPod/.test(UA) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  var IS_ANDROID = /Android/.test(UA);
+  var IN_KAKAO = /KAKAOTALK/i.test(UA), IN_APP = IN_KAKAO || /NAVER\(|Instagram|FBAN|FBAV|Line\/|DaumApps|everytimeApp|BAND\//i.test(UA);
+  var installEvt = null;
+  window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); installEvt = e; if (tab === 'home') render(); });
+  window.addEventListener('appinstalled', function () { installEvt = null; toast('홈 화면에 설치했어요'); render(); });
+  function isInstalled() { return (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true; }
+  function installHidden() { try { return localStorage.getItem('pt-install-hide') === '1'; } catch (e) { return false; } }
+  function installBanner() {
+    if (isInstalled() || installHidden() || location.protocol !== 'https:' && !/localhost/.test(location.host)) return '';
+    return '<div class="install"><span class="install-ic">' + document.querySelector('.brand .mark').innerHTML + '</span><div class="install-tx"><b>앱처럼 설치해서 쓰세요</b><small>홈 화면에서 바로 열 수 있어요</small></div>' +
+      '<button class="btn sm" data-act="install">' + (installEvt ? '설치' : '방법') + '</button><button class="install-x" data-act="install-hide" aria-label="닫기">×</button></div>';
+  }
+  function installSheet() {
+    if (installEvt) { var ev = installEvt; ev.prompt(); ev.userChoice.then(function (r) { if (r.outcome === 'accepted') installEvt = null; render(); }); return; }
+    var step = function (n, t) { return '<div class="istep"><b>' + n + '</b><span>' + t + '</span></div>'; }, h = '';
+    if (isInstalled()) h = '<div class="note">이미 앱으로 설치해서 쓰고 계세요.</div>';
+    else if (IN_APP) {
+      h = '<div class="note">카카오톡이나 다른 앱 안에서 열면 설치할 수 없어요. 먼저 ' + (IS_IOS ? '사파리' : '크롬') + '로 열어 주세요.</div>' +
+        (IN_KAKAO && IS_ANDROID ? '<a class="btn block" href="kakaotalk://web/openExternal?url=' + encodeURIComponent(APP_URL) + '">크롬으로 열기</a>' : '') +
+        step(1, IS_IOS ? '오른쪽 아래(또는 위) <b>⋯ / 공유</b> 버튼을 누르세요' : '오른쪽 위 <b>⋮</b> 버튼을 누르세요') +
+        step(2, IS_IOS ? '<b>Safari로 열기</b>를 고르세요' : '<b>다른 브라우저로 열기</b>를 고르세요') +
+        step(3, '열린 화면에서 이 안내를 다시 열면 설치 방법이 나와요') +
+        '<button class="btn line block" data-copy="url">주소 복사하기</button>';
+    } else if (IS_IOS) {
+      h = '<div class="note">아이폰은 <b>사파리</b>에서만 설치할 수 있어요.</div>' +
+        step(1, '화면 아래(또는 주소창 옆)의 <b>공유 버튼</b> <span class="ikey">□↑</span>을 누르세요') +
+        step(2, '목록을 내려서 <b>홈 화면에 추가</b>를 누르세요') +
+        step(3, '오른쪽 위 <b>추가</b>를 누르면 끝이에요. 홈 화면의 <b>기도의 촛불</b> 아이콘으로 여세요');
+    } else if (IS_ANDROID) {
+      h = '<div class="note">안드로이드는 <b>크롬</b>에서 설치하는 게 가장 쉬워요.</div>' +
+        step(1, '오른쪽 위 <b>⋮</b> 버튼을 누르세요') +
+        step(2, '<b>앱 설치</b> 또는 <b>홈 화면에 추가</b>를 누르세요') +
+        step(3, '<b>설치</b>를 누르면 홈 화면에 <b>기도의 촛불</b> 아이콘이 생겨요');
+    } else {
+      h = '<div class="note">컴퓨터에서는 크롬이나 엣지에서 설치할 수 있어요. 휴대폰에서 쓰시려면 이 주소를 휴대폰으로 보내 주세요.</div>' +
+        step(1, '주소창 오른쪽의 <b>설치 아이콘</b>(모니터와 화살표 모양)을 누르세요') +
+        step(2, '없으면 오른쪽 위 <b>⋮</b> → <b>저장 및 공유</b> → <b>앱 설치</b>를 누르세요') +
+        '<button class="btn line block" data-copy="url">주소 복사하기</button>';
+    }
+    sheet('앱으로 설치하기', '<div class="stack" style="gap:10px">' + h + '</div>');
+  }
+
   var INVITE = '얼굴을 몰라도 서로를 위해 기도하는 곳, "합력하여 선을 이루는 기도"에 초대해요. 기도 제목을 나누고 함께 중보기도해요.\n\n' + APP_URL + '\n\n열어서 이메일로 가입하면 바로 함께할 수 있어요. 홈 화면에 추가하면 앱처럼 쓸 수 있어요.';
   function invite() {
     sheet('초대하기', '<div class="note" style="font-size:14.5px;white-space:pre-line;word-break:break-all" id="inviteText">' + esc(INVITE) + '</div><button class="btn block" data-copy="invite">초대 문구 복사하기</button><div class="small muted">복사한 문구를 카카오톡이나 문자로 보내 주세요. 앱 주소가 함께 들어가요.</div>');
@@ -2072,7 +2125,7 @@ button.cal-row b { color: var(--gold); }
     if (d.delItem) { if (!arm(b, '한 번 더 누르면 삭제')) return; S.items = S.items.filter(function (x) { return x.id !== d.delItem; }); save(); closeSheet(); render(); toast('기도 제목을 지웠어요'); return; }
     if (d.delLetter) { if (!arm(b, '한 번 더 누르면 삭제')) return; S.letters = S.letters.filter(function (x) { return x.id !== d.delLetter; }); save(); closeSheet(); render(); return; }
     if (d.copy) {
-      var txt = INVITE;
+      var txt = d.copy === 'url' ? APP_URL : INVITE;
       if (d.copy.indexOf('room:') === 0) { var cr = roomById(d.copy.slice(5)); txt = '"' + cr.name + '" 기도모임방에 초대해요. 함께 기도 제목을 나누고 서로를 위해 기도해요.\n\n초대 코드: ' + cr.code + '\n' + APP_URL; }
       if (d.copy.indexOf('letter:') === 0) { var l = S.letters.find(function (x) { return x.id === d.copy.slice(7); }); txt = l.date + '\n' + (l.verse ? l.verse + '\n\n' : '\n') + l.body; }
       try { navigator.clipboard.writeText(txt).then(function () { toast('복사했어요'); }, function () { toast('복사가 안 되는 환경이에요. 글을 길게 눌러 복사해 주세요'); }); } catch (err) { toast('복사가 안 되는 환경이에요'); }
@@ -2084,6 +2137,8 @@ button.cal-row b { color: var(--gold); }
       case 'fold-answered': showAnswered = !showAnswered; render(); return;
       case 'calendar': calM = ''; calSel = ''; return calendarSheet();
       case 'policy': closeDrawer(); return policySheet();
+      case 'install': closeDrawer(); return installSheet();
+      case 'install-hide': try { localStorage.setItem('pt-install-hide', '1'); } catch (e) {} render(); toast('메뉴의 "앱 설치 방법"에서 다시 볼 수 있어요'); return;
       case 'join': J = null; closeDrawer(); return go('join');
       case 'j-next': return jNext();
       case 'j-back': jSync(); J.step--; render(); window.scrollTo(0, 0); return;
@@ -2343,7 +2398,8 @@ button.cal-row b { color: var(--gold); }
       '<div class="card stack"><label class="field"><span>이메일</span><input class="input" id="cEmail" type="email" autocomplete="email" placeholder="you@example.com"></label>' +
       '<label class="field"><span>비밀번호</span><input class="input" id="cPw" type="password" autocomplete="' + (signup ? 'new-password' : 'current-password') + '" placeholder="6자 이상"></label>' +
       '<button class="btn block" data-act="' + (signup ? 'c-signup' : 'c-login') + '">' + (signup ? '가입하기' : '로그인') + '</button>' +
-      '<button class="linkbtn blue" data-act="c-mode">' + (signup ? '이미 가입했어요. 로그인할게요' : '처음이에요. 가입할게요') + '</button></div>';
+      '<button class="linkbtn blue" data-act="c-mode">' + (signup ? '이미 가입했어요. 로그인할게요' : '처음이에요. 가입할게요') + '</button></div>' +
+      (isInstalled() ? '' : '<button class="linkbtn" data-act="install" style="align-self:center">휴대폰 홈 화면에 앱으로 설치하는 방법</button>');
   }
   if (SB) {
     SB.auth.getSession().then(function (r) { afterAuth(r.data && r.data.session ? r.data.session.user : null); }, function () { afterAuth(null); });
