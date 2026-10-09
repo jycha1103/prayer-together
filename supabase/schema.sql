@@ -549,3 +549,75 @@ select * from (values
   ('기도의 방법', '감사 기도: 오늘 받은 은혜 세 가지 세기', '기도를 시작할 때 오늘 받은 은혜 세 가지를 구체적으로 떠올리고 감사로 고백해 보세요. 문제를 말하기 전에 감사로 마음을 여는 연습이에요.')
 ) v(kind, title, body)
 where not exists (select 1 from public.guides);
+
+create table if not exists public.feedback (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) on delete cascade,
+  kind text not null default '불편해요',
+  body text not null,
+  answer text not null default '',
+  done boolean not null default false,
+  created_at timestamptz not null default now(),
+  answered_at timestamptz
+);
+alter table public.feedback enable row level security;
+revoke all on public.feedback from anon, authenticated;
+
+-- 내가 보낸 의견과 답
+create or replace view public.v_my_feedback as
+  select f.id, f.kind, f.body, f.answer, f.done, f.created_at, f.answered_at
+  from feedback f where f.user_id = auth.uid() order by f.created_at desc limit 50;
+-- 운영진이 보는 의견 목록 (운영진 누구나)
+create or replace view public.v_adm_feedback as
+  select f.id, f.kind, f.body, f.answer, f.done, f.created_at, f.answered_at, pt_name(f.user_id) as who
+  from feedback f where pt_can('현황') order by f.done, f.created_at desc limit 200;
+grant select on public.v_my_feedback, public.v_adm_feedback to authenticated;
+revoke all on public.v_my_feedback, public.v_adm_feedback from anon;
+
+create or replace function public.send_feedback(p_kind text, p_body text) returns void
+language plpgsql security definer set search_path = public as $$
+declare u uuid := pt_require_user();
+begin
+  if coalesce(trim(p_body), '') = '' then raise exception '내용을 적어 주세요'; end if;
+  if (select count(*) from feedback where user_id = u and created_at > now() - interval '1 hour') >= 10 then raise exception '잠시 뒤에 다시 보내 주세요'; end if;
+  insert into feedback (user_id, kind, body) values (u, left(coalesce(nullif(p_kind, ''), '기타'), 10), left(p_body, 1000));
+end $$;
+
+create or replace function public.adm_feedback(p_id uuid, p_answer text, p_done boolean) returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  perform pt_require('현황');
+  update feedback set answer = left(coalesce(p_answer, ''), 1000), done = coalesce(p_done, done),
+    answered_at = case when coalesce(p_answer, '') <> '' then now() else answered_at end
+  where id = p_id;
+end $$;
+
+revoke all on function public.send_feedback(text, text) from public, anon;
+grant execute on function public.send_feedback(text, text) to authenticated;
+revoke all on function public.adm_feedback(uuid, text, boolean) from public, anon;
+grant execute on function public.adm_feedback(uuid, text, boolean) to authenticated;
+
+create table if not exists public.user_state (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  data jsonb not null default '{}'::jsonb,
+  updated_at timestamptz not null default now()
+);
+alter table public.user_state enable row level security;
+revoke all on public.user_state from anon, authenticated;
+
+create or replace view public.v_my_state as
+  select s.data, s.updated_at from user_state s where s.user_id = auth.uid();
+grant select on public.v_my_state to authenticated;
+revoke all on public.v_my_state from anon;
+
+create or replace function public.save_state(p_data jsonb) returns void
+language plpgsql security definer set search_path = public as $$
+declare u uuid := pt_require_user();
+begin
+  if p_data is null or jsonb_typeof(p_data) <> 'object' then raise exception '저장할 내용이 올바르지 않아요'; end if;
+  if pg_column_size(p_data) > 1000000 then raise exception '기록이 너무 많아서 저장하지 못했어요'; end if;
+  insert into user_state (user_id, data, updated_at) values (u, p_data, now())
+  on conflict (user_id) do update set data = excluded.data, updated_at = now();
+end $$;
+revoke all on function public.save_state(jsonb) from public, anon;
+grant execute on function public.save_state(jsonb) to authenticated;

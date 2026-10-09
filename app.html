@@ -509,6 +509,10 @@ button.cal-row b { color: var(--gold); }
   .istep{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.55;color:var(--ink-2)}.istep>b{flex:0 0 24px;height:24px;border-radius:50%;background:var(--gold-soft);color:var(--gold);display:grid;place-items:center;font-size:12.5px}
   .ikey{display:inline-block;padding:0 6px;border:1px solid var(--line);border-radius:6px;font-size:12px}
   a.btn{display:flex;align-items:center;justify-content:center;text-decoration:none;color:#fff}
+  button.beta{display:block;width:100%;font-family:inherit;background:none;cursor:pointer}
+  .fb-item{width:100%;font:inherit;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface);display:flex;flex-direction:column;gap:6px;text-align:left;cursor:default}button.fb-item{cursor:pointer}
+  .fb-body{margin:0;font-size:13.5px;line-height:1.6;color:var(--ink-2);white-space:pre-wrap}.fb-item.done{opacity:.7}
+  .fb-ans{font-size:13px;line-height:1.55;color:var(--ink-2);background:var(--bg);border-radius:8px;padding:8px 10px}.fb-ans b{display:block;font-size:11.5px;color:var(--gold);margin-bottom:2px}
 </style>
 
 <div class="app">
@@ -534,7 +538,7 @@ button.cal-row b { color: var(--gold); }
   var CLOUD_CFG = window.PT_CLOUD && window.PT_CLOUD.url && window.supabase ? window.PT_CLOUD : null, C = null;
   var KEY = CLOUD_CFG ? 'prayer-together-cloud-v1' : 'prayer-together-v1';
   function load() { try { var s = localStorage.getItem(KEY); return s ? JSON.parse(s) : null; } catch (e) { return null; } }
-  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} if (C && C.user && C.joined) actSoon(); }
+  function save() { if (CLOUD_CFG) pStamp(); try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} if (C && C.user && C.joined) { actSoon(); pPushSoon(); } }
 
   // ---------- dates ----------
   function pad(n) { return (n < 10 ? '0' : '') + n; }
@@ -873,7 +877,7 @@ button.cal-row b { color: var(--gold); }
     var tips = board('tips');
     var AG = allGuides(), allThings = (AG[0] ? lineItem('data-guide="' + AG[0].id + '"', AG[0].kind, AG[0].title) : '') +
       (tips[0] ? lineItem('data-open="' + tips[0].id + '"', '노하우', tips[0].title) : AG[1] ? lineItem('data-guide="' + AG[1].id + '"', AG[1].kind, AG[1].title) : '');
-    return installBanner() + (SB ? '<div class="beta">시험 운영 중이에요. 불편한 점은 운영자에게 알려 주세요.</div>' : '') +
+    return installBanner() + (SB ? '<button class="beta" data-act="feedback">시험 운영 중이에요. 불편한 점은 <u>운영자에게 한마디</u>로 알려 주세요.</button>' : '') +
       '<div class="verse">' + GLOBE + '<div class="eyebrow">오늘의 말씀</div><p>' + esc(todayVerse().t) + '</p><cite>' + esc(todayVerse().ref) + '</cite></div>' +
       '<section class="sec"><div class="sec-head"><h2>' + esc(myName()) + '님의 오늘</h2><span class="date">' + (d.getMonth() + 1) + '월 ' + d.getDate() + '일 ' + '일월화수목금토'[d.getDay()] + '요일</span></div>' +
       '<div class="today">' +
@@ -1435,7 +1439,7 @@ button.cal-row b { color: var(--gold); }
 
   // ---------- 운영자 관리 (시안: 서버 연결 전이라 이 기기 안에서만 움직여요) ----------
   var atab = 'dash';
-  var ADM_TABS = [['dash', '현황'], ['safe', '안전'], ['member', '회원'], ['content', '콘텐츠'], ['relay', '릴레이'], ['staff', '운영진']];
+  var ADM_TABS = [['dash', '현황'], ['voice', '의견'], ['safe', '안전'], ['member', '회원'], ['content', '콘텐츠'], ['relay', '릴레이'], ['staff', '운영진']];
   var ADM_ROLES = { '최고 관리자': ['현황', '안전', '회원', '콘텐츠', '릴레이', '운영진'], '운영자': ['현황', '안전', '회원', '콘텐츠', '릴레이'], '콘텐츠 담당': ['현황', '콘텐츠', '릴레이'], '안전 담당': ['현황', '안전', '회원'] };
   var GUIDE_KINDS = ['따라하는 기도', '기도의 방법', '책 소개', '묵상', '영상'];
   var DEF_VERSE = { t: '모든 기도와 간구를 하되 항상 성령 안에서 기도하고 이를 위하여 깨어 구하기를 항상 힘쓰며 여러 성도를 위하여 구하라', ref: '에베소서 6:18' };
@@ -1446,6 +1450,10 @@ button.cal-row b { color: var(--gold); }
     if (S.admin) return;
     var now = Date.now(), H = 3600000, D = 24 * H;
     S.admin = {
+      fbSample: [
+        { id: 'fb1', who: '은혜로운하루', kind: '제안해요', body: '기도 제목에 사진도 붙일 수 있으면 좋겠어요. 병원에 계신 어머니 사진이요. (예시)', answer: '', done: false, at: now - 3 * H },
+        { id: 'fb2', who: '새벽이슬', kind: '고마워요', body: '모르는 분들이 저를 위해 기도해 주셔서 큰 힘이 됐어요. (예시)', answer: '함께 기도해요. 고마워요!', done: true, at: now - 2 * D }
+      ],
       members: [
         { id: 'u1', nick: '바나바 상담사', real: '김바나', role: '상담사', org: '마음쉼 심리상담센터 (서울 마포구)', proof: '상담심리사 2급 자격증.jpg', verify: 'wait', joined: now - 2 * H },
         { id: 'u2', nick: '김요셉 선교사', real: '김요셉', role: '목회자·선교사', org: '캄보디아 시엠립 선교회', proof: '선교사 파송 증명서.pdf', verify: 'wait', joined: now - 20 * H },
@@ -1514,20 +1522,36 @@ button.cal-row b { color: var(--gold); }
   function vAdmin() {
     admInit();
     if (SB && !C.staff) return '<h1 class="page-title">운영자 관리</h1><div class="empty">운영진만 들어올 수 있어요.</div>';
-    var tabs = ADM_TABS.filter(function (t) { return staffCan(t[1]); });
+    if (SB && (!C.admAt || Date.now() - C.admAt > 15000)) { C.admAt = Date.now(); pullAdmin().then(function () { if (tab === 'admin') render(); }, cloudErr); }
+    var tabs = ADM_TABS.filter(function (t) { return staffCan(t[0] === 'voice' ? '현황' : t[1]); });
     if (!tabs.some(function (t) { return t[0] === atab; }) && atab !== 'stats') atab = tabs[0][0];
     var h = '<h1 class="page-title">운영자 관리</h1><div class="note">' + (SB ? '운영진만 들어오는 화면이에요. 내 역할은 <b>' + esc(C.staff) + '</b>이에요.' : '운영진만 들어오는 화면이에요. 지금은 예시 데이터로 움직이고, 서버를 연결하면 실제 회원과 글이 보여요.') + '</div>' +
       '<div class="chips adm-tabs" role="group" aria-label="관리 메뉴">' + tabs.map(function (t) {
-        var n = t[0] === 'safe' ? admReported().length + admCrisis().length : t[0] === 'member' ? admWaiting().length : 0;
+        var n = t[0] === 'safe' ? admReported().length + admCrisis().length : t[0] === 'member' ? admWaiting().length : t[0] === 'voice' ? admFeedback().filter(function (f) { return !f.done; }).length : 0;
         return '<button class="chip" data-atab="' + t[0] + '" aria-pressed="' + (atab === t[0] || (atab === 'stats' && t[0] === 'dash')) + '">' + t[1] + (n ? ' <span class="seg-n">' + n + '</span>' : '') + '</button>'; }).join('') + '</div>';
-    return h + { stats: admStats, dash: admDash, safe: admSafe, member: admMember, content: admContent, relay: admRelay, staff: admStaff }[atab]();
+    return h + { stats: admStats, dash: admDash, voice: admVoice, safe: admSafe, member: admMember, content: admContent, relay: admRelay, staff: admStaff }[atab]();
+  }
+  function admFeedback() {
+    if (SB) return S.admin.feedback || [];
+    return (S.feedback || []).concat(S.admin.fbSample || []).sort(function (a, b) { return (a.done - b.done) || (b.at - a.at); });
+  }
+  function admVoice() {
+    var all = admFeedback(), open = all.filter(function (f) { return !f.done; }), done = all.filter(function (f) { return f.done; });
+    return '<div class="small muted" style="margin:4px 2px 10px">회원이 메뉴의 "운영자에게 한마디"로 보낸 의견이에요. 눌러서 답을 남기면 보낸 분이 볼 수 있어요.</div>' +
+      '<section class="sec"><div class="sec-head"><h2>새 의견 <span class="muted">' + open.length + '</span></h2></div>' + (open.length ? '<div class="stack" style="gap:8px">' + open.map(function (f) { return fbItem(f, true); }).join('') + '</div>' : '<div class="empty">새로 들어온 의견이 없어요.</div>') + '</section>' +
+      (done.length ? '<section class="sec"><div class="sec-head"><h2>처리한 의견 <span class="muted">' + done.length + '</span></h2></div><div class="stack" style="gap:8px">' + done.map(function (f) { return fbItem(f, true); }).join('') + '</div></section>' : '');
+  }
+  function fbSheet(f) {
+    sheet('의견 답하기', '<div class="fb-item"><div class="row between"><span class="tag">' + esc(f.kind) + '</span><span class="small muted">' + esc(f.who || '') + ' · ' + ago(f.at) + '</span></div><div class="fb-body">' + esc(f.body) + '</div></div>' +
+      '<label class="field"><span>답 (보낸 분만 볼 수 있어요)</span><textarea class="input" id="fbAns" maxlength="1000" style="min-height:100px" placeholder="예: 좋은 의견 고마워요. 다음 업데이트에 반영할게요">' + esc(f.answer) + '</textarea></label>' +
+      '<div class="row" style="flex-wrap:nowrap"><button class="btn line" style="flex:1" data-adm="fb-save" data-id="' + f.id + '">답만 저장</button><button class="btn" style="flex:1" data-adm="fb-done" data-id="' + f.id + '">' + (f.done ? '다시 열기' : '저장하고 처리 완료') + '</button></div>');
   }
   function admTodo(label, n, to, sub) {
     return '<button class="row-item line" data-atab="' + to + '"><h3>' + label + (sub ? '<div class="small muted" style="font-weight:400">' + sub + '</div>' : '') + '</h3><span class="room-on">' + n + '</span></button>';
   }
   function admDash() {
     var day = Date.now() - 86400000, newPosts = S.posts.filter(function (p) { return p.created > day && !p.roomId; }).length;
-    var todo = [[admCrisis().length, '위기 단어가 들어간 사연', 'safe', '가장 먼저 확인해 주세요'], [admReported().length, '신고된 글', 'safe', '3번 쌓이면 자동으로 숨겨져요'], [admWaiting().length, '목회자 · 상담사 인증 대기', 'member', ''], [admNoVerse(), '오늘의 말씀 미편성 (7일 중)', 'content', '편성하지 않은 날은 기본 말씀이 나가요']]
+    var todo = [[admCrisis().length, '위기 단어가 들어간 사연', 'safe', '가장 먼저 확인해 주세요'], [admFeedback().filter(function (f) { return !f.done; }).length, '새로 들어온 회원 의견', 'voice', '읽고 짧게 답해 주세요'], [admReported().length, '신고된 글', 'safe', '3번 쌓이면 자동으로 숨겨져요'], [admWaiting().length, '목회자 · 상담사 인증 대기', 'member', ''], [admNoVerse(), '오늘의 말씀 미편성 (7일 중)', 'content', '편성하지 않은 날은 기본 말씀이 나가요']]
       .filter(function (x) { return x[0]; });
     return '<div class="stats adm-stats"><div class="stat"><b>' + (SB ? (C.stats ? C.stats.members_today : '-') : 7) + '</b><span>오늘 가입' + (SB ? '' : ' · 예시') + '</span></div><div class="stat"><b>' + (SB ? (C.stats ? C.stats.active_today : '-') : 128) + '</b><span>' + (SB ? '오늘 기도한 사람' : '오늘 방문 · 예시') + '</span></div><div class="stat"><b>' + newPosts + '</b><span>새 글 (24시간)</span></div></div>' +
       '<button class="btn block line" data-atab="stats">누적 숫자와 연령 · 성별 · 지역 분포 보기 ›</button>' +
@@ -1632,6 +1656,11 @@ button.cal-row b { color: var(--gold); }
   function admAct(d, b) {
     var id = d.id, p = id && S.posts.find(function (x) { return x.id === id; }), m = id && S.admin.members.find(function (x) { return x.id === id; });
     switch (d.adm) {
+      case 'fb-open': var fo = admFeedback().find(function (x) { return x.id === id; }); if (fo) fbSheet(fo); return;
+      case 'fb-save': case 'fb-done':
+        var fx = admFeedback().find(function (x) { return x.id === id; }); if (!fx) return;
+        fx.answer = val('fbAns'); if (d.adm === 'fb-done') fx.done = !fx.done;
+        cloud('adm_feedback', { p_id: id, p_answer: fx.answer, p_done: fx.done }); if (!SB) save(); closeSheet(); toast(d.adm === 'fb-done' ? (fx.done ? '처리 완료로 옮겼어요' : '다시 열었어요') : '답을 저장했어요'); break;
       case 'crisis-ok': p.crisisSeen = true; cloud('adm_review', { p_id: id, p_action: 'crisis' }); break;
       case 'crisis-msg': cloud('adm_comfort', { p_id: id, p_text: COMFORT }); p.crisisSeen = true; p.chats = p.chats || {}; p.chatRoles = p.chatRoles || {}; (p.chats['운영자'] = p.chats['운영자'] || []).push({ from: 'r', text: COMFORT, at: Date.now() }); p.chatRoles['운영자'] = '운영자'; toast('작성자에게 1:1 위로 메시지를 보냈어요'); break;
       case 'rp-keep': cloud('adm_review', { p_id: id, p_action: 'keep' }); p.reports = 0; p.reported = false; p.reviewed = true; toast('글을 복구했어요'); break;
@@ -1699,7 +1728,7 @@ button.cal-row b { color: var(--gold); }
       '<div class="drawer-brand">합력하여 선을 이루는 기도<small>얼굴을 몰라도, 서로를 위해 기도하는 곳</small></div><div class="srow"><input class="search" id="dq" type="search" placeholder="Search..." aria-label="전체 글 검색"><button class="icon-btn" data-tab="me" aria-label="설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div>' +
       '<ul class="menu">' + M.map(function (m) { return '<li><button data-tab="' + m[0] + '">' + m[1] + '</button>' + (SUB[m[0]] ? '<ul class="menu sub">' + SUB[m[0]].map(function (x) { return '<li><button data-dm="' + x[0] + '">' + x[1] + '</button></li>'; }).join('') + '</ul>' : '') + '</li>'; }).join('') +
       '<li><button data-guide-tab="guides">기도란</button><ul class="menu sub"><li><button data-guide-tab="guides">기도의 모든 것</button></li><li><button data-guide-tab="tips">나만의 기도 노하우</button></li></ul></li>' +
-      '<li><button data-act="invite">초대</button></li><li><button data-act="install">앱 설치 방법</button></li><li><button data-act="policy">개인정보 처리방침</button></li>' + (!SB || C.staff ? '<li><button data-tab="admin">운영자 관리 <span class="tag">운영진</span></button></li>' : '') + (S.me.profile ? '' : '<li><button data-act="join">회원 가입</button></li>') + '</ul></nav></div>';
+      '<li><button data-act="invite">초대</button></li><li><button data-act="install">앱 설치 방법</button></li><li><button data-act="feedback">운영자에게 한마디</button></li><li><button data-act="policy">개인정보 처리방침</button></li>' + (!SB || C.staff ? '<li><button data-tab="admin">운영자 관리 <span class="tag">운영진</span></button></li>' : '') + (S.me.profile ? '' : '<li><button data-act="join">회원 가입</button></li>') + '</ul></nav></div>';
   }
   function closeDrawer() { el('drawerRoot').innerHTML = ''; }
 
@@ -1953,6 +1982,29 @@ button.cal-row b { color: var(--gold); }
   }
 
   var INVITE = '얼굴을 몰라도 서로를 위해 기도하는 곳, "합력하여 선을 이루는 기도"에 초대해요. 기도 제목을 나누고 함께 중보기도해요.\n\n' + APP_URL + '\n\n열어서 이메일로 가입하면 바로 함께할 수 있어요. 홈 화면에 추가하면 앱처럼 쓸 수 있어요.';
+  // ---------- 운영자에게 한마디 ----------
+  var FB_KINDS = ['불편해요', '제안해요', '고마워요', '기타'], fbKind = '불편해요';
+  function myFeedback() { return SB ? (C.myFb || []) : (S.feedback || []).filter(function (f) { return f.mine; }); }
+  function fbItem(f, adm) {
+    var tg = adm ? 'button' : 'div';
+    return '<' + tg + ' class="fb-item' + (f.done ? ' done' : '') + '"' + (adm ? ' data-adm="fb-open" data-id="' + f.id + '"' : '') + '><div class="row between"><span class="tag">' + esc(f.kind) + '</span><span class="small muted">' + (adm && f.who ? esc(f.who) + ' · ' : '') + ago(f.at) + (f.done ? ' · 처리 완료' : '') + '</span></div>' +
+      '<div class="fb-body">' + esc(f.body) + '</div>' + (f.answer ? '<div class="fb-ans"><b>운영자 답</b>' + esc(f.answer) + '</div>' : (adm ? '' : '<div class="small muted">운영자가 읽고 답을 남기면 여기에 보여요.</div>')) + '</' + tg + '>';
+  }
+  function feedbackSheet() {
+    var mine = myFeedback();
+    sheet('운영자에게 한마디',
+      '<div class="note">쓰다가 불편한 점, 있었으면 하는 기능, 고마운 마음 모두 좋아요. 운영진만 읽어요.</div>' +
+      '<div class="chips wrap" id="fbKinds">' + FB_KINDS.map(function (k) { return '<button class="chip" type="button" data-fbk="' + k + '" aria-pressed="' + (fbKind === k) + '">' + k + '</button>'; }).join('') + '</div>' +
+      '<textarea class="input" id="fbBody" maxlength="1000" style="min-height:120px" placeholder="예: 기도 요청을 올릴 때 사진도 붙일 수 있으면 좋겠어요"></textarea>' +
+      '<button class="btn block" data-act="fb-send">보내기</button>' +
+      (mine.length ? '<div class="label" style="margin-top:8px">내가 보낸 의견</div><div class="stack" style="gap:8px">' + mine.map(function (f) { return fbItem(f); }).join('') + '</div>' : ''));
+  }
+  function openFeedback() {
+    if (!SB) return feedbackSheet();
+    qv('v_my_feedback').then(function (r) { C.myFb = r.map(fbMap); feedbackSheet(); }, function () { feedbackSheet(); });
+  }
+  function fbMap(f) { return { id: f.id, kind: f.kind, body: f.body, answer: f.answer || '', done: !!f.done, at: Date.parse(f.created_at), who: f.who || '' }; }
+
   function invite() {
     sheet('초대하기', '<div class="note" style="font-size:14.5px;white-space:pre-line;word-break:break-all" id="inviteText">' + esc(INVITE) + '</div><button class="btn block" data-copy="invite">초대 문구 복사하기</button><div class="small muted">복사한 문구를 카카오톡이나 문자로 보내 주세요. 앱 주소가 함께 들어가요.</div>');
   }
@@ -2118,6 +2170,7 @@ button.cal-row b { color: var(--gold); }
     if (d.share) { var it4 = S.items.find(function (x) { return x.id === d.share; }); writePost('pray', { cat: '개인 중보', title: it4.title, body: it4.body || '', itemId: it4.id }); return; }
     if (d.delItem) { if (!arm(b, '한 번 더 누르면 삭제')) return; S.items = S.items.filter(function (x) { return x.id !== d.delItem; }); save(); closeSheet(); render(); toast('기도 제목을 지웠어요'); return; }
     if (d.delLetter) { if (!arm(b, '한 번 더 누르면 삭제')) return; S.letters = S.letters.filter(function (x) { return x.id !== d.delLetter; }); save(); closeSheet(); render(); return; }
+    if (d.fbk) { fbKind = d.fbk; el('fbKinds').querySelectorAll('.chip').forEach(function (c) { c.setAttribute('aria-pressed', c.dataset.fbk === fbKind); }); return; }
     if (d.copy) {
       var txt = d.copy === 'url' ? APP_URL : INVITE;
       if (d.copy.indexOf('room:') === 0) { var cr = roomById(d.copy.slice(5)); txt = '"' + cr.name + '" 기도모임방에 초대해요. 함께 기도 제목을 나누고 서로를 위해 기도해요.\n\n초대 코드: ' + cr.code + '\n' + APP_URL; }
@@ -2132,6 +2185,11 @@ button.cal-row b { color: var(--gold); }
       case 'calendar': calM = ''; calSel = ''; return calendarSheet();
       case 'policy': closeDrawer(); return policySheet();
       case 'install': closeDrawer(); return installSheet();
+      case 'feedback': closeDrawer(); return openFeedback();
+      case 'fb-send':
+        var fbb = val('fbBody'); if (!fbb) return toast('내용을 적어 주세요');
+        if (SB) { cloud('send_feedback', { p_kind: fbKind, p_body: fbb }).then(function () { openFeedback(); toast('운영자에게 보냈어요. 고마워요'); }); return; }
+        (S.feedback = S.feedback || []).unshift({ id: uid(), mine: true, who: myName(), kind: fbKind, body: fbb, answer: '', done: false, at: Date.now() }); save(); feedbackSheet(); toast('운영자에게 보냈어요. 고마워요'); return;
       case 'install-hide': try { localStorage.setItem('pt-install-hide', '1'); } catch (e) {} render(); toast('메뉴의 "앱 설치 방법"에서 다시 볼 수 있어요'); return;
       case 'join': J = null; closeDrawer(); return go('join');
       case 'j-next': return jNext();
@@ -2305,14 +2363,72 @@ button.cal-row b { color: var(--gold); }
   function pull() {
     if (!SB || !C.user) return Promise.resolve();
     return Promise.all([qv('v_me'), qv('v_posts', function (b) { return b.order('created_at', { ascending: false }).limit(400); }), qv('v_chats'), qv('v_rooms'), qv('v_relays'), qv('v_verses'),
-      qv('v_guides', function (b) { return b.order('created_at', { ascending: false }); })])
-      .then(function (r) { applyPull(r); C.ready = true; return C.staff ? pullAdmin() : null; })
+      qv('v_guides', function (b) { return b.order('created_at', { ascending: false }); }), qv('v_my_state').catch(function () { return null; })])
+      .then(function (r) { applyPull(r); if (C.joined && r[7]) pApply(r[7][0] ? r[7][0].data : null); C.ready = true; return C.staff ? pullAdmin() : null; })
       .then(function () {
         save();
         var a = document.activeElement;
         if (!(a && /INPUT|TEXTAREA|SELECT/.test(a.tagName) && el('view').contains(a))) render();
       }, cloudErr);
   }
+  // ---------- 기도다이어리 서버 보관 ----------
+  // 개인 기록을 조각(기도제목 하나, 하루 기도 시간 등)으로 나눠, 조각마다 마지막으로 고친 시각을 적어 둬요.
+  // 휴대폰과 다른 기기의 기록을 합칠 때 더 나중에 고친 쪽을 남기고, 지운 조각은 다시 살아나지 않게 해요.
+  var PK = { items: 'id', letters: 'id', scraps: 'self', times: 'obj', log: 'obj', alarm: 'one' }, pSnap = null;
+  function pEntries(st) {
+    var m = {};
+    Object.keys(PK).forEach(function (k) {
+      var v = st[k], t = PK[k];
+      if (t === 'one') { if (v != null) m[k] = v; }
+      else if (t === 'obj') Object.keys(v || {}).forEach(function (d) { m[k + ':' + d] = v[d]; });
+      else (v || []).forEach(function (x) { m[k + ':' + (t === 'self' ? x : x.id)] = x; });
+    });
+    return m;
+  }
+  function pJson(m) { var o = {}; Object.keys(m).forEach(function (k) { o[k] = JSON.stringify(m[k]); }); return o; }
+  function pStamp() {
+    var m = pEntries(S), now = Date.now(); S.pAt = S.pAt || {}; S.gone = S.gone || {};
+    if (!pSnap) { Object.keys(m).forEach(function (k) { if (!S.pAt[k]) S.pAt[k] = 1; }); pSnap = pJson(m); return; }
+    var j = pJson(m);
+    Object.keys(j).forEach(function (k) { if (pSnap[k] !== j[k]) { S.pAt[k] = now; delete S.gone[k]; } });
+    Object.keys(pSnap).forEach(function (k) { if (!(k in j)) { S.gone[k] = now; delete S.pAt[k]; } });
+    pSnap = j;
+  }
+  function pData(st) { var o = { pAt: st.pAt || {}, gone: st.gone || {} }; Object.keys(PK).forEach(function (k) { if (st[k] != null) o[k] = st[k]; }); return o; }
+  function pMerge(L, R) {
+    var mL = pEntries(L), mR = pEntries(R), aL = L.pAt || {}, aR = R.pAt || {}, gone = {}, pAt = {}, keep = {}, order = [];
+    [L.gone || {}, R.gone || {}].forEach(function (g) { Object.keys(g).forEach(function (k) { gone[k] = Math.max(gone[k] || 0, g[k]); }); });
+    Object.keys(mL).concat(Object.keys(mR)).forEach(function (k) {
+      if (k in keep || order.indexOf(k) >= 0) return; order.push(k);
+      var a = k in mL ? (aL[k] || 1) : -1, b = k in mR ? (aR[k] || 1) : -1, t = Math.max(a, b);
+      if ((gone[k] || 0) >= t) return;
+      keep[k] = a >= b ? mL[k] : mR[k]; pAt[k] = t; delete gone[k];
+    });
+    var o = { items: [], letters: [], scraps: [], times: {}, log: {}, alarm: L.alarm || R.alarm || null, pAt: pAt, gone: gone };
+    order.forEach(function (k) {
+      if (!(k in keep)) return;
+      var i = k.indexOf(':'), kind = i < 0 ? k : k.slice(0, i), key = k.slice(i + 1), t = PK[kind];
+      if (t === 'one') o[kind] = keep[k]; else if (t === 'obj') o[kind][key] = keep[k]; else o[kind].push(keep[k]);
+    });
+    return o;
+  }
+  function pApply(srv) {
+    var merged = pMerge(pData(S), srv || {});
+    Object.keys(PK).forEach(function (k) { if (merged[k] != null) S[k] = merged[k]; });
+    S.pAt = merged.pAt; S.gone = merged.gone;
+    S.alarm = S.alarm || defAlarm();
+    pSnap = pJson(pEntries(S)); C.stateJ = JSON.stringify(srv || null); C.stateLoaded = true;
+    pPushSoon();
+  }
+  function pPushSoon() {
+    if (!SB || !C.stateLoaded) return;
+    clearTimeout(C.pt);
+    C.pt = setTimeout(function () {
+      var d = pData(S), j = JSON.stringify(d); if (j === C.stateJ) return;
+      SB.rpc('save_state', { p_data: d }).then(function (r) { if (!r.error) C.stateJ = j; });
+    }, 1500);
+  }
+
   function applyPull(r) {
     var me = r[0][0];
     C.joined = !!me;
@@ -2341,7 +2457,7 @@ button.cal-row b { color: var(--gold); }
   }
   function staffCan(area) { return !SB || (ADM_ROLES[C.staff] || []).indexOf(area) >= 0; }
   function pullAdmin() {
-    return Promise.all([staffCan('회원') ? qv('v_adm_members') : [], qv('v_adm_staff'), staffCan('안전') ? qv('v_adm_blocked') : [], qv('v_adm_stats')]).then(function (r) {
+    return Promise.all([staffCan('회원') ? qv('v_adm_members') : [], qv('v_adm_staff'), staffCan('안전') ? qv('v_adm_blocked') : [], qv('v_adm_stats'), qv('v_adm_feedback').catch(function () { return []; })]).then(function (r) {
       var A = S.admin = S.admin || {};
       A.members = r[0].map(function (m) {
         var org = m.org; org = Array.isArray(org) ? org[0] : org && typeof org === 'object' ? org.name : org;
@@ -2352,6 +2468,7 @@ button.cal-row b { color: var(--gold); }
       A.blocked = r[2].map(function (b) { return { at: Date.parse(b.at), who: b.alias || b.who, text: b.text }; }).reverse();
       A.verses = S.cloudVerses;
       C.stats = r[3][0] || null;
+      A.feedback = r[4].map(fbMap);
     });
   }
   // 기도 시간과 출석은 모임방 얼굴과 주간 기도 시간에 쓰여요
