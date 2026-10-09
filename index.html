@@ -459,6 +459,10 @@ button.cal-row b { color: var(--gold); }
 .face { flex: none; width: 30px; height: 30px; border-radius: 50%; display: inline-grid; place-items: center; font-style: normal; font-size: 12.5px; font-weight: 700; background: #EEF0F4; color: #8A93A6; }
 .face.on { background: linear-gradient(160deg, #E6A92E, #C98A12); color: #FFFFFF; }
 .face.me { outline: 2px solid var(--accent); outline-offset: 1px; }
+.nav-back { flex: none; display: grid; place-items: center; width: 34px; height: 40px; margin: 0 2px 0 -8px; background: none; border: 0; padding: 0; color: var(--navy); }
+.nav-back svg { width: 26px; height: 26px; }
+.nav-back[hidden] { display: none; }
+.topbar .brand { margin-right: auto; }
 .back { background: none; border: 0; padding: 0 2px; color: var(--accent); font-size: 14px; font-weight: 700; align-self: flex-start; }
 .room-sub { margin-top: -4px; padding-inline: 2px; }
 .notice { background: #FFF8EA; box-shadow: none; border: 1px solid #F3DFB4; }
@@ -597,6 +601,7 @@ button.cal-row b { color: var(--gold); }
 
 <div class="app">
   <header class="topbar">
+    <button class="nav-back" id="navBack" data-act="nav-back" aria-label="이전으로" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
     <button class="brand" data-tab="home" aria-label="홈으로"><span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="#F2C46B" d="M8.4 2.6c1.4 1.9 2.8 3.4 2.8 5.6a2.8 2.8 0 0 1-5.6 0c0-2.2 1.4-3.7 2.8-5.6z"/><rect x="6.5" y="12.2" width="3.8" height="9" rx=".9" fill="#FBF0DA"/><path fill="#F2C46B" d="M15.6 1.8c1.4 1.9 2.8 3.4 2.8 5.6a2.8 2.8 0 0 1-5.6 0c0-2.2 1.4-3.7 2.8-5.6z"/><rect x="13.7" y="11.4" width="3.8" height="9.8" rx=".9" fill="#FBF0DA"/></svg></span><span class="brand-txt"><span class="brand-name">합력하여 선을 이루는 기도</span><small class="brand-sub">얼굴을 몰라도, 서로를 위해 기도하는 곳</small></span></button>
     <div class="top-actions">
       <button class="icon-btn" data-tab="me" aria-label="내 정보"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4.5 21c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/></svg></button>
@@ -962,7 +967,7 @@ button.cal-row b { color: var(--gold); }
     var AG = allGuides(), allThings = (AG[0] ? lineItem('data-guide="' + AG[0].id + '"', AG[0].kind, AG[0].title) : '') +
       (tips[0] ? lineItem('data-open="' + tips[0].id + '"', '노하우', tips[0].title) : AG[1] ? lineItem('data-guide="' + AG[1].id + '"', AG[1].kind, AG[1].title) : '');
     return homeHero(allDone) + (BIG ? '' : quickMenu()) + installBanner() +
-      (SB ? '<button class="beta" data-act="feedback">시험 운영 중이에요. 불편한 점은 <u>운영자에게 한마디</u>로 알려 주세요.</button>' : '') + homeRooms() +
+      (SB ? '<button class="beta" data-act="feedback">시험 운영 중이에요. 불편한 점은 <u>운영자에게 한마디</u>로 알려 주세요.</button>' : '') +
       '<section class="sec">' + secHead('지금 중보가 필요해요', 'pray') + group(urgentFirst(board('pray')).slice(0, 3).map(function (p) { return item(p); }).join('')) + '</section>' +
       '<section class="sec">' + secHead('간증', 'story') + group(board('story').slice(0, 2).map(function (p) { return item(p); }).join('')) + '</section>' +
       (allThings ? '<section class="sec">' + secHead('기도의 모든 것', 'guide') + group(allThings) + '</section>' : '') +
@@ -1113,7 +1118,7 @@ button.cal-row b { color: var(--gold); }
     var ppl = roomPeople(r), on = ppl.filter(function (x) { return x.on; }).length, wk = ppl.reduce(function (a, x) { return a + x.w; }, 0);
     var relay = (S.relays || []).find(function (x) { return x.roomId === r.id && relayEnd(x) >= today(); });
     var list = roomPosts(r);
-    return '<button class="back" data-act="room-back">‹ 기도 모임방</button>' +
+    return '' +
       '<div class="page-head"><h1 class="page-title">' + esc(r.name) + '</h1><button class="btn sm ghost" data-act="room-invite">+ 초대</button></div>' +
       '<div class="small muted room-sub">' + [esc(r.intro || ''), '멤버 ' + ppl.length + '명', '방장 ' + esc(isLeader(r) ? '나' : r.leader), r.isOpen ? '오픈' : '초대장으로만'].filter(Boolean).join(' · ') + (isLeader(r) ? ' <button class="linkbtn blue" data-act="room-open-edit">입장 방식 바꾸기</button>' : '') + '</div>' + roomRequests(r) +
       (r.notice || isLeader(r) ? '<div class="card notice"><div class="row between"><span class="nt">' + PIN + '방장 한마디</span>' + (isLeader(r) ? '<button class="linkbtn blue" data-act="room-notice">' + (r.notice ? '고치기' : '쓰기') + '</button>' : '') + '</div><p>' + (r.notice ? esc(r.notice) : '<span class="muted">이번 주 말씀이나 모임 공지를 적어 두세요.</span>') + '</p></div>' : '') +
@@ -1917,7 +1922,33 @@ button.cal-row b { color: var(--gold); }
     renderTabs();
     el('view').innerHTML = (BIG && BIG_VIEWS[tab] ? BIG_VIEWS[tab] : VIEWS[tab])();
     el('topWrite').hidden = tab === 'join' || tab === 'admin' || (BIG && tab !== 'home');
+    navTrack();
   }
+  // 모든 페이지 위쪽 꺽쇠(‹)로 바로 전 화면에 돌아가요. 휴대폰 뒤로 가기 버튼도 같은 방식으로 움직여요.
+  var NAV = [], navCur = null, navBack = false, navPushed = 0;
+  function navState() { return { tab: tab, ptab: ptab, dtab: dtab, gtab: gtab, cat: cat, roomId: roomId }; }
+  function navTrack() {
+    var key = tab + (tab === 'room' ? ':' + roomId : '');
+    if (tab === 'home' || tab === 'join') NAV = [];
+    else if (navCur && navCur.key !== key && !navBack) {
+      NAV.push(navCur.st); if (NAV.length > 30) NAV.shift();
+      try { history.pushState({ pt: 1 }, ''); navPushed++; } catch (e) {}
+    }
+    navBack = false; navCur = { key: key, st: navState() };
+    el('navBack').hidden = tab === 'home' || tab === 'join';
+  }
+  function navGoBack() {
+    closeSheet(); closeDrawer();
+    var st = NAV.pop();
+    if (!st) return go('home');
+    tab = st.tab; ptab = st.ptab; dtab = st.dtab; gtab = st.gtab; cat = st.cat; roomId = st.roomId;
+    navBack = true; render(); window.scrollTo(0, 0);
+  }
+  window.addEventListener('popstate', function () {
+    if (navPushed > 0) navPushed--;
+    if (el('sheet')) { closeSheet(); try { history.pushState({ pt: 1 }, ''); navPushed++; } catch (e) {} return; }
+    navGoBack();
+  });
   function go(t) { tab = t; closeSheet(); closeDrawer(); render(); window.scrollTo(0, 0); }
 
   // ---------- drawer ----------
@@ -2514,6 +2545,7 @@ button.cal-row b { color: var(--gold); }
       case 'hero-time': return timePick();
       case 'hero-go': dtab = 'time'; return go('diary');
       case 'tpick-go': var tpm = parseInt(val('tpMin'), 10); if (!(tpm > 0)) return toast('분을 숫자로 적어 주세요'); closeSheet(); return addTime(today(), Math.min(tpm, 1440));
+      case 'nav-back': if (navPushed > 0 && NAV.length) { history.back(); return; } return navGoBack();
       case 'room-create':
         var rnm = val('rName'); if (!rnm) return toast('모임방 이름을 적어 주세요');
         var code = ''; for (var ci = 0; ci < 6; ci++) code += 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'.charAt(Math.floor(Math.random() * 32));
