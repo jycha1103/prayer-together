@@ -89,10 +89,11 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .row-item { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 13px 16px; min-width: 0; }
 .row-item + .row-item { border-top: 1px solid var(--line-2); }
 .row-item:active { background: var(--bg); }
-.row-item h3 { font-size: 13.5px; font-weight: 700; color: var(--ink); line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+.row-item h3 { font-size: 13.5px; font-weight: 700; color: var(--ink); line-height: 1.5; }
 .row-item p { margin: 2px 0 0; font-size: 12px; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.row-item .meta { margin-top: 6px; }
-.row-item.line { display: flex; align-items: center; gap: 10px; }
+.row-item .meta { margin-top: 5px; }
+.row-item.line { display: flex; align-items: flex-start; gap: 10px; }
+.row-item.line .kind { margin-top: 2px; }
 .row-item.line h3 { flex: 1; min-width: 0; font-weight: 500; }
 .row-item .kind { flex: none; font-size: 11px; font-weight: 700; color: var(--accent); }
 
@@ -843,9 +844,9 @@ button.cal-row b { color: var(--accent); }
         '<div class="tile"><div><span>연속 기도</span><b>' + streak() + '<small>일째</small></b></div><button class="circle' + (allDone ? ' done' : '') + '" data-act="attend">' + (allDone ? '출석<br>완료' : '출석<br>체크') + '</button></div>' +
         '<div class="tile"><div><span>최근 7일</span><b>' + sumRange(addDays(t, -6), t) + '<small>분</small></b></div><button class="circle" data-act="logtime">시간<br>기록</button></div>' +
       '</div></section>' + homeRooms() +
-      '<section class="sec">' + secHead('지금 기도가 필요해요', 'pray') + group(urgentFirst(board('pray')).slice(0, 3).map(function (p) { return item(p, 'full'); }).join('')) + '</section>' +
+      '<section class="sec">' + secHead('지금 기도가 필요해요', 'pray') + group(urgentFirst(board('pray')).slice(0, 2).map(function (p) { return item(p); }).join('')) + '</section>' +
       '<section class="sec">' + secHead('말못할 사연', 'concern') + group(board('concern').slice(0, 2).map(function (p) { return item(p, 'concern'); }).join('')) + '</section>' +
-      '<section class="sec">' + secHead('간증', 'story') + group(board('story').slice(0, 2).map(function (p) { return item(p, 'full'); }).join('')) + '</section>' +
+      '<section class="sec">' + secHead('간증', 'story') + group(board('story').slice(0, 2).map(function (p) { return item(p); }).join('')) + '</section>' +
       '<section class="sec">' + secHead('기도의 모든 것', 'guide') + group(allThings) + '</section>';
   }
 
