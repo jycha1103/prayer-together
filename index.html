@@ -190,6 +190,7 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .page-title { display: flex; align-items: center; gap: 9px; font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--ink); letter-spacing: -0.03em; line-height: 1.2; padding-inline: 2px; }
 .page-title::before { content: ""; flex: none; width: 5px; height: 22px; border-radius: 3px; background: linear-gradient(180deg, #E6A92E, #C98A12); }
 .note { background: var(--accent-soft); color: var(--ink-2); border-radius: 12px; padding: 10px 14px; font-size: 13px; }
+.note.warn { background: #FDF1E4; color: #6B3D12; } .note.warn small { color: #8A6A4A; word-break: break-all; }
 
 .field { display: flex; flex-direction: column; gap: 6px; }
 .field > span { font-size: 13px; font-weight: 500; color: var(--ink-2); }
@@ -3027,6 +3028,7 @@ button.cal-row b { color: var(--gold); }
     if (!C.checked) return '<div class="empty">불러오는 중이에요…</div>';
     var signup = cSignup();
     return '<div class="join-hero"><span class="mark">' + document.querySelector('.brand .mark').innerHTML + '</span><h1>합력하여 선을 이루는 기도</h1><p>얼굴을 몰라도, 서로를 위해 기도하는 곳</p></div>' + introHtml() +
+      (C.authErr ? '<div class="note warn"><b>로그인하다 문제가 생겼어요.</b> ' + (/email/i.test(C.authErr) ? '카카오 계정의 이메일을 가져오지 못했어요. 카카오 동의 화면에서 이메일 제공에 동의해 주세요.' : '잠시 뒤 다시 해 보시고, 계속되면 이 화면을 캡처해서 운영자에게 보내 주세요.') + '<br><small>' + esc(C.authErr) + '</small></div>' : '') +
       (J && J.mailSent ? '<div class="note"><b>' + esc(J.mailSent) + '</b> 으로 확인 메일을 보냈어요. 메일함(안 보이면 스팸함)에서 <b>링크를 누르면</b> 바로 들어와져요.</div>' : '') +
       '<div class="card stack">' + (oauthList().length ? oauthList().map(function (k) { return '<button class="sso ' + k + '" data-act="c-oauth" data-pv="' + k + '">' + OAUTH[k][1] + OAUTH[k][0] + '</button>'; }).join('') +
         '<div class="or-line">또는 이메일로 ' + (signup ? '가입' : '로그인') + '</div>' : '<div class="small muted">이메일과 비밀번호로 ' + (signup ? '가입해' : '로그인해') + ' 주세요.</div>') + '<label class="field"><span>이메일</span><input class="input" id="cEmail" type="email" autocomplete="email" placeholder="you@example.com"></label>' +
@@ -3035,6 +3037,13 @@ button.cal-row b { color: var(--gold); }
       '<button class="linkbtn blue" data-act="c-mode">' + (signup ? '이미 가입했어요. 로그인할게요' : '처음이에요. 가입할게요') + '</button></div>' +
       (isInstalled() ? '' : '<button class="linkbtn" data-act="install" style="align-self:center">휴대폰 홈 화면에 앱으로 설치하는 방법</button>');
   }
+  // 카카오·구글 로그인에서 돌아올 때 오류가 있으면 주소에 붙어 와요. 무엇이 문제였는지 화면에 보여 줘요.
+  (function () {
+    var q = new URLSearchParams((location.hash || '').replace(/^#/, '') + '&' + (location.search || '').replace(/^\?/, ''));
+    var ed = q.get('error_description') || q.get('error'); if (!ed || !C) return;
+    C.authErr = ed.replace(/\+/g, ' ');
+    try { history.replaceState(null, '', location.pathname); } catch (e) {}
+  })();
   if (SB) {
     SB.auth.getSession().then(function (r) { afterAuth(r.data && r.data.session ? r.data.session.user : null); }, function () { afterAuth(null); });
     setInterval(function () { if (document.visibilityState === 'visible' && C.user) pull(); }, 30000);
