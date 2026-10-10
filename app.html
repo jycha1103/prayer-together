@@ -827,7 +827,7 @@ button.cal-row b { color: var(--gold); }
   function urgentFirst(list) { return list.slice().sort(function (a, b) { return (b.urgent ? 1 : 0) - (a.urgent ? 1 : 0) || b.created - a.created; }); }
   function flags(p) { return (p.urgent ? '<span class="pill red">긴급</span> ' : '') + (p.answered ? '<span class="pill green">응답받음</span> ' : ''); }
   // 기도 제목 태그 (고르지 않아도 돼요). 제목 앞에 붙어서 보여요.
-  var TAGS = ['건강', '가정', '자녀', '직장', '진로', '결혼', '경제', '관계', '학업', '신앙'];
+  var TAGS = ['건강', '가정', '자녀', '직장', '진로', '결혼', '경제', '관계', '학업', '신앙', '마음', '비전'];
   function tagHtml(p) { return p.tag ? '<span class="ptag">' + esc(p.tag) + '</span>' : ''; }
   // 글에 남기는 마음 표현 (기도했어요와 따로)
   var REACTS = [['comfort', '🤗', '위로해요'], ['cheer', '💪', '힘내요'], ['like', '👍', '좋아요'], ['moved', '🥹', '감동이에요'], ['praise', '🙌', '할렐루야']];

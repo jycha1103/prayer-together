@@ -25,7 +25,7 @@ create or replace function public.set_post_tag(p_id uuid, p_tag text) returns vo
 language plpgsql security definer set search_path = public as $$
 declare u uuid := pt_require_user();
 begin
-  if coalesce(p_tag, '') not in ('', '건강', '가정', '자녀', '직장', '진로', '결혼', '경제', '관계', '학업', '신앙') then raise exception '태그를 다시 골라 주세요'; end if;
+  if coalesce(p_tag, '') not in ('', '건강', '가정', '자녀', '직장', '진로', '결혼', '경제', '관계', '학업', '신앙', '마음', '비전') then raise exception '태그를 다시 골라 주세요'; end if;
   update posts set tag = coalesce(p_tag, '') where id = p_id and author_id = u;
 end $$;
 
