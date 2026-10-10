@@ -1539,12 +1539,46 @@ button.cal-row b { color: var(--gold); }
   }
   function jPlace(key, type, label, hint) {
     var sel = J[key];
-    if (sel) return '<div class="field"><span>' + label + '</span><div class="place-sel"><div><b>' + esc(sel[0]) + '</b><small>' + esc(sel[1]) + '</small><em>' + CHECK + '카카오맵에서 확인된 곳</em></div><button class="linkbtn blue" type="button" data-act="j-unplace" data-for="' + key + '">바꾸기</button></div></div>';
+    if (sel) return '<div class="field"><span>' + label + '</span><div class="place-sel"><div><b>' + esc(sel[0]) + '</b><small>' + esc(sel[1]) + '</small><em>' + (sel[2] ? '직접 적은 이름이에요' : CHECK + '카카오맵에서 확인된 곳') + '</em></div><button class="linkbtn blue" type="button" data-act="j-unplace" data-for="' + key + '">바꾸기</button></div></div>';
     var res = J['res_' + key];
     return '<div class="field"><span>' + label + '</span><div class="row" style="flex-wrap:nowrap"><input class="input" style="flex:1;min-width:0" data-jf="q_' + key + '" value="' + esc(J['q_' + key] || '') + '" placeholder="' + (type === 'center' ? '상담센터 이름' : '교회 이름') + '으로 찾기"><button class="btn sm" type="button" data-act="j-search" data-for="' + key + '" data-type="' + type + '">검색</button></div>' +
       (hint ? '<div class="small muted">' + hint + '</div>' : '') +
-      (res ? (res.length ? '<div class="place-list">' + res.map(function (r, i) { return '<button type="button" data-jplace="' + key + '" data-ji="' + i + '"><b>' + esc(r[0]) + '</b><small>' + esc(r[1]) + '</small></button>'; }).join('') + '<div class="small muted" style="padding:6px 12px">체험용 예시 결과예요. 실제로는 카카오맵에 등록된 곳이 나와요.</div></div>'
-        : '<div class="small muted">찾는 곳이 없어요. 이름을 다시 확인해 주세요.</div>') : '') + '</div>';
+      (J['busy_' + key] ? '<div class="small muted">찾는 중이에요…</div>' : '') +
+      (res ? (res.length ? '<div class="place-list">' + res.map(function (r, i) { return '<button type="button" data-jplace="' + key + '" data-ji="' + i + '"><b>' + esc(r[0]) + '</b><small>' + esc(r[1]) + '</small></button>'; }).join('') + (placeReal() ? '' : '<div class="small muted" style="padding:6px 12px">체험용 예시 결과예요. 실제로는 카카오맵에 등록된 곳이 나와요.</div>') + '</div>'
+        : '<div class="small muted">' + (placeReal() || !SB ? '찾는 곳이 없어요.' : '') + '</div>') : '') +
+      (res && J['q_' + key] ? '<button class="linkbtn blue" type="button" data-act="j-manual" data-for="' + key + '" style="align-self:flex-start">찾는 곳이 없으면 "' + esc(J['q_' + key]) + '" 그대로 쓰기</button>' : '') + '</div>';
+  }
+  // 카카오맵 장소 검색 (config.js 에 kakaoJs 키가 있을 때만). 없으면 이름을 직접 적어요.
+  function placeReal() { return !!(CLOUD_CFG && CLOUD_CFG.kakaoJs); }
+  var kakaoMapReady = null;
+  function kakaoPlaces() {
+    if (kakaoMapReady) return kakaoMapReady;
+    kakaoMapReady = new Promise(function (ok, no) {
+      var sc = document.createElement('script');
+      sc.src = 'https://dapi.kakao.com/v2/maps/sdk.js?appkey=' + encodeURIComponent(CLOUD_CFG.kakaoJs) + '&libraries=services&autoload=false';
+      sc.onload = function () { try { window.kakao.maps.load(function () { ok(new window.kakao.maps.services.Places()); }); } catch (e) { no(e); } };
+      sc.onerror = no; document.head.appendChild(sc);
+    });
+    kakaoMapReady.catch(function () { kakaoMapReady = null; });
+    return kakaoMapReady;
+  }
+  function placeSearch(key, type) {
+    var q = (J['q_' + key] || '').trim();
+    if (!q) return toast('이름을 적어 주세요');
+    if (!placeReal()) {
+      var qq = q.replace(/\s/g, '');
+      J['res_' + key] = SB ? [] : PLACES[type].filter(function (pl) { return pl[0].replace(/\s/g, '').indexOf(qq) >= 0 || qq.split('').every(function (ch) { return pl[0].indexOf(ch) >= 0; }); });
+      return render();
+    }
+    J['busy_' + key] = true; render();
+    kakaoPlaces().then(function (ps) {
+      ps.keywordSearch(q, function (data, status) {
+        if (!J) return;
+        J['busy_' + key] = false;
+        J['res_' + key] = status === window.kakao.maps.services.Status.OK ? data.slice(0, 10).map(function (x) { return [x.place_name, x.road_address_name || x.address_name || '']; }) : [];
+        render();
+      }, { size: 10 });
+    }, function () { if (!J) return; J['busy_' + key] = false; J['res_' + key] = []; render(); toast('지금은 검색이 안 돼요. 이름을 그대로 써 주세요'); });
   }
   function birthSelects() {
     var bp = (J.birth || '').split('-'), y0 = new Date().getFullYear(), ys = [], i;
@@ -1636,7 +1670,7 @@ button.cal-row b { color: var(--gold); }
     if (J.more) {
       h += '<div class="card stack">' +
         '<div class="field"><span>성별 <b class="opt">선택</b></span>' + jChips('gender', ['남성', '여성']) + '</div>' +
-        (J.faith === '성도' ? '<div class="field"><span>직분 <b class="opt">선택</b></span>' + jChips('duty', DUTIES) + (J.duty === '기타' ? '<input class="input" data-jf="dutyEtc" value="' + esc(J.dutyEtc || '') + '" placeholder="직분을 적어 주세요">' : '') + '</div>' : '') +
+        (J.faith === '성도' ? '<div class="field"><span>직분 <b class="opt">선택</b></span>' + jChips('duty', DUTIES) + (J.duty === '기타' ? '<input class="input" data-jf="dutyEtc" value="' + esc(J.dutyEtc || '') + '" placeholder="직분을 적어 주세요">' : '') + '</div>' + jPlace('church', 'church', '출석 교회 <b class="opt">선택</b>') : '') +
         '<div class="field"><span>사는 지역 <b class="opt">선택</b></span><div class="row" style="flex-wrap:nowrap"><select class="input" data-jf="sido" style="flex:0 0 110px"><option value="">시 · 도</option>' + SIDO.map(function (x) { return '<option' + (J.sido === x ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select><input class="input" style="flex:1;min-width:0" data-jf="sigungu" value="' + esc(J.sigungu || '') + '" placeholder="시 · 군 · 구"></div></div>' +
         '<div class="field"><span>직업 <b class="opt">선택</b></span>' + jChips('job', JOBS) + (J.job === '기타' ? '<input class="input" data-jf="jobEtc" value="' + esc(J.jobEtc || '') + '" placeholder="직업을 적어 주세요">' : '') + '</div>' +
         '<div class="field"><span>함께 기도하고 싶은 분야 <b class="opt">선택 · 여러 개</b></span>' + jChips('interests', INTERESTS, true) + '</div>' +
@@ -2634,10 +2668,8 @@ button.cal-row b { color: var(--gold); }
       case 'j-agall':
         jSync(); var allOn2 = AGREES.every(function (a) { return J['ag_' + a[0]]; });
         AGREES.forEach(function (a) { J['ag_' + a[0]] = !allOn2; }); render(); return;
-      case 'j-search':
-        jSync(); var qq = (J['q_' + d.for] || '').replace(/\s/g, '');
-        J['res_' + d.for] = PLACES[d.type].filter(function (pl) { return !qq || pl[0].replace(/\s/g, '').indexOf(qq) >= 0 || qq.split('').every(function (ch) { return pl[0].indexOf(ch) >= 0; }); });
-        render(); return;
+      case 'j-search': jSync(); return placeSearch(d.for, d.type);
+      case 'j-manual': jSync(); var mq = (J['q_' + d.for] || '').trim(); if (!mq) return; J[d.for] = [mq, '', 1]; J['res_' + d.for] = null; render(); return;
       case 'j-unplace': jSync(); J[d.for] = null; render(); return;
       case 'c-signup': return cloudAuth('signup');
       case 'c-login': return cloudAuth('login');
