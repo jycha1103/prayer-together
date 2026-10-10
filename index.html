@@ -155,6 +155,15 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .adm-role + .adm-role { border-top: 1px solid var(--line-2); padding-top: 8px; }
 .adm-role b { font-size: 13.5px; }
 .adm-stats .stat span { display: block; }
+.adm-today { gap: 8px; } .adm-today .stat { text-align: center; padding: 10px 6px; border: 1px solid var(--line); font: inherit; color: inherit; } .adm-today .stat b { font-size: 22px; } .adm-today .stat span { font-size: 11.5px; line-height: 1.35; }
+.adm-today .stat.hl, .nk-row.hl { background: var(--gold-soft); border-color: #D9B36A; }
+.nk-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 13px 16px; font-size: 14px; } .nk-row b { color: var(--navy); white-space: nowrap; }
+.lock-tag { font-size: 11px; background: var(--accent-soft); color: var(--navy-2); padding: 1px 7px; border-radius: 99px; margin-left: 4px; font-weight: 500; }
+.visit-tbl { padding: 4px 0; } .visit-tbl table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.visit-tbl th { font-size: 11px; color: var(--muted); font-weight: 500; text-align: right; padding: 6px 12px 4px; } .visit-tbl th:first-child, .visit-tbl td:first-child { text-align: left; }
+.visit-tbl td { padding: 7px 12px; border-top: 1px solid var(--line-2); text-align: right; font-variant-numeric: tabular-nums; } .visit-tbl tr.sub td { color: var(--muted); font-size: 12.5px; padding-top: 5px; padding-bottom: 5px; } .visit-tbl tr.sub td:first-child { padding-left: 26px; }
+.spark { display: inline-flex; gap: 2px; align-items: flex-end; height: 18px; vertical-align: middle; } .spark i { width: 5px; background: #C9D2EE; border-radius: 1px; } .spark i:last-child { background: var(--gold); }
+.visit-tbl .up { color: #2E7D4F; font-size: 11.5px; } .visit-tbl .dn { color: var(--warn); font-size: 11.5px; }
 .hbars { display: flex; flex-direction: column; gap: 10px; }
 .hb { display: grid; grid-template-columns: 84px 1fr 38px; align-items: center; gap: 10px; font-size: 12.5px; }
 .hb span { color: var(--ink-2); } .hb em { font-style: normal; text-align: right; color: var(--ink-2); font-variant-numeric: tabular-nums; }
@@ -1752,7 +1761,7 @@ button.cal-row b { color: var(--gold); }
   }
 
   // ---------- 운영자 관리 (시안: 서버 연결 전이라 이 기기 안에서만 움직여요) ----------
-  var atab = 'dash';
+  var atab = 'dash', nkind = 'pray';
   var ADM_TABS = [['dash', '현황'], ['voice', '의견'], ['safe', '안전'], ['member', '회원'], ['content', '콘텐츠'], ['relay', '릴레이'], ['staff', '운영진']];
   var ADM_ROLES = { '최고 관리자': ['현황', '안전', '회원', '콘텐츠', '릴레이', '운영진'], '운영자': ['현황', '안전', '회원', '콘텐츠', '릴레이'], '콘텐츠 담당': ['현황', '콘텐츠', '릴레이'], '안전 담당': ['현황', '안전', '회원'] };
   var GUIDE_KINDS = ['따라하는 기도', '기도의 방법', '책 소개', '묵상', '영상', '공지'];
@@ -1850,12 +1859,12 @@ button.cal-row b { color: var(--gold); }
     if (SB && !C.staff) return '<h1 class="page-title">운영자 관리</h1><div class="empty">운영진만 들어올 수 있어요.</div>';
     if (SB && (!C.admAt || Date.now() - C.admAt > 15000)) { C.admAt = Date.now(); pullAdmin().then(function () { if (tab === 'admin') render(); }, cloudErr); }
     var tabs = ADM_TABS.filter(function (t) { return staffCan(t[0] === 'voice' ? '현황' : t[1]); });
-    if (!tabs.some(function (t) { return t[0] === atab; }) && atab !== 'stats') atab = tabs[0][0];
+    if (!tabs.some(function (t) { return t[0] === atab; }) && ['stats', 'newposts', 'prayed'].indexOf(atab) < 0) atab = tabs[0][0];
     var h = '<h1 class="page-title">운영자 관리</h1><div class="note">' + (SB ? '운영진만 들어오는 화면이에요. 내 역할은 <b>' + esc(C.staff) + '</b>이에요.' : '운영진만 들어오는 화면이에요. 지금은 예시 데이터로 움직이고, 서버를 연결하면 실제 회원과 글이 보여요.') + '</div>' +
       '<div class="chips adm-tabs" role="group" aria-label="관리 메뉴">' + tabs.map(function (t) {
         var n = t[0] === 'safe' ? admReported().length + admCrisis().length : t[0] === 'member' ? admWaiting().length : t[0] === 'voice' ? admFeedback().filter(function (f) { return !f.done; }).length : 0;
-        return '<button class="chip" data-atab="' + t[0] + '" aria-pressed="' + (atab === t[0] || (atab === 'stats' && t[0] === 'dash')) + '">' + t[1] + (n ? ' <span class="seg-n">' + n + '</span>' : '') + '</button>'; }).join('') + '</div>';
-    return h + { stats: admStats, dash: admDash, voice: admVoice, safe: admSafe, member: admMember, content: admContent, relay: admRelay, staff: admStaff }[atab]();
+        return '<button class="chip" data-atab="' + t[0] + '" aria-pressed="' + (atab === t[0] || (['stats', 'newposts', 'prayed'].indexOf(atab) >= 0 && t[0] === 'dash')) + '">' + t[1] + (n ? ' <span class="seg-n">' + n + '</span>' : '') + '</button>'; }).join('') + '</div>';
+    return h + { stats: admStats, newposts: admNewPosts, prayed: admPrayed, dash: admDash, voice: admVoice, safe: admSafe, member: admMember, content: admContent, relay: admRelay, staff: admStaff }[atab]();
   }
   function admFeedback() {
     if (SB) return S.admin.feedback || [];
@@ -1876,13 +1885,59 @@ button.cal-row b { color: var(--gold); }
     return '<button class="row-item line" data-atab="' + to + '"><h3>' + label + (sub ? '<div class="small muted" style="font-weight:400">' + sub + '</div>' : '') + '</h3><span class="room-on">' + n + '</span></button>';
   }
   function admDash() {
-    var day = Date.now() - 86400000, newPosts = S.posts.filter(function (p) { return p.created > day && !p.roomId; }).length;
     var todo = [[admCrisis().length, '위기 단어가 들어간 사연', 'safe', '가장 먼저 확인해 주세요'], [admFeedback().filter(function (f) { return !f.done; }).length, '새로 들어온 회원 의견', 'voice', '읽고 짧게 답해 주세요'], [admReported().length, '신고된 글', 'safe', '3번 쌓이면 자동으로 숨겨져요'], [admWaiting().length, '목회자 · 상담사 인증 대기', 'member', ''], [admNoVerse(), '오늘의 말씀 미편성 (7일 중)', 'content', '편성하지 않은 날은 기본 말씀이 나가요']]
       .filter(function (x) { return x[0]; });
-    return '<div class="stats adm-stats"><div class="stat"><b>' + (SB ? (C.stats ? C.stats.members_today : '-') : 7) + '</b><span>오늘 가입' + (SB ? '' : ' · 예시') + '</span></div><div class="stat"><b>' + (SB ? (C.stats ? C.stats.active_today : '-') : 128) + '</b><span>' + (SB ? '오늘 기도한 사람' : '오늘 방문 · 예시') + '</span></div><div class="stat"><b>' + newPosts + '</b><span>새 글 (24시간)</span></div></div>' +
-      '<button class="btn block line" data-atab="stats">누적 숫자와 연령 · 성별 · 지역 분포 보기 ›</button>' +
+    var T = admToday(), nn = function (x) { return x == null ? '-' : x; }, bd = T.boards || {};
+    var newTotal = T.items == null ? null : NEW_KINDS.reduce(function (a, k) { return a + (bd[k[0]] || 0); }, T.items);
+    var tiles = [[T.visits.all ? T.visits.all[6] : null, '오늘 들어온 사람', ''], [T.prayed, '오늘 기도한 사람', 'prayed', 1], [T.checked, '기도 완료<br>누른 사람', 'prayed'],
+      [newTotal, '새 글', 'newposts', 1], [T.joined, '오늘 가입', staffCan('회원') ? 'member' : ''], [T.intercessions, '함께 기도<br>누른 횟수', 'prayed']];
+    return '<section class="sec" style="margin-top:4px"><div class="sec-head"><h2>오늘</h2><span class="date">' + md(today()) + (T.demo ? ' · 예시 숫자' : ' · 숫자를 누르면 자세히') + '</span></div><div class="stats adm-stats adm-today">' + tiles.map(function (x) {
+        return (x[2] ? '<button class="stat' + (x[3] ? ' hl' : '') + '" data-atab="' + x[2] + '">' : '<div class="stat' + (x[3] ? ' hl' : '') + '">') + '<b>' + nn(x[0]) + '</b><span>' + x[1] + '</span>' + (x[2] ? '</button>' : '</div>'); }).join('') + '</div></section>' +
       '<section class="sec"><div class="sec-head"><h2>오늘 할 일</h2></div>' + (todo.length ? group(todo.map(function (x) { return admTodo(x[1], x[0] + '건', x[2], x[3]); }).join('')) : '<div class="empty">확인할 일이 없어요. 평안한 하루예요.</div>') + '</section>' +
+      '<section class="sec"><div class="sec-head"><h2>오늘 새 글</h2><span class="date">종류별</span></div><div class="group">' +
+        '<div class="row-item nk-row"><span>🔒 개인 기도 제목 <span class="lock-tag">내용은 비공개</span></span><b>' + nn(T.items) + '개</b></div>' +
+        NEW_KINDS.map(function (k) { return '<button class="row-item nk-row" data-atab="newposts" data-nk="' + k[0] + '"><span>' + k[1] + '</span><b>' + (bd[k[0]] || 0) + '개 ›</b></button>'; }).join('') + '</div></section>' +
+      '<section class="sec"><div class="sec-head"><h2>메뉴별 들어온 사람</h2><span class="date">최근 7일</span></div>' + visitTable(T.visits) +
+        '<div class="small muted" style="margin-top:8px">한 사람이 하루에 여러 번 들어와도 1명으로 세요. 이 화면에는 누가 들어왔는지 없이 숫자만 보여요.' + (T.demo ? '' : ' 방문 수는 이 기능을 올린 날부터 세기 시작했어요.') + '</div></section>' +
+      '<button class="btn block line" data-atab="stats">누적 숫자와 연령 · 성별 · 지역 분포 보기 ›</button>' +
       '<section class="sec"><div class="sec-head"><h2>운영 습관</h2></div><div class="card stack adm-habit"><div class="prow"><span>매일 10분</span><b>안전 확인 (위기 사연, 신고)</b></div><div class="prow"><span>매주 한 번</span><b>인증 승인, 다음 주 말씀 편성</b></div><div class="prow"><span>매달 한 번</span><b>릴레이 주제 정하기, 숫자 살펴보기</b></div></div></section>';
+  }
+  var VISIT_ROWS = [['home', '홈'], ['pray', '중보기도'], ['diary', '🔒 내 기도 노트'], ['diary-items', '기도 제목', 1], ['diary-time', '기도 시간', 1], ['diary-letter', '기도 편지', 1], ['diary-scrap', '스크랩', 1],
+    ['concern', '사연 · 고민'], ['story', '간증'], ['rooms', '기도 모임방'], ['relay', '릴레이 기도'], ['guide', '기도란 안내'], ['tips', '기도 노하우']];
+  var NEW_KINDS = [['pray', '🙏 중보기도 요청', '중보'], ['story', '✨ 간증', '간증'], ['concern', '💬 사연 · 고민', '사연'], ['tips', '💡 기도 노하우', '노하우']];
+  function admTodayPosts() {
+    var p = today().split('-'), from = new Date(+p[0], +p[1] - 1, +p[2]).getTime();
+    return S.posts.filter(function (x) { return !x.roomId && x.created >= from; }).sort(function (a, b) { return b.created - a.created; });
+  }
+  function admToday() {
+    if (SB) { var t = C.today || {}; return { joined: t.joined, checked: t.checked, timed: t.timed, interceders: t.interceders, intercessions: t.intercessions, prayed: t.prayed, items: t.items, boards: t.boards || {}, visits: C.visits || {} }; }
+    var v = {}, base = { all: 42, home: 42, pray: 31, diary: 18, 'diary-items': 16, 'diary-time': 9, 'diary-letter': 4, 'diary-scrap': 2, concern: 7, story: 9, rooms: 14, relay: 5, guide: 6, tips: 4 }, bd = {};
+    Object.keys(base).forEach(function (k) { v[k] = [0, 1, 2, 3, 4, 5, 6].map(function (i) { return Math.round(base[k] * [0.55, 0.7, 0.62, 0.8, 0.74, 0.9, 1][i]); }); });
+    admTodayPosts().forEach(function (x) { bd[x.board] = (bd[x.board] || 0) + 1; });
+    return { joined: 3, checked: 19, timed: 12, interceders: 21, intercessions: 64, prayed: 27, items: 5, boards: bd, visits: v, demo: true };
+  }
+  function visitTable(V) {
+    var rows = VISIT_ROWS.map(function (r) {
+      var a = V[r[0]] || [0, 0, 0, 0, 0, 0, 0], mx = Math.max.apply(null, a.concat([1])), d = a[6] - a[5];
+      return '<tr' + (r[2] ? ' class="sub"' : '') + '><td>' + r[1] + '</td><td>' + (r[2] ? '' : '<span class="spark">' + a.map(function (x) { return '<i style="height:' + Math.max(2, Math.round(x / mx * 18)) + 'px"></i>'; }).join('') + '</span>') + '</td><td><b>' + a[6] + '</b></td><td>' +
+        (r[2] ? '' : d > 0 ? '<span class="up">▲' + d + '</span>' : d < 0 ? '<span class="dn">▼' + (-d) + '</span>' : '-') + '</td></tr>';
+    }).join('');
+    return '<div class="card visit-tbl"><table><tr><th>메뉴</th><th>7일 흐름</th><th>오늘</th><th>어제보다</th></tr>' + rows + '</table></div>';
+  }
+  function admNewPosts() {
+    var T = admToday(), all = admTodayPosts(), list = all.filter(function (p) { return p.board === nkind; }), k = NEW_KINDS.find(function (x) { return x[0] === nkind; }) || NEW_KINDS[0];
+    return '<button class="back" data-atab="dash">‹ 현황</button><section class="sec" style="margin-top:4px"><div class="sec-head"><h2>오늘 새 글</h2><span class="date">' + md(today()) + '</span></div>' +
+      '<div class="seg" role="group">' + NEW_KINDS.map(function (x) { return '<button data-atab="newposts" data-nk="' + x[0] + '" aria-pressed="' + (x[0] === nkind) + '">' + x[2] + ' ' + all.filter(function (p) { return p.board === x[0]; }).length + '</button>'; }).join('') + '</div>' +
+      '<div class="group" style="margin-top:10px">' + (list.length ? list.map(function (p) {
+        return '<button class="row-item" data-open="' + p.id + '">' + (p.tag ? '<span class="tag">' + esc(p.tag) + '</span> ' : '') + '<h3 style="display:inline">' + esc(p.title) + '</h3><div class="small muted">' + esc(p.author) + (p.cat ? ' · ' + esc(p.cat) : '') + ' · ' + ago(p.created) + (p.board === 'pray' ? ' · 함께 기도 ' + p.prayers : '') + '</div></button>'; }).join('')
+        : '<div class="empty-row">오늘 올라온 ' + k[2] + ' 글이 없어요.</div>') + '</div>' +
+      '<div class="small muted" style="margin-top:8px">누르면 글 전체와 댓글을 볼 수 있어요. 개인 기도 제목은 본인만 보는 글이라 개수(오늘 ' + (T.items == null ? '-' : T.items) + '개)만 보여요.</div></section>';
+  }
+  function admPrayed() {
+    var T = admToday(), nn = function (x) { return x == null ? '-' : x; };
+    return '<button class="back" data-atab="dash">‹ 현황</button><section class="sec" style="margin-top:4px"><div class="sec-head"><h2>오늘 기도한 사람</h2><span class="date">' + md(today()) + '</span></div><div class="group">' +
+      [['기도 완료 누름', nn(T.checked) + '명'], ['기도 시간 기록', nn(T.timed) + '명'], ['중보 "함께 기도" 누름', nn(T.interceders) + '명 · ' + nn(T.intercessions) + '번']].map(function (r) { return '<div class="row-item nk-row"><span>' + r[0] + '</span><b>' + r[1] + '</b></div>'; }).join('') +
+      '<div class="row-item nk-row hl"><span>셋 중 하나라도 한 사람</span><b>' + nn(T.prayed) + '명</b></div></div></section>';
   }
   function admSafe() {
     var cr = admCrisis(), rp = admReported();
@@ -2074,6 +2129,22 @@ button.cal-row b { color: var(--gold); }
     el('topWrite').hidden = tab === 'join' || tab === 'admin' || (BIG && tab !== 'home');
     navTrack();
     if (el('bellDot')) el('bellDot').hidden = !noticeNew() || tab === 'notice';
+    visitLog();
+  }
+  // 메뉴별 하루 방문자 수 (운영자 현황용). 한 메뉴는 하루에 한 번만 알려요.
+  function visitPage() {
+    if (tab === 'home' || tab === 'concern' || tab === 'story') return tab;
+    if (tab === 'pray') return ptab === 'rooms' ? 'rooms' : cat === '릴레이 기도' ? 'relay' : 'pray';
+    if (tab === 'room') return 'rooms';
+    if (tab === 'diary') return 'diary-' + dtab;
+    if (tab === 'guide') return gtab === 'tips' ? 'tips' : 'guide';
+    return '';
+  }
+  function visitLog() {
+    if (!SB || !C.user || !C.joined) return;
+    var pg = visitPage(), k = today() + ':' + pg; C.vis = C.vis || {};
+    if (!pg || C.vis[k]) return;
+    C.vis[k] = 1; SB.rpc('log_visit', { p_page: pg }).then(function (r) { if (r && r.error) delete C.vis[k]; }, function () { delete C.vis[k]; });
   }
   // 모든 페이지 위쪽 꺽쇠(‹)로 바로 전 화면에 돌아가요. 휴대폰 뒤로 가기 버튼도 같은 방식으로 움직여요.
   var NAV = [], navCur = null, navBack = false, navPushed = 0;
@@ -2565,7 +2636,7 @@ button.cal-row b { color: var(--gold); }
       save(); openRelay(rr.id); render(); return;
     }
     if (d.guide) return openGuide(d.guide);
-    if (d.atab) { atab = d.atab; render(); window.scrollTo(0, 0); return; }
+    if (d.atab) { atab = d.atab; if (d.nk) nkind = d.nk; render(); window.scrollTo(0, 0); return; }
     if (d.adm) return admAct(d, b);
     if (d.agk || d.ard || d.asr) { b.parentNode.querySelectorAll('.chip').forEach(function (c) { c.setAttribute('aria-pressed', c === b); }); return; }
     if (d.letter) return openLetter(d.letter);
@@ -2637,7 +2708,7 @@ button.cal-row b { color: var(--gold); }
     if (d.act === 'crisis-post') { var pj = pendingPost; pendingPost = null; if (pj) publishPost(pj); return; }
     if (d.pcheck) {
       var pp2 = postById(d.pcheck);
-      S.items.push({ id: uid(), title: pp2.title, body: pp2.body, start: today(), days: 40, checks: [today()], answered: false, memo: '', postId: pp2.id });
+      S.items.push({ id: uid(), title: pp2.title, body: pp2.body, start: today(), days: 40, checks: [today()], answered: false, memo: '', postId: pp2.id, made: Date.now() });
       save(); render(); attendSheet(); toast('기도 완료! 내 기도 노트에도 담았어요'); return;
     }
     if (d.check) {
@@ -2788,7 +2859,7 @@ button.cal-row b { color: var(--gold); }
         if (!ti) return toast('기도 제목을 적어 주세요');
         var ei = d.edit && S.items.find(function (x) { return x.id === d.edit; });
         if (ei) { ei.title = ti; ei.body = ib; ei.days = days; ei.start = val('iStart') || ei.start; save(); render(); openItem(ei.id); return toast('고쳤어요'); }
-        var ni = { id: uid(), title: ti, body: ib, start: val('iStart') || today(), days: days, checks: [], answered: false, memo: '' };
+        var ni = { id: uid(), title: ti, body: ib, start: val('iStart') || today(), days: days, checks: [], answered: false, memo: '', made: Date.now() };
         S.items.push(ni);
         save(); closeSheet(); tab = 'diary'; dtab = 'items'; render();
         if (d.act === 'save-item-share') { writePost('pray', { cat: '개인 중보', title: ti, body: ib, itemId: ni.id }); toast('내 기도 노트에 추가했어요. 요청 내용을 확인하고 올려 주세요'); return; }
@@ -2979,7 +3050,7 @@ button.cal-row b { color: var(--gold); }
   }
   function staffCan(area) { return !SB || (ADM_ROLES[C.staff] || []).indexOf(area) >= 0; }
   function pullAdmin() {
-    return Promise.all([staffCan('회원') ? qv('v_adm_members') : [], qv('v_adm_staff'), staffCan('안전') ? qv('v_adm_blocked') : [], qv('v_adm_stats'), qv('v_adm_feedback').catch(function () { return []; })]).then(function (r) {
+    return Promise.all([staffCan('회원') ? qv('v_adm_members') : [], qv('v_adm_staff'), staffCan('안전') ? qv('v_adm_blocked') : [], qv('v_adm_stats'), qv('v_adm_feedback').catch(function () { return []; }), qv('v_adm_today').catch(function () { return []; }), qv('v_adm_visits').catch(function () { return []; })]).then(function (r) {
       var A = S.admin = S.admin || {};
       A.members = r[0].map(function (m) {
         var org = m.org; org = Array.isArray(org) ? org[0] : org && typeof org === 'object' ? org.name : org;
@@ -2991,6 +3062,10 @@ button.cal-row b { color: var(--gold); }
       A.verses = S.cloudVerses;
       C.stats = r[3][0] || null;
       A.feedback = r[4].map(fbMap);
+      C.today = r[5][0] || null;
+      var V = {}, days = [6, 5, 4, 3, 2, 1, 0].map(function (i) { return addDays(today(), -i); });
+      r[6].forEach(function (x) { var i = days.indexOf(String(x.day).slice(0, 10)); if (i < 0) return; (V[x.page] = V[x.page] || [0, 0, 0, 0, 0, 0, 0])[i] = x.n; });
+      C.visits = V;
     });
   }
   // 기도 시간과 출석은 모임방 얼굴과 주간 기도 시간에 쓰여요
@@ -2998,8 +3073,11 @@ button.cal-row b { color: var(--gold); }
     clearTimeout(C.at);
     C.at = setTimeout(function () {
       for (var i = 0; i < 8; i++) {
-        var d = addDays(today(), -i), m = +S.times[d] || 0, pr = prayedOn(d), k = m + '|' + pr;
-        if (C.sent[d] !== k && (m || pr || C.sent[d] !== undefined || i === 0)) { C.sent[d] = k; SB.rpc('log_activity', { p_day: d, p_minutes: m, p_prayed: pr }).then(function () {}, function () {}); }
+        var d = addDays(today(), -i), m = +S.times[d] || 0, pr = prayedOn(d), ck = S.items.some(function (x) { return x.checks.indexOf(d) >= 0; }), k = m + '|' + pr + '|' + ck;
+        if (C.sent[d] !== k && (m || pr || C.sent[d] !== undefined || i === 0)) {
+          C.sent[d] = k;
+          (function (d, m, pr, ck) { SB.rpc('log_activity', { p_day: d, p_minutes: m, p_prayed: pr }).then(function () { return SB.rpc('log_check', { p_day: d, p_on: ck }); }).then(function () {}, function () {}); })(d, m, pr, ck);
+        }
       }
     }, 800);
   }
