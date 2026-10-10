@@ -2,4 +2,4 @@
 // key 에는 Supabase 의 공개용(publishable) 키만 넣습니다. secret / service_role 키는 절대 넣지 마세요.
 window.PT_CLOUD = { url: 'https://wjjdknhjllegaphgaiwt.supabase.co', key: 'sb_publishable_QmRQpLJTEuw3alxNU-Mq0A_vJXbsax0',
   // Supabase 에서 켠 간편 로그인만 적어요. 예: ['kakao', 'google']
-  providers: ['google'] };
+  providers: ['kakao', 'google'] };
