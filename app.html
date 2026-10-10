@@ -1558,6 +1558,7 @@ button.cal-row b { color: var(--gold); }
       var sc = document.createElement('script');
       sc.src = 'https://dapi.kakao.com/v2/maps/sdk.js?appkey=' + encodeURIComponent(CLOUD_CFG.kakaoJs) + '&libraries=services&autoload=false';
       sc.onload = function () { try { window.kakao.maps.load(function () { ok(new window.kakao.maps.services.Places()); }); } catch (e) { no(e); } };
+      setTimeout(function () { no(new Error('timeout')); }, 8000);
       sc.onerror = no; document.head.appendChild(sc);
     });
     kakaoMapReady.catch(function () { kakaoMapReady = null; });
