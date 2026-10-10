@@ -343,7 +343,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 .chips.wrap { flex-wrap: wrap; overflow: visible; }
 .birth { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 8px; }
 .req, .opt { font-size: 12px; font-weight: 800; padding: 2px 8px; border-radius: 999px; margin-left: 4px; vertical-align: 1px; }
-.req { color: #fff; background: #D9442E; } .opt { color: #1F7A4D; background: #DDF3E6; border: 1px solid #A9DDBF; }
+.req { color: #fff; background: #C08A2E; } .opt { color: #7A8193; background: #EEF0F4; }
 .or-line { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 12.5px; }
 .or-line::before, .or-line::after { content: ''; flex: 1; height: 1px; background: var(--line); }
 .join-top { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--muted); font-weight: 700; }
@@ -1507,7 +1507,7 @@ button.cal-row b { color: var(--gold); }
   // ---------- 회원 가입 ----------
   // 실제 서비스에서는 카카오·네이버·애플 로그인과 카카오 장소 검색에 연결해요. 지금은 같은 흐름을 체험만 해요.
   var J = null;
-  var PROVIDERS = { email: '이메일', kakao: '카카오', naver: '네이버', apple: 'Apple', phone: '휴대폰 번호' };
+  var PROVIDERS = { email: '이메일', kakao: '카카오', google: '구글', naver: '네이버', apple: 'Apple', phone: '휴대폰 번호' };
   var AGREES = [['age14', '만 14세 이상이에요', 1], ['terms', '서비스 이용약관 동의', 1], ['privacy', '개인정보 수집·이용 동의', 1], ['faith', '민감정보 수집·이용 동의', 1, '신앙 여부와 직분, 기도 제목 속 건강 이야기는 민감정보라 따로 동의를 받아요.'], ['push', '기도 알림과 응답 소식 받기', 0], ['news', '앱 소식과 이벤트 받기', 0]];
   var SIDO = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종', '경기', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주', '해외'];
   var FAITH = [['성도', '교회에 다니고 있어요'], ['가나안 성도', '신앙은 있지만 지금은 교회에 나가지 않아요'], ['비신도', '신앙을 알아가는 중이에요']];
@@ -1574,6 +1574,7 @@ button.cal-row b { color: var(--gold); }
   function vJoin() {
     if (!J) J = { step: 0 };
     var st = J.step, h = '';
+    if (st === 1 && J.quick) return jQuick();
     if (st > 0 && st < 6) h += '<div class="join-top"><button class="back" data-act="j-back">‹ 이전</button><span>' + st + ' / 5</span></div><div class="join-bar"><i style="width:' + (st * 20) + '%"></i></div><h1 class="page-title">' + JSTEPS[st] + '</h1>';
     if (st === 0 && SB) h += cloudLogin();
     else if (st === 0) {
@@ -1622,6 +1623,55 @@ button.cal-row b { color: var(--gold); }
     if (st > 0 && st < 6) h += '<button class="btn block" data-act="j-next">' + (st === 5 ? '가입 완료' : '다음') + '</button>';
     return h;
   }
+  // 간편 가입: 꼭 필요한 것만 한 화면에서 받고 바로 시작해요. 나머지는 접어 두고 원하면 펼쳐서 적어요.
+  function jQuick() {
+    var all = AGREES.every(function (a) { return J['ag_' + a[0]]; });
+    var h = '<h1 class="page-title">추가 정보</h1><div class="note">' + (J.provider && PROVIDERS[J.provider] && J.provider !== 'email' ? PROVIDERS[J.provider] + ' 계정으로 연결됐어요. ' : '') + '<b class="req">필수</b> 네 가지만 적으면 바로 시작해요.</div>' +
+      '<div class="card stack">' +
+      '<label class="field"><span>실명 <b class="req">필수</b></span><input class="input" data-jf="real" maxlength="12" value="' + esc(J.real || '') + '" placeholder="예: 홍길동"></label>' +
+      '<label class="field"><span>닉네임 <b class="req">필수</b></span><input class="input" data-jf="name" maxlength="12" value="' + esc(J.name || '') + '" placeholder="예: 은혜"><div class="small muted">기도 제목과 댓글에 이 이름이 보여요.</div></label>' +
+      '<div class="field"><span>생년월일 <b class="req">필수</b></span>' + birthSelects() + '</div>' +
+      '<div class="field"><span>신앙 <b class="req">필수</b></span>' + jChips('faith', FAITH.map(function (f) { return f[0]; })).replace('>비신도<', '>알아가는 중<') + '</div></div>' +
+      '<button class="linkbtn blue" type="button" data-act="j-more">' + (J.more ? '추가 정보 접기 ▴' : '더 알려 주기 (선택) ▾') + '</button>';
+    if (J.more) {
+      h += '<div class="card stack">' +
+        '<div class="field"><span>성별 <b class="opt">선택</b></span>' + jChips('gender', ['남성', '여성']) + '</div>' +
+        (J.faith === '성도' ? '<div class="field"><span>직분 <b class="opt">선택</b></span>' + jChips('duty', DUTIES) + (J.duty === '기타' ? '<input class="input" data-jf="dutyEtc" value="' + esc(J.dutyEtc || '') + '" placeholder="직분을 적어 주세요">' : '') + '</div>' : '') +
+        '<div class="field"><span>사는 지역 <b class="opt">선택</b></span><div class="row" style="flex-wrap:nowrap"><select class="input" data-jf="sido" style="flex:0 0 110px"><option value="">시 · 도</option>' + SIDO.map(function (x) { return '<option' + (J.sido === x ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select><input class="input" style="flex:1;min-width:0" data-jf="sigungu" value="' + esc(J.sigungu || '') + '" placeholder="시 · 군 · 구"></div></div>' +
+        '<div class="field"><span>직업 <b class="opt">선택</b></span>' + jChips('job', JOBS) + (J.job === '기타' ? '<input class="input" data-jf="jobEtc" value="' + esc(J.jobEtc || '') + '" placeholder="직업을 적어 주세요">' : '') + '</div>' +
+        '<div class="field"><span>함께 기도하고 싶은 분야 <b class="opt">선택 · 여러 개</b></span>' + jChips('interests', INTERESTS, true) + '</div>' +
+        '<div class="field"><span>이 앱을 어떻게 알게 됐나요? <b class="opt">선택</b></span>' + jChips('refer', REFERS) + '</div>' +
+        '<div class="small muted">목회자 · 상담사 인증은 가입한 뒤 내 정보에서 신청할 수 있어요.</div></div>';
+    }
+    h += '<div class="card stack" style="gap:4px"><label class="check all"><input type="checkbox" data-act="j-agall"' + (all ? ' checked' : '') + '> 모두 동의해요</label><hr>' +
+      AGREES.map(function (a) { return '<label class="check"><input type="checkbox" data-jf="ag_' + a[0] + '"' + (J['ag_' + a[0]] ? ' checked' : '') + '> <span><b class="' + (a[2] ? 'req' : 'opt') + '">' + (a[2] ? '필수' : '선택') + '</b> ' + a[1] + '</span></label>'; }).join('') +
+      '<button class="linkbtn blue" type="button" data-act="policy" style="align-self:flex-start">개인정보 처리방침 보기</button></div>' +
+      '<button class="btn block" data-act="j-next">시작하기</button>';
+    return h;
+  }
+  function jSave() {
+    var pf = { provider: J.provider, real: J.real, show: J.show || '닉네임', birth: J.birth, gender: J.gender || '', sido: J.sido || '', sigungu: J.sigungu || '', email: J.email || '', faith: J.faith, duty: J.faith === '성도' ? J.duty || '' : '', dutyEtc: J.dutyEtc || '',
+      church: J.faith === '성도' ? J.church || null : null, job: J.job || '', jobEtc: J.jobEtc || '', org: J.org || (needsOrg() && J.orgManual ? [J.orgManual, '직접 입력 · 운영자 확인 필요'] : null), proof: J.proof || '', interests: J.interests || [], refer: J.refer || '',
+      agree: AGREES.reduce(function (o, a) { o[a[0]] = !!J['ag_' + a[0]]; return o; }, {}), joined: S.me.profile ? S.me.profile.joined : Date.now() };
+    if (!pf.show) pf.show = '닉네임';
+    S.me.name = J.name; S.me.real = J.real; S.me.show = pf.show === '실명' ? 'real' : 'nick'; S.me.role = jRole(pf); S.me.profile = pf;
+    if (pf.agree.push && S.alarm && !S.alarm.on) S.alarm.on = true;
+    save();
+    if (SB) { C.joined = C.joining = true; cloud('save_profile', { p_nick: J.name, p_show_name: pf.show === '실명' ? J.real : J.name, p_role: S.me.role, p_info: pf }).then(function (ok) { if (ok) pull(); }); }
+  }
+  function jAge() { var b = J.birth.split('-'), n = new Date(); return n.getFullYear() - b[0] - ((n.getMonth() + 1 < +b[1] || (n.getMonth() + 1 === +b[1] && n.getDate() < +b[2])) ? 1 : 0); }
+  function jQuickNext() {
+    if (!J.real) return toast('실명을 적어 주세요');
+    if (!J.name) return toast('닉네임을 적어 주세요');
+    if (!J.birth) return toast('생년월일을 골라 주세요');
+    if (jAge() < 14) return toast('만 14세 미만은 보호자 동의가 필요해서 지금은 가입할 수 없어요');
+    if (!J.faith) return toast('신앙을 골라 주세요');
+    if (J.duty === '기타' && !J.dutyEtc) return toast('직분을 적어 주세요');
+    if (J.job === '기타' && !J.jobEtc) return toast('직업을 적어 주세요');
+    if (AGREES.some(function (a) { return a[2] && !J['ag_' + a[0]]; })) return toast('필수 약관에 동의해 주세요');
+    if (!needsOrg()) { J.org = null; J.proof = ''; }
+    jSave(); var nm = J.name; J = null; tab = 'home'; render(); window.scrollTo(0, 0); toast('환영해요, ' + nm + '님! 함께 기도해요');
+  }
   function verifyLabel(pf) {
     if (SB) return S.me.role === '일반 성도' ? '' : C.verified ? '운영자 확인 완료' : '운영자 확인 기다리는 중';
     return pf.org ? (pf.proof ? '서류 확인 중' : '소속 확인됨') : '';
@@ -1634,14 +1684,14 @@ button.cal-row b { color: var(--gold); }
   }
   function jNext() {
     jSync(); var st = J.step;
+    if (J.quick && st === 1) return jQuickNext();
     if (st === 1) { var miss = AGREES.filter(function (a) { return a[2] && !J['ag_' + a[0]]; }); if (miss.length) return toast('필수 항목에 동의해 주세요'); }
     if (st === 2) {
       if (!J.real) return toast('실명을 적어 주세요');
       if (!J.name) return toast('닉네임을 적어 주세요');
       if (!J.show) return toast('글에 보일 이름을 골라 주세요');
       if (!J.birth) return toast('생년월일을 골라 주세요');
-      var b = J.birth.split('-'), n = new Date(), age = n.getFullYear() - b[0] - ((n.getMonth() + 1 < +b[1] || (n.getMonth() + 1 === +b[1] && n.getDate() < +b[2])) ? 1 : 0);
-      if (age < 14) return toast('만 14세 미만은 보호자 동의가 필요해서 지금은 가입할 수 없어요');
+      if (jAge() < 14) return toast('만 14세 미만은 보호자 동의가 필요해서 지금은 가입할 수 없어요');
       if (!J.gender) return toast('성별을 골라 주세요');
       if (J.email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(J.email)) return toast('이메일 주소를 확인해 주세요');
     }
@@ -1654,15 +1704,7 @@ button.cal-row b { color: var(--gold); }
       if (J.job === '기타' && !J.jobEtc) return toast('직업을 적어 주세요');
       if (!needsOrg()) { J.org = null; J.proof = ''; }
     }
-    if (st === 5) {
-      var pf = { provider: J.provider, real: J.real, show: J.show, birth: J.birth, gender: J.gender, sido: J.sido, sigungu: J.sigungu, email: J.email, faith: J.faith, duty: J.faith === '성도' ? J.duty : '', dutyEtc: J.dutyEtc || '',
-        church: J.faith === '성도' ? J.church || null : null, job: J.job, jobEtc: J.jobEtc || '', org: J.org || (needsOrg() && J.orgManual ? [J.orgManual, '직접 입력 · 운영자 확인 필요'] : null), proof: J.proof || '', interests: J.interests || [], refer: J.refer || '',
-        agree: AGREES.reduce(function (o, a) { o[a[0]] = !!J['ag_' + a[0]]; return o; }, {}), joined: S.me.profile ? S.me.profile.joined : Date.now() };
-      S.me.name = J.name; S.me.real = J.real; S.me.show = J.show === '실명' ? 'real' : 'nick'; S.me.role = jRole(pf); S.me.profile = pf;
-      if (pf.agree.push && S.alarm && !S.alarm.on) S.alarm.on = true;
-      save();
-      if (SB) { C.joined = C.joining = true; cloud('save_profile', { p_nick: J.name, p_show_name: J.show === '실명' ? J.real : J.name, p_role: S.me.role, p_info: pf }).then(function (ok) { if (ok) pull(); }); }
-    }
+    if (st === 5) jSave();
     J.step++; render(); window.scrollTo(0, 0);
   }
 
@@ -2438,7 +2480,7 @@ button.cal-row b { color: var(--gold); }
     }
     if (d.almdel) { S.alarm.times = S.alarm.times.filter(function (x) { return x !== d.almdel; }); save(); alarmSheet(); render(); return; }
     if (d.almday) { var ad = +d.almday, ai = S.alarm.days.indexOf(ad); if (ai >= 0) S.alarm.days.splice(ai, 1); else S.alarm.days.push(ad); save(); alarmSheet(); render(); return; }
-    if (d.jlogin) { J = { step: 1, provider: d.jlogin, name: S.me.name && S.me.name !== '성도' ? S.me.name : '' }; toast(PROVIDERS[d.jlogin] + ' 계정으로 연결했어요 (체험)'); render(); window.scrollTo(0, 0); return; }
+    if (d.jlogin) { J = { step: 1, quick: true, provider: d.jlogin, name: S.me.name && S.me.name !== '성도' ? S.me.name : '' }; toast(PROVIDERS[d.jlogin] + ' 계정으로 연결했어요 (체험)'); render(); window.scrollTo(0, 0); return; }
     if (d.jpick) {
       jSync();
       if (d.jmulti) { var arr = J[d.jpick] = J[d.jpick] || [], ix = arr.indexOf(d.jv); if (ix >= 0) arr.splice(ix, 1); else arr.push(d.jv); }
@@ -2587,6 +2629,7 @@ button.cal-row b { color: var(--gold); }
       case 'install-hide': try { localStorage.setItem('pt-install-hide', '1'); } catch (e) {} render(); toast('메뉴의 "앱 설치 방법"에서 다시 볼 수 있어요'); return;
       case 'join': J = null; closeDrawer(); return go('join');
       case 'j-next': return jNext();
+      case 'j-more': jSync(); J.more = !J.more; render(); return;
       case 'j-back': jSync(); J.step--; render(); window.scrollTo(0, 0); return;
       case 'j-agall':
         jSync(); var allOn2 = AGREES.every(function (a) { return J['ag_' + a[0]]; });
@@ -2898,7 +2941,7 @@ button.cal-row b { color: var(--gold); }
     if (user) { try { localStorage.setItem('pt-was', '1'); } catch (e) {} }
     if (!user) { tab = 'join'; render(); return Promise.resolve(); }
     return pull().then(function () {
-      if (!C.joined) { var am = user.app_metadata || {}; J = { step: 1, provider: am.provider || 'email', name: (user.user_metadata && (user.user_metadata.name || user.user_metadata.full_name)) || '', email: user.email || '' }; tab = 'join'; }
+      if (!C.joined) { var am = user.app_metadata || {}; J = { step: 1, quick: true, provider: am.provider || 'email', name: (user.user_metadata && (user.user_metadata.name || user.user_metadata.full_name)) || '', email: user.email || '' }; tab = 'join'; }
       else if (tab === 'join') { J = null; tab = 'home'; }
       render();
     });
