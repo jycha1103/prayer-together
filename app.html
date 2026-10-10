@@ -1769,10 +1769,10 @@ button.cal-row b { color: var(--gold); }
   function vNotice() {
     var list = notices();
     try { localStorage.setItem('pt-notice-seen', String(Date.now())); } catch (e) {}
-    return '<h1 class="page-title">공지사항</h1>' + (list.length ? list.map(function (n) {
+    return (staffCan('콘텐츠') ? '<div class="page-head"><h1 class="page-title">공지사항</h1><button class="btn sm ghost" data-adm="n-new">+ 공지 쓰기</button></div>' : '<h1 class="page-title">공지사항</h1>') + (list.length ? list.map(function (n) {
       return '<button class="post" data-guide="' + n.id + '"><div class="row" style="gap:6px"><span class="tag gold">공지</span>' + (n.mine ? '' : '<span class="tag example">예시</span>') + (n.at ? '<span class="small muted">' + ago(n.at) + '</span>' : '') + '</div><h3>' + esc(n.title) + '</h3><p>' + esc(n.body) + '</p></button>';
     }).join('') : '<div class="empty">아직 올라온 공지가 없어요.</div>') +
-      (staffCan('콘텐츠') && SB ? '<div class="small muted">공지는 운영자 관리의 콘텐츠에서 종류를 "공지"로 골라 올려요.</div>' : '');
+      '';
   }
   function admInit() {
     if (SB) { S.admin = S.admin || { members: [], staff: [], verses: S.cloudVerses || {}, blocked: [] }; return; }
@@ -1985,12 +1985,13 @@ button.cal-row b { color: var(--gold); }
   }
   function guideForm(g) {
     g = g || { kind: GUIDE_KINDS[0], title: '', body: '' }; PICS = (g.images || []).map(function (u) { return { url: u }; });
-    sheet(g.id ? '기도의 모든 것 고치기' : '기도의 모든 것 올리기',
+    var isN = g.kind === '공지';
+    sheet(isN ? (g.id ? '공지 고치기' : '공지 쓰기') : g.id ? '기도의 모든 것 고치기' : '기도의 모든 것 올리기',
       '<div class="field"><span>종류</span><div class="chips wrap" id="agKind">' + GUIDE_KINDS.map(function (k) { return '<button class="chip" type="button" data-agk="' + k + '" aria-pressed="' + (g.kind === k) + '">' + k + '</button>'; }).join('') + '</div></div>' +
       '<label class="field"><span>제목</span><input class="input" id="agT" maxlength="60" value="' + esc(g.title) + '" placeholder="예: 시편 23편으로 기도하기"></label>' +
       '<label class="field"><span>내용</span><textarea class="input" id="agB" style="min-height:180px" placeholder="기도문, 기도 방법, 책 소개, 영상 링크와 설명 등을 적어 주세요">' + esc(g.body) + '</textarea></label>' +
       picPicker('책 표지, 기도문 카드, 현장 사진 등을 붙일 수 있어요. 저작권이 있는 그림은 출처를 밝혀 주세요.', true) +
-      '<div class="small muted">올리면 바로 기도란 &gt; 기도의 모든 것과 홈에 보여요.</div>' +
+      '<div class="small muted">' + (isN ? '올리면 바로 공지사항에 보이고, 회원들 화면의 종 모양에 새 공지 표시가 떠요.' : '올리면 바로 기도란 &gt; 기도의 모든 것과 홈에 보여요.') + '</div>' +
       '<button class="btn block" data-adm="g-save"' + (g.id ? ' data-id="' + g.id + '"' : '') + '>' + (g.id ? '저장' : '올리기') + '</button>' + (g.id ? '<button class="btn block line danger" data-adm="g-del" data-id="' + g.id + '">삭제</button>' : ''));
   }
   function admRelay() {
@@ -2055,6 +2056,7 @@ button.cal-row b { color: var(--gold); }
       case 'verse-save': var vt = val('avT'), vr = val('avR'); if (!vt || !vr) return toast('말씀과 출처를 모두 적어 주세요'); cloud('adm_verse', { p_day: d.day, p_text: vt, p_ref: vr }); S.admin.verses[d.day] = { t: vt, ref: vr }; closeSheet(); toast('편성했어요'); break;
       case 'verse-clear': cloud('adm_verse', { p_day: d.day, p_text: '', p_ref: '' }); delete S.admin.verses[d.day]; closeSheet(); break;
       case 'g-new': return guideForm();
+      case 'n-new': return guideForm({ kind: '공지', title: '', body: '' });
       case 'g-view': return openGuide(id);
       case 'g-edit': return guideForm((S.guides || []).find(function (x) { return x.id === id; }));
       case 'g-save':
@@ -2065,7 +2067,7 @@ button.cal-row b { color: var(--gold); }
         if (og) { og.kind = gk; og.title = gt; og.body = gb; } else S.guides.unshift({ id: gid, kind: gk, title: gt, body: gb, mine: true, at: Date.now() });
         var gp = cloud('adm_guide', { p_id: gid, p_kind: gk, p_title: gt, p_body: gb, p_delete: false }), gobj = og || S.guides[0];
         if (PICS.length || (og && og.images && og.images.length)) attachPics('guide', gobj, PICS.slice(), gp);
-        closeSheet(); toast(og ? '고쳤어요' : '올렸어요. 기도란에서 바로 보여요'); break;
+        closeSheet(); toast(og ? '고쳤어요' : gk === '공지' ? '공지를 올렸어요' : '올렸어요. 기도란에서 바로 보여요'); break;
       case 'g-del': if (!arm(b, '한 번 더 누르면 삭제돼요')) return; cloud('adm_guide', { p_id: id, p_kind: '', p_title: '', p_body: '', p_delete: true }); S.guides = S.guides.filter(function (x) { return x.id !== id; }); closeSheet(); toast('삭제했어요'); break;
       case 'r-new': return relayForm();
       case 'r-save':
