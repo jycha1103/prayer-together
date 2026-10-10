@@ -348,8 +348,10 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 .dly-u svg { width: 17px; height: 17px; display: block; }
 .chips.wrap { flex-wrap: wrap; overflow: visible; }
 .birth { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 8px; }
-.req, .opt { font-size: 10.5px; font-weight: 700; padding: 1px 6px; border-radius: 6px; margin-left: 2px; vertical-align: 1px; }
-.req { color: #B42A1A; background: #FDEBE8; } .opt { color: var(--muted); background: var(--line-2); }
+.req, .opt { font-size: 12px; font-weight: 800; padding: 2px 8px; border-radius: 999px; margin-left: 4px; vertical-align: 1px; }
+.req { color: #fff; background: #D9442E; } .opt { color: #1F7A4D; background: #DDF3E6; border: 1px solid #A9DDBF; }
+.or-line { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 12.5px; }
+.or-line::before, .or-line::after { content: ''; flex: 1; height: 1px; background: var(--line); }
 .join-top { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--muted); font-weight: 700; }
 .join-bar { height: 5px; border-radius: 3px; background: var(--line); overflow: hidden; margin-top: -4px; }
 .join-bar i { display: block; height: 100%; background: linear-gradient(90deg, #E6A92E, #C98A12); transition: width .3s; }
@@ -373,6 +375,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 .sso.kakao { background: #FEE500; color: #191600; }
 .sso.naver { background: #03C75A; color: #FFFFFF; } .sso.naver b { font-size: 17px; font-weight: 900; }
 .sso.apple { background: #000000; color: #FFFFFF; }
+.sso.google { background: #FFFFFF; color: #1F1F1F; border: 1px solid var(--line); }
 .sso.phone { background: var(--surface); color: var(--ink); border: 1px solid var(--line); font-weight: 500; }
 .check.all { font-size: 16px; font-weight: 700; padding: 4px 0; }
 .card hr { border: 0; border-top: 1px solid var(--line-2); margin: 6px 0; width: 100%; }
@@ -1592,7 +1595,8 @@ button.cal-row b { color: var(--gold); }
         AGREES.map(function (a) { return '<label class="check"><input type="checkbox" data-jf="ag_' + a[0] + '"' + (J['ag_' + a[0]] ? ' checked' : '') + '> <span><b class="' + (a[2] ? 'req' : 'opt') + '">' + (a[2] ? '필수' : '선택') + '</b> ' + a[1] + (a[3] ? '<small>' + a[3] + '</small>' : '') + '</span></label>'; }).join('') + '</div>' +
         '<button class="linkbtn blue" type="button" data-act="policy">개인정보 처리방침 보기</button><div class="small muted">이용약관 전문은 서비스를 시작하기 전에 준비할게요.</div>';
     } else if (st === 2) {
-      h += '<label class="field"><span>실명 <b class="req">필수</b></span><input class="input" data-jf="real" maxlength="12" value="' + esc(J.real || '') + '" placeholder="예: 홍길동"></label>' +
+      h += '<div class="note"><b class="req">필수</b> 표시만 꼭 적으면 돼요. <b class="opt">선택</b> 표시는 비워 둬도 괜찮아요.</div>' +
+        '<label class="field"><span>실명 <b class="req">필수</b></span><input class="input" data-jf="real" maxlength="12" value="' + esc(J.real || '') + '" placeholder="예: 홍길동"></label>' +
         '<label class="field"><span>닉네임 <b class="req">필수</b></span><input class="input" data-jf="name" maxlength="12" value="' + esc(J.name || '') + '" placeholder="예: 은혜"></label>' +
         '<div class="field"><span>글에 보일 이름 <b class="req">필수</b></span>' + jChips('show', ['닉네임', '실명']) + '<div class="small muted">기도 제목, 댓글, 모임방에 이 이름이 보여요. 말 못할 사연은 쓸 때마다 따로 별명을 정해요.</div></div>' +
         '<div class="field"><span>생년월일 <b class="req">필수</b></span>' + birthSelects() + '</div>' +
@@ -1604,7 +1608,7 @@ button.cal-row b { color: var(--gold); }
       if (J.faith === '성도') h += '<div class="field"><span>직분 <b class="req">필수</b></span>' + jChips('duty', DUTIES) + (J.duty === '기타' ? '<input class="input" data-jf="dutyEtc" value="' + esc(J.dutyEtc || '') + '" placeholder="직분을 적어 주세요">' : '') + '</div>' +
         jPlace('church', 'church', '출석 교회 <b class="opt">선택</b>', '같은 교회 성도와 모임방을 만들 때 도움이 돼요.');
     } else if (st === 4) {
-      h += '<div class="field"><span>직업 <b class="req">필수</b></span>' + jChips('job', JOBS) + (J.job === '기타' ? '<input class="input" data-jf="jobEtc" value="' + esc(J.jobEtc || '') + '" placeholder="직업을 적어 주세요">' : '') + '</div>';
+      h += '<div class="field"><span>직업 <b class="opt">선택</b></span>' + jChips('job', JOBS) + (J.job === '기타' ? '<input class="input" data-jf="jobEtc" value="' + esc(J.jobEtc || '') + '" placeholder="직업을 적어 주세요">' : '') + '</div>';
       if (needsOrg()) {
         if (!J.org && orgType() === 'church' && J.church) J.org = J.church;
         h += '<div class="card stack verify"><b class="vt">' + (orgType() === 'center' ? '상담사' : '목회자 · 선교사') + ' 확인</b><div class="small">' + (orgType() === 'center' ? '사연·고민 게시판에서 상담사로 답할 수 있어요.' : '사연·고민 게시판에서 목회자로 답할 수 있어요.') + ' 먼저 가입하시면 운영자가 확인한 뒤 답할 수 있게 열어 드려요. 그전에는 일반 성도로 함께해요.</div>' +
@@ -1653,7 +1657,6 @@ button.cal-row b { color: var(--gold); }
       if (J.duty === '기타' && !J.dutyEtc) return toast('직분을 적어 주세요');
     }
     if (st === 4) {
-      if (!J.job) return toast('직업을 골라 주세요');
       if (J.job === '기타' && !J.jobEtc) return toast('직업을 적어 주세요');
       if (!needsOrg()) { J.org = null; J.proof = ''; }
     }
@@ -2601,6 +2604,7 @@ button.cal-row b { color: var(--gold); }
       case 'j-unplace': jSync(); J[d.for] = null; render(); return;
       case 'c-signup': return cloudAuth('signup');
       case 'c-login': return cloudAuth('login');
+      case 'c-oauth': return oauthGo(d.pv);
       case 'c-mode': var su = cSignup(); J = J || { step: 0 }; J.cMode = su ? 'login' : 'signup'; render(); return;
       case 'c-logout': if (!arm(b, '한 번 더 누르면 로그아웃해요')) return; SB.auth.signOut().then(function () { try { localStorage.removeItem(KEY); } catch (e) {} location.reload(); }); return;
       case 'j-edit':
@@ -2900,7 +2904,7 @@ button.cal-row b { color: var(--gold); }
     if (user) { try { localStorage.setItem('pt-was', '1'); } catch (e) {} }
     if (!user) { tab = 'join'; render(); return Promise.resolve(); }
     return pull().then(function () {
-      if (!C.joined) { J = { step: 1, provider: 'email', name: '' }; tab = 'join'; }
+      if (!C.joined) { var am = user.app_metadata || {}; J = { step: 1, provider: am.provider || 'email', name: (user.user_metadata && (user.user_metadata.name || user.user_metadata.full_name)) || '', email: user.email || '' }; tab = 'join'; }
       else if (tab === 'join') { J = null; tab = 'home'; }
       render();
     });
@@ -2909,12 +2913,13 @@ button.cal-row b { color: var(--gold); }
     var em = val('cEmail'), pw = el('cPw') ? el('cPw').value : '';
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) return toast('이메일 주소를 확인해 주세요');
     if (pw.length < 6) return toast('비밀번호는 6자 이상으로 정해 주세요');
-    var p = kind === 'signup' ? SB.auth.signUp({ email: em, password: pw }) : SB.auth.signInWithPassword({ email: em, password: pw });
+    var p = kind === 'signup' ? SB.auth.signUp({ email: em, password: pw, options: { emailRedirectTo: authBack() } }) : SB.auth.signInWithPassword({ email: em, password: pw });
     p.then(function (r) {
       // 이미 가입한 분이 가입 화면에서 적었으면 그대로 로그인해 드려요
       if (r.error && kind === 'signup' && /already registered|already exists/i.test(r.error.message || '')) return cloudAuth('login');
+      if (r.error && /not confirmed/i.test(r.error.message || '')) { J = J || { step: 0 }; J.mailSent = em; render(); return; }
       if (r.error) return cloudErr(r.error);
-      if (!r.data.session) return toast('가입 확인 메일을 보냈어요. 메일의 링크를 누른 뒤 로그인해 주세요');
+      if (!r.data.session) { J = J || { step: 0 }; J.mailSent = em; J.cMode = 'login'; render(); return; }
       afterAuth(r.data.session.user);
     }, cloudErr);
   }
@@ -2930,13 +2935,26 @@ button.cal-row b { color: var(--gold); }
     return '<div class="card intro"><p class="lead"><b>기도 제목을 나누고, 서로를 위해 대신 기도해 주는</b><br>중보기도 공동체 앱이에요.</p>' +
       F.map(function (f) { return '<div class="f"><i>' + f[0] + '</i><div><b>' + f[1] + '</b><span>' + f[2] + '</span></div></div>'; }).join('') + '</div>';
   }
+  function authBack() { return location.origin + location.pathname; }
+  var OAUTH = { kakao: ['카카오로 시작하기', '<svg viewBox="0 0 24 24"><path fill="#191600" d="M12 3.5C6.8 3.5 2.6 6.8 2.6 10.9c0 2.6 1.7 4.9 4.3 6.2l-1 3.7c-.1.3.3.6.6.4l4.4-2.9c.4 0 .7.1 1.1.1 5.2 0 9.4-3.3 9.4-7.4S17.2 3.5 12 3.5z"/></svg>'],
+    google: ['구글로 시작하기', '<svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.5 12.2c0-.8-.1-1.5-.2-2.2H12v4.2h5.9c-.3 1.4-1 2.5-2.2 3.3v2.7h3.6c2-1.9 3.2-4.7 3.2-8z"/><path fill="#34A853" d="M12 23c3 0 5.5-1 7.3-2.7l-3.6-2.7c-1 .7-2.2 1.1-3.7 1.1-2.9 0-5.3-1.9-6.2-4.5H2.1v2.8C3.9 20.6 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.8 14.2c-.2-.7-.4-1.4-.4-2.2s.1-1.5.4-2.2V7H2.1C1.4 8.5 1 10.2 1 12s.4 3.5 1.1 5l3.7-2.8z"/><path fill="#EA4335" d="M12 5.4c1.6 0 3.1.6 4.2 1.7l3.2-3.2C17.5 2.1 15 1 12 1 7.7 1 3.9 3.4 2.1 7l3.7 2.8C6.7 7.3 9.1 5.4 12 5.4z"/></svg>'] };
+  function oauthList() { return ((CLOUD_CFG && CLOUD_CFG.providers) || []).filter(function (k) { return OAUTH[k]; }); }
+  function oauthGo(pv) {
+    // 구글은 카카오톡 같은 앱 안의 브라우저에서 로그인을 막아요. 바깥 브라우저로 열어 드려요.
+    if (pv === 'google' && IN_APP) {
+      if (IN_KAKAO) { location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(authBack()); return; }
+      return toast('구글 로그인은 ' + (IS_IOS ? '사파리' : '크롬') + '에서 열어야 돼요. 오른쪽 위 메뉴에서 다른 브라우저로 열어 주세요');
+    }
+    SB.auth.signInWithOAuth({ provider: pv, options: { redirectTo: authBack() } }).then(function (r) { if (r && r.error) cloudErr(r.error); }, cloudErr);
+  }
   function cSignup() { if (J && J.cMode) return J.cMode === 'signup'; try { return !localStorage.getItem('pt-was'); } catch (e) { return true; } }
   function cloudLogin() {
     if (!C.checked) return '<div class="empty">불러오는 중이에요…</div>';
     var signup = cSignup();
     return '<div class="join-hero"><span class="mark">' + document.querySelector('.brand .mark').innerHTML + '</span><h1>합력하여 선을 이루는 기도</h1><p>얼굴을 몰라도, 서로를 위해 기도하는 곳</p></div>' + introHtml() +
-      '<div class="note">지금은 시험 운영 중이에요. 이메일과 비밀번호로 ' + (signup ? '가입해' : '로그인해') + ' 주세요.</div>' +
-      '<div class="card stack"><label class="field"><span>이메일</span><input class="input" id="cEmail" type="email" autocomplete="email" placeholder="you@example.com"></label>' +
+      (J && J.mailSent ? '<div class="note"><b>' + esc(J.mailSent) + '</b> 으로 확인 메일을 보냈어요. 메일함(안 보이면 스팸함)에서 <b>링크를 누르면</b> 바로 들어와져요.</div>' : '') +
+      '<div class="card stack">' + (oauthList().length ? oauthList().map(function (k) { return '<button class="sso ' + k + '" data-act="c-oauth" data-pv="' + k + '">' + OAUTH[k][1] + OAUTH[k][0] + '</button>'; }).join('') +
+        '<div class="or-line">또는 이메일로 ' + (signup ? '가입' : '로그인') + '</div>' : '<div class="small muted">이메일과 비밀번호로 ' + (signup ? '가입해' : '로그인해') + ' 주세요.</div>') + '<label class="field"><span>이메일</span><input class="input" id="cEmail" type="email" autocomplete="email" placeholder="you@example.com"></label>' +
       '<label class="field"><span>비밀번호</span><input class="input" id="cPw" type="password" autocomplete="' + (signup ? 'new-password' : 'current-password') + '" placeholder="6자 이상"></label>' +
       '<button class="btn block" data-act="' + (signup ? 'c-signup' : 'c-login') + '">' + (signup ? '가입하기' : '로그인') + '</button>' +
       '<button class="linkbtn blue" data-act="c-mode">' + (signup ? '이미 가입했어요. 로그인할게요' : '처음이에요. 가입할게요') + '</button></div>' +
