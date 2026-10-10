@@ -45,8 +45,8 @@
       ]
     },
     {
-      "name": "오늘 출석 체크",
-      "short_name": "출석 체크",
+      "name": "오늘 기도 완료",
+      "short_name": "기도 완료",
       "url": "./?do=attend",
       "icons": [
         {

@@ -813,7 +813,7 @@ button.cal-row b { color: var(--gold); }
   var TABS = [
     ['home', '홈', '<path class="edge" d="M3.5 10.5 12 3.5l8.5 7V20a1 1 0 0 1-1 1H15v-6H9v6H4.5a1 1 0 0 1-1-1z"/>'],
     ['pray', '중보기도', '<path class="edge" d="M12 2.8c2.6 3 5.2 5.6 5.2 9.6a5.2 5.2 0 0 1-10.4 0c0-2 1-3.6 2.1-4.6.3 1.7 1.2 2.6 2.3 2.9-.6-2.8-.2-5.4.8-7.9z"/><path d="M12 17.6v-3"/><path class="edge" d="M8.5 21h7"/>'],
-    ['diary', '기도다이어리', '<rect class="edge" x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/>'],
+    ['diary', '내 기도 노트', '<rect class="edge" x="4.5" y="10" width="15" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><path d="M12 14.2v2.6"/>'],
     ['concern', '사연&고민', '<path class="edge" d="M4 4.5h16a1 1 0 0 1 1 1V16a1 1 0 0 1-1 1h-9l-5 4v-4H4a1 1 0 0 1-1-1V5.5a1 1 0 0 1 1-1z"/><path d="M8 9h8M8 12.5h5"/>'],
     ['story', '간증', '<path class="edge" d="M12 20.5s-8-4.6-8-10.4A4.4 4.4 0 0 1 12 7.4a4.4 4.4 0 0 1 8 2.7c0 5.8-8 10.4-8 10.4z"/><path d="M12 10.5v5M9.5 12.5h5"/>']
   ];
@@ -1031,7 +1031,7 @@ button.cal-row b { color: var(--gold); }
     var t = today();
     return '<section class="hero"><img src="hero.jpg" alt="나의 기도를 세우는 곳, 남을 위해 중보하는 곳, 함께 기도의 동역자가 되는 곳, 합력하여 선을 이루는 기도 입니다.">' +
       '<div class="hero-bar"><div class="hb-name">' + esc(myName()) + '님의 기도</div><div class="hb-row">' +
-        '<span class="hb-item">연속 <b>' + streak() + '</b>일째<button class="hb-btn' + (allDone ? ' done' : '') + '" data-act="hero-attend">' + (allDone ? '완료' : '출첵') + '</button></span>' +
+        '<span class="hb-item">연속 <b>' + streak() + '</b>일째<button class="hb-btn' + (allDone ? ' done' : '') + '" data-act="hero-attend">' + (allDone ? '기도 완료' : '기도 전') + '</button></span>' +
         '<span class="hb-item">기도 시간 <b>' + fmtMin(sumRange(addDays(t, -6), t)) + '</b><button class="hb-btn plus" data-act="hero-time" aria-label="기도 시간 더하기">+</button></span>' +
         '<button class="hb-go" data-act="hero-go" aria-label="기도 시간 기록 보기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>' +
       '</div></div></section>';
@@ -1054,7 +1054,7 @@ button.cal-row b { color: var(--gold); }
     if (!act.length) act = attendItems();
     if (!act.length || act.every(function (i) { return i.checks.indexOf(t) >= 0; })) return attendSheet();
     act.forEach(function (i) { if (i.checks.indexOf(t) < 0) i.checks.push(t); });
-    save(); render(); toast('오늘 기도 출석 완료! 연속 ' + streak() + '일째예요');
+    save(); render(); toast('오늘 기도 완료! 연속 ' + streak() + '일째예요');
   }
   function timePick() {
     sheet('기도 시간 더하기', '<div class="small muted">오늘 기도한 시간을 골라 주세요.</div><div class="tpick">' +
@@ -1177,7 +1177,7 @@ button.cal-row b { color: var(--gold); }
       '<section class="sec"><div class="sec-head"><h2>오늘 함께 기도한 사람</h2><span class="dly-cnt">' + on + ' / ' + ppl.length + '</span></div>' +
         '<div class="card"><div class="faces-row">' + ppl.map(function (x) { return '<div class="fc">' + face(x) + '<span>' + esc(x.me ? '나' : x.n) + '</span></div>'; }).join('') + '</div>' +
         '<div class="room-week"><span>이번 주 모임 기도 시간</span><b>' + fmtMin(wk) + '</b></div>' +
-        (ppl[0].on ? '' : '<button class="btn block gold" data-act="attend">나도 오늘 출석 체크하기</button>') + '</div></section>' +
+        (ppl[0].on ? '' : '<button class="btn block gold" data-act="attend">나도 오늘 기도 완료하기</button>') + '</div></section>' +
       (relay ? '<section class="sec"><div class="sec-head"><h2>모임 릴레이 기도</h2></div><button class="post" data-relay="' + relay.id + '"><div class="row" style="gap:6px"><span class="tag gold">릴레이 기도</span>' + exampleTag(relay) + '</div><h3>' + esc(relay.title) + '</h3><p>' + esc(relay.desc) + '</p><div class="meta"><span>' + md(relay.start) + (relay.days > 1 ? ' ~ ' + md(relayEnd(relay)) : '') + ' · ' + relay.days + '일</span><span>예약 ' + Object.keys(relay.slots).reduce(function (a, d) { return a + Object.keys(relay.slots[d]).length; }, 0) + '개 시간대</span></div></button></section>'
         : (isLeader(r) ? '<button class="btn block line" data-act="room-relay">+ 모임 릴레이 기도 열기</button>' : '')) +
       '<section class="sec"><div class="sec-head"><h2>모임 기도 제목</h2><button class="btn sm ghost" data-act="room-write">+ 올리기</button></div>' +
@@ -1296,7 +1296,7 @@ button.cal-row b { color: var(--gold); }
 
   // ---------- diary ----------
   function vDiary() {
-    var h = '<div class="page-head"><h1 class="page-title">기도다이어리</h1><div class="row hd-btns"><button class="btn sm ghost wbtn" data-act="calendar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>캘린더</button><button class="btn sm ghost wbtn" data-act="widget"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="17" height="7" rx="2"/></svg>위젯</button></div></div><div class="seg" role="group">' + [['items', '기도 제목'], ['time', '기도 시간'], ['letter', '기도 편지'], ['scrap', '스크랩']].map(function (s) {
+    var h = '<div class="page-head"><h1 class="page-title">🔒 내 기도 노트</h1><div class="row hd-btns"><button class="btn sm ghost wbtn" data-act="calendar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>캘린더</button><button class="btn sm ghost wbtn" data-act="widget"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="17" height="7" rx="2"/></svg>위젯</button></div></div><div class="seg" role="group">' + [['items', '기도 제목'], ['time', '기도 시간'], ['letter', '기도 편지'], ['scrap', '스크랩']].map(function (s) {
       return '<button data-dtab="' + s[0] + '" aria-pressed="' + (dtab === s[0]) + '">' + s[1] + '</button>'; }).join('') + '</div>';
     if (S.example && dtab !== 'scrap') h += '<div class="note row between"><span>예시 기록이 채워져 있어요. 내 기록으로 시작하려면 지워 주세요.</span><button class="linkbtn blue" data-act="clear-example">예시 지우기</button></div>';
     if (dtab === 'items') h += vItems(); else if (dtab === 'time') h += vTime(); else if (dtab === 'scrap') h += vScraps(); else h += vLetters();
@@ -1310,7 +1310,7 @@ button.cal-row b { color: var(--gold); }
     var h = '<div class="add-row"><button class="btn block" data-act="add-item">+ 기도 제목 추가</button>' +
       '<div class="alm-pill' + (a.on ? ' on' : '') + '"><button class="alm-lbl" data-act="alarm">' + BELL + '<span><b>기도 알림</b><small>' + (a.on ? (ts.length ? esc(ts[0]) + (ts.length > 1 ? ' 외 ' + (ts.length - 1) : '') : '시간 설정') : '꺼짐') + '</small></span></button>' +
       '<button class="switch' + (a.on ? ' on' : '') + '" data-act="alm-toggle" role="switch" aria-checked="' + a.on + '" aria-label="기도 알림"><i></i></button></div></div>';
-    if (!S.items.length) return h + '<div class="empty">기도 제목을 정하고 작정 기간을 세워 보세요.<br>매일 출석 체크로 꾸준히 기도할 수 있어요.</div>';
+    if (!S.items.length) return h + '<div class="empty">기도 제목을 정하고 작정 기간을 세워 보세요.<br>매일 기도 완료를 누르며 꾸준히 기도할 수 있어요.</div>';
     var open = S.items.filter(function (i) { return !i.answered; }), done = S.items.filter(function (i) { return i.answered; });
     h += open.length ? '<div class="stack" style="gap:8px">' + open.map(itemCard).join('') + '</div>' : '<div class="empty" style="padding:14px">지금 기도 중인 제목이 없어요.</div>';
     if (done.length) {
@@ -1327,24 +1327,24 @@ button.cal-row b { color: var(--gold); }
   function itemCard(i) {
     var st = itemState(i);
     return '<div class="icard"><button class="icard-main" data-item-open="' + i.id + '"><b>' + esc(i.title) + '</b>' +
-      '<span class="icard-meta">' + i.days + '일 작정 · ' + st.label + ' · 출석 ' + st.cnt + '/' + i.days + '일' + (i.example ? ' · 예시' : '') + '</span>' +
+      '<span class="icard-meta">' + i.days + '일 작정 · ' + st.label + ' · 기도 ' + st.cnt + '/' + i.days + '일' + (i.example ? ' · 예시' : '') + '</span>' +
       '<span class="progress thin"><i style="width:' + Math.min(100, Math.round(st.cnt / i.days * 100)) + '%"></i></span></button>' +
-      '<button class="att-btn' + (st.checked ? ' on' : '') + '" data-check="' + i.id + '" aria-label="오늘 출석 체크" aria-pressed="' + st.checked + '">' + CHECK + '</button></div>';
+      '<button class="att-btn' + (st.checked ? ' on' : '') + '" data-check="' + i.id + '" aria-label="오늘 기도 완료" aria-pressed="' + st.checked + '">' + CHECK + '</button></div>';
   }
   function openItem(id) {
     var i = S.items.find(function (x) { return x.id === id; }); if (!i) return closeSheet();
     var t = today(), st = itemState(i), linked = i.postId && postById(i.postId), dots = '';
     for (var k = 0; k < i.days; k++) { var d = addDays(i.start, k); dots += '<i class="' + (i.checks.indexOf(d) >= 0 ? 'on' : d > t ? 'future' : '') + (d === t ? ' today' : '') + '" title="' + md(d) + '"></i>'; }
-    sheet('기도 제목',
+    sheet('',
       '<div><div class="row" style="gap:6px">' + (i.answered ? '<span class="tag good">응답받음</span>' : '<span class="tag">' + i.days + '일 작정</span>') + exampleTag(i) + '</div>' +
-      '<h2 style="font-size:20px;margin-top:8px">' + esc(i.title) + '</h2><div class="small muted">' + md(i.start) + ' ~ ' + md(addDays(i.start, i.days - 1)) + ' · ' + st.label + ' · 출석 ' + st.cnt + '일</div></div>' +
+      '<h2 style="font-size:20px;margin-top:8px">' + esc(i.title) + '</h2><div class="small muted">' + md(i.start) + ' ~ ' + md(addDays(i.start, i.days - 1)) + ' · ' + st.label + ' · 기도한 날 ' + st.cnt + '일</div></div>' +
       (i.body ? '<p class="item-body">' + esc(i.body) + '</p>' : '') +
-      (i.answered ? '' : '<button class="btn block ' + (st.checked ? 'done' : 'gold') + '" data-check="' + i.id + '" data-from="item">' + (st.checked ? '오늘 출석 완료' : '오늘 출석 체크') + '</button>') +
+      (i.answered ? '' : '<button class="btn block ' + (st.checked ? 'done' : 'gold') + '" data-check="' + i.id + '" data-from="item">' + (st.checked ? '✓ 오늘 기도 완료' : '아직 기도 전 · 기도했으면 눌러 주세요') + '</button>') +
       '<div class="dots">' + dots + '</div>' +
       '<button class="chk' + (i.answered ? ' on' : '') + '" data-answer="' + i.id + '"><i>' + CHECK + '</i>' + (i.answered ? '응답 받았어요' : '응답 기다리는 중') + '</button>' +
       (i.memo ? '<div class="note"><b>응답 메모</b> ' + esc(i.memo) + '</div>' : '') +
       '<div class="ic-foot">' + (linked ? '<button class="linkbtn blue" data-open="' + linked.id + '">중보기도 요청 보기 · 함께 기도 ' + linked.prayers + '</button>' : '<button class="linkbtn blue" data-share="' + i.id + '">중보기도 요청하기</button>') +
-      '<button class="linkbtn" data-del-item="' + i.id + '">삭제</button></div>');
+      '<span class="row" style="gap:14px"><button class="linkbtn" data-act="edit-item" data-id="' + i.id + '">수정</button><button class="linkbtn" data-del-item="' + i.id + '">삭제</button></span></div>');
   }
 
   function rangeBounds() {
@@ -1444,7 +1444,7 @@ button.cal-row b { color: var(--gold); }
     }
     var s = calDay(calSel), sd = calSel.split('-'), rows = '';
     var line = function (cls, label, txt, attr) { return '<' + (attr ? 'button ' + attr : 'div') + ' class="cal-row"><i class="' + cls + '"></i><span>' + label + '</span><b>' + txt + '</b></' + (attr ? 'button' : 'div') + '>'; };
-    if (s.att.length || s.min) rows += line('k-att', '기도한 날', s.min ? fmtMin(s.min) + ' 기도' + (s.att.length ? ' · 출석 ' + s.att.length + '개' : '') : '출석 ' + s.att.map(function (i) { return esc(i.title); }).join(', '), '');
+    if (s.att.length || s.min) rows += line('k-att', '기도한 날', s.min ? fmtMin(s.min) + ' 기도' + (s.att.length ? ' · 기도 완료 ' + s.att.length + '개' : '') : '기도 완료 ' + s.att.map(function (i) { return esc(i.title); }).join(', '), '');
     s.commit.forEach(function (i) { rows += '<div class="cal-row"><i class="k-line" style="background:' + itemColor(i) + '"></i><span>작정 기도</span><b>' + esc(i.title) + ' · ' + (diffDays(i.start, calSel) + 1) + '/' + i.days + '일째' + (i.checks.indexOf(calSel) >= 0 ? ' ✓' : '') + '</b></div>'; });
     s.relay.forEach(function (x) { rows += line('k-relay', '릴레이 기도', esc(x.r.title) + ' · ' + x.ks.map(slotRange).join(', '), 'data-relay="' + x.r.id + '"'); });
     s.roomRelay.forEach(function (x) { rows += line('k-relay soft', '모임방 릴레이', esc(x.title) + ' · 아직 예약 전', 'data-relay="' + x.id + '"'); });
@@ -1466,7 +1466,7 @@ button.cal-row b { color: var(--gold); }
     var t = today(), act = attendItems(), done = act.filter(function (i) { return i.checks.indexOf(t) >= 0; }).length, all = act.length > 0 && done === act.length;
     var mins = +S.times[t] || 0, top = widgetItem(), nx = alarmNext();
     var bell = nx ? '<div class="wbell">' + BELL + nx + '</div>' : '';
-    var att = '<button class="wcheck' + (all ? ' on' : '') + '" data-act="w-attend"><i>' + (all ? CHECK : '') + '</i>' + (all ? '출석 완료' : '출석 체크') + '</button>';
+    var att = '<button class="wcheck' + (all ? ' on' : '') + '" data-act="w-attend"><i>' + (all ? CHECK : '') + '</i>' + (all ? '오늘 기도 완료' : '아직 기도 전') + '</button>';
     var r = bump; bump = false;
     var num = '<div class="wnum' + (r ? ' bump' : '') + '"><b>' + mins + '</b><span>분</span></div>';
     return '<div class="widgets" id="wgPreview">' +
@@ -1480,7 +1480,7 @@ button.cal-row b { color: var(--gold); }
       '<div class="small muted">버튼을 눌러 보세요. 한 번 누를 때마다 오늘 기도 시간이 5분씩 더해져요.</div>' + widgetPreview() +
       '<div class="small muted">중간 위젯에는 내가 가장 최근에 추가한 기도 제목이 자동으로 보여요.</div>' +
       '<div class="note"><b>지금은 미리보기예요.</b> 휴대폰 바탕화면에 놓는 진짜 위젯은 웹 앱으로는 만들 수 없어서, 앱스토어·플레이스토어용 앱을 낼 때 함께 넣을게요.</div>' +
-      '<div class="note"><b>대신 바로가기를 쓸 수 있어요 (안드로이드)</b><br>홈 화면의 <b>기도의 촛불</b> 아이콘을 꾹 누르면 <b>기도 시간 +10분 · 오늘 출석 체크 · 기도 요청 올리기</b>가 바로 나와요. 아이폰은 아직 이 기능을 지원하지 않아요.</div>');
+      '<div class="note"><b>대신 바로가기를 쓸 수 있어요 (안드로이드)</b><br>홈 화면의 <b>기도의 촛불</b> 아이콘을 꾹 누르면 <b>기도 시간 +10분 · 오늘 기도 완료 · 기도 요청 올리기</b>가 바로 나와요. 아이폰은 아직 이 기능을 지원하지 않아요.</div>');
   }
   function bigToggle() {
     return '<div class="card big-toggle"><div><b>큰 글씨로 보기</b><small>' + (BIG ? '켜짐 · 글씨를 크게, 꼭 필요한 메뉴만 보여요' : '글씨를 크게, 꼭 필요한 메뉴만 보여요') + '</small></div>' +
@@ -1805,7 +1805,7 @@ button.cal-row b { color: var(--gold); }
     gender: [['여성', 62], ['남성', 38]],
     region: [['서울', 31], ['경기', 28], ['인천', 7], ['부산', 6], ['대구', 5], ['대전', 4], ['그 밖의 지역', 19]],
     faith: [['성도', 71], ['가나안 성도', 18], ['아직 믿지 않아요', 11]],
-    board: [['중보기도', 58], ['기도 다이어리', 24], ['사연&고민', 9], ['간증', 6], ['기도란', 3]]
+    board: [['중보기도', 58], ['내 기도 노트', 24], ['사연&고민', 9], ['간증', 6], ['기도란', 3]]
   };
   function hbars(rows) {
     if (!rows.length) return '<div class="card small muted">아직 자료가 없어요.</div>';
@@ -2044,7 +2044,7 @@ button.cal-row b { color: var(--gold); }
   }
   function bigDiary() {
     var t = today(), open = S.items.filter(function (i) { return !i.answered; }), scr = (S.scraps || []).map(postById).filter(Boolean);
-    var h = '<h1 class="page-title">기도다이어리</h1>';
+    var h = '<h1 class="page-title">🔒 내 기도 노트</h1>';
     h += '<section class="bsec"><h2>내 기도 제목</h2><button class="btn block big-cta" data-act="add-item">＋ 기도 제목 올리기</button>' +
       (open.length ? '<div class="bstack">' + open.map(function (i) {
         var st = itemState(i);
@@ -2099,7 +2099,7 @@ button.cal-row b { color: var(--gold); }
   function openDrawer() {
     var SUB = { pray: [['pray-all', '전체'], ['pray-rooms', '기도 모임방']],
       diary: [['diary-add', '기도 제목'], ['diary-time', '기도 시간'], ['diary-letter', '기도 편지'], ['diary-scrap', '스크랩'], ['calendar', '캘린더'], ['widget', '위젯']] };
-    var M = [['pray', '중보기도'], ['diary', '기도 다이어리'], ['concern', '말못할 사연 · 고민 상담'], ['story', '간증']];
+    var M = [['pray', '중보기도'], ['diary', '🔒 내 기도 노트'], ['concern', '말못할 사연 · 고민 상담'], ['story', '간증']];
     el('drawerRoot').innerHTML = '<div class="drawer-back" data-dclose="1"><nav class="drawer" aria-label="전체 메뉴">' +
       '<div class="drawer-brand">합력하여 선을 이루는 기도</div><div class="srow"><input class="search" id="dq" type="search" placeholder="Search..." aria-label="전체 글 검색"><button class="icon-btn" data-tab="me" aria-label="설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div>' +
       '<ul class="menu">' + M.map(function (m) { return '<li><button data-tab="' + m[0] + '">' + m[1] + '</button>' + (SUB[m[0]] ? '<ul class="menu sub">' + SUB[m[0]].map(function (x) { return '<li><button data-dm="' + x[0] + '">' + x[1] + '</button></li>'; }).join('') + '</ul>' : '') + '</li>'; }).join('') +
@@ -2112,7 +2112,7 @@ button.cal-row b { color: var(--gold); }
   var EXPAND = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>';
   function sheet(title, inner) {
     var prev = el('sheet'), keep = prev && prev.classList.contains('full'), top = prev ? prev.scrollTop : 0;
-    el('sheetRoot').innerHTML = '<div class="sheet-back" data-close="1"><div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="' + esc(title) + '"><div class="sheet-head" id="sheetHead"><span class="grab" aria-hidden="true"></span><h2>' + esc(title) + '</h2><div class="sheet-tools"><button class="x" data-act="toggle-full" aria-label="전체 화면으로 보기">' + EXPAND + '</button><button class="x" data-close="1" aria-label="닫기">×</button></div></div><div class="stack" id="sheetBody">' + inner + '</div></div></div>';
+    el('sheetRoot').innerHTML = '<div class="sheet-back" data-close="1"><div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="' + esc(title || '창') + '"><div class="sheet-head" id="sheetHead"><span class="grab" aria-hidden="true"></span><h2>' + esc(title || '') + '</h2><div class="sheet-tools"><button class="x" data-act="toggle-full" aria-label="전체 화면으로 보기">' + EXPAND + '</button><button class="x" data-close="1" aria-label="닫기">×</button></div></div><div class="stack" id="sheetBody">' + inner + '</div></div></div>';
     if (keep) { el('sheet').classList.add('full'); el('sheet').scrollTop = top; return; }
     var f = el('sheetRoot').querySelector('input:not([type=checkbox]):not([type=date]),textarea'); if (f && !('ontouchstart' in window)) f.focus();
   }
@@ -2165,7 +2165,7 @@ button.cal-row b { color: var(--gold); }
       (rm && p.mine ? '<button class="btn block line" data-pub="' + p.id + '">전체 중보기도에도 올리기</button>' : '') +
       (p.board === 'concern' && isCrisis(p.title + ' ' + p.body) ? '<div class="card stack crisis"><b>지금 많이 힘드시다면</b>' + CRISIS_LINES + '</div>' : '') +
       (p.mine && hiddenPost(p) ? '<div class="note">' + ((p.reports || 0) >= 3 ? '신고가 쌓여서 운영자가 확인할 때까지 다른 사람에게는 숨겨져 있어요.' : '정한 기간이 지나서 다른 사람에게는 숨겨졌어요.') + '</div>' : p.mine && p.hideAfter ? '<div class="small muted">올린 지 ' + p.hideAfter + '일이 지나면 자동으로 숨겨져요.</div>' : '') +
-      '<div class="row between"><span class="small muted" id="repMsg">' + (p.reported ? '신고한 글이에요.' : '') + '</span>' + (p.mine ? '<button class="linkbtn" data-del-post="' + p.id + '">내 글 삭제</button>' : p.reported ? '' : '<button class="linkbtn" data-report="' + p.id + '">신고하기</button>') + '</div>');
+      '<div class="row between"><span class="small muted" id="repMsg">' + (p.reported ? '신고한 글이에요.' : '') + '</span>' + (p.mine ? '<span class="row" style="gap:14px"><button class="linkbtn" data-act="edit-post" data-id="' + p.id + '">내 글 수정</button><button class="linkbtn" data-del-post="' + p.id + '">내 글 삭제</button></span>' : p.reported ? '' : '<button class="linkbtn" data-report="' + p.id + '">신고하기</button>') + '</div>');
   }
 
   function openGuide(id) {
@@ -2199,7 +2199,7 @@ button.cal-row b { color: var(--gold); }
     save(); closeSheet();
     if (np.board === 'tips') { gtab = 'tips'; tab = 'guide'; } else tab = np.board;
     if (np.board === 'pray') cat = '전체';
-    render(); toast(autoItem ? '올렸어요. 기도다이어리 내 기도제목에도 담았어요' : '올렸어요');
+    render(); toast(autoItem ? '올렸어요. 내 기도 노트에도 담았어요' : '올렸어요');
   }
   function hiddenPost(p) {
     if ((p.reports || 0) >= 3) return true;
@@ -2282,15 +2282,26 @@ button.cal-row b { color: var(--gold); }
       '<button class="btn block" data-submit="' + boardName + '"' + (preset && preset.itemId ? ' data-item="' + preset.itemId + '"' : '') + (preset && preset.roomId ? ' data-room-id="' + preset.roomId + '"' : '') + '>올리기</button>');
   }
 
-  function addItem() {
-    sheet('기도 제목 추가',
-      '<label class="field"><span>기도 제목</span><input class="input" id="iTitle" maxlength="60" placeholder="예: 아버지의 건강 회복을 위해"></label>' +
-      '<div class="field"><span>작정 기간</span><div class="chips" id="iDaysChips">' + [7, 21, 40, 100].map(function (n) { return '<button class="chip" type="button" data-days="' + n + '" aria-pressed="' + (n === 40) + '">' + n + '일</button>'; }).join('') + '</div>' +
-      '<input class="input" type="number" min="1" max="365" id="iDays" value="40" inputmode="numeric"></div>' +
-      '<label class="field"><span>시작일</span><input class="input" type="date" id="iStart" value="' + today() + '"></label>' +
-      '<label class="field"><span>기도 내용</span><textarea class="input" id="iBody" style="min-height:110px" placeholder="어떤 마음으로, 무엇을 구하며 기도할지 적어 두세요"></textarea></label>' +
-      '<div class="small muted">기도 제목은 나만 볼 수 있어요. 중보기도 요청하기를 누르면 다이어리에 추가되고, 이어서 중보기도 탭에 올릴 내용을 확인할 수 있어요.</div>' +
-      '<div class="two"><button class="btn line" data-act="save-item">추가하기</button><button class="btn" data-act="save-item-share">중보기도 요청하기</button></div>');
+  function addItem(id) {
+    var e = id && S.items.find(function (x) { return x.id === id; }), dd = e ? e.days : 40;
+    sheet('',
+      '<label class="field"><span>기도 제목</span><input class="input" id="iTitle" maxlength="60" value="' + esc(e ? e.title : '') + '" placeholder="예: 아버지의 건강 회복을 위해"></label>' +
+      '<div class="field"><span>작정 기간</span><div class="chips" id="iDaysChips">' + [7, 21, 40, 100].map(function (n) { return '<button class="chip" type="button" data-days="' + n + '" aria-pressed="' + (n === dd) + '">' + n + '일</button>'; }).join('') + '</div>' +
+      '<input class="input" type="number" min="1" max="365" id="iDays" value="' + dd + '" inputmode="numeric"></div>' +
+      '<label class="field"><span>시작일</span><input class="input" type="date" id="iStart" value="' + (e ? e.start : today()) + '"></label>' +
+      '<label class="field"><span>기도 내용</span><textarea class="input" id="iBody" style="min-height:110px" placeholder="어떤 마음으로, 무엇을 구하며 기도할지 적어 두세요">' + esc(e ? e.body : '') + '</textarea></label>' +
+      (e ? '<button class="btn block" data-act="save-item" data-edit="' + e.id + '">고친 내용 저장</button>' :
+      '<div class="small muted">기도 제목은 나만 볼 수 있어요. 중보기도 요청하기를 누르면 내 기도 노트에 추가되고, 이어서 중보기도 탭에 올릴 내용을 확인할 수 있어요.</div>' +
+      '<div class="two"><button class="btn line" data-act="save-item">추가하기</button><button class="btn" data-act="save-item-share">중보기도 요청하기</button></div>'));
+  }
+  // 내가 올린 글 고치기: 제목, 내용, 태그만 바꿀 수 있어요
+  function editPost(id) {
+    var p = postById(id); if (!p || !p.mine) return;
+    sheet('내 글 고치기',
+      '<label class="field"><span>제목</span><input class="input" id="eTitle" maxlength="60" value="' + esc(p.title) + '"></label>' +
+      (p.board === 'pray' && !p.roomId ? '<div class="field"><span>태그 <b class="opt">선택</b></span><div class="chips wrap" id="wTags">' + TAGS.map(function (t) { return '<button class="chip" type="button" data-wtag="' + t + '" aria-pressed="' + (p.tag === t) + '">' + t + '</button>'; }).join('') + '</div></div>' : '') +
+      '<label class="field"><span>내용</span><textarea class="input" id="eBody">' + esc(p.body) + '</textarea></label>' +
+      '<button class="btn block" data-act="save-post-edit" data-id="' + p.id + '">고친 내용 저장</button>');
   }
 
   // 출석 체크: 작정 기간과 상관없이 아직 응답을 기다리는 기도 제목은 모두 체크할 수 있어요
@@ -2304,18 +2315,18 @@ button.cal-row b { color: var(--gold); }
   }
   function attendSheet() {
     var items = attendItems(), posts = myPrayPosts(), t = today();
-    if (!items.length && !posts.length) { sheet('오늘 기도 출석', '<div class="empty">아직 기도 제목이 없어요.<br>기도 제목을 추가하면 매일 출석 체크를 할 수 있어요.</div><button class="btn block" data-act="add-item">기도 제목 추가</button>'); return; }
+    if (!items.length && !posts.length) { sheet('오늘의 기도', '<div class="empty">아직 기도 제목이 없어요.<br>기도 제목을 추가하면 매일 기도 완료를 표시할 수 있어요.</div><button class="btn block" data-act="add-item">기도 제목 추가</button>'); return; }
     var row = function (title, sub, on, attr) { return '<div class="att-row' + (on ? ' on' : '') + '"><div style="min-width:0"><b>' + esc(title) + '</b><div class="small muted">' + sub + '</div></div><button class="att-btn" ' + attr + ' aria-pressed="' + on + '">' + CHECK + '</button></div>'; };
-    var h = '<div class="small muted">오늘 기도한 제목을 눌러 출석해 주세요.</div>';
+    var h = '<div class="small muted">오늘 기도한 제목을 눌러 주세요.</div>';
     h += items.map(function (i) {
       var day = diffDays(i.start, t) + 1, on = i.checks.indexOf(t) >= 0;
       var sub = day < 1 ? md(i.start) + '부터 작정 시작' : day > i.days ? i.days + '일 작정 마침 · 계속 기도 중' : i.days + '일 작정 중 ' + day + '일째';
-      return row(i.title, sub + ' · 출석 ' + i.checks.length + '일', on, 'data-check="' + i.id + '" data-from="sheet"');
+      return row(i.title, sub + ' · 기도한 날 ' + i.checks.length + '일', on, 'data-check="' + i.id + '" data-from="sheet"');
     }).join('');
     if (posts.length) h += '<div class="label" style="margin-top:4px">내가 올린 기도 요청</div>' + posts.map(function (p) {
-      return row(p.title, '체크하면 기도다이어리에도 담겨요', false, 'data-pcheck="' + p.id + '"');
+      return row(p.title, '체크하면 내 기도 노트에도 담겨요', false, 'data-pcheck="' + p.id + '"');
     }).join('');
-    sheet('오늘 기도 출석', h + '<button class="btn block line" data-act="add-item">+ 새 기도 제목 추가</button>');
+    sheet('오늘의 기도', h + '<button class="btn block line" data-act="add-item">+ 새 기도 제목 추가</button>');
   }
 
   function answerItem(id) {
@@ -2474,7 +2485,7 @@ button.cal-row b { color: var(--gold); }
     if (d.range) { range = +d.range; picking = false; render(); return; }
     if (d.scrap) {
       S.scraps = S.scraps || []; var si = S.scraps.indexOf(d.scrap);
-      if (si >= 0) S.scraps.splice(si, 1); else { S.scraps.unshift(d.scrap); toast('스크랩했어요. 기도다이어리에서 볼 수 있어요'); }
+      if (si >= 0) S.scraps.splice(si, 1); else { S.scraps.unshift(d.scrap); toast('스크랩했어요. 내 기도 노트에서 볼 수 있어요'); }
       save(); openPost(d.scrap); render(); return;
     }
     if (d.wtag) { var on3 = b.getAttribute('aria-pressed') !== 'true'; document.querySelectorAll('#wTags [data-wtag]').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); }); b.setAttribute('aria-pressed', on3); return; }
@@ -2620,11 +2631,11 @@ button.cal-row b { color: var(--gold); }
     if (d.pcheck) {
       var pp2 = postById(d.pcheck);
       S.items.push({ id: uid(), title: pp2.title, body: pp2.body, start: today(), days: 40, checks: [today()], answered: false, memo: '', postId: pp2.id });
-      save(); render(); attendSheet(); toast('출석했어요. 기도다이어리에도 담았어요'); return;
+      save(); render(); attendSheet(); toast('기도 완료! 내 기도 노트에도 담았어요'); return;
     }
     if (d.check) {
       var it = S.items.find(function (x) { return x.id === d.check; }), td = today(), ix = it.checks.indexOf(td);
-      if (ix >= 0) it.checks.splice(ix, 1); else { it.checks.push(td); toast('오늘 기도 출석 완료!'); }
+      if (ix >= 0) it.checks.splice(ix, 1); else { it.checks.push(td); toast('오늘 기도 완료!'); }
       save(); render(); if (d.from === 'sheet') attendSheet(); else if (d.from === 'item') openItem(it.id); return;
     }
     if (d.answer) return answerItem(d.answer);
@@ -2743,7 +2754,7 @@ button.cal-row b { color: var(--gold); }
         var wa = attendItems(), wt = today(); if (!wa.length) return toast('기도 제목이 아직 없어요');
         var allOn = wa.every(function (i) { return i.checks.indexOf(wt) >= 0; });
         wa.forEach(function (i) { var x = i.checks.indexOf(wt); if (allOn && x >= 0) i.checks.splice(x, 1); if (!allOn && x < 0) i.checks.push(wt); });
-        save(); refreshTime(); toast(allOn ? '오늘 출석을 취소했어요' : '오늘 기도 출석 완료!'); return;
+        save(); refreshTime(); toast(allOn ? '오늘 기도 완료를 취소했어요' : '오늘 기도 완료!'); return;
       case 'invite': closeDrawer(); return invite();
       case 'attend': return attendSheet();
       case 'write-pray': return writePost('pray', { cat: cat !== '전체' ? cat : '' });
@@ -2753,13 +2764,27 @@ button.cal-row b { color: var(--gold); }
       case 'add-item': return addItem();
       case 'write-letter': return writeLetterPick();
       case 'logtime': tDay = ''; return logTime();
+      case 'edit-item': return addItem(d.id);
+      case 'edit-post': return editPost(d.id);
+      case 'save-post-edit':
+        var ep = postById(d.id), et = val('eTitle'), eb = val('eBody'), etg = document.querySelector('#wTags [aria-pressed="true"]');
+        if (!ep) return closeSheet();
+        if (!et || !eb) return toast('제목과 내용을 모두 적어 주세요');
+        if (ep.board === 'concern' && hasContact(et + ' ' + eb)) return toast('전화번호, 카톡 아이디, 링크는 쓸 수 없어요');
+        ep.title = et; ep.body = eb;
+        cloud('edit_post', { p_id: ep.id, p_title: et, p_body: eb });
+        if (el('wTags')) { var ntg = etg ? etg.getAttribute('data-wtag') : ''; if (ntg !== (ep.tag || '')) { ep.tag = ntg; cloud('set_post_tag', { p_id: ep.id, p_tag: ntg }); } }
+        S.items.forEach(function (i) { if (i.postId === ep.id) { i.title = et; i.body = eb; } });
+        save(); render(); openPost(ep.id); return toast('고쳤어요');
       case 'save-item': case 'save-item-share':
         var ti = val('iTitle'), days = Math.max(1, Math.min(365, parseInt(val('iDays'), 10) || 40)), ib = val('iBody');
         if (!ti) return toast('기도 제목을 적어 주세요');
+        var ei = d.edit && S.items.find(function (x) { return x.id === d.edit; });
+        if (ei) { ei.title = ti; ei.body = ib; ei.days = days; ei.start = val('iStart') || ei.start; save(); render(); openItem(ei.id); return toast('고쳤어요'); }
         var ni = { id: uid(), title: ti, body: ib, start: val('iStart') || today(), days: days, checks: [], answered: false, memo: '' };
         S.items.push(ni);
         save(); closeSheet(); tab = 'diary'; dtab = 'items'; render();
-        if (d.act === 'save-item-share') { writePost('pray', { cat: '개인 중보', title: ti, body: ib, itemId: ni.id }); toast('다이어리에 추가했어요. 요청 내용을 확인하고 올려 주세요'); return; }
+        if (d.act === 'save-item-share') { writePost('pray', { cat: '개인 중보', title: ti, body: ib, itemId: ni.id }); toast('내 기도 노트에 추가했어요. 요청 내용을 확인하고 올려 주세요'); return; }
         toast(days + '일 작정 기도를 시작해요'); return;
       case 'add-time':
         var mn = parseInt(val('tMin'), 10);
@@ -2854,6 +2879,7 @@ button.cal-row b { color: var(--gold); }
       .then(function () {
         save();
         var a = document.activeElement;
+        if (tab === 'join' && J) jSync(); // 가입 중에 적어 둔 내용이 다시 그릴 때 지워지지 않게
         if (!(a && /INPUT|TEXTAREA|SELECT/.test(a.tagName) && el('view').contains(a))) render();
       }, cloudErr);
   }
@@ -3000,7 +3026,7 @@ button.cal-row b { color: var(--gold); }
     var F = [
       [sv('<path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/>'), '기도 제목 나누기', '내 기도 제목을 올리면 성도들이 함께 기도해요'],
       [sv('<path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.6-7 10-7 10z"/>'), '서로를 위해 중보기도', '다른 분의 기도 제목에 "기도했어요"로 마음을 전해요'],
-      [sv('<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/>'), '나의 기도 다이어리', '기도 시간과 응답을 기록하고 매일 출석해요'],
+      [sv('<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/>'), '🔒 내 기도 노트', '나만 보는 공간이에요. 기도 시간과 응답을 기록해요'],
       [sv('<path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9.5 12l2 2 3.5-4"/>'), '말 못할 사연', '이름을 숨기고 목회자·상담사와 고민을 나눠요']
     ];
     return '<div class="card intro"><p class="lead"><b>기도 제목을 나누고, 서로를 위해 대신 기도해 주는</b><br>중보기도 공동체 앱이에요.</p>' +
