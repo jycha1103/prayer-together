@@ -1995,14 +1995,14 @@ button.cal-row b { color: var(--gold); }
         '<div class="row-item nk-row"><span>🔒 개인 기도 제목 <span class="lock-tag">내용은 비공개</span></span><b>' + nn(T.items) + '개</b></div>' +
         NEW_KINDS.map(function (k) { return '<button class="row-item nk-row" data-atab="newposts" data-nk="' + k[0] + '"><span>' + k[1] + '</span><b>' + (bd[k[0]] || 0) + '개 ›</b></button>'; }).join('') + '</div></section>' +
       '<section class="sec"><div class="sec-head"><h2>오늘 골방 기도</h2><span class="date">묵상 노트 내용은 볼 수 없어요</span></div><div class="stats adm-stats adm-today cl4">' +
-        [['closet', '골방 기도<br>들어온 사람'], ['closet-pray', '기도 마치고<br>시간 더한 사람'], ['closet-note', '묵상 노트<br>쓴 사람'], ['closet-music', '음악<br>들은 사람']].map(function (x) { var a = T.visits[x[0]]; return '<div class="stat"><b>' + nn(a ? a[6] : null) + '</b><span>' + x[1] + '</span></div>'; }).join('') + '</div></section>' +
+        [['closet', '골방 기도<br>들어온 사람'], ['closet-pray', '기도 마치고<br>시간 더한 사람'], ['closet-note', '묵상 노트<br>쓴 사람'], ['closet-music', '찬양<br>들은 사람']].map(function (x) { var a = T.visits[x[0]]; return '<div class="stat"><b>' + nn(a ? a[6] : null) + '</b><span>' + x[1] + '</span></div>'; }).join('') + '</div></section>' +
       '<section class="sec"><div class="sec-head"><h2>메뉴별 들어온 사람</h2><span class="date">최근 7일</span></div>' + visitTable(T.visits) +
         '<div class="small muted" style="margin-top:8px">한 사람이 하루에 여러 번 들어와도 1명으로 세요. 이 화면에는 누가 들어왔는지 없이 숫자만 보여요.' + (T.demo ? '' : ' 방문 수는 이 기능을 올린 날부터 세기 시작했어요.') + '</div></section>' +
       '<button class="btn block line" data-atab="stats">누적 숫자와 연령 · 성별 · 지역 분포 보기 ›</button>' +
       '<section class="sec"><div class="sec-head"><h2>운영 습관</h2></div><div class="card stack adm-habit"><div class="prow"><span>매일 10분</span><b>안전 확인 (위기 사연, 신고)</b></div><div class="prow"><span>매주 한 번</span><b>인증 승인, 다음 주 말씀 편성</b></div><div class="prow"><span>매달 한 번</span><b>릴레이 주제 정하기, 숫자 살펴보기</b></div></div></section>';
   }
   var VISIT_ROWS = [['home', '홈'], ['pray', '중보기도'], ['diary', '🔒 내 기도 노트'], ['diary-items', '기도 제목', 1], ['diary-time', '기도 시간', 1], ['diary-letter', '기도 편지', 1], ['diary-scrap', '스크랩', 1],
-    ['closet', '골방 기도'], ['closet-pray', '기도 시간 더함', 1], ['closet-note', '묵상 노트 씀', 1], ['closet-music', '음악 들음', 1],
+    ['closet', '골방 기도'], ['closet-pray', '기도 시간 더함', 1], ['closet-note', '묵상 노트 씀', 1], ['closet-music', '찬양 들음', 1],
     ['concern', '사연 · 고민'], ['story', '간증'], ['rooms', '기도 모임방'], ['relay', '릴레이 기도'], ['guide', '기도란 안내'], ['tips', '기도 노하우'], ['howto', '앱 이용법']];
   var NEW_KINDS = [['pray', '🙏 중보기도 요청', '중보'], ['story', '✨ 간증', '간증'], ['concern', '💬 사연 · 고민', '사연'], ['tips', '💡 기도 노하우', '노하우']];
   function admTodayPosts() {
@@ -2235,12 +2235,12 @@ button.cal-row b { color: var(--gold); }
     var h = '<div class="sw-l">' + (run ? '기도하는 중이에요' : done ? '오늘 드린 기도' : '문을 닫고 주님과 마주하는 시간') + '</div><div class="sw-t" id="swT">' + fmtClock(clMs()) + '</div>';
     if (done) h += '<div class="sw-res"><span>기도한 시간<b>' + fmtMin(clMin()) + '</b></span><button data-act="cl-add">+ 오늘 기도 시간에 더하기</button></div><button class="sw-skip" data-act="cl-skip">더하지 않고 지우기</button>';
     else h += '<button class="sw-bt' + (run ? ' stop' : '') + '" data-act="' + (run ? 'cl-stop' : 'cl-start') + '">' + (run ? '기도 끝내기' : '기도 시작하기') + '</button>';
-    return h + '<div><button class="sw-mus" data-act="' + (song ? 'music-off' : 'cl-music') + '">' + (song ? '🔇 음악 Off' : '🎵 음악 On') + '</button></div>' + (song ? '<div class="sw-now">' + esc(song[1]) + ' 듣는 중</div>' : '');
+    return h + '<div><button class="sw-mus" data-act="' + (song ? 'music-off' : 'cl-music') + '">' + (song ? '🔇 찬양 Off' : '🎵 찬양 On') + '</button></div>' + (song ? '<div class="sw-now">' + esc(song[1]) + ' 듣는 중</div>' : '');
   }
   function vCloset() {
     var t = today();
     return '<div class="page-head"><h1 class="page-title">골방 기도</h1><button class="btn sm ghost" data-act="notes">묵상 노트 보기</button></div>' +
-      '<div class="private-note">기도 시작하기를 누르고 기도한 뒤, 끝내면 오늘 기도 시간에 더할 수 있어요.</div>' +
+      '<div class="private-note">찬양을 들으며 고요히 기도해 보세요. 주님과 함께한 시간도 차곡차곡 쌓여요.</div>' +
       '<div class="clw" id="sw">' + swInner() + '</div>' +
       '<div class="mnote"><div class="mn-d">' + md(t) + ' 묵상 노트</div><textarea class="mn-t" id="mNote" aria-label="묵상 노트" placeholder="오늘 주신 말씀과 마음, 드린 기도를 적어 보세요.">' + esc(notesObj()[t] || '') + '</textarea>' +
       '<div class="mn-ft"><button class="linkbtn blue" data-act="add-item">+ 내 기도 제목 추가</button><button class="btn sm" data-act="note-save">저장</button></div></div>';
@@ -2260,17 +2260,17 @@ button.cal-row b { color: var(--gold); }
     sheet('묵상 노트', days.length ? days.map(function (d) { return '<div class="note-day"><b>' + esc(d.replace(/-/g, '. ')) + '</b><p>' + esc(n[d]) + '</p></div>'; }).join('') : '<div class="empty">아직 적은 묵상 노트가 없어요. 골방 기도 화면 아래 노트에 적고 저장해 보세요.</div>');
   }
   function musicSheet() {
-    sheet('골방 기도 음악', '<div class="small muted">한 곡을 고르면 끝나도 처음부터 다시 흘러요. 다른 화면에 가도 계속 들려요.</div><div class="songs">' + MUSIC.map(function (m) {
+    sheet('골방 기도 찬양', '<div class="small muted">한 곡을 고르면 끝나도 처음부터 다시 흘러요. 다른 화면에 가도 계속 들려요.</div><div class="songs">' + MUSIC.map(function (m) {
       var on = bgmId === m[0];
       return '<button class="song' + (on ? ' on' : '') + '" data-song="' + m[0] + '" aria-pressed="' + on + '"><i>' + (on ? '❚❚' : '▶') + '</i><span><b>' + esc(m[1]) + '</b><small>' + esc(m[2]) + '</small></span></button>';
-    }).join('') + '</div>' + (bgmId ? '<button class="btn block line" data-act="music-off">음악 끄기</button>' : ''));
+    }).join('') + '</div>' + (bgmId ? '<button class="btn block line" data-act="music-off">찬양 끄기</button>' : ''));
   }
   function playSong(id) {
     if (!id || id === bgmId) { if (bgm) bgm.pause(); bgmId = ''; }
     else {
       if (!bgm) { bgm = new Audio(); bgm.loop = true; }
       bgm.src = 'music/' + id + '.mp3'; bgmId = id; logEv('closet-music');
-      var pr = bgm.play(); if (pr && pr.catch) pr.catch(function () { bgmId = ''; swRefresh(); if (el('sheet') && el('sheet').querySelector('.songs')) musicSheet(); toast('음악을 틀지 못했어요. 인터넷 연결을 확인해 주세요'); });
+      var pr = bgm.play(); if (pr && pr.catch) pr.catch(function () { bgmId = ''; swRefresh(); if (el('sheet') && el('sheet').querySelector('.songs')) musicSheet(); toast('찬양을 틀지 못했어요. 인터넷 연결을 확인해 주세요'); });
     }
     swRefresh(); if (el('sheet') && el('sheet').querySelector('.songs')) closeSheet();
   }
@@ -2303,7 +2303,7 @@ button.cal-row b { color: var(--gold); }
       '"기도 시작하기"를 누르면 시간이 흐르기 시작해요. 다른 화면에 다녀와도 시간은 계속 재고 있어요.',
       '기도를 마치면 "기도 끝내기"를 눌러요.',
       '기도한 시간이 나오면 "+ 오늘 기도 시간에 더하기"를 눌러요. 내 기도 노트의 기도 시간에 쌓이고, 처음 화면으로 돌아가요.',
-      '"음악 On"을 누르면 잔잔한 피아노 음악 다섯 곡 가운데 하나를 골라 들으며 기도할 수 있어요.',
+      '"찬양 On"을 누르면 잔잔한 피아노 찬양 열 곡 가운데 하나를 골라 들으며 기도할 수 있어요. 들을 때는 "찬양 Off"로 바뀌고, 누르면 꺼져요.',
       '아래 묵상 노트에 오늘 받은 말씀과 마음을 적어요. 적는 대로 저장되고, 하루에 한 장씩 쌓여요. 나만 볼 수 있어요.',
       '기도하다 떠오른 제목은 "+ 내 기도 제목 추가"로 바로 내 기도 노트에 넣어요.',
       '위쪽 "묵상 노트 보기"로 지난날의 노트를 모아 봐요.']],
@@ -2371,7 +2371,7 @@ button.cal-row b { color: var(--gold); }
     if (tab === 'guide') return gtab === 'tips' ? 'tips' : 'guide';
     return '';
   }
-  // 골방 기도에서 한 일(기도 마침, 묵상 노트, 음악)도 하루 한 번씩 알려요
+  // 골방 기도에서 한 일(기도 마침, 묵상 노트, 찬양)도 하루 한 번씩 알려요
   function logEv(pg) {
     if (!SB || !C.user || !C.joined) return;
     var k = today() + ':' + pg; C.vis = C.vis || {};
