@@ -1014,10 +1014,17 @@ button.cal-row b { color: var(--gold); }
   function group(html) { return '<div class="group">' + (html || '<div class="empty-row">아직 올라온 글이 없어요. 첫 글을 남겨 주세요.</div>') + '</div>'; }
 
   // 가입할 때 고른 관심 기도 분야와 닿는 글을 먼저 골라요
-  var INTEREST_WORDS = { '가정': ['가정', '가족', '남편', '아내', '부모', '어머니', '아버지'], '건강 · 치유': ['수술', '건강', '치유', '회복', '병원'], '자녀 · 다음세대': ['자녀', '아이', '다음세대', '학생', '수험'],
-    '진로 · 취업': ['취업', '진로', '직장', '이직', '면접'], '물질': ['물질', '재정', '경제'], '관계': ['관계', '갈등', '화해'], '교회': ['교회', '예배', '목회'], '선교 · 열방': ['선교', '열방', '민족'], '나라 · 사회': ['나라', '사회', '재난', '홍수', '전쟁'] };
+  // 관심 분야는 중보기도 글의 태그와 같은 이름을 써요. 예전 이름으로 고른 분도 새 이름으로 바꿔 읽어요.
+  var INTEREST_OLD = { '건강 · 치유': '건강', '자녀 · 다음세대': '자녀', '진로 · 취업': '진로', '물질': '경제', '교회': '신앙', '선교 · 열방': '열방 · 선교', '나라 · 사회': '열방 · 선교' };
+  function normInterests(a) { var out = []; (a || []).forEach(function (k) { k = INTEREST_OLD[k] || k; if (out.indexOf(k) < 0) out.push(k); }); return out; }
+  var INTEREST_WORDS = { '건강': ['수술', '건강', '치유', '회복', '병원'], '가정': ['가정', '가족', '남편', '아내', '부모', '어머니', '아버지'], '자녀': ['자녀', '아이', '다음세대', '학생', '수험'],
+    '직장': ['직장', '회사', '이직', '업무'], '진로': ['진로', '취업', '면접', '시험'], '결혼': ['결혼', '배우자', '만남'], '경제': ['물질', '재정', '경제', '사업', '빚'], '관계': ['관계', '갈등', '화해', '친구'],
+    '학업': ['학업', '공부', '시험', '입시', '학교'], '신앙': ['신앙', '교회', '예배', '말씀', '목회'], '마음': ['마음', '우울', '불안', '위로', '평안'], '비전': ['비전', '꿈', '사명', '부르심'],
+    '열방 · 선교': ['선교', '열방', '민족', '나라', '재난', '전쟁'] };
   function interestScore(p) {
-    var it = S.me.profile && S.me.profile.interests; if (!it || !it.length) return 0;
+    var it = normInterests(S.me.profile && S.me.profile.interests); if (!it.length) return 0;
+    if (p.tag && it.indexOf(p.tag) >= 0) return 1;
+    if (it.indexOf('열방 · 선교') >= 0 && (p.cat === '열방' || p.cat === '선교지 편지')) return 1;
     var txt = p.cat + ' ' + p.title + ' ' + p.body;
     return it.filter(function (k) { return (INTEREST_WORDS[k] || []).some(function (w) { return txt.indexOf(w) >= 0; }); }).length ? 1 : 0;
   }
@@ -1625,9 +1632,12 @@ button.cal-row b { color: var(--gold); }
   var AGREES = [['age14', '만 14세 이상이에요', 1], ['terms', '서비스 이용약관 동의', 1], ['privacy', '개인정보 수집·이용 동의', 1], ['faith', '민감정보 수집·이용 동의', 1, '신앙 여부와 직분, 기도 제목 속 건강 이야기는 민감정보라 따로 동의를 받아요.'], ['push', '기도 알림과 응답 소식 받기', 0], ['news', '앱 소식과 이벤트 받기', 0]];
   var SIDO = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종', '경기', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주', '해외'];
   var FAITH = [['성도', '교회에 다니고 있어요'], ['가나안 성도', '신앙은 있지만 지금은 교회에 나가지 않아요'], ['비신도', '신앙을 알아가는 중이에요']];
+  // 저장되는 값은 그대로 두고, 화면에 보이는 이름만 바꿔요
+  var FAITH_NAME = { '가나안 성도': '교회 쉬는 중', '비신도': '아직 믿지 않아요' };
+  function faithName(v) { return FAITH_NAME[v] || v; }
   var DUTIES = ['평신도', '집사', '권사', '장로', '전도사', '목사', '선교사', '기타'];
   var JOBS = ['학생', '직장인', '프리랜서', '사업자', '주부', '목회자', '심리상담사', '기타', '입력 안 함'];
-  var INTERESTS = ['가정', '건강 · 치유', '자녀 · 다음세대', '진로 · 취업', '물질', '관계', '교회', '선교 · 열방', '나라 · 사회'];
+  var INTERESTS = TAGS.concat(['열방 · 선교']);
   var REFERS = ['지인 추천', '교회', 'SNS', '검색', '기타'];
   var PLACES = { church: [['은혜와평강교회', '서울 마포구 망원로 12'], ['새소망교회', '경기 성남시 분당구 정자일로 45'], ['빛과소금교회', '부산 해운대구 센텀로 88'], ['사랑나눔교회', '대전 서구 둔산로 31'], ['한빛선교교회', '서울 강남구 테헤란로 210']],
     center: [['마음쉼 심리상담센터', '서울 송파구 올림픽로 300'], ['온누리 가족상담센터', '경기 고양시 일산동구 중앙로 1200'], ['함께걷는 상담연구소', '대구 수성구 달구벌대로 2450']] };
@@ -1748,7 +1758,7 @@ button.cal-row b { color: var(--gold); }
         '<div class="field"><span>사는 지역 <b class="opt">선택</b></span><div class="row" style="flex-wrap:nowrap"><select class="input" data-jf="sido" style="flex:0 0 110px"><option value="">시 · 도</option>' + SIDO.map(function (x) { return '<option' + (J.sido === x ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select><input class="input" style="flex:1;min-width:0" data-jf="sigungu" value="' + esc(J.sigungu || '') + '" placeholder="시 · 군 · 구 (예: 마포구)"></div><div class="small muted">자세한 주소는 받지 않아요. 가까운 모임방을 추천할 때만 써요.</div></div>' +
         '<label class="field"><span>이메일 <b class="opt">선택</b></span><input class="input" type="email" data-jf="email" value="' + esc(J.email || '') + '" placeholder="계정 찾기와 소식 안내에 써요"></label>';
     } else if (st === 3) {
-      h += '<div class="field"><span>신앙 <b class="req">필수</b></span><div class="faith-list">' + FAITH.map(function (f) { return '<button type="button" class="faith' + (J.faith === f[0] ? ' on' : '') + '" data-jpick="faith" data-jv="' + f[0] + '"><b>' + (f[0] === '비신도' ? '아직 믿지 않아요' : f[0]) + '</b><small>' + f[1] + '</small></button>'; }).join('') + '</div></div>';
+      h += '<div class="field"><span>신앙 <b class="req">필수</b></span><div class="faith-list">' + FAITH.map(function (f) { return '<button type="button" class="faith' + (J.faith === f[0] ? ' on' : '') + '" data-jpick="faith" data-jv="' + f[0] + '"><b>' + faithName(f[0]) + '</b><small>' + f[1] + '</small></button>'; }).join('') + '</div></div>';
       if (J.faith === '성도') h += '<div class="field"><span>직분 <b class="req">필수</b></span>' + jChips('duty', DUTIES) + (J.duty === '기타' ? '<input class="input" data-jf="dutyEtc" value="' + esc(J.dutyEtc || '') + '" placeholder="직분을 적어 주세요">' : '') + '</div>' +
         jPlace('church', 'church', '출석 교회 <b class="opt">선택</b>', '같은 교회 성도와 모임방을 만들 때 도움이 돼요.');
     } else if (st === 4) {
@@ -1780,7 +1790,7 @@ button.cal-row b { color: var(--gold); }
       '<label class="field"><span>실명 <b class="req">필수</b></span><input class="input" data-jf="real" maxlength="12" value="' + esc(J.real || '') + '" placeholder="예: 홍길동"></label>' +
       '<label class="field"><span>닉네임 <b class="req">필수</b></span><input class="input" data-jf="name" maxlength="12" value="' + esc(J.name || '') + '" placeholder="예: 은혜"><div class="small muted">기도 제목과 댓글에 이 이름이 보여요.</div></label>' +
       '<div class="field"><span>생년월일 <b class="req">필수</b></span>' + birthSelects() + '</div>' +
-      '<div class="field"><span>신앙 <b class="req">필수</b></span>' + jChips('faith', FAITH.map(function (f) { return f[0]; })).replace('>비신도<', '>알아가는 중<') + '</div></div>' +
+      '<div class="field"><span>신앙 <b class="req">필수</b></span>' + jChips('faith', FAITH.map(function (f) { return f[0]; })).replace('>비신도<', '>알아가는 중<').replace('>가나안 성도<', '>교회 쉬는 중<') + '</div></div>' +
       '<button class="linkbtn blue" type="button" data-act="j-more">' + (J.more ? '추가 정보 접기 ▴' : '더 알려 주기 (선택) ▾') + '</button>';
     if (J.more) {
       h += '<div class="card stack">' +
@@ -1827,8 +1837,8 @@ button.cal-row b { color: var(--gold); }
   }
   function profileRows(pf) {
     var rows = [['로그인', PROVIDERS[pf.provider] + ' 계정'], ['실명', pf.real], ['닉네임', S.me.name], ['글에 보일 이름', pf.show ? pf.show + '으로 보여요' : ''], ['구분', jRole(pf) + (verifyLabel(pf) ? ' · ' + verifyLabel(pf) : '')], ['생년월일', pf.birth.replace(/-/g, '. ')], ['성별', pf.gender],
-      ['지역', [pf.sido, pf.sigungu].filter(Boolean).join(' ')], ['이메일', pf.email], ['신앙', pf.faith === '비신도' ? '아직 믿지 않아요' : pf.faith], ['직분', pf.faith === '성도' ? (pf.duty === '기타' ? pf.dutyEtc : pf.duty) : ''],
-      ['출석 교회', pf.church ? pf.church[0] : ''], ['직업', pf.job === '기타' ? pf.jobEtc : pf.job], ['소속', pf.org ? pf.org[0] : ''], ['관심 기도', (pf.interests || []).join(', ')]];
+      ['지역', [pf.sido, pf.sigungu].filter(Boolean).join(' ')], ['이메일', pf.email], ['신앙', faithName(pf.faith)], ['직분', pf.faith === '성도' ? (pf.duty === '기타' ? pf.dutyEtc : pf.duty) : ''],
+      ['출석 교회', pf.church ? pf.church[0] : ''], ['직업', pf.job === '기타' ? pf.jobEtc : pf.job], ['소속', pf.org ? pf.org[0] : ''], ['관심 기도', normInterests(pf.interests).join(', ')]];
     return rows.filter(function (r) { return r[1]; }).map(function (r) { return '<div class="prow"><span>' + r[0] + '</span><b>' + esc(r[1]) + '</b></div>'; }).join('');
   }
   function jNext() {
@@ -1917,7 +1927,7 @@ button.cal-row b { color: var(--gold); }
     age: [['10대', 6], ['20대', 21], ['30대', 27], ['40대', 22], ['50대', 15], ['60대 이상', 9]],
     gender: [['여성', 62], ['남성', 38]],
     region: [['서울', 31], ['경기', 28], ['인천', 7], ['부산', 6], ['대구', 5], ['대전', 4], ['그 밖의 지역', 19]],
-    faith: [['성도', 71], ['가나안 성도', 18], ['아직 믿지 않아요', 11]],
+    faith: [['성도', 71], ['교회 쉬는 중', 18], ['아직 믿지 않아요', 11]],
     board: [['중보기도', 58], ['내 기도 노트', 24], ['사연&고민', 9], ['간증', 6], ['기도란', 3]]
   };
   function hbars(rows) {
@@ -1935,7 +1945,7 @@ button.cal-row b { color: var(--gold); }
     var g = pctRows(t.gender, ['여성', '남성']);
     return { total: [['전체 회원', n(t.members) + '명'], ['누적 기도', n(t.prayers) + '번'], ['누적 기도 시간', n(Math.round((t.minutes || 0) / 60)) + '시간'], ['누적 글', n(t.posts) + '개'], ['기도 모임방', n(t.rooms) + '개'], ['릴레이 참여', n(t.relay_slots) + '번']],
       weeks: t.weeks || [0, 0, 0, 0, 0, 0, 0, 0], gender: g.length === 2 ? g : g.length === 1 ? g.concat([[g[0][0] === '여성' ? '남성' : '여성', 0]]) : [['여성', 0], ['남성', 0]],
-      age: pctRows(t.age, ['1', '2', '3', '4', '5', '6'], function (k) { return k === '6' ? '60대 이상' : k + '0대'; }), region: pctRows(t.region), faith: pctRows(t.faith, null, function (k) { return k === '비신도' ? '아직 믿지 않아요' : k; }), board: [] };
+      age: pctRows(t.age, ['1', '2', '3', '4', '5', '6'], function (k) { return k === '6' ? '60대 이상' : k + '0대'; }), region: pctRows(t.region), faith: pctRows(t.faith, null, faithName), board: [] };
   }
   function admStats() {
     var A = SB ? cloudStats() : ADM_STATS, wk = A.weeks, mx = Math.max.apply(null, wk.concat([1]));
@@ -3030,6 +3040,7 @@ button.cal-row b { color: var(--gold); }
       case 'j-edit':
         var pf2 = S.me.profile; J = { step: 2, provider: pf2.provider, name: S.me.name };
         Object.keys(pf2).forEach(function (k) { if (k !== 'agree') J[k] = Array.isArray(pf2[k]) ? pf2[k].slice() : pf2[k]; });
+        J.interests = normInterests(J.interests);
         AGREES.forEach(function (a) { J['ag_' + a[0]] = pf2.agree[a[0]]; }); return go('join');
       case 'j-finish': J = null; return go('home');
       case 'rooms': ptab = 'rooms'; return go('pray');
