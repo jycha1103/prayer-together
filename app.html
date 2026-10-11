@@ -1631,10 +1631,11 @@ button.cal-row b { color: var(--gold); }
   var PROVIDERS = { email: '이메일', kakao: '카카오', google: '구글', naver: '네이버', apple: 'Apple', phone: '휴대폰 번호' };
   var AGREES = [['age14', '만 14세 이상이에요', 1], ['terms', '서비스 이용약관 동의', 1], ['privacy', '개인정보 수집·이용 동의', 1], ['faith', '민감정보 수집·이용 동의', 1, '신앙 여부와 직분, 기도 제목 속 건강 이야기는 민감정보라 따로 동의를 받아요.'], ['push', '기도 알림과 응답 소식 받기', 0], ['news', '앱 소식과 이벤트 받기', 0]];
   var SIDO = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종', '경기', '강원', '충북', '충남', '전북', '전남', '경북', '경남', '제주', '해외'];
-  var FAITH = [['성도', '교회에 다니고 있어요'], ['가나안 성도', '신앙은 있지만 지금은 교회에 나가지 않아요'], ['비신도', '신앙을 알아가는 중이에요']];
+  var FAITH = [['성도', '교회에 다니며 신앙생활을 하고 있어요'], ['가나안 성도', '하나님은 믿지만, 지금은 교회에 다니지 않아요'], ['비신도', '아직 믿지는 않지만, 신앙이 궁금해요']];
   // 저장되는 값은 그대로 두고, 화면에 보이는 이름만 바꿔요
-  var FAITH_NAME = { '가나안 성도': '혼자 신앙생활 중', '비신도': '아직 믿지 않아요' };
+  var FAITH_NAME = { '가나안 성도': '혼자 신앙생활 중', '비신도': '알아가는 중' };
   function faithName(v) { return FAITH_NAME[v] || v; }
+  function faithCards() { return '<div class="faith-list">' + FAITH.map(function (f) { return '<button type="button" class="faith' + (J.faith === f[0] ? ' on' : '') + '" data-jpick="faith" data-jv="' + f[0] + '" aria-pressed="' + (J.faith === f[0]) + '"><b>' + faithName(f[0]) + '</b><small>' + f[1] + '</small></button>'; }).join('') + '</div>'; }
   var DUTIES = ['평신도', '집사', '권사', '장로', '전도사', '목사', '선교사', '기타'];
   var JOBS = ['학생', '직장인', '프리랜서', '사업자', '주부', '목회자', '심리상담사', '기타', '입력 안 함'];
   var INTERESTS = TAGS.concat(['열방 · 선교']);
@@ -1758,7 +1759,7 @@ button.cal-row b { color: var(--gold); }
         '<div class="field"><span>사는 지역 <b class="opt">선택</b></span><div class="row" style="flex-wrap:nowrap"><select class="input" data-jf="sido" style="flex:0 0 110px"><option value="">시 · 도</option>' + SIDO.map(function (x) { return '<option' + (J.sido === x ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select><input class="input" style="flex:1;min-width:0" data-jf="sigungu" value="' + esc(J.sigungu || '') + '" placeholder="시 · 군 · 구 (예: 마포구)"></div><div class="small muted">자세한 주소는 받지 않아요. 가까운 모임방을 추천할 때만 써요.</div></div>' +
         '<label class="field"><span>이메일 <b class="opt">선택</b></span><input class="input" type="email" data-jf="email" value="' + esc(J.email || '') + '" placeholder="계정 찾기와 소식 안내에 써요"></label>';
     } else if (st === 3) {
-      h += '<div class="field"><span>신앙 <b class="req">필수</b></span><div class="faith-list">' + FAITH.map(function (f) { return '<button type="button" class="faith' + (J.faith === f[0] ? ' on' : '') + '" data-jpick="faith" data-jv="' + f[0] + '"><b>' + faithName(f[0]) + '</b><small>' + f[1] + '</small></button>'; }).join('') + '</div></div>';
+      h += '<div class="field"><span>신앙 <b class="req">필수</b></span>' + faithCards() + '</div>';
       if (J.faith === '성도') h += '<div class="field"><span>직분 <b class="req">필수</b></span>' + jChips('duty', DUTIES) + (J.duty === '기타' ? '<input class="input" data-jf="dutyEtc" value="' + esc(J.dutyEtc || '') + '" placeholder="직분을 적어 주세요">' : '') + '</div>' +
         jPlace('church', 'church', '출석 교회 <b class="opt">선택</b>', '같은 교회 성도와 모임방을 만들 때 도움이 돼요.');
     } else if (st === 4) {
@@ -1790,7 +1791,7 @@ button.cal-row b { color: var(--gold); }
       '<label class="field"><span>실명 <b class="req">필수</b></span><input class="input" data-jf="real" maxlength="12" value="' + esc(J.real || '') + '" placeholder="예: 홍길동"></label>' +
       '<label class="field"><span>닉네임 <b class="req">필수</b></span><input class="input" data-jf="name" maxlength="12" value="' + esc(J.name || '') + '" placeholder="예: 은혜"><div class="small muted">기도 제목과 댓글에 이 이름이 보여요.</div></label>' +
       '<div class="field"><span>생년월일 <b class="req">필수</b></span>' + birthSelects() + '</div>' +
-      '<div class="field"><span>신앙 <b class="req">필수</b></span>' + jChips('faith', FAITH.map(function (f) { return f[0]; })).replace('>비신도<', '>알아가는 중<').replace('>가나안 성도<', '>혼자 신앙생활 중<') + '</div></div>' +
+      '<div class="field"><span>신앙 <b class="req">필수</b></span>' + faithCards() + '</div></div>' +
       '<button class="linkbtn blue" type="button" data-act="j-more">' + (J.more ? '추가 정보 접기 ▴' : '더 알려 주기 (선택) ▾') + '</button>';
     if (J.more) {
       h += '<div class="card stack">' +
@@ -1927,7 +1928,7 @@ button.cal-row b { color: var(--gold); }
     age: [['10대', 6], ['20대', 21], ['30대', 27], ['40대', 22], ['50대', 15], ['60대 이상', 9]],
     gender: [['여성', 62], ['남성', 38]],
     region: [['서울', 31], ['경기', 28], ['인천', 7], ['부산', 6], ['대구', 5], ['대전', 4], ['그 밖의 지역', 19]],
-    faith: [['성도', 71], ['혼자 신앙생활 중', 18], ['아직 믿지 않아요', 11]],
+    faith: [['성도', 71], ['혼자 신앙생활 중', 18], ['알아가는 중', 11]],
     board: [['중보기도', 58], ['내 기도 노트', 24], ['사연&고민', 9], ['간증', 6], ['기도란', 3]]
   };
   function hbars(rows) {
