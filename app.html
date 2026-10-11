@@ -91,6 +91,73 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .qmenu i { display: grid; place-items: center; width: 54px; height: 54px; border-radius: 18px; background: var(--surface); box-shadow: var(--shadow); }
 .qmenu svg { width: 27px; height: 27px; }
 .qm-pray { color: #D0503C; } .qm-rooms { color: #2F6FD6; } .qm-letter { color: #C98A12; } .qm-relay { color: #2E9A6B; } .qm-tips { color: #7A55C7; }
+/* 새 홈: 큰 상자 두 개, 나의 기도 줄, 메뉴 목록 */
+.hboxes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 2px; }
+.hbx { position: relative; height: 164px; border: 0; border-radius: 20px; overflow: hidden; padding: 16px 14px; text-align: left; color: #F4F6FF; background: linear-gradient(160deg, #2B3C80, #17204A 75%); box-shadow: 0 6px 18px rgba(23, 32, 74, .22); display: flex; flex-direction: column; }
+.hbx.b2 { background: linear-gradient(160deg, #0B2A55, #061A3A 70%); }
+.hbx-t { position: relative; z-index: 1; font-family: var(--font-display); font-size: 22px; font-weight: 700; letter-spacing: -.03em; }
+.hbx-d { text-shadow: 0 1px 6px rgba(0, 0, 0, .55); position: relative; z-index: 1; margin-top: auto; font-size: 12px; line-height: 1.5; color: #D3DAF5; max-width: 66%; }
+.hbx .globe { position: absolute; right: -30px; bottom: -30px; width: 118px; height: 118px; }
+.hbx .hands { position: absolute; right: -8px; top: 0; height: 100%; width: auto; -webkit-mask-image: linear-gradient(to left, #000 55%, transparent); mask-image: linear-gradient(to left, #000 55%, transparent); }
+.hstrip { margin-top: 10px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 11px 14px 12px; }
+.hs-name { font-size: 14px; font-weight: 700; color: var(--navy); }
+.hs-row { display: flex; align-items: center; gap: 10px; margin-top: 4px; }
+.hs-item { display: inline-flex; align-items: center; gap: 5px; font-size: 13.5px; color: var(--ink-2); white-space: nowrap; }
+.hs-item b { font-size: 17px; color: var(--navy); font-variant-numeric: tabular-nums; }
+.hs-btn { border: 1px solid var(--line); border-radius: 999px; background: var(--accent-soft); color: var(--navy); font-size: 12.5px; font-weight: 700; padding: 4px 10px; margin-left: 2px; }
+.hs-btn.done { background: var(--navy-2); border-color: var(--navy-2); color: #FFFFFF; }
+.hs-btn.plus { width: 27px; height: 27px; padding: 0; font-size: 18px; line-height: 1; display: inline-grid; place-items: center; }
+.hs-go { margin-left: auto; flex: none; border: 0; background: none; color: var(--muted); padding: 4px 0 4px 4px; display: grid; place-items: center; }
+.hs-go svg { width: 22px; height: 22px; }
+.hmenu { margin-top: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 4px 12px; }
+.hmenu button { width: 100%; display: flex; align-items: center; gap: 13px; border: 0; background: none; padding: 8px 0; text-align: left; border-top: 1px solid var(--line-2); }
+.hmenu li:first-child button { border-top: 0; }
+.hmenu ul { list-style: none; margin: 0; padding: 0; }
+.msq { flex: none; width: 60px; height: 60px; border-radius: 15px; background: var(--accent-soft); color: var(--navy-2); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; }
+.msq svg { width: 21px; height: 21px; }
+.msq span { font-size: 10.5px; font-weight: 700; line-height: 1.15; text-align: center; letter-spacing: -.03em; padding: 0 2px; color: var(--navy); }
+.mdesc { font-size: 13.5px; color: var(--ink-2); line-height: 1.45; }
+.big .hbx { height: 190px; } .big .hbx-t { font-size: 27px; } .big .hbx-d { font-size: 15px; } .big .hs-name { font-size: 18px; } .big .hs-item { font-size: 17px; } .big .hs-item b { font-size: 22px; } .big .hs-btn { font-size: 15px; } .big .msq { width: 70px; height: 70px; } .big .msq span { font-size: 12.5px; } .big .mdesc { font-size: 17px; }
+/* 제목 옆 ? 사용법 */
+.help-q { flex: none; width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--line); background: var(--surface); color: var(--muted); font-family: var(--font-body); font-size: 13px; font-weight: 700; line-height: 1; display: inline-grid; place-items: center; padding: 0; margin-left: 2px; }
+.big .help-q { width: 28px; height: 28px; font-size: 16px; }
+.help-p { margin: 0; font-size: 15px; line-height: 1.7; color: var(--ink-2); }
+.help-ol { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; font-size: 14.5px; line-height: 1.6; }
+.howto-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
+.howto-card h3 { font-size: 16.5px; color: var(--navy); }
+.howto-pick { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.howto-pick button { border: 1px solid var(--line); background: var(--surface); border-radius: 16px; padding: 18px 10px 14px; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 14.5px; font-weight: 700; color: var(--navy); }
+.howto-pick i { width: 52px; height: 52px; border-radius: 15px; background: var(--accent-soft); color: var(--navy-2); display: grid; place-items: center; }
+.howto-pick svg { width: 26px; height: 26px; }
+.yt { position: relative; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; background: #000; }
+.yt iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.body-text a { color: var(--accent); text-decoration: underline; word-break: break-all; }
+.fab.closet { background: linear-gradient(135deg, #3A3F6E, var(--navy)); }
+/* 골방 기도 */
+.clw { border-radius: 22px; background: radial-gradient(circle at 50% 25%, #3A3F6E, #17204A 72%); color: #F4F6FF; text-align: center; padding: 20px 16px 18px; }
+.sw-l { font-size: 13px; color: #B7C3EC; }
+.sw-t { font-size: 50px; font-weight: 300; letter-spacing: 1px; font-variant-numeric: tabular-nums; line-height: 1.25; margin: 2px 0 4px; }
+.sw-bt { display: block; width: 100%; margin-top: 10px; border: 0; border-radius: 14px; padding: 13px; font-size: 16px; font-weight: 700; background: #F5C870; color: #17204A; }
+.sw-bt.stop { background: #F4F6FF; }
+.sw-res { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 10px; background: rgba(255, 255, 255, .1); border-radius: 14px; padding: 10px 12px; text-align: left; font-size: 13px; color: #D3DAF5; }
+.sw-res b { display: block; font-size: 18px; color: #FFFFFF; }
+.sw-res button { flex: none; border: 0; border-radius: 999px; background: #F5C870; color: #17204A; font-weight: 700; font-size: 13.5px; padding: 8px 12px; }
+.sw-skip { margin-top: 8px; border: 0; background: none; color: #B7C3EC; font-size: 12.5px; text-decoration: underline; }
+.sw-mus { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; border: 1px solid rgba(255, 255, 255, .28); background: none; border-radius: 999px; padding: 6px 14px; font-size: 13px; color: #F4D9A8; }
+.mnote { border-radius: 18px; border: 1px solid var(--paper-line); background-color: var(--paper); padding: 14px 16px 12px; }
+.mn-d { font-family: var(--font-display); font-size: 14px; color: var(--gold); margin-bottom: 4px; }
+.mn-t { display: block; width: 100%; min-height: 210px; border: 0; outline: 0; resize: vertical; padding: 0; font-family: var(--font-display); font-size: 15.5px; line-height: 32px; color: #3B3423; background: repeating-linear-gradient(transparent 0 31px, var(--paper-line) 31px 32px); background-attachment: local; }
+.mn-ft { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 10px; }
+.songs { display: flex; flex-direction: column; }
+.song { display: flex; align-items: center; gap: 12px; border: 0; border-top: 1px solid var(--line); background: none; padding: 12px 2px; text-align: left; }
+.song:first-child { border-top: 0; }
+.song i { flex: none; width: 34px; height: 34px; border-radius: 50%; background: var(--accent-soft); color: var(--navy-2); display: grid; place-items: center; font-style: normal; font-size: 12px; }
+.song.on i { background: var(--navy-2); color: #FFFFFF; }
+.song b { font-size: 15px; } .song small { display: block; font-size: 12.5px; color: var(--muted); }
+.note-day { border-radius: 14px; border: 1px solid var(--paper-line); background: var(--paper); padding: 12px 14px; }
+.note-day b { font-family: var(--font-display); color: var(--gold); font-size: 14px; }
+.note-day p { margin: 4px 0 0; white-space: pre-line; font-family: var(--font-display); font-size: 15px; line-height: 1.75; color: #3B3423; }
+.big .sw-t { font-size: 60px; } .big .sw-bt { font-size: 20px; } .big .mn-t { font-size: 19px; line-height: 38px; background: repeating-linear-gradient(transparent 0 37px, var(--paper-line) 37px 38px); }
 .sec-t { background: none; border: 0; padding: 0; font: inherit; color: inherit; text-align: left; }
 .tpick { display: flex; flex-direction: column; gap: 8px; max-height: 46vh; overflow-y: auto; }
 .tpick button { border: 1px solid var(--line); background: var(--surface); border-radius: 14px; padding: 13px 16px; font-size: 16px; font-weight: 600; color: var(--navy); text-align: left; }
@@ -422,7 +489,9 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 .guide-line { padding-inline: 2px; }
 .pol b { display: block; font-size: 14.5px; color: var(--ink); }
 .pol p { margin: 4px 0 0; font-size: 13.5px; color: var(--ink-2); line-height: 1.65; white-space: pre-line; }
-.hd-btns { gap: 6px; flex-wrap: nowrap; }
+.hd-btns { gap: 5px; flex-wrap: nowrap; flex: none; }
+.page-head .page-title { white-space: nowrap; min-width: 0; }
+.hd-btns .wbtn { white-space: nowrap; padding-inline: 9px; gap: 4px; }
 .cal-nav { display: flex; align-items: center; justify-content: space-between; }
 .cal-nav b { font-family: var(--font-display); font-size: 19px; color: var(--navy); }
 .cal-nav .x { font-size: 20px; }
@@ -817,6 +886,7 @@ button.cal-row b { color: var(--gold); }
     S.v = 7; save();
   }
   if (S.v < 8) { S.v = 8; save(); }
+  S.notes = S.notes || {};
 
   // ---------- ui state ----------
   var tab = 'home', ptab = 'all', roomId = '', cat = '전체', q = '', dtab = 'items', range = 7, gtab = 'guides', searchQ = '', cFrom = '', cTo = '', picking = false, tDay = '', bump = false, rDay = '';
@@ -1028,7 +1098,7 @@ button.cal-row b { color: var(--gold); }
     var tips = board('tips');
     var AG = prayGuides(), allThings = (AG[0] ? lineItem('data-guide="' + AG[0].id + '"', AG[0].kind, AG[0].title) : '') +
       (tips[0] ? lineItem('data-open="' + tips[0].id + '"', '노하우', tips[0].title) : AG[1] ? lineItem('data-guide="' + AG[1].id + '"', AG[1].kind, AG[1].title) : '');
-    return homeHero(allDone) + (BIG ? '' : quickMenu()) + installBanner() +
+    return homeHero(allDone) + quickMenu() + installBanner() +
       (SB ? '<button class="beta" data-act="feedback">시험 운영 중이에요. 불편한 점은 <u>운영자에게 한마디</u>로 알려 주세요.</button>' : '') +
       '<section class="sec">' + secHead('지금 중보가 필요해요', 'pray') + group(urgentFirst(board('pray')).slice(0, 3).map(function (p) { return item(p); }).join('')) + '</section>' +
       '<section class="sec">' + secHead('간증', 'story') + group(board('story').slice(0, 2).map(function (p) { return item(p); }).join('')) + '</section>' +
@@ -1036,28 +1106,46 @@ button.cal-row b { color: var(--gold); }
       openRoomsSec() +
       '<section class="sec">' + secHead('말못할 사연', 'concern') + group(board('concern').slice(0, 2).map(function (p) { return item(p, 'concern'); }).join('')) + '</section>';
   }
-  // 홈 맨 위 사진과 그 위에 얹은 나의 기도 기록 줄
+  // 홈 맨 위: 중보기도와 나의 기도 큰 상자, 그 아래 나의 기도 기록 줄
+  var HGLOBE = '<svg class="globe" viewBox="0 0 200 200" aria-hidden="true"><g fill="none" stroke="#B7C3EC" stroke-width="1.4" opacity=".55"><circle cx="100" cy="100" r="88"/><ellipse cx="100" cy="100" rx="20" ry="88"/><ellipse cx="100" cy="100" rx="42" ry="88"/><ellipse cx="100" cy="100" rx="62" ry="88"/><ellipse cx="100" cy="100" rx="78" ry="88"/><ellipse cx="100" cy="40" rx="64.4" ry="7.7"/><ellipse cx="100" cy="70" rx="82.7" ry="9.9"/><ellipse cx="100" cy="100" rx="88.0" ry="10.6"/><ellipse cx="100" cy="130" rx="82.7" ry="9.9"/><ellipse cx="100" cy="160" rx="64.4" ry="7.7"/></g><g stroke="#F4D9A8" stroke-width="1.3" opacity=".8"><line x1="58" y1="52" x2="96" y2="34"/><line x1="96" y1="34" x2="138" y2="48"/><line x1="138" y1="48" x2="150" y2="92"/><line x1="150" y1="92" x2="126" y2="126"/><line x1="126" y1="126" x2="84" y2="116"/><line x1="84" y1="116" x2="48" y2="98"/><line x1="48" y1="98" x2="58" y2="52"/><line x1="84" y1="116" x2="70" y2="150"/><line x1="70" y1="150" x2="118" y2="162"/><line x1="118" y1="162" x2="126" y2="126"/><line x1="126" y1="126" x2="160" y2="132"/><line x1="150" y1="92" x2="160" y2="132"/><line x1="96" y1="34" x2="84" y2="116"/><line x1="138" y1="48" x2="126" y2="126"/></g><g fill="#F5C870"><circle cx="58" cy="52" r="4"/><circle cx="96" cy="34" r="4"/><circle cx="138" cy="48" r="4"/><circle cx="150" cy="92" r="4"/><circle cx="126" cy="126" r="4"/><circle cx="84" cy="116" r="4"/><circle cx="48" cy="98" r="4"/><circle cx="70" cy="150" r="4"/><circle cx="118" cy="162" r="4"/><circle cx="160" cy="132" r="4"/></g></svg>';
   function homeHero(allDone) {
     var t = today();
-    return '<section class="hero"><img src="hero.jpg" alt="나의 기도를 세우는 곳, 남을 위해 중보하는 곳, 함께 기도의 동역자가 되는 곳, 합력하여 선을 이루는 기도 입니다.">' +
-      '<div class="hero-bar"><div class="hb-name">' + esc(myName()) + '님의 기도</div><div class="hb-row">' +
-        '<span class="hb-item">연속 <b>' + streak() + '</b>일째<button class="hb-btn' + (allDone ? ' done' : '') + '" data-act="hero-attend">' + (allDone ? '기도 완료' : '기도 전') + '</button></span>' +
-        '<span class="hb-item">기도 시간 <b>' + fmtMin(sumRange(addDays(t, -6), t)) + '</b><button class="hb-btn plus" data-act="hero-time" aria-label="기도 시간 더하기">+</button></span>' +
-        '<button class="hb-go" data-act="hero-go" aria-label="기도 시간 기록 보기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>' +
-      '</div></div></section>';
+    return '<div class="hboxes"><button class="hbx" data-go="pray"><span class="hbx-t">중보기도</span><span class="hbx-d">얼굴은 몰라도<br>서로의 짐을 지고<br>함께 기도해요</span>' + HGLOBE + '</button>' +
+      '<button class="hbx b2" data-tab="diary"><img class="hands" src="hands.jpg" alt=""><span class="hbx-t">나의 기도</span><span class="hbx-d">주님과 나만 아는<br>은밀한 기도의 자리</span></button></div>' +
+      '<div class="hstrip"><div class="hs-name">' + esc(myName()) + '님의 기도</div><div class="hs-row">' +
+        '<span class="hs-item">연속 <b>' + streak() + '</b>일째<button class="hs-btn' + (allDone ? ' done' : '') + '" data-act="hero-attend">' + (allDone ? '기도 완료' : '기도 전') + '</button></span>' +
+        '<span class="hs-item">7일 <b>' + fmtMin(sumRange(addDays(t, -6), t)) + '</b><button class="hs-btn plus" data-act="hero-time" aria-label="기도 시간 더하기">+</button></span>' +
+        '<button class="hs-go" data-act="hero-go" aria-label="기도 시간 기록 보기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>' +
+      '</div></div>';
   }
   var QM_ICONS = {
     pray: '<path d="M12 20s-7.5-4.6-7.5-10.2A4.1 4.1 0 0 1 12 7.4a4.1 4.1 0 0 1 7.5 2.4C19.5 15.4 12 20 12 20z"/>',
+    req: '<path d="M12 4v10M7.5 8.5 12 4l4.5 4.5"/><path d="M5 15v3.5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5V15"/>',
     rooms: '<circle cx="9" cy="9" r="3"/><circle cx="16.5" cy="10" r="2.4"/><path d="M3.8 19c.6-3 2.7-4.6 5.2-4.6s4.6 1.6 5.2 4.6"/><path d="M14.6 14.7c2.4-.4 4.8.8 5.6 3.8"/>',
+    closet: '<path d="M5 21V8l7-4.5L19 8v13"/><path d="M9.5 21v-6a2.5 2.5 0 0 1 5 0v6"/><path d="M12 8.5v2"/>',
+    time: '<circle cx="12" cy="13" r="7"/><path d="M12 9.5V13l2.4 1.6"/><path d="M9.5 3.5h5"/>',
     letter: '<rect x="3.5" y="6" width="17" height="12.5" rx="2.2"/><path d="M4 7l8 6 8-6"/>',
-    relay: '<circle cx="12" cy="13" r="7"/><path d="M12 9.5V13l2.4 1.6"/><path d="M9.5 3.5h5"/>',
+    story: '<path d="M12 20.5s-8-4.6-8-10.4A4.4 4.4 0 0 1 12 7.4a4.4 4.4 0 0 1 8 2.7c0 5.8-8 10.4-8 10.4z"/><path d="M12 10.5v5M9.5 12.5h5"/>',
+    relay: '<path d="M4 12a8 8 0 0 1 13.7-5.6M20 12a8 8 0 0 1-13.7 5.6"/><path d="M18 3v4h-4M6 21v-4h4"/>',
+    guide: '<path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v16H5.5A1.5 1.5 0 0 1 4 18.5z"/><path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13v16h5.5a1.5 1.5 0 0 0 1.5-1.5z"/>',
     tips: '<path d="M9 17.5h6M10 20.5h4"/><path d="M12 3.5a6 6 0 0 0-3.6 10.8c.6.5.9 1.1.9 1.8v.4h5.4v-.4c0-.7.3-1.3.9-1.8A6 6 0 0 0 12 3.5z"/>'
   };
+  var HOME_MENU = [
+    ['pray', '중보하기', '이름 모를 누군가를 위해 마음 모아 기도해요'],
+    ['req', '기도 요청', '내 기도 제목을 나누고 함께 기도를 받아요'],
+    ['rooms', '기도 모임방', '가족, 셀, 친구끼리 모여 기도하는 방'],
+    ['closet', '골방 기도', '문을 닫고 주님과 단둘이 머무는 시간'],
+    ['time', '기도 시간', '오늘 얼마나 주님과 머물렀는지 돌아봐요'],
+    ['letter', '기도 편지', '하나님께 마음을 담아 편지를 써요'],
+    ['story', '간증', '응답받은 은혜를 함께 나눠요'],
+    ['relay', '릴레이 기도', '시간을 나눠 맡아 끊이지 않게 기도해요'],
+    ['guide', '기도의 모든 것', '기도 영상, 책, 묵상 자료를 모았어요'],
+    ['tips', '기도 노하우', '나만의 기도 방법을 서로 나눠요']
+  ];
   function quickMenu() {
-    var M = [['pray', '중보하기'], ['rooms', '기도 모임'], ['letter', '기도 편지'], ['relay', '릴레이기도'], ['tips', '기도노하우']];
-    return '<nav class="qmenu" aria-label="바로가기">' + M.map(function (m) {
-      return '<button data-qm="' + m[0] + '"><i class="qm-' + m[0] + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' + QM_ICONS[m[0]] + '</svg></i><span>' + m[1] + '</span></button>';
-    }).join('') + '</nav>';
+    return '<nav class="hmenu" aria-label="메뉴"><ul>' + HOME_MENU.map(function (m) {
+      return '<li><button data-qm="' + m[0] + '"><span class="msq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + QM_ICONS[m[0]] + '</svg><span>' + m[1] + '</span></span><span class="mdesc">' + m[2] + '</span></button></li>';
+    }).join('') + '</ul></nav>';
   }
   function heroAttend() {
     var t = today(), act = attendItems().filter(function (i) { var d = diffDays(i.start, t); return d >= 0 && d < i.days; });
@@ -1306,7 +1394,7 @@ button.cal-row b { color: var(--gold); }
 
   // ---------- diary ----------
   function vDiary() {
-    var h = '<div class="page-head"><h1 class="page-title">🔒 내 기도 노트</h1><div class="row hd-btns"><button class="btn sm ghost wbtn" data-act="calendar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>캘린더</button><button class="btn sm ghost wbtn" data-act="widget"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="17" height="7" rx="2"/></svg>위젯</button></div></div><div class="private-note">나만의 공간이에요. 여기 적는 글은 나만 볼 수 있어요.</div><div class="seg" role="group">' + [['items', '기도 제목'], ['time', '기도 시간'], ['letter', '기도 편지'], ['scrap', '스크랩']].map(function (s) {
+    var h = '<div class="page-head"><h1 class="page-title">🔒 내 기도 노트</h1><div class="row hd-btns"><button class="btn sm ghost wbtn" data-act="calendar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>캘린더</button><button class="btn sm ghost wbtn" data-act="widget"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="17" height="7" rx="2"/></svg>위젯</button></div></div><div class="private-note">나만의 공간이에요. 여기 적는 글은 나만 볼 수 있어요.</div><div class="seg" role="group">' + [['items', '내 기도 제목'], ['time', '기도 시간'], ['letter', '기도 편지'], ['scrap', '스크랩']].map(function (s) {
       return '<button data-dtab="' + s[0] + '" aria-pressed="' + (dtab === s[0]) + '">' + s[1] + '</button>'; }).join('') + '</div>';
     if (S.example && dtab !== 'scrap') h += '<div class="note row between"><span>예시 기록이 채워져 있어요. 내 기록으로 시작하려면 지워 주세요.</span><button class="linkbtn blue" data-act="clear-example">예시 지우기</button></div>';
     if (dtab === 'items') h += vItems(); else if (dtab === 'time') h += vTime(); else if (dtab === 'scrap') h += vScraps(); else h += vLetters();
@@ -1989,7 +2077,7 @@ button.cal-row b { color: var(--gold); }
     sheet(isN ? (g.id ? '공지 고치기' : '공지 쓰기') : g.id ? '기도의 모든 것 고치기' : '기도의 모든 것 올리기',
       '<div class="field"><span>종류</span><div class="chips wrap" id="agKind">' + GUIDE_KINDS.map(function (k) { return '<button class="chip" type="button" data-agk="' + k + '" aria-pressed="' + (g.kind === k) + '">' + k + '</button>'; }).join('') + '</div></div>' +
       '<label class="field"><span>제목</span><input class="input" id="agT" maxlength="60" value="' + esc(g.title) + '" placeholder="예: 시편 23편으로 기도하기"></label>' +
-      '<label class="field"><span>내용</span><textarea class="input" id="agB" style="min-height:180px" placeholder="기도문, 기도 방법, 책 소개, 영상 링크와 설명 등을 적어 주세요">' + esc(g.body) + '</textarea></label>' +
+      '<label class="field"><span>내용</span><textarea class="input" id="agB" style="min-height:180px" placeholder="기도문, 기도 방법, 책 소개 등을 적어 주세요. 유튜브 주소를 붙여 넣으면 영상이 글 안에 바로 보여요.">' + esc(g.body) + '</textarea></label>' +
       picPicker('책 표지, 기도문 카드, 현장 사진 등을 붙일 수 있어요. 저작권이 있는 그림은 출처를 밝혀 주세요.', true) +
       '<div class="small muted">' + (isN ? '올리면 바로 공지사항에 보이고, 회원들 화면의 종 모양에 새 공지 표시가 떠요.' : '올리면 바로 기도란 &gt; 기도의 모든 것과 홈에 보여요.') + '</div>' +
       '<button class="btn block" data-adm="g-save"' + (g.id ? ' data-id="' + g.id + '"' : '') + '>' + (g.id ? '저장' : '올리기') + '</button>' + (g.id ? '<button class="btn block line danger" data-adm="g-del" data-id="' + g.id + '">삭제</button>' : ''));
@@ -2109,20 +2197,147 @@ button.cal-row b { color: var(--gold); }
         return '<div class="bitem"><button class="bitem-main" data-item-open="' + i.id + '"><b>' + esc(i.title) + '</b><span class="b-meta">' + st.label + ' · 기도한 날 ' + st.cnt + '일</span></button>' +
           '<button class="bcheck' + (st.checked ? ' on' : '') + '" data-check="' + i.id + '" aria-pressed="' + st.checked + '">' + (st.checked ? CHECK + ' 오늘 기도했어요' : '오늘 기도했어요 누르기') + '</button></div>';
       }).join('') + '</div>' : '<div class="b-sub">아직 기도 제목이 없어요. 위 버튼을 눌러 적어 보세요.</div>') + '</section>';
+    h += '<button class="btn block big-cta" data-tab="closet">골방 기도 시작하기</button>';
     h += '<section class="bsec"><h2>기도 시간 쌓기</h2><div class="btime"><span>오늘 기도한 시간</span><b>' + fmtMin(+S.times[t] || 0) + '</b><small>최근 7일 ' + fmtMin(sumRange(addDays(t, -6), t)) + '</small></div>' +
       '<div class="bgrid">' + [5, 10, 20, 30].map(function (n) { return '<button data-add="' + n + '">＋' + n + '분</button>'; }).join('') + '</div>' +
       '<div class="b-sub">기도를 마치면 한 시간만큼 눌러 주세요. 눌러서 더해져요.</div></section>';
     h += '<section class="bsec"><h2>스크랩한 기도</h2>' + (scr.length ? '<div class="bstack">' + scr.map(bigPost).join('') + '</div>' : '<div class="b-sub">중보기도 글에서 "스크랩"을 누르면 여기에 모여요.</div>') + '</section>';
     return h;
   }
+  // ---------- 골방 기도 ----------
+  // 스톱워치는 시작 시각만 적어 두어서, 다른 화면에 다녀오거나 앱을 닫았다 열어도 계속 흘러요.
+  function clMs() { var c = S.closet; return c && c.start ? Math.max(0, (c.end || Date.now()) - c.start) : 0; }
+  function clMin() { return Math.max(1, Math.round(clMs() / 60000)); }
+  function fmtClock(ms) { var x = Math.floor(ms / 1000), h = Math.floor(x / 3600), m = Math.floor(x % 3600 / 60); return (h ? h + ':' + pad(m) : pad(m)) + ':' + pad(x % 60); }
+  function notesObj() { return S.notes = S.notes || {}; }
+  var MUSIC = [['still-waters', '고요한 물가', '맑은 피아노가 물결처럼 흘러요'], ['amazing-grace', '나 같은 죄인 살리신', '옛 찬송가 가락을 느린 피아노로'], ['dawn', '새벽 기도', '드문드문 울리는 조용한 건반'], ['river-of-grace', '은혜의 강', '조금 더 흐름이 있는 따뜻한 연주'], ['holy-rest', '거룩한 쉼', '길게 깔리는 소리 위에 천천히']];
+  var bgm = null, bgmId = '';
+  function swInner() {
+    var c = S.closet, run = c && c.start && !c.end, done = c && c.end, song = MUSIC.find(function (m) { return m[0] === bgmId; });
+    var h = '<div class="sw-l">' + (run ? '기도하는 중이에요' : done ? '오늘 드린 기도' : '문을 닫고 주님과 마주하는 시간') + '</div><div class="sw-t" id="swT">' + fmtClock(clMs()) + '</div>';
+    if (done) h += '<div class="sw-res"><span>기도한 시간<b>' + fmtMin(clMin()) + '</b></span><button data-act="cl-add">+ 오늘 기도 시간에 더하기</button></div><button class="sw-skip" data-act="cl-skip">더하지 않고 지우기</button>';
+    else h += '<button class="sw-bt' + (run ? ' stop' : '') + '" data-act="' + (run ? 'cl-stop' : 'cl-start') + '">' + (run ? '기도 끝내기' : '기도 시작하기') + '</button>';
+    return h + '<div><button class="sw-mus" data-act="cl-music">🎵 ' + (song ? esc(song[1]) + ' 듣는 중' : '음악 On') + '</button></div>';
+  }
+  function vCloset() {
+    var t = today();
+    return '<div class="page-head"><h1 class="page-title">골방 기도</h1><button class="btn sm ghost" data-act="notes">묵상 노트 보기</button></div>' +
+      '<div class="private-note">기도 시작하기를 누르고 기도한 뒤, 끝내면 오늘 기도 시간에 더할 수 있어요.</div>' +
+      '<div class="clw" id="sw">' + swInner() + '</div>' +
+      '<div class="mnote"><div class="mn-d">' + md(t) + ' 묵상 노트</div><textarea class="mn-t" id="mNote" aria-label="묵상 노트" placeholder="오늘 주신 말씀과 마음, 드린 기도를 적어 보세요.">' + esc(notesObj()[t] || '') + '</textarea>' +
+      '<div class="mn-ft"><button class="linkbtn blue" data-act="add-item">+ 내 기도 제목 추가</button><button class="btn sm" data-act="note-save">저장</button></div></div>';
+  }
+  var FAB_REQ = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>기도 요청';
+  var FAB_CLOSET = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V8l7-4.5L19 8v13"/><path d="M9.5 21v-6a2.5 2.5 0 0 1 5 0v6"/></svg>골방 기도';
+  function swRefresh() { if (el('sw')) el('sw').innerHTML = swInner(); }
+  setInterval(function () { var c = S.closet; if (tab === 'closet' && el('swT') && c && c.start && !c.end) el('swT').textContent = fmtClock(clMs()); }, 1000);
+  var noteTimer = null;
+  function noteKeep(v) {
+    var n = notesObj(), t = today();
+    if (v.trim()) n[t] = v; else delete n[t];
+    clearTimeout(noteTimer); noteTimer = setTimeout(save, 900);
+  }
+  function notesSheet() {
+    var n = notesObj(), days = Object.keys(n).sort().reverse();
+    sheet('묵상 노트', days.length ? days.map(function (d) { return '<div class="note-day"><b>' + esc(d.replace(/-/g, '. ')) + '</b><p>' + esc(n[d]) + '</p></div>'; }).join('') : '<div class="empty">아직 적은 묵상 노트가 없어요. 골방 기도 화면 아래 노트에 적고 저장해 보세요.</div>');
+  }
+  function musicSheet() {
+    sheet('골방 기도 음악', '<div class="small muted">한 곡을 고르면 끝나도 처음부터 다시 흘러요. 다른 화면에 가도 계속 들려요.</div><div class="songs">' + MUSIC.map(function (m) {
+      var on = bgmId === m[0];
+      return '<button class="song' + (on ? ' on' : '') + '" data-song="' + m[0] + '" aria-pressed="' + on + '"><i>' + (on ? '❚❚' : '▶') + '</i><span><b>' + esc(m[1]) + '</b><small>' + esc(m[2]) + '</small></span></button>';
+    }).join('') + '</div>' + (bgmId ? '<button class="btn block line" data-act="music-off">음악 끄기</button>' : ''));
+  }
+  function playSong(id) {
+    if (!id || id === bgmId) { if (bgm) bgm.pause(); bgmId = ''; }
+    else {
+      if (!bgm) { bgm = new Audio(); bgm.loop = true; }
+      bgm.src = 'music/' + id + '.mp3'; bgmId = id;
+      var pr = bgm.play(); if (pr && pr.catch) pr.catch(function () { bgmId = ''; swRefresh(); if (el('sheet') && el('sheet').querySelector('.songs')) musicSheet(); toast('음악을 틀지 못했어요. 인터넷 연결을 확인해 주세요'); });
+    }
+    swRefresh(); musicSheet();
+  }
+
+  // ---------- 사용법 (제목 옆 ?) ----------
+  var HELP = {
+    home: ['홈', '앱의 첫 화면이에요. 중보기도와 나의 기도로 바로 가고, 오늘 나의 기도 기록을 한눈에 봐요.', [
+      '위쪽 큰 상자 "중보기도"를 누르면 서로를 위해 기도하는 곳으로 가요.',
+      '"나의 기도"를 누르면 나만 보는 내 기도 노트로 가요.',
+      '"OO님의 기도" 줄에서 연속으로 기도한 날과 최근 7일 기도 시간을 봐요. "기도 전"을 누르면 오늘 기도 완료로 바뀌고, +를 눌러 기도 시간을 더해요.',
+      '아래 메뉴 목록에서 원하는 기능을 골라 바로 들어가요.']],
+    pray: ['중보기도', '서로의 기도 제목을 보고 함께 기도하는 곳이에요. 얼굴은 몰라도 서로의 짐을 함께 져요.', [
+      '"오늘의 중보"에 매일 기도할 제목이 몇 개 골라져 있어요. 기도한 뒤 오른쪽 체크를 눌러 주세요.',
+      '개인 중보, 선교지 편지, 열방, 릴레이 기도 단추로 원하는 글만 골라 봐요.',
+      '글을 눌러 읽고 "함께 기도할게요"를 누르면 글쓴이에게 큰 힘이 돼요. 댓글과 응원 표시도 남길 수 있어요.',
+      '오른쪽 아래 "기도 요청" 단추로 내 기도 제목을 올려요. 내가 쓴 글은 언제든 고치거나 지울 수 있어요.',
+      '"기도 모임방"으로 바꾸면 아는 사람끼리 모이는 기도방에 들어가요.']],
+    rooms: ['기도 모임방', '가족, 셀, 친구처럼 아는 사람끼리 모여 기도하는 방이에요. 방 안의 글은 방 사람만 봐요.', [
+      '"방 만들기"로 방을 열고, 초대 문구를 보내 사람을 불러요.',
+      '방 안에서 기도 제목을 나누고, 오늘 누가 기도했는지 함께 봐요.',
+      '공개된 방은 가입 신청을 하면 방장이 수락한 뒤 들어가져요.']],
+    diary: ['내 기도 노트', '나만 보는 개인 기도 공간이에요. 여기 적은 글은 다른 사람이 볼 수 없어요.', [
+      '내 기도 제목: 기도 제목과 작정 기간을 정하고, 매일 기도한 뒤 "오늘 기도 완료"를 눌러요. 응답받으면 응답 표시를 해요.',
+      '기도 시간: 날마다 기도한 시간을 쌓고 그래프로 돌아봐요.',
+      '기도 편지: 하나님께 마음을 담아 편지를 써요.',
+      '스크랩: 중보기도 글 가운데 담아 둔 글이 모여요.',
+      '위쪽 캘린더로 기도한 날을 보고, 위젯으로 휴대폰 홈 화면에 둘 요약을 봐요.',
+      '오른쪽 아래 "골방 기도" 단추로 시간을 재며 조용히 기도해요.']],
+    closet: ['골방 기도', '"너는 기도할 때에 네 골방에 들어가 문을 닫고 은밀한 중에 계신 네 아버지께 기도하라" (마 6:6). 주님과 단둘이 머무는 시간을 위한 곳이에요.', [
+      '"기도 시작하기"를 누르면 시간이 흐르기 시작해요. 다른 화면에 다녀와도 시간은 계속 재고 있어요.',
+      '기도를 마치면 "기도 끝내기"를 눌러요.',
+      '기도한 시간이 나오면 "+ 오늘 기도 시간에 더하기"를 눌러요. 내 기도 노트의 기도 시간에 쌓이고, 처음 화면으로 돌아가요.',
+      '"음악 On"을 누르면 잔잔한 피아노 음악 다섯 곡 가운데 하나를 골라 들으며 기도할 수 있어요.',
+      '아래 묵상 노트에 오늘 받은 말씀과 마음을 적어요. 적는 대로 저장되고, 하루에 한 장씩 쌓여요. 나만 볼 수 있어요.',
+      '기도하다 떠오른 제목은 "+ 내 기도 제목 추가"로 바로 내 기도 노트에 넣어요.',
+      '위쪽 "묵상 노트 보기"로 지난날의 노트를 모아 봐요.']],
+    concern: ['사연 · 고민 상담', '가까운 사람에게 말하기 어려운 이야기를 털어놓고 위로와 상담을 받는 곳이에요.', [
+      '"사연 쓰기"로 글을 올려요. 사연마다 정한 별명으로만 보여요.',
+      '누가 답할 수 있는지(목회자, 상담사 등) 공개 범위를 골라요. 고른 분들만 답글을 달 수 있어요.',
+      '마음이 많이 힘들 땐 화면 위의 109(자살예방 상담전화)로 바로 전화할 수 있어요.']],
+    story: ['간증', '기도 응답과 삶 속에서 받은 은혜를 함께 나누는 곳이에요.', [
+      '"간증 쓰기"로 은혜를 나눠요.',
+      '다른 분의 간증을 읽고 응원 표시와 댓글로 함께 기뻐해요.']],
+    guide: ['기도란', '기도를 더 깊이 배우고 나누는 곳이에요.', [
+      '기도의 모든 것: 따라하는 기도, 기도 방법, 책과 영상 등 운영자가 모아 둔 자료를 봐요.',
+      '나만의 기도 노하우: 나에게 도움이 된 기도 방법을 쓰고, 다른 분의 노하우도 읽어요.']],
+    notice: ['공지사항', '운영자가 알려 드리는 앱 소식을 모아 둔 곳이에요.', [
+      '새 공지가 올라오면 위쪽 종 모양에 점이 생겨요.',
+      '글을 눌러 자세한 내용을 읽어요.']],
+    me: ['내 정보', '내 프로필과 앱 설정을 보는 곳이에요.', [
+      '"정보 고치기"로 이름, 교회, 직분 같은 정보를 고쳐요.',
+      '"큰 글씨로 보기"를 켜면 글씨와 단추가 크게 보여요.']]
+  };
+  var HELP_ORDER = ['home', 'pray', 'rooms', 'diary', 'closet', 'concern', 'story', 'guide', 'notice', 'me'];
+  function helpKey() {
+    if (tab === 'pray') return ptab === 'rooms' ? 'rooms' : 'pray';
+    if (tab === 'room') return 'rooms';
+    return HELP[tab] ? tab : '';
+  }
+  function helpBody(k) { var x = HELP[k]; return '<p class="help-p">' + esc(x[1]) + '</p><ol class="help-ol">' + x[2].map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ol>'; }
+  function helpSheet(k) { sheet(HELP[k][0] + ' 이용법', helpBody(k) + '<button class="linkbtn blue" data-tab="howto" style="align-self:flex-start">앱 전체 이용법 보기</button>'); }
+  function addHelpBtn() {
+    var k = helpKey(), h = k && el('view').querySelector('.page-title');
+    if (h) h.insertAdjacentHTML('beforeend', '<button class="help-q" data-help="' + k + '" aria-label="' + esc(HELP[k][0]) + ' 이용법">?</button>');
+  }
+  function vHowto() {
+    return '<h1 class="page-title">앱 이용법</h1><div class="private-note">각 화면이 어떤 곳인지, 어떻게 쓰는지 모았어요. 화면 제목 옆 ?를 눌러도 볼 수 있어요.</div>' +
+      HELP_ORDER.map(function (k) { return '<section class="howto-card"><h3>' + esc(HELP[k][0]) + '</h3>' + helpBody(k) + '</section>'; }).join('') +
+      '<section class="howto-card"><h3>앱 설치</h3><p class="help-p">휴대폰 홈 화면에 앱처럼 두고 바로 열 수 있어요.</p><button class="btn line" data-act="install">앱 설치 방법 보기</button></section>';
+  }
+  function installHelpSheet() {
+    sheet('앱 설치 및 이용법', '<div class="howto-pick"><button data-act="install"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M12 7v7M9 11.5l3 3 3-3"/><path d="M10.5 18.5h3"/></svg></i>앱 설치 방법</button>' +
+      '<button data-tab="howto"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.7"/><path d="M12 17.2v.1"/></svg></i>앱 이용법 알아보기</button></div>');
+  }
   var BIG_VIEWS = { pray: bigPray, diary: bigDiary };
-  var VIEWS = { notice: vNotice, admin: vAdmin, join: vJoin, room: vRoom, home: vHome, pray: vPray, diary: vDiary, concern: vConcern, story: vStory, me: vMe, guide: vGuide, search: vSearch };
+  var VIEWS = { notice: vNotice, admin: vAdmin, join: vJoin, room: vRoom, home: vHome, pray: vPray, diary: vDiary, concern: vConcern, story: vStory, me: vMe, guide: vGuide, search: vSearch, closet: vCloset, howto: vHowto };
   function render() {
     if (SB && (!C.user || !C.joined) && tab !== 'join') tab = 'join';
     document.body.classList.toggle('big', BIG);
     renderTabs();
     el('view').innerHTML = (BIG && BIG_VIEWS[tab] ? BIG_VIEWS[tab] : VIEWS[tab])();
-    el('topWrite').hidden = tab === 'join' || tab === 'admin' || (BIG && tab !== 'home');
+    el('topWrite').hidden = tab === 'join' || tab === 'admin' || tab === 'closet' || tab === 'howto' || (BIG && tab !== 'home' && tab !== 'diary');
+    el('topWrite').innerHTML = tab === 'diary' ? FAB_CLOSET : FAB_REQ;
+    el('topWrite').classList.toggle('closet', tab === 'diary');
+    addHelpBtn();
     navTrack();
     if (el('bellDot')) el('bellDot').hidden = !noticeNew() || tab === 'notice';
     visitLog();
@@ -2133,6 +2348,7 @@ button.cal-row b { color: var(--gold); }
     if (tab === 'pray') return ptab === 'rooms' ? 'rooms' : cat === '릴레이 기도' ? 'relay' : 'pray';
     if (tab === 'room') return 'rooms';
     if (tab === 'diary') return 'diary-' + dtab;
+    if (tab === 'closet') return 'diary-time';
     if (tab === 'guide') return gtab === 'tips' ? 'tips' : 'guide';
     return '';
   }
@@ -2172,13 +2388,13 @@ button.cal-row b { color: var(--gold); }
   // ---------- drawer ----------
   function openDrawer() {
     var SUB = { pray: [['pray-all', '전체'], ['pray-rooms', '기도 모임방']],
-      diary: [['diary-add', '기도 제목'], ['diary-time', '기도 시간'], ['diary-letter', '기도 편지'], ['diary-scrap', '스크랩'], ['calendar', '캘린더'], ['widget', '위젯']] };
-    var M = [['pray', '중보기도'], ['diary', '🔒 내 기도 노트'], ['concern', '말못할 사연 · 고민 상담'], ['story', '간증']];
+      diary: [['diary-add', '내 기도 제목'], ['diary-time', '기도 시간'], ['diary-letter', '기도 편지'], ['diary-scrap', '스크랩'], ['calendar', '캘린더'], ['widget', '위젯']] };
+    var M = [['pray', '중보기도'], ['diary', '🔒 내 기도 노트'], ['closet', '골방 기도'], ['concern', '말못할 사연 · 고민 상담'], ['story', '간증']];
     el('drawerRoot').innerHTML = '<div class="drawer-back" data-dclose="1"><nav class="drawer" aria-label="전체 메뉴">' +
       '<div class="drawer-brand">합력하여 선을 이루는 기도</div><div class="srow"><input class="search" id="dq" type="search" placeholder="Search..." aria-label="전체 글 검색"><button class="icon-btn" data-tab="me" aria-label="설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div>' +
       '<ul class="menu">' + M.map(function (m) { return '<li><button data-tab="' + m[0] + '">' + m[1] + '</button>' + (SUB[m[0]] ? '<ul class="menu sub">' + SUB[m[0]].map(function (x) { return '<li><button data-dm="' + x[0] + '">' + x[1] + '</button></li>'; }).join('') + '</ul>' : '') + '</li>'; }).join('') +
       '<li><button data-guide-tab="guides">기도란</button><ul class="menu sub"><li><button data-guide-tab="guides">기도의 모든 것</button></li><li><button data-guide-tab="tips">나만의 기도 노하우</button></li></ul></li>' +
-      '<li><button data-act="notices">공지사항' + (noticeNew() ? ' <i class="ndot"></i>' : '') + '</button></li><li><button data-act="invite">초대</button></li><li><button data-act="install">앱 설치 방법</button></li><li><button data-act="feedback">운영자에게 한마디</button></li><li><button data-act="policy">개인정보 처리방침</button></li>' + (!SB || C.staff ? '<li><button data-tab="admin">운영자 관리 <span class="tag">운영진</span></button></li>' : '') + (S.me.profile ? '' : '<li><button data-act="join">회원 가입</button></li>') + '</ul></nav></div>';
+      '<li><button data-act="notices">공지사항' + (noticeNew() ? ' <i class="ndot"></i>' : '') + '</button></li><li><button data-act="invite">초대</button></li><li><button data-act="install-help">앱 설치 및 이용법</button></li><li><button data-act="feedback">운영자에게 한마디</button></li><li><button data-act="policy">개인정보 처리방침</button></li>' + (!SB || C.staff ? '<li><button data-tab="admin">운영자 관리 <span class="tag">운영진</span></button></li>' : '') + (S.me.profile ? '' : '<li><button data-act="join">회원 가입</button></li>') + '</ul></nav></div>';
   }
   function closeDrawer() { el('drawerRoot').innerHTML = ''; }
 
@@ -2242,9 +2458,17 @@ button.cal-row b { color: var(--gold); }
       '<div class="row between"><span class="small muted" id="repMsg">' + (p.reported ? '신고한 글이에요.' : '') + '</span>' + (p.mine ? '<span class="row" style="gap:14px"><button class="linkbtn" data-act="edit-post" data-id="' + p.id + '">내 글 수정</button><button class="linkbtn" data-del-post="' + p.id + '">내 글 삭제</button></span>' : p.reported ? '' : '<button class="linkbtn" data-report="' + p.id + '">신고하기</button>') + '</div>');
   }
 
+  // 글 속 인터넷 주소는 눌러서 열리고, 유튜브 주소는 영상 화면으로 보여 줘요.
+  function linkText(t) { return esc(t).replace(/https?:\/\/[^\s<]+/g, function (u) { return '<a href="' + u + '" target="_blank" rel="noopener">' + u + '</a>'; }); }
+  function ytIds(t) {
+    var re = /(?:youtube\.com\/(?:watch\?[^\s]*?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/g, m, out = [];
+    while ((m = re.exec(t || ''))) if (out.indexOf(m[1]) < 0) out.push(m[1]);
+    return out;
+  }
+  function ytHtml(t) { return ytIds(t).map(function (id) { return '<div class="yt"><iframe src="https://www.youtube-nocookie.com/embed/' + id + '" title="유튜브 영상" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>'; }).join(''); }
   function openGuide(id) {
     var g = allGuides().find(function (x) { return x.id === id; });
-    sheet(g.kind, '<div class="row" style="gap:6px"><span class="tag">' + esc(g.kind) + '</span>' + (g.mine ? '' : '<span class="tag example">예시</span>') + '</div><h2 style="font-size:20px">' + esc(g.title) + '</h2><p class="body-text">' + esc(g.body) + '</p>' + picsHtml(g.images));
+    sheet(g.kind, '<div class="row" style="gap:6px"><span class="tag">' + esc(g.kind) + '</span>' + (g.mine ? '' : '<span class="tag example">예시</span>') + '</div><h2 style="font-size:20px">' + esc(g.title) + '</h2>' + ytHtml(g.body) + '<p class="body-text">' + linkText(g.body) + '</p>' + picsHtml(g.images));
   }
 
   // ---------- 안전 장치 ----------
@@ -2573,10 +2797,13 @@ button.cal-row b { color: var(--gold); }
     }
     if (d.qm) {
       if (d.qm === 'pray') { ptab = 'all'; cat = '전체'; return go('pray'); }
+      if (d.qm === 'req') return writePost('pray', {});
       if (d.qm === 'rooms') { ptab = 'rooms'; return go('pray'); }
-      if (d.qm === 'letter') { tab = 'diary'; dtab = 'letter'; closeSheet(); closeDrawer(); render(); window.scrollTo(0, 0); return; }
+      if (d.qm === 'closet') return go('closet');
+      if (d.qm === 'time' || d.qm === 'letter') { dtab = d.qm; return go('diary'); }
+      if (d.qm === 'story') return go('story');
       if (d.qm === 'relay') { ptab = 'all'; cat = '릴레이 기도'; return go('pray'); }
-      if (d.qm === 'tips') { gtab = 'tips'; return go('guide'); }
+      if (d.qm === 'guide' || d.qm === 'tips') { gtab = d.qm === 'tips' ? 'tips' : 'guides'; return go('guide'); }
     }
     if (d.tpick) { closeSheet(); return addTime(today(), +d.tpick); }
     if (d.ropen != null) { document.querySelectorAll('#rOpen [data-ropen]').forEach(function (x) { var on = x.getAttribute('data-ropen') === d.ropen; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on); }); return; }
@@ -2632,6 +2859,8 @@ button.cal-row b { color: var(--gold); }
       save(); openRelay(rr.id); render(); return;
     }
     if (d.guide) return openGuide(d.guide);
+    if (d.help) return helpSheet(d.help);
+    if (d.song) return playSong(d.song);
     if (d.atab) { atab = d.atab; if (d.nk) nkind = d.nk; render(); window.scrollTo(0, 0); return; }
     if (d.adm) return admAct(d, b);
     if (d.agk || d.ard || d.asr) { b.parentNode.querySelectorAll('.chip').forEach(function (c) { c.setAttribute('aria-pressed', c === b); }); return; }
@@ -2741,6 +2970,15 @@ button.cal-row b { color: var(--gold); }
       case 'calendar': calM = ''; calSel = ''; return calendarSheet();
       case 'policy': closeDrawer(); return policySheet();
       case 'install': closeDrawer(); return installSheet();
+      case 'install-help': closeDrawer(); return installHelpSheet();
+      case 'cl-start': S.closet = { start: Date.now() }; save(); return swRefresh();
+      case 'cl-stop': if (S.closet && S.closet.start) S.closet.end = Date.now(); save(); return swRefresh();
+      case 'cl-add': var clm = clMin(); S.closet = null; addTime(today(), clm); return;
+      case 'cl-skip': if (!arm(b, '정말 지울까요? 한 번 더 누르세요')) return; S.closet = null; save(); swRefresh(); return toast('기록하지 않았어요');
+      case 'cl-music': return musicSheet();
+      case 'music-off': return playSong('');
+      case 'notes': return notesSheet();
+      case 'note-save': if (el('mNote')) noteKeep(el('mNote').value); clearTimeout(noteTimer); save(); return toast(notesObj()[today()] ? '묵상 노트를 저장했어요' : '노트가 비어 있어요');
       case 'big-toggle': return setBig(!BIG);
       case 'feedback': closeDrawer(); return openFeedback();
       case 'fb-send':
@@ -2857,9 +3095,9 @@ button.cal-row b { color: var(--gold); }
         if (ei) { ei.title = ti; ei.body = ib; ei.days = days; ei.start = val('iStart') || ei.start; save(); render(); openItem(ei.id); return toast('고쳤어요'); }
         var ni = { id: uid(), title: ti, body: ib, start: val('iStart') || today(), days: days, checks: [], answered: false, memo: '', made: Date.now() };
         S.items.push(ni);
-        save(); closeSheet(); tab = 'diary'; dtab = 'items'; render();
+        save(); closeSheet(); if (tab !== 'closet') { tab = 'diary'; dtab = 'items'; } render();
         if (d.act === 'save-item-share') { writePost('pray', { cat: '개인 중보', title: ti, body: ib, itemId: ni.id }); toast('내 기도 노트에 추가했어요. 요청 내용을 확인하고 올려 주세요'); return; }
-        toast(days + '일 작정 기도를 시작해요'); return;
+        toast(tab === 'closet' ? '내 기도 노트에 기도 제목을 넣었어요' : days + '일 작정 기도를 시작해요'); return;
       case 'add-time':
         var mn = parseInt(val('tMin'), 10);
         if (isNaN(mn) || mn <= 0) return toast('방금 기도한 시간을 분으로 적어 주세요');
@@ -2917,8 +3155,9 @@ button.cal-row b { color: var(--gold); }
     else if (e.target.classList.contains('sc')) el('scAll').checked = Array.prototype.every.call(document.querySelectorAll('.sc'), function (c) { return c.checked; });
   });
 
-  el('topWrite').addEventListener('click', function () { writePost('pray', { cat: tab === 'pray' && cat !== '전체' ? cat : '' }); });
+  el('topWrite').addEventListener('click', function () { if (tab === 'diary') return go('closet'); writePost('pray', { cat: tab === 'pray' && cat !== '전체' ? cat : '' }); });
   document.addEventListener('input', function (e) {
+    if (e.target.id === 'mNote') return noteKeep(e.target.value);
     if (e.target.id === 'q') { q = e.target.value; var pos = e.target.selectionStart; render(); var n = el('q'); n.focus(); try { n.setSelectionRange(pos, pos); } catch (err) {} }
   });
   document.addEventListener('keydown', function (e) {
@@ -2960,7 +3199,7 @@ button.cal-row b { color: var(--gold); }
   // ---------- 기도다이어리 서버 보관 ----------
   // 개인 기록을 조각(기도제목 하나, 하루 기도 시간 등)으로 나눠, 조각마다 마지막으로 고친 시각을 적어 둬요.
   // 휴대폰과 다른 기기의 기록을 합칠 때 더 나중에 고친 쪽을 남기고, 지운 조각은 다시 살아나지 않게 해요.
-  var PK = { items: 'id', letters: 'id', scraps: 'self', times: 'obj', log: 'obj', alarm: 'one' }, pSnap = null;
+  var PK = { items: 'id', letters: 'id', scraps: 'self', times: 'obj', log: 'obj', notes: 'obj', alarm: 'one' }, pSnap = null;
   function pEntries(st) {
     var m = {};
     Object.keys(PK).forEach(function (k) {
@@ -2990,7 +3229,7 @@ button.cal-row b { color: var(--gold); }
       if ((gone[k] || 0) >= t) return;
       keep[k] = a >= b ? mL[k] : mR[k]; pAt[k] = t; delete gone[k];
     });
-    var o = { items: [], letters: [], scraps: [], times: {}, log: {}, alarm: L.alarm || R.alarm || null, pAt: pAt, gone: gone };
+    var o = { items: [], letters: [], scraps: [], times: {}, log: {}, notes: {}, alarm: L.alarm || R.alarm || null, pAt: pAt, gone: gone };
     order.forEach(function (k) {
       if (!(k in keep)) return;
       var i = k.indexOf(':'), kind = i < 0 ? k : k.slice(0, i), key = k.slice(i + 1), t = PK[kind];
