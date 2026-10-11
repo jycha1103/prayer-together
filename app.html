@@ -1157,7 +1157,7 @@ button.cal-row b { color: var(--gold); }
     ['tips', '기도 노하우', '나만의 기도 방법을 서로 나눠요', '노하우']
   ];
   function quickMenu() {
-    return '<nav class="hmenu grid" aria-label="메뉴"><ul>' + HOME_MENU.map(function (m) {
+    return '<nav class="hmenu" aria-label="메뉴"><ul>' + HOME_MENU.map(function (m) {
       return '<li><button data-qm="' + m[0] + '"><span class="msq qc-' + m[0] + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + QM_ICONS[m[0]] + '</svg></span><span class="mtx"><b class="mn-l">' + m[1] + '</b><b class="mn-s">' + (m[3] || m[1]) + '</b><span class="mdesc">' + m[2] + '</span></span></button></li>';
     }).join('') + '</ul></nav>';
   }
