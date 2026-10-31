@@ -805,8 +805,8 @@ body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; back
 .htk-track.drift { scroll-snap-type: none; }
 /* 홈 육각형 */
 body.is-home { --fab-home: 160px; }
-.hhex { --font-hx: "Gowun Batang", "MaruBuri", serif; --fab-home: 160px; position: relative; --gap: 22px; --hh: min(calc(47vw / .866), calc((100svh - 340px) / 2.5 * .9), 320px); --hw: calc(var(--hh) * .866); justify-content: flex-end; }
-.hhex .hx-wrap { position: relative; flex: none; height: calc(var(--hh) * 2.5 + var(--gap) * 2); margin: 6px 0 auto; }
+.hhex { --font-hx: "Gowun Batang", "MaruBuri", serif; --fab-home: 160px; position: relative; --gap: 22px; --hh: min(calc(47vw / .866), calc((100svh - 290px) / 2.5 * .9), 320px); --hw: calc(var(--hh) * .866); justify-content: flex-end; }
+.hhex .hx-wrap { position: relative; flex: none; height: calc(var(--hh) * 2.5 + var(--gap) * 2); margin: 22px 0 auto; }
 .hhex .htk2 { margin-top: 14px; }
 .hhex .htk2-head { display: none; }
 .hx-pray { position: absolute; left: calc(50% - var(--off) / 2 - var(--hw) / 2 - var(--hw) * .04); top: calc(var(--hh) * 1.25 + var(--gap) - var(--hh) * .28); width: calc(var(--hw) * .5); height: calc(var(--hh) * .56); pointer-events: none; }
@@ -814,8 +814,9 @@ body.is-home { --fab-home: 160px; }
 .hx-pray .hd-p { fill: #7A2236; }
 .hhex .hx-tag { margin: 22px 2px 0; font-family: "Gowun Batang", "MaruBuri", serif; font-weight: 700; font-size: clamp(16px, 4.3vw, 19px); line-height: 1.5; color: #1C2236; letter-spacing: -.01em; text-align: center; }
 .hhex .hx-tag em { font-style: normal; color: #B5523B; }
-.hhex .hx-me { padding: 10px 6px 4px 0; gap: 4px; }
-.hhex .hx-me b { font-size: 19px; font-weight: 600; letter-spacing: .01em; }
+.hhex .hx-me { position: absolute; top: calc(var(--hh) * .16); right: 1%; width: auto; padding: 0; gap: 3px; z-index: 1; }
+.hhex .hx-me b { margin-bottom: 4px; }
+.hhex .hx-me b { font-size: 17.5px; font-weight: 600; letter-spacing: .01em; }
 .hhex .hx-me span { font-size: 12.5px; }
 .hx { position: absolute; width: var(--hw); height: var(--hh); border: 0; padding: 0; background: none; color: #2A2F3E; top: 0; }
 .hhex { --off: calc(var(--hw) / 2 + var(--gap) * .6); }
@@ -1348,8 +1349,8 @@ body.qd-open .fab:not(.closet) { opacity: 0; pointer-events: none; }
   function vHome() {
     var t = today(), mon = t.slice(0, 8) + '01';
     return '<div class="hmin hhex"><p class="hx-tag">함께 기도할 때, 하나님은 <em>선</em>을 이루십니다.</p>' +
-      '<button class="hfloat hx-me" data-act="hero-go"><b>' + esc(myName()) + '님의 기도</b><span>연속 ' + streak() + '일째 · ' + (+t.slice(5, 7)) + '월 ' + fmtMin(sumRange(mon, t)) + ' · 오늘 ' + fmtMin(sumRange(t, t)) + '</span></button>' +
       '<div class="hx-wrap">' +
+      '<button class="hfloat hx-me" data-act="hero-go"><b>' + esc(myName()) + '님의 기도</b><span>연속 ' + streak() + '일째</span><span>' + (+t.slice(5, 7)) + '월 기도 총 ' + fmtMin(sumRange(mon, t)) + '</span><span>오늘 기도 ' + fmtMin(sumRange(t, t)) + '</span></button>' +
       hex('h1', 'data-go="pray"', '중보기도', '얼굴은 몰라도<br>서로의 짐을 지고<br>함께 기도해요') +
       hex('h2', 'data-tab="diary"', '나의 기도', '주님과 나만 아는<br>은밀한<br>기도의 자리') +
       hex('h3', 'data-qm="rooms"', '우리 교회 기도방', '한 몸 된 지체들과<br>마음을 모아<br>함께 엎드리는 자리') +
