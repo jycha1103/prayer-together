@@ -833,15 +833,16 @@ body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; back
 
 /* 홈: 인사 글, 바탕에 뜬 기도 기록, 그림 세 개 */
 .hmin .hwel2 { padding: 40px 0 16px; }
-.hfloat { display:flex; flex-direction:column; align-items:center; gap:3px; width:100%; border:0; background:none; padding:2px 0 30px; color:#7A2236; }
+.hfloat { display:flex; flex-direction:column; align-items:flex-end; gap:3px; width:100%; border:0; background:none; padding:2px 6px 30px 0; color:#7A2236; text-align:right; }
 .hfloat b { font-size:14.5px; font-weight:500; color:#7A2236; letter-spacing:.03em; }
 .hfloat b::after { content:" ›"; font-weight:400; }
 .hfloat span { font-size:11.5px; color:#8E5A64; letter-spacing:.02em; }
 .hfloat svg { display:none; }
 .hmin .htk2 { margin-top: 18px; }
-.hmin .htk2-c { border-radius: 999px; padding: 10px 22px 9px; background: rgba(255,255,255,.24); border-color: rgba(255,255,255,.6); -webkit-backdrop-filter: blur(10px) saturate(1.15); backdrop-filter: blur(10px) saturate(1.15); box-shadow: 0 3px 12px rgba(120,90,70,.06); }
-.hmin .htk2-t { font-size: 12.5px; font-weight: 400; color: #1A1A1F; letter-spacing: -.01em; }
-.hmin .htk2-m, .hmin .htk2-m .cnt { color: #8A8790; font-weight: 400; }
+.hmin .htk2-c { border-radius: 999px; padding: 6px 20px 5px; background: rgba(255,255,255,.24); border-color: rgba(255,255,255,.6); -webkit-backdrop-filter: blur(10px) saturate(1.15); backdrop-filter: blur(10px) saturate(1.15); box-shadow: 0 3px 12px rgba(120,90,70,.06); }
+.hmin .htk2-t { font-size: 12.5px; line-height: 1.35; font-weight: 400; color: #1A1A1F; letter-spacing: -.01em; }
+.hmin .htk2-m { color: #8A8790; font-weight: 400; margin-top: 0; line-height: 1.35; }
+.hmin .htk2-m .cnt { color: #7A2236; font-weight: 500; }
 .hmin .hb2 { margin-top: 0; }
 .hmin .hb2-c { aspect-ratio: 361 / 352; padding-top: 18%; }
 .hmin .hbn { aspect-ratio: auto; height: 86px; }
