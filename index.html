@@ -1,6 +1,6 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#16244F"><link rel="manifest" href="manifest.json?v=3"><link rel="icon" href="icon.svg?v=3"><link rel="apple-touch-icon" href="apple-touch-icon.png?v=3"><meta name="apple-mobile-web-app-title" content="기도의 촛불"><meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#16244F"><link rel="manifest" href="manifest.json?v=4"><link rel="icon" href="icon.svg?v=4"><link rel="apple-touch-icon" href="apple-touch-icon.png?v=4"><meta name="apple-mobile-web-app-title" content="기도의 촛불"><meta name="apple-mobile-web-app-capable" content="yes">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}img{max-width:100%}</style>
 </head><body>
 <script src="config.js"></script><script src="vendor/supabase.js"></script>
@@ -34,8 +34,8 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 /* top bar */
 .topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 14px 12px; margin-inline: -16px; padding-inline: 16px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .brand { min-width: 0; display: flex; align-items: center; gap: 9px; background: none; border: 0; padding: 0; text-align: left; }
-.brand .mark { flex: none; width: 38px; height: 38px; border-radius: 10px; background: #1B2945; display: grid; place-items: center; box-shadow: 0 3px 10px rgba(23, 32, 74, .25); }
-.brand .mark svg { width: 34px; height: 34px; }
+.brand .mark { flex: none; width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(#17276C, #0F1D55); display: grid; place-items: center; box-shadow: 0 3px 10px rgba(23, 32, 74, .25); }
+.brand .mark svg { width: 38px; height: 38px; }
 .brand-txt { min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
 .not-home .brand-sub { display: none; }
 @font-face { font-family: "MaruBuri"; font-weight: 300; font-display: swap; src: url("fonts/MaruBuri-Light.woff2") format("woff2"); }
@@ -484,8 +484,8 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 .join-bar { height: 5px; border-radius: 3px; background: var(--line); overflow: hidden; margin-top: -4px; }
 .join-bar i { display: block; height: 100%; background: linear-gradient(90deg, #E6A92E, #C98A12); transition: width .3s; }
 .join-hero { text-align: center; padding: 26px 0 8px; }
-.join-hero .mark { display: inline-grid; place-items: center; width: 64px; height: 64px; border-radius: 20px; background: radial-gradient(110% 100% at 100% 0%, var(--navy-2), var(--navy) 70%); box-shadow: 0 8px 22px rgba(23, 32, 74, .3); }
-.join-hero .mark svg { width: 40px; height: 40px; }
+.join-hero .mark { display: inline-grid; place-items: center; width: 64px; height: 64px; border-radius: 20px; background: linear-gradient(#17276C, #0F1D55); box-shadow: 0 8px 22px rgba(23, 32, 74, .3); }
+.join-hero .mark svg { width: 64px; height: 64px; }
 .join-hero h1 { font-family: var(--font-display); font-size: 23px; color: var(--navy); margin-top: 14px; }
 .join-hero p { color: var(--ink-2); margin: 6px 0 0; }
 .intro { display: grid; gap: 10px; }
@@ -856,7 +856,7 @@ body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; back
 <div class="app">
   <header class="topbar">
     <button class="nav-back" id="navBack" data-act="nav-back" aria-label="이전으로" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
-    <button class="brand" data-tab="home" aria-label="홈으로"><span class="mark" aria-hidden="true"><svg viewBox="0 0 512 512"><defs><radialGradient id="cg" cx="50%" cy="34%" r="46%"><stop offset="0" stop-color="#F6CB74" stop-opacity=".5"/><stop offset="1" stop-color="#F6CB74" stop-opacity="0"/></radialGradient><linearGradient id="cf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF1C7"/><stop offset=".55" stop-color="#F6C060"/><stop offset="1" stop-color="#E58A2E"/></linearGradient><linearGradient id="cb" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFF8EA"/><stop offset="1" stop-color="#EBD9B8"/></linearGradient></defs><circle cx="256" cy="176" r="200" fill="url(#cg)"/><path d="M256 70c26 34 44 60 44 92a44 44 0 0 1-88 0c0-32 18-58 44-92z" fill="url(#cf)"/><path d="M256 132c10 14 17 24 17 37a17 17 0 0 1-34 0c0-13 7-23 17-37z" fill="#FFF6DE"/><path d="M256 204v22" stroke="#4A3A30" stroke-width="7" stroke-linecap="round"/><rect x="204" y="226" width="104" height="168" rx="12" fill="url(#cb)"/><path d="M204 250c16 8 34 11 52 11s36-3 52-11" fill="none" stroke="#E2CBA4" stroke-width="5"/><ellipse cx="256" cy="404" rx="150" ry="36" fill="#E9D3A8"/><ellipse cx="256" cy="396" rx="150" ry="32" fill="#F7E8C8"/><ellipse cx="256" cy="394" rx="78" ry="14" fill="#E2C996"/></svg></span><span class="brand-txt"><span class="brand-name">합력하여 <span class="sun">선</span>을 이루는 기도</span><small class="brand-sub">얼굴을 몰라도, 서로를 위해 기도하는 곳</small></span></button>
+    <button class="brand" data-tab="home" aria-label="홈으로"><span class="mark" aria-hidden="true"><svg viewBox="0 0 512 512"><defs><linearGradient id="nf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F8BA52"/><stop offset="1" stop-color="#F2A238"/></linearGradient></defs><g stroke="#F4B85A" stroke-width="15" stroke-linecap="round"><path d="M136 152l32 18M140 210l34 10M376 152l-32 18M372 210l-34 10"/></g><path d="M162 296c0-20 12-32 32-33 24-1 38 9 62 8 26-1 40-12 66-9 19 2 31 14 31 34v84c0 18-13 30-31 30H193c-18 0-31-12-31-30z" fill="#FBF0DE"/><path d="M266 92c14 38 52 68 52 118 0 36-28 64-62 64s-60-28-60-62c0-48 40-72 70-120z" fill="url(#nf)"/><path d="M258 176c12 22 22 36 22 54 0 20-10 34-22 34s-22-14-22-34c0-18 10-32 22-54z" fill="#FCE6BC"/></svg></span><span class="brand-txt"><span class="brand-name">합력하여 <span class="sun">선</span>을 이루는 기도</span><small class="brand-sub">얼굴을 몰라도, 서로를 위해 기도하는 곳</small></span></button>
     <div class="top-actions">
       <button class="icon-btn bell" data-act="notices" aria-label="공지사항"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg><i class="ndot" id="bellDot" hidden></i></button>
       <button class="icon-btn" data-tab="me" aria-label="내 정보"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="8" r="5.5"/><path d="M4.5 21c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/></svg></button>
