@@ -817,8 +817,9 @@ body.is-home { --fab-home: 160px; }
 .hhex .hx-tag em { font-style: normal; color: #B23A2E; font-family: "Nanum Brush Script", serif; font-weight: 400; font-size: 2.15em; line-height: .8; margin: 0 0 0 .04em; vertical-align: -.06em; }/*/TAGV*/
 .hhex .hx-me { position: absolute; top: calc(var(--hh) * .16); right: 1%; width: auto; padding: 0; gap: 3px; z-index: 1; }
 .hhex .hx-me b { margin-bottom: 4px; }
-.hx-door { position: absolute; z-index: 1; border: 0; padding: 0; background: none; width: calc(var(--hw) * .5); height: calc(var(--hw) * .5); left: calc(50% + var(--off) / 2 - var(--hw) / 2 - var(--hw) * .5 - var(--hw) * .24); top: calc(var(--hh) * 1.25 + var(--gap) - var(--hw) * .27); }
-.hx-door img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.hx-door { position: absolute; z-index: 1; border: 0; padding: 0; background: none; width: calc(var(--hw) * .4); left: calc(50% + var(--off) / 2 - var(--hw) / 2 - var(--hw) * .4 - var(--hw) * .28); top: calc(var(--hh) * 1.25 + var(--gap) - var(--hw) * .22); display: flex; flex-direction: column; align-items: center; }
+.hx-door small { display: var(--door-lb, block); margin-top: 2px; font-family: "Gowun Batang", serif; font-size: 11px; color: #7C7480; letter-spacing: .12em; }
+.hx-door img { display: block; width: 100%; height: auto; }
 .hx-door:active { transform: scale(.96); }
 .hhex .hx-me b { font-size: 17.5px; font-weight: 600; letter-spacing: .01em; }
 .hhex .hx-me span { font-size: 12.5px; }
@@ -1356,7 +1357,7 @@ body.qd-open .fab:not(.closet) { opacity: 0; pointer-events: none; }
       '<div class="hx-wrap">' +
       '<button class="hfloat hx-me" data-act="hero-go"><b>' + esc(myName()) + '님의 기도</b><span>연속 ' + streak() + '일째</span><span>' + (+t.slice(5, 7)) + '월 기도 총 ' + fmtMin(sumRange(mon, t)) + '</span><span>오늘 기도 ' + fmtMin(sumRange(t, t)) + '</span></button>' +
       hex('h1', 'data-go="pray"', '중보기도', '얼굴은 몰라도<br>서로의 짐을 지고<br>함께 기도해요') +
-'<button class="hx-door" data-qm="closet" aria-label="골방기도"><img src="closet-door.png" alt=""></button>' +
+'<button class="hx-door" data-qm="closet" aria-label="골방기도"><img src="closet-door.png" alt=""><small>골방</small></button>' +
       hex('h2', 'data-tab="diary"', '나의 기도', '주님과 나만 아는<br>은밀한<br>기도의 자리') +
       hex('h3', 'data-qm="rooms"', '우리 교회 기도방', '한 몸 된 지체들과<br>마음을 모아<br>함께 엎드리는 자리') +
       '</div>' + homeTicker() + '</div>';
