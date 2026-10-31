@@ -1,19 +1,19 @@
 <title>합력하여 선을 이루는 기도</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap">
 <style>
 /* Layout: phone-width column on a cool paper ground; white grouped cards carry content; one deep-navy scripture card is the only dark surface; white frosted tab bar.
    Single light theme on purpose: the owner asked for high readability on phones. */
 :root {
   color-scheme: light;
-  --bg: #F3F5F9; --surface: #FFFFFF; --ink: #121933; --ink-2: #3B4462; --title: #4A4D55; --muted: #6A7290; --line: #E5E9F1; --line-2: #EEF1F6;
+  --bg: #F7F3EE; --surface: #FFFFFF; --ink: #121933; --ink-2: #3B4462; --title: #4A4D55; --muted: #6A7290; --line: #ECE5DD; --line-2: #F2ECE5;
   --navy: #17204A; --navy-2: #263777; --on-navy: #F4F6FF; --navy-sub: #B7C3EC;
   --accent: #263777; --on-accent: #FFFFFF; --accent-soft: #EDF0FB;
   --gold: #A0650A; --gold-soft: #FCF2E0; --green: #A0650A; --green-soft: #FCF2E0; --amber: #A0650A; --amber-soft: #FCF2E0;
   --paper: #FFFBF1; --paper-line: #EADBBB; --warn: #B3412E;
   --shadow: none;
-  --font-display: "Gowun Batang", "AppleMyungjo", "Batang", serif;
+  --font-display: "MaruBuri", "AppleMyungjo", "Batang", serif;
   --font-body: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
   --r: 16px;
 }
@@ -32,6 +32,40 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .brand .mark svg { width: 22px; height: 22px; }
 .brand-txt { min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
 .not-home .brand-sub { display: none; }
+@font-face { font-family: "MaruBuri"; font-weight: 400; font-display: swap; src: url("fonts/MaruBuri-Regular.woff2") format("woff2"); }
+@font-face { font-family: "MaruBuri"; font-weight: 700; font-display: swap; src: url("fonts/MaruBuri-Bold.woff2") format("woff2"); }
+.topbar { background: rgba(247, 243, 238, .82); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+body.is-home { background: linear-gradient(to bottom, rgba(247, 243, 238, 0) 0, rgba(247, 243, 238, 0) 52vw, var(--bg) 142vw) top center / 100% 150vw no-repeat, url("water.jpg") top center / 100% auto no-repeat, var(--bg); }
+body.is-home .topbar { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }
+body.is-home.scrolled .topbar { background: rgba(247, 243, 238, .82); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+/* 홈 맨 위 인사 글 */
+.hwel { padding: 14px 4px 6px; }
+.hwel p { margin: 0; font-family: var(--font-display); font-size: 16.5px; line-height: 2; color: #4B4542; letter-spacing: -.01em; }
+.hwel em { font-style: normal; font-weight: 700; color: #B4544B; }
+.hwel-orn { display: flex; align-items: center; gap: 8px; margin-top: 8px; color: #C9A27A; }
+.hwel-orn i { display: block; width: 26px; height: 1px; background: currentColor; }
+.hwel-orn svg { width: 22px; height: 22px; }
+/* 나의 기도 기록 줄 (반투명) */
+.hstrip2 { display: flex; align-items: center; width: 100%; margin-top: 12px; text-align: left; border: 1px solid rgba(255, 255, 255, .9); border-radius: 16px; padding: 11px 12px 11px 15px; background: rgba(255, 255, 255, .62); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 4px 16px rgba(120, 90, 70, .08); color: var(--ink); }
+.hstrip2 .hs-name { font-family: var(--font-display); font-size: 15px; }
+.hs-row2 { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 3px; font-size: 13px; color: var(--ink-2); }
+.hs-row2 b { font-size: 15.5px; color: var(--navy); font-variant-numeric: tabular-nums; margin: 0 1px; }
+.hstrip2 .hs-go { color: #9A8F86; }
+/* 중보기도 제목이 옆으로 흘러가는 띠 */
+.htk { margin-top: 12px; }
+.htk-head { display: flex; align-items: center; justify-content: space-between; padding: 0 4px 6px; }
+.htk-head b { font-family: var(--font-display); font-size: 15px; color: var(--navy); }
+.htk-dots { display: flex; gap: 5px; }
+.htk-dots i { width: 6px; height: 6px; border-radius: 50%; background: #D9CFC5; transition: background .3s, width .3s; }
+.htk-dots i.on { width: 16px; border-radius: 3px; background: #B4544B; }
+.htk-track { display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-inline: -16px; padding: 2px 16px 6px; scroll-padding-inline: 16px; }
+.htk-track::-webkit-scrollbar { display: none; }
+.htk-c { flex: 0 0 100%; scroll-snap-align: start; text-align: left; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); padding: 14px 16px; box-shadow: 0 3px 12px rgba(120, 90, 70, .06); color: var(--ink); }
+.htk-t { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 15px; font-weight: 700; line-height: 1.5; min-height: 2.9em; }
+.htk-m { display: flex; flex-wrap: wrap; gap: 4px 10px; margin-top: 8px; font-size: 12.5px; color: var(--muted); }
+.htk-m .cnt { display: inline-flex; align-items: center; gap: 3px; color: #A86A1E; font-weight: 700; }
+.htk-m .cnt svg { width: 13px; height: 13px; }
+
 .brand-sub { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: -0.01em; margin-top: 1px; }
 .brand-name { min-width: 0; font-family: var(--font-display); font-weight: 700; font-size: 17px; color: var(--navy); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: -0.02em; }
 .fab { position: fixed; z-index: 9; right: max(16px, calc((100vw - 560px) / 2 + 16px)); bottom: calc(88px + env(safe-area-inset-bottom, 0px)); display: inline-flex; align-items: center; gap: 6px; border: 0; border-radius: 999px; padding: 13px 20px 13px 16px; font-size: 15px; font-weight: 700; color: #FFFFFF; background: linear-gradient(135deg, var(--accent), var(--navy)); box-shadow: 0 8px 22px rgba(35, 50, 140, .38), 0 2px 6px rgba(18, 25, 51, .15); }
@@ -713,6 +747,23 @@ button.cal-row b { color: var(--gold); }
   .bgrid button:active{background:var(--accent);color:#fff}
   .big .big-toggle{padding:20px}.big .big-toggle b{font-size:21px}.big .big-toggle small{font-size:15.5px}.big .big-toggle .switch{width:62px;height:36px}.big .big-toggle .switch i{width:30px;height:30px}.big .big-toggle .switch.on i{left:29px}
   .big .scrap{font-size:16px}.big .label{font-size:16px}.big .pill,.big .flag,.big .row-item .kind{font-size:14px}.big .check input{width:24px;height:24px}.big .kind{font-size:15px}
+/* 상자 색: 수채화 배경과 어울리게 */
+.hbx { color: #FFFFFF; background: linear-gradient(160deg, #86A6B8, #557A8E 80%); box-shadow: 0 8px 20px rgba(70, 100, 120, .22); }
+.hbx.b2 { background: linear-gradient(160deg, #D9A497, #B06F67 80%); box-shadow: 0 8px 20px rgba(150, 90, 80, .22); }
+.hbx-d { color: rgba(255, 255, 255, .92); text-shadow: 0 1px 4px rgba(0, 0, 0, .18); }
+.hbx-go { background: rgba(255, 255, 255, .22); color: #FFFFFF; }
+.hbx .gl-grid { stroke: #FFFFFF; opacity: .35; }
+.hbx .gl-ln { stroke: #FFF1CF; }
+.hbx .gl-dot { fill: #FFF1CF; }
+.hbx .hd-p { fill: #FFF3DF; }
+/* 시안 B: 반투명 흰 상자 */
+.bx-glass .hbx, .bx-glass .hbx.b2 { color: #2B3350; background: rgba(255, 255, 255, .6); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, .95); box-shadow: 0 6px 18px rgba(120, 90, 70, .1); }
+.bx-glass .hbx-d { color: #5E5A60; text-shadow: none; }
+.bx-glass .hbx-go { background: rgba(43, 51, 80, .07); color: #2B3350; }
+.bx-glass .hbx .gl-grid { stroke: #7FA0B4; opacity: .55; }
+.bx-glass .hbx .gl-ln { stroke: #5F8299; }
+.bx-glass .hbx .gl-dot { fill: #5F8299; }
+.bx-glass .hbx .hd-p { fill: #C07A6F; }
 </style>
 
 <div class="app">
@@ -1120,7 +1171,7 @@ button.cal-row b { color: var(--gold); }
     var tips = board('tips');
     var AG = prayGuides(), allThings = (AG[0] ? lineItem('data-guide="' + AG[0].id + '"', AG[0].kind, AG[0].title) : '') +
       (tips[0] ? lineItem('data-open="' + tips[0].id + '"', '노하우', tips[0].title) : AG[1] ? lineItem('data-guide="' + AG[1].id + '"', AG[1].kind, AG[1].title) : '');
-    return homeHero(allDone) + quickMenu() + installBanner() +
+    return homeHero() + quickMenu() + installBanner() +
       (SB ? '<button class="beta" data-act="feedback">시험 운영 중이에요. 불편한 점은 <u>운영자에게 한마디</u>로 알려 주세요.</button>' : '') +
       '<section class="sec">' + secHead('지금 중보가 필요해요', 'pray') + group(urgentFirst(board('pray')).slice(0, 3).map(function (p) { return item(p); }).join('')) + '</section>' +
       '<section class="sec">' + secHead('간증', 'story') + group(board('story').slice(0, 2).map(function (p) { return item(p); }).join('')) + '</section>' +
@@ -1129,17 +1180,45 @@ button.cal-row b { color: var(--gold); }
       '<section class="sec">' + secHead('말못할 사연', 'concern') + group(board('concern').slice(0, 2).map(function (p) { return item(p, 'concern'); }).join('')) + '</section>';
   }
   // 홈 맨 위: 중보기도와 나의 기도 큰 상자, 그 아래 나의 기도 기록 줄
-  var HGLOBE = '<svg class="globe" viewBox="0 0 200 200" aria-hidden="true"><g fill="none" stroke="#B7C3EC" stroke-width="1.4" opacity=".55"><circle cx="100" cy="100" r="88"/><ellipse cx="100" cy="100" rx="20" ry="88"/><ellipse cx="100" cy="100" rx="42" ry="88"/><ellipse cx="100" cy="100" rx="62" ry="88"/><ellipse cx="100" cy="100" rx="78" ry="88"/><ellipse cx="100" cy="40" rx="64.4" ry="7.7"/><ellipse cx="100" cy="70" rx="82.7" ry="9.9"/><ellipse cx="100" cy="100" rx="88.0" ry="10.6"/><ellipse cx="100" cy="130" rx="82.7" ry="9.9"/><ellipse cx="100" cy="160" rx="64.4" ry="7.7"/></g><g stroke="#F5C870" stroke-width="2.6" opacity=".95"><line x1="58" y1="52" x2="96" y2="34"/><line x1="96" y1="34" x2="138" y2="48"/><line x1="138" y1="48" x2="150" y2="92"/><line x1="150" y1="92" x2="126" y2="126"/><line x1="126" y1="126" x2="84" y2="116"/><line x1="84" y1="116" x2="48" y2="98"/><line x1="48" y1="98" x2="58" y2="52"/><line x1="84" y1="116" x2="70" y2="150"/><line x1="70" y1="150" x2="118" y2="162"/><line x1="118" y1="162" x2="126" y2="126"/><line x1="126" y1="126" x2="160" y2="132"/><line x1="150" y1="92" x2="160" y2="132"/><line x1="96" y1="34" x2="84" y2="116"/><line x1="138" y1="48" x2="126" y2="126"/></g><g fill="#F5C870"><circle cx="58" cy="52" r="5.5"/><circle cx="96" cy="34" r="5.5"/><circle cx="138" cy="48" r="5.5"/><circle cx="150" cy="92" r="5.5"/><circle cx="126" cy="126" r="5.5"/><circle cx="84" cy="116" r="5.5"/><circle cx="48" cy="98" r="5.5"/><circle cx="70" cy="150" r="5.5"/><circle cx="118" cy="162" r="5.5"/><circle cx="160" cy="132" r="5.5"/></g></svg>';
-  var HHANDS = '<svg class="hands" viewBox="0 0 66.6 100" aria-hidden="true"><path fill="#F5C870" fill-rule="evenodd" d="M62.1 1.0 L61.7 0.9 L59.8 1.0 L58.5 1.9 L57.5 3.0 L56.8 2.2 L55.9 1.7 L54.3 1.7 L53.3 2.2 L51.3 4.0 L48.4 7.8 L40.5 17.0 L38.6 20.6 L37.9 19.7 L36.3 18.9 L34.7 18.9 L33.7 19.6 L31.8 25.4 L30.3 28.7 L28.8 31.0 L25.5 35.4 L24.4 38.2 L23.9 40.9 L23.9 44.4 L23.8 44.5 L23.9 49.4 L24.4 53.6 L24.4 57.1 L23.8 58.6 L21.9 61.1 L18.3 64.7 L16.4 63.5 L15.3 63.3 L13.4 63.4 L12.0 64.0 L10.8 64.8 L4.9 70.5 L0.9 73.6 L0.9 74.1 L1.4 74.2 L5.0 72.2 L8.8 69.2 L11.7 66.3 L13.7 65.0 L15.1 64.8 L16.0 65.1 L18.6 67.0 L21.8 70.2 L24.8 73.8 L27.2 77.1 L30.4 82.1 L31.7 84.7 L32.6 87.2 L32.7 90.2 L32.3 91.5 L30.1 94.8 L26.8 98.6 L27.1 99.1 L27.4 99.1 L29.3 97.7 L31.6 95.4 L33.1 93.2 L34.0 91.4 L34.3 90.2 L34.3 87.8 L34.0 86.3 L33.0 83.9 L37.6 77.5 L42.1 70.0 L42.9 69.2 L46.0 67.0 L49.4 63.5 L52.0 60.2 L54.9 55.6 L57.6 49.7 L58.5 47.0 L59.4 42.9 L63.5 31.7 L63.7 32.6 L62.4 40.5 L62.4 45.5 L61.7 49.0 L59.9 53.6 L57.5 58.8 L55.2 62.8 L52.4 66.7 L51.7 68.7 L51.6 71.6 L51.7 71.8 L52.2 81.7 L51.9 84.0 L51.3 85.9 L50.4 86.9 L49.1 87.5 L47.1 87.5 L46.0 87.2 L43.2 86.0 L40.6 84.3 L38.8 82.6 L36.9 80.4 L36.5 80.4 L36.2 80.7 L36.2 81.1 L37.9 83.9 L39.5 85.4 L41.9 87.2 L44.2 88.3 L46.8 89.0 L49.4 89.0 L50.4 88.8 L51.4 88.2 L52.2 87.5 L52.7 86.6 L53.5 84.4 L53.7 82.0 L53.7 78.7 L53.6 78.5 L53.5 75.1 L53.7 74.9 L56.2 77.1 L57.3 78.7 L58.8 81.4 L60.5 85.9 L62.4 89.3 L64.1 91.4 L64.6 91.5 L65.0 91.1 L62.8 87.0 L60.1 80.3 L58.5 77.4 L57.6 76.2 L55.6 74.2 L53.3 72.8 L53.5 68.4 L53.9 67.4 L57.3 62.2 L59.7 57.9 L62.7 50.7 L63.8 46.1 L64.0 39.6 L64.8 34.9 L65.6 28.5 L65.7 20.5 L65.0 18.9 L64.3 18.3 L63.3 18.0 L63.3 17.4 L64.0 15.7 L64.8 12.5 L65.0 10.2 L64.4 8.6 L63.1 7.6 L63.7 5.0 L63.7 3.0 L63.3 2.0ZM61.1 2.3 L61.8 2.7 L62.2 3.6 L62.2 4.8 L61.5 7.2 L61.1 7.8 L60.5 8.1 L59.7 8.9 L55.2 17.3 L51.4 23.8 L49.9 27.1 L47.3 33.9 L45.4 37.3 L45.4 37.8 L45.7 38.0 L46.3 38.0 L47.7 36.2 L49.3 32.9 L51.6 26.8 L57.9 15.4 L60.7 10.1 L61.8 9.1 L62.8 9.2 L63.4 9.9 L63.5 11.2 L62.5 15.4 L61.2 18.9 L60.1 20.5 L57.1 27.8 L54.0 34.1 L52.2 39.0 L51.4 41.6 L51.4 42.2 L51.7 42.8 L52.4 42.9 L52.7 42.7 L52.7 41.9 L53.2 40.3 L55.6 34.1 L57.9 29.5 L61.5 20.9 L62.2 19.9 L62.7 19.6 L63.4 19.6 L64.1 20.3 L64.3 20.7 L64.3 23.3 L64.0 24.9 L61.5 33.3 L58.2 41.6 L57.5 44.1 L57.1 46.5 L56.1 49.7 L53.3 55.3 L50.4 59.8 L47.8 63.0 L45.2 65.6 L41.1 68.7 L37.3 75.1 L34.4 79.4 L32.3 82.1 L29.7 77.8 L26.5 73.3 L22.9 69.0 L19.6 65.7 L21.3 64.1 L24.5 60.5 L25.8 58.2 L25.9 54.2 L25.8 54.0 L25.5 47.7 L25.4 47.6 L25.4 42.5 L25.5 42.4 L25.6 39.5 L26.2 37.5 L26.8 36.3 L30.0 32.0 L31.4 29.7 L33.6 25.1 L34.9 20.7 L35.2 20.5 L36.2 20.5 L36.9 21.0 L37.5 22.2 L37.6 23.3 L35.2 29.0 L31.4 34.4 L28.2 40.6 L28.1 41.2 L28.4 41.5 L29.1 41.4 L31.3 38.0 L33.1 34.4 L35.2 31.8 L37.0 28.7 L38.5 25.4 L39.9 21.3 L41.4 18.4 L48.1 10.5 L52.3 5.2 L53.9 3.6 L55.0 3.2 L55.5 3.3 L56.2 4.0 L56.2 5.0 L46.0 19.9 L44.7 22.5 L41.9 29.5 L40.8 31.8 L39.3 33.6 L39.2 34.3 L39.5 34.6 L40.1 34.6 L41.1 33.7 L43.1 30.5 L46.0 23.2 L47.6 20.2 L59.1 3.5 L59.8 2.7Z"/></svg>';
-  function homeHero(allDone) {
-    var t = today();
-    return '<div class="hboxes"><button class="hbx" data-go="pray"><span class="hbx-t">중보기도</span><span class="hbx-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 6l6 6-6 6"/></svg></span><span class="hbx-d">얼굴은 몰라도<br>서로의 짐을 지고<br>함께 기도해요</span>' + HGLOBE + '</button>' +
+  var HGLOBE = '<svg class="globe" viewBox="0 0 200 200" aria-hidden="true"><g class="gl-grid" fill="none" stroke="#B7C3EC" stroke-width="1.4" opacity=".55"><circle cx="100" cy="100" r="88"/><ellipse cx="100" cy="100" rx="20" ry="88"/><ellipse cx="100" cy="100" rx="42" ry="88"/><ellipse cx="100" cy="100" rx="62" ry="88"/><ellipse cx="100" cy="100" rx="78" ry="88"/><ellipse cx="100" cy="40" rx="64.4" ry="7.7"/><ellipse cx="100" cy="70" rx="82.7" ry="9.9"/><ellipse cx="100" cy="100" rx="88.0" ry="10.6"/><ellipse cx="100" cy="130" rx="82.7" ry="9.9"/><ellipse cx="100" cy="160" rx="64.4" ry="7.7"/></g><g class="gl-ln" stroke="#F5C870" stroke-width="2.6" opacity=".95"><line x1="58" y1="52" x2="96" y2="34"/><line x1="96" y1="34" x2="138" y2="48"/><line x1="138" y1="48" x2="150" y2="92"/><line x1="150" y1="92" x2="126" y2="126"/><line x1="126" y1="126" x2="84" y2="116"/><line x1="84" y1="116" x2="48" y2="98"/><line x1="48" y1="98" x2="58" y2="52"/><line x1="84" y1="116" x2="70" y2="150"/><line x1="70" y1="150" x2="118" y2="162"/><line x1="118" y1="162" x2="126" y2="126"/><line x1="126" y1="126" x2="160" y2="132"/><line x1="150" y1="92" x2="160" y2="132"/><line x1="96" y1="34" x2="84" y2="116"/><line x1="138" y1="48" x2="126" y2="126"/></g><g class="gl-dot" fill="#F5C870"><circle cx="58" cy="52" r="5.5"/><circle cx="96" cy="34" r="5.5"/><circle cx="138" cy="48" r="5.5"/><circle cx="150" cy="92" r="5.5"/><circle cx="126" cy="126" r="5.5"/><circle cx="84" cy="116" r="5.5"/><circle cx="48" cy="98" r="5.5"/><circle cx="70" cy="150" r="5.5"/><circle cx="118" cy="162" r="5.5"/><circle cx="160" cy="132" r="5.5"/></g></svg>';
+  var HHANDS = '<svg class="hands" viewBox="0 0 66.6 100" aria-hidden="true"><path class="hd-p" fill="#F5C870" fill-rule="evenodd" d="M62.1 1.0 L61.7 0.9 L59.8 1.0 L58.5 1.9 L57.5 3.0 L56.8 2.2 L55.9 1.7 L54.3 1.7 L53.3 2.2 L51.3 4.0 L48.4 7.8 L40.5 17.0 L38.6 20.6 L37.9 19.7 L36.3 18.9 L34.7 18.9 L33.7 19.6 L31.8 25.4 L30.3 28.7 L28.8 31.0 L25.5 35.4 L24.4 38.2 L23.9 40.9 L23.9 44.4 L23.8 44.5 L23.9 49.4 L24.4 53.6 L24.4 57.1 L23.8 58.6 L21.9 61.1 L18.3 64.7 L16.4 63.5 L15.3 63.3 L13.4 63.4 L12.0 64.0 L10.8 64.8 L4.9 70.5 L0.9 73.6 L0.9 74.1 L1.4 74.2 L5.0 72.2 L8.8 69.2 L11.7 66.3 L13.7 65.0 L15.1 64.8 L16.0 65.1 L18.6 67.0 L21.8 70.2 L24.8 73.8 L27.2 77.1 L30.4 82.1 L31.7 84.7 L32.6 87.2 L32.7 90.2 L32.3 91.5 L30.1 94.8 L26.8 98.6 L27.1 99.1 L27.4 99.1 L29.3 97.7 L31.6 95.4 L33.1 93.2 L34.0 91.4 L34.3 90.2 L34.3 87.8 L34.0 86.3 L33.0 83.9 L37.6 77.5 L42.1 70.0 L42.9 69.2 L46.0 67.0 L49.4 63.5 L52.0 60.2 L54.9 55.6 L57.6 49.7 L58.5 47.0 L59.4 42.9 L63.5 31.7 L63.7 32.6 L62.4 40.5 L62.4 45.5 L61.7 49.0 L59.9 53.6 L57.5 58.8 L55.2 62.8 L52.4 66.7 L51.7 68.7 L51.6 71.6 L51.7 71.8 L52.2 81.7 L51.9 84.0 L51.3 85.9 L50.4 86.9 L49.1 87.5 L47.1 87.5 L46.0 87.2 L43.2 86.0 L40.6 84.3 L38.8 82.6 L36.9 80.4 L36.5 80.4 L36.2 80.7 L36.2 81.1 L37.9 83.9 L39.5 85.4 L41.9 87.2 L44.2 88.3 L46.8 89.0 L49.4 89.0 L50.4 88.8 L51.4 88.2 L52.2 87.5 L52.7 86.6 L53.5 84.4 L53.7 82.0 L53.7 78.7 L53.6 78.5 L53.5 75.1 L53.7 74.9 L56.2 77.1 L57.3 78.7 L58.8 81.4 L60.5 85.9 L62.4 89.3 L64.1 91.4 L64.6 91.5 L65.0 91.1 L62.8 87.0 L60.1 80.3 L58.5 77.4 L57.6 76.2 L55.6 74.2 L53.3 72.8 L53.5 68.4 L53.9 67.4 L57.3 62.2 L59.7 57.9 L62.7 50.7 L63.8 46.1 L64.0 39.6 L64.8 34.9 L65.6 28.5 L65.7 20.5 L65.0 18.9 L64.3 18.3 L63.3 18.0 L63.3 17.4 L64.0 15.7 L64.8 12.5 L65.0 10.2 L64.4 8.6 L63.1 7.6 L63.7 5.0 L63.7 3.0 L63.3 2.0ZM61.1 2.3 L61.8 2.7 L62.2 3.6 L62.2 4.8 L61.5 7.2 L61.1 7.8 L60.5 8.1 L59.7 8.9 L55.2 17.3 L51.4 23.8 L49.9 27.1 L47.3 33.9 L45.4 37.3 L45.4 37.8 L45.7 38.0 L46.3 38.0 L47.7 36.2 L49.3 32.9 L51.6 26.8 L57.9 15.4 L60.7 10.1 L61.8 9.1 L62.8 9.2 L63.4 9.9 L63.5 11.2 L62.5 15.4 L61.2 18.9 L60.1 20.5 L57.1 27.8 L54.0 34.1 L52.2 39.0 L51.4 41.6 L51.4 42.2 L51.7 42.8 L52.4 42.9 L52.7 42.7 L52.7 41.9 L53.2 40.3 L55.6 34.1 L57.9 29.5 L61.5 20.9 L62.2 19.9 L62.7 19.6 L63.4 19.6 L64.1 20.3 L64.3 20.7 L64.3 23.3 L64.0 24.9 L61.5 33.3 L58.2 41.6 L57.5 44.1 L57.1 46.5 L56.1 49.7 L53.3 55.3 L50.4 59.8 L47.8 63.0 L45.2 65.6 L41.1 68.7 L37.3 75.1 L34.4 79.4 L32.3 82.1 L29.7 77.8 L26.5 73.3 L22.9 69.0 L19.6 65.7 L21.3 64.1 L24.5 60.5 L25.8 58.2 L25.9 54.2 L25.8 54.0 L25.5 47.7 L25.4 47.6 L25.4 42.5 L25.5 42.4 L25.6 39.5 L26.2 37.5 L26.8 36.3 L30.0 32.0 L31.4 29.7 L33.6 25.1 L34.9 20.7 L35.2 20.5 L36.2 20.5 L36.9 21.0 L37.5 22.2 L37.6 23.3 L35.2 29.0 L31.4 34.4 L28.2 40.6 L28.1 41.2 L28.4 41.5 L29.1 41.4 L31.3 38.0 L33.1 34.4 L35.2 31.8 L37.0 28.7 L38.5 25.4 L39.9 21.3 L41.4 18.4 L48.1 10.5 L52.3 5.2 L53.9 3.6 L55.0 3.2 L55.5 3.3 L56.2 4.0 L56.2 5.0 L46.0 19.9 L44.7 22.5 L41.9 29.5 L40.8 31.8 L39.3 33.6 L39.2 34.3 L39.5 34.6 L40.1 34.6 L41.1 33.7 L43.1 30.5 L46.0 23.2 L47.6 20.2 L59.1 3.5 L59.8 2.7Z"/></svg>';
+  var HLEAF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><path d="M4 20C9 15 13 11 19 4"/><path d="M8.5 15.5c-2.2-.2-3.6-1.5-4-3.6 2.2.1 3.6 1.3 4 3.6zM11.5 12.2c-2-.6-3-2.1-3-4.2 2 .6 3 2 3 4.2zM14.6 8.8c-1.8-.9-2.5-2.5-2.2-4.5 1.8.9 2.5 2.4 2.2 4.5zM11 15c.4-2.2 1.9-3.4 4.1-3.5-.4 2.2-1.9 3.3-4.1 3.5zM14.2 11.4c.6-2.1 2.1-3.1 4.3-3-.6 2.1-2.1 3.1-4.3 3z"/></svg>';
+  function homeHero() {
+    var t = today(), mon = t.slice(0, 8) + '01';
+    return '<div class="hwel"><p>나를 위해 <em>기도</em>를 세우는 곳,<br>남을 위해 <em>중보</em>하는 곳,<br>함께 기도의 <em>동역자</em>가 되는 곳,<br><em>합력하여 선</em>을 이루는 기도 입니다.</p><div class="hwel-orn"><i></i>' + HLEAF + '</div></div>' +
+      '<button class="hstrip2" data-act="hero-go"><span style="flex:1;min-width:0"><span class="hs-name">' + esc(myName()) + '님의 기도</span><span class="hs-row2">' +
+        '<span>연속 <b>' + streak() + '</b>일째</span><span>' + (+t.slice(5, 7)) + '월 <b>' + fmtMin(sumRange(mon, t)) + '</b> 기도</span><span>오늘 <b>' + fmtMin(sumRange(t, t)) + '</b></span></span></span>' +
+        '<span class="hs-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span></button>' +
+      '<div class="hboxes" style="margin-top:12px"><button class="hbx" data-go="pray"><span class="hbx-t">중보기도</span><span class="hbx-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 6l6 6-6 6"/></svg></span><span class="hbx-d">얼굴은 몰라도<br>서로의 짐을 지고<br>함께 기도해요</span>' + HGLOBE + '</button>' +
       '<button class="hbx b2" data-tab="diary">' + HHANDS + '<span class="hbx-t">나의 기도</span><span class="hbx-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 6l6 6-6 6"/></svg></span><span class="hbx-d">주님과 나만 아는<br>은밀한 기도의 자리</span></button></div>' +
-      '<div class="hstrip"><div class="hs-name">' + esc(myName()) + '님의 기도</div><div class="hs-row">' +
-        '<span class="hs-item">연속 <b>' + streak() + '</b>일째<button class="hs-btn' + (allDone ? ' done' : '') + '" data-act="hero-attend">' + (allDone ? '기도 완료' : '기도 전') + '</button></span>' +
-        '<span class="hs-item">7일 <b>' + fmtMin(sumRange(addDays(t, -6), t)) + '</b><button class="hs-btn plus" data-act="hero-time" aria-label="기도 시간 더하기">+</button></span>' +
-        '<button class="hs-go" data-act="hero-go" aria-label="기도 시간 기록 보기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>' +
-      '</div></div>';
+      homeTicker();
+  }
+  // 중보기도 제목이 몇 초마다 옆으로 넘어가요. 손가락으로 밀어서 넘겨도 돼요.
+  function homeTicker() {
+    var list = urgentFirst(board('pray')).slice(0, 8);
+    if (!list.length) return '';
+    return '<section class="htk"><div class="htk-head"><b>함께 기도해 주세요</b><span class="htk-dots" id="htkDots">' + list.map(function (p, i) { return '<i' + (i ? '' : ' class="on"') + '></i>'; }).join('') + '</span></div>' +
+      '<div class="htk-track" id="htk">' + list.map(function (p) {
+        var r = p.reacts || {}, rn = 0; Object.keys(r).forEach(function (k) { rn += r[k] || 0; });
+        return '<button class="htk-c" data-open="' + p.id + '"><span class="htk-t">' + flags(p) + esc(p.title) + '</span><span class="htk-m"><span>' + esc(p.author) + '</span>' + countSpan(p) + '<span>댓글 ' + p.comments.length + '</span><span>공감 ' + rn + '</span></span></button>';
+      }).join('') + '</div></section>';
+  }
+  window.addEventListener('scroll', function () { document.body.classList.toggle('scrolled', window.scrollY > 8); }, { passive: true });
+  if (/[?&]bx=b\b/.test(location.search)) document.body.classList.add('bx-glass');
+  var htkTimer = null;
+  function htkStart() {
+    clearInterval(htkTimer);
+    var tr = el('htk'); if (!tr) return;
+    var hold = 0, idx = function () { return Math.round(tr.scrollLeft / (tr.firstChild.offsetWidth + 10)); };
+    var dots = function () { var i = idx(); el('htkDots') && Array.prototype.forEach.call(el('htkDots').children, function (d, k) { d.className = k === i ? 'on' : ''; }); };
+    tr.addEventListener('scroll', function () { dots(); }, { passive: true });
+    tr.addEventListener('touchstart', function () { hold = Date.now(); }, { passive: true });
+    htkTimer = setInterval(function () {
+      if (!document.body.contains(tr)) return clearInterval(htkTimer);
+      if (Date.now() - hold < 6000 || document.hidden) return;
+      var n = tr.children.length, i = (idx() + 1) % n;
+      tr.scrollTo({ left: i * (tr.firstChild.offsetWidth + 10), behavior: 'smooth' });
+    }, 4000);
   }
   var QM_ICONS = {
     pray: '<path d="M12 20s-7.5-4.6-7.5-10.2A4.1 4.1 0 0 1 12 7.4a4.1 4.1 0 0 1 7.5 2.4C19.5 15.4 12 20 12 20z"/>',
@@ -2393,12 +2472,14 @@ button.cal-row b { color: var(--gold); }
     if (SB && (!C.user || !C.joined) && tab !== 'join') tab = 'join';
     document.body.classList.toggle('big', BIG);
     document.body.classList.toggle('not-home', tab !== 'home');
+    document.body.classList.toggle('is-home', tab === 'home');
     renderTabs();
     el('view').innerHTML = (BIG && BIG_VIEWS[tab] ? BIG_VIEWS[tab] : VIEWS[tab])();
     el('topWrite').hidden = tab === 'join' || tab === 'admin' || tab === 'closet' || tab === 'howto' || (BIG && tab !== 'home' && tab !== 'diary');
     el('topWrite').innerHTML = tab === 'diary' ? FAB_CLOSET : FAB_REQ;
     el('topWrite').classList.toggle('closet', tab === 'diary');
     addHelpBtn();
+    if (tab === 'home') htkStart();
     navTrack();
     if (el('bellDot')) el('bellDot').hidden = !noticeNew() || tab === 'notice';
     visitLog();
