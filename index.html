@@ -834,7 +834,7 @@ body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; back
 /* 홈: 인사 글, 바탕에 뜬 기도 기록, 그림 세 개 */
 .hmin { display: flex; flex-direction: column; min-height: calc(100svh - var(--hmin-off, 150px)); }
 .hmin .hwel2 { flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center; padding: 20px 0 8px; }
-.hmin .hwel2 p { font-weight: 400; font-size: 16px; line-height: 2.55; color: #2C3246; }
+.hmin .hwel2 p { font-weight: 400; font-size: clamp(17px, 2.1svh, 19.5px); line-height: 2.5; color: #1C2236; letter-spacing: .04em; }
 .hfloat { display:flex; flex-direction:column; align-items:flex-end; gap:3px; width:100%; border:0; background:none; padding:14px 6px 22px 0; color:#7A2236; text-align:right; }
 .hfloat b { font-size:14.5px; font-weight:500; color:#7A2236; letter-spacing:.03em; }
 .hfloat b::after { content:" ›"; font-weight:400; }
@@ -863,13 +863,16 @@ body.qd-open .qdial button { opacity: 1; transform: none; }
 .qdial .hic-i svg { width: 28px; height: 28px; }
 body.qd-open .fab:not(.closet) { opacity: 0; pointer-events: none; }
 .hmin .hbn { justify-content: flex-start; gap: 14px; }
+/* 긴 휴대폰에서도 짧은 화면과 같은 비율: 상자 높이를 화면 길이에 맞춰요 */
+.hmin .hb2-c { aspect-ratio: auto; height: max(160px, 20svh); }
+.hmin .hbn { height: max(80px, 10.2svh); }
 .hmin .hbn .hb2-go { position: static; margin-top: 0; }
 .hmin .htk2-c { border-radius: 999px; padding: 6px 20px 5px; background: rgba(255,255,255,.24); border-color: rgba(255,255,255,.6); -webkit-backdrop-filter: blur(10px) saturate(1.15); backdrop-filter: blur(10px) saturate(1.15); box-shadow: 0 3px 12px rgba(120,90,70,.06); }
 .hmin .htk2-t { font-size: 12.5px; line-height: 1.35; font-weight: 400; color: #1A1A1F; letter-spacing: -.01em; }
 .hmin .htk2-m { color: #8A8790; font-weight: 400; margin-top: 0; line-height: 1.35; }
 .hmin .htk2-m .cnt { color: #7A2236; font-weight: 500; }
 .hmin .hb2 { margin-top: 0; }
-.hmin .hb2-c { aspect-ratio: 361 / 352; padding-top: 18%; filter: saturate(1.3) contrast(1.08); box-shadow: 0 4px 16px rgba(90, 60, 40, .16); }
+.hmin .hb2-c { padding-top: 18%; filter: saturate(1.3) contrast(1.08); box-shadow: 0 4px 16px rgba(90, 60, 40, .16); }
 .hmin .hbn { filter: saturate(1.2) contrast(1.06); box-shadow: 0 4px 16px rgba(60, 80, 110, .16); }
 .hmin .hbn { aspect-ratio: auto; height: 86px; }
 .hmin .hbn-t { font-size: 18px; }
