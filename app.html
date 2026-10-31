@@ -756,14 +756,6 @@ button.cal-row b { color: var(--gold); }
 .hbx .gl-ln { stroke: #FFF1CF; }
 .hbx .gl-dot { fill: #FFF1CF; }
 .hbx .hd-p { fill: #FFF3DF; }
-/* 시안 B: 반투명 흰 상자 */
-.bx-glass .hbx, .bx-glass .hbx.b2 { color: #2B3350; background: rgba(255, 255, 255, .6); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, .95); box-shadow: 0 6px 18px rgba(120, 90, 70, .1); }
-.bx-glass .hbx-d { color: #5E5A60; text-shadow: none; }
-.bx-glass .hbx-go { background: rgba(43, 51, 80, .07); color: #2B3350; }
-.bx-glass .hbx .gl-grid { stroke: #7FA0B4; opacity: .55; }
-.bx-glass .hbx .gl-ln { stroke: #5F8299; }
-.bx-glass .hbx .gl-dot { fill: #5F8299; }
-.bx-glass .hbx .hd-p { fill: #C07A6F; }
 </style>
 
 <div class="app">
@@ -1204,7 +1196,6 @@ button.cal-row b { color: var(--gold); }
       }).join('') + '</div></section>';
   }
   window.addEventListener('scroll', function () { document.body.classList.toggle('scrolled', window.scrollY > 8); }, { passive: true });
-  if (/[?&]bx=b\b/.test(location.search)) document.body.classList.add('bx-glass');
   var htkTimer = null;
   function htkStart() {
     clearInterval(htkTimer);
