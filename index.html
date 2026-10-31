@@ -803,27 +803,30 @@ body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; back
 /* 홈 육각형 */
 body.is-home { --fab-home: 178px; }
 .hhex { --fab-home: 178px; position: relative; --gap: 22px; --hh: min(calc(51vw / .866), calc((100svh - 275px) / 2.5 * .9), 340px); --hw: calc(var(--hh) * .866); justify-content: flex-end; }
-.hhex .hx-wrap { position: relative; flex: none; height: calc(var(--hh) * 2.5 + var(--gap) * 2); margin: auto 0 0; }
+.hhex .hx-wrap { position: relative; flex: none; height: calc(var(--hh) * 2.5 + var(--gap) * 2); margin: 6px 0 auto; }
 .hhex .htk2 { margin-top: 14px; }
 .hhex .htk2-head { display: none; }
 .hx-pray { position: absolute; left: calc(50% - var(--off) / 2 - var(--hw) / 2 - var(--hw) * .04); top: calc(var(--hh) * 1.25 + var(--gap) - var(--hh) * .28); width: calc(var(--hw) * .5); height: calc(var(--hh) * .56); pointer-events: none; }
 .hx-pray svg { width: 100%; height: 100%; }
 .hx-pray .hd-p { fill: #7A2236; }
-.hx-me { position: absolute; top: 4%; right: 3%; width: auto; max-width: 42%; padding: 0; }
-.hx-me span { display: block; }
+.hhex .hx-me { padding: 14px 6px 4px 0; gap: 4px; }
+.hhex .hx-me b { font-size: 19px; font-weight: 600; letter-spacing: .01em; }
+.hhex .hx-me span { font-size: 12.5px; }
 .hx { position: absolute; width: var(--hw); height: var(--hh); border: 0; padding: 0; background: none; color: #2A2F3E; top: 0; }
 .hhex { --off: calc(var(--hw) / 2 + var(--gap) * .6); }
 .hx.h1 { left: calc(50% - var(--off) / 2 - var(--hw) / 2); }
 .hx.h2 { left: calc(50% + var(--off) / 2 - var(--hw) / 2); margin-top: calc(var(--hh) * .75 + var(--gap)); }
 .hx.h3 { left: calc(50% - var(--off) / 2 - var(--hw) / 2); margin-top: calc(var(--hh) * 1.5 + var(--gap) * 2); }
 .hx-bg { position: absolute; inset: 0; width: 100%; height: 100%; filter: drop-shadow(0 6px 16px rgba(120, 90, 80, .10)); }
-.hx-bg path { fill: rgba(255, 255, 255, .55); stroke: rgba(255, 255, 255, .95); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+.hx-bg path { fill: rgba(255, 255, 255, .36); stroke: rgba(255, 255, 255, .95); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
 .hx-in { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 0 10%; text-align: center; }
 .hx-t { font-family: var(--font-display); font-weight: 700; font-size: calc(var(--hw) * .105); line-height: 1.3; letter-spacing: -.03em; color: #1F2638; }
 .hx-d { margin-top: 8px; font-family: var(--font-body); font-weight: 400; font-size: calc(var(--hw) * .06); line-height: 1.6; color: #4F5466; letter-spacing: -.01em; }
 .hx-go { margin-top: 10px; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: #1B2945; color: #FFFFFF; box-shadow: 0 3px 8px rgba(60, 80, 75, .25); }
 .hx-go svg { width: 16px; height: 16px; }
-.hx:active .hx-bg path { fill: rgba(255, 255, 255, .75); }
+.hx:active .hx-bg path { fill: rgba(255, 255, 255, .7); }
+.hx.h2 .hx-bg path { fill: rgba(250, 214, 222, .42); }
+.hx.h3 .hx-bg path { fill: rgba(206, 226, 240, .46); }
 /* 하단 탭: 배경 그림의 카키색, 흰 글씨와 선 */
 body .tabbar { background: #1B2945; border-color: rgba(255, 255, 255, .35); }
 body .tabbar button { color: rgba(255, 255, 255, .82); }
@@ -1332,8 +1335,9 @@ body.qd-open .fab:not(.closet) { opacity: 0; pointer-events: none; }
   function hex(cls, act, title, lines) { return '<button class="hx ' + cls + '" ' + act + '>' + HEX_BG + '<span class="hx-in"><b class="hx-t">' + title + '</b><span class="hx-d">' + lines + '</span>' + HEX_GO + '</span></button>'; }
   function vHome() {
     var t = today(), mon = t.slice(0, 8) + '01';
-    return '<div class="hmin hhex"><div class="hx-wrap"><span class="hx-pray">' + HHANDS + '</span>' +
-      '<button class="hfloat hx-me" data-act="hero-go"><b>' + esc(myName()) + '님의 기도</b><span>연속 ' + streak() + '일째</span><span>' + (+t.slice(5, 7)) + '월 ' + fmtMin(sumRange(mon, t)) + ' · 오늘 ' + fmtMin(sumRange(t, t)) + '</span></button>' +
+    return '<div class="hmin hhex">' +
+      '<button class="hfloat hx-me" data-act="hero-go"><b>' + esc(myName()) + '님의 기도</b><span>연속 ' + streak() + '일째 · ' + (+t.slice(5, 7)) + '월 ' + fmtMin(sumRange(mon, t)) + ' · 오늘 ' + fmtMin(sumRange(t, t)) + '</span></button>' +
+      '<div class="hx-wrap">' +
       hex('h1', 'data-go="pray"', '중보기도', '얼굴은 몰라도<br>서로의 짐을 지고<br>함께 기도해요') +
       hex('h2', 'data-tab="diary"', '나의 기도', '주님과 나만 아는<br>은밀한<br>기도의 자리') +
       hex('h3', 'data-qm="rooms"', '우리 교회<br>기도방', '한 몸 된 지체들과<br>마음을 모아<br>함께 엎드리는 자리') +
