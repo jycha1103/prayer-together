@@ -1,7 +1,7 @@
 <title>합력하여 선을 이루는 기도</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Gowun+Batang:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Gowun+Batang:wght@400;700&family=Gaegu:wght@400;700&display=swap">
 <style>
 /* Layout: phone-width column on a cool paper ground; white grouped cards carry content; one deep-navy scripture card is the only dark surface; white frosted tab bar.
    Single light theme on purpose: the owner asked for high readability on phones. */
@@ -799,24 +799,25 @@ body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; back
 .htk-track.drift { scroll-snap-type: none; }
 /* 홈 육각형 */
 body.is-home { --fab-home: 160px; }
-.hhex { --font-hx: "Gowun Batang", "MaruBuri", serif; --fab-home: 160px; position: relative; --gap: 22px; --hh: min(calc(47vw / .866), calc((100svh - 290px) / 2.5 * .9), 320px); --hw: calc(var(--hh) * .866); justify-content: flex-end; }
-.hhex .hx-wrap { position: relative; flex: none; height: calc(var(--hh) * 2.5 + var(--gap) * 2); margin: 22px 0 auto; }
+.hhex { --font-hx: "Gowun Batang", "MaruBuri", serif; --fab-home: 160px; position: relative; --gap: 22px; --hh: min(calc(47vw / .866), calc((100svh - 250px) / 2.5 * .9), 320px); --hw: calc(var(--hh) * .866); justify-content: flex-end; }
+.hhex .hx-wrap { position: relative; flex: none; height: calc(var(--hh) * 2.5 + var(--gap) * 2); margin: 16px 0 auto; }
 .hhex .htk2 { margin-top: 14px; }
 .hhex .htk2-head { display: none; }
 .hx-pray { position: absolute; left: calc(50% - var(--off) / 2 - var(--hw) / 2 - var(--hw) * .04); top: calc(var(--hh) * 1.25 + var(--gap) - var(--hh) * .28); width: calc(var(--hw) * .5); height: calc(var(--hh) * .56); pointer-events: none; }
 .hx-pray svg { width: 100%; height: 100%; }
 .hx-pray .hd-p { fill: #7A2236; }
-.hhex .hx-tag { margin: 22px 2px 0; font-family: "Gowun Batang", "MaruBuri", serif; font-weight: 700; font-size: clamp(16px, 4.3vw, 19px); line-height: 1.5; color: #1C2236; letter-spacing: -.01em; text-align: center; }
-.hhex .hx-tag em { font-style: normal; color: #B5523B; }
-.hhex .hx-me { position: absolute; top: calc(var(--hh) * .16); right: 1%; width: auto; padding: 0; gap: 3px; z-index: 1; }
+.hhex .hx-tag { position: absolute; top: calc(var(--hh) * .06); left: 2%; width: calc(50% + var(--off) / 2 - var(--hw) / 2 - 3%); z-index: 1; }
+.hhex .hx-tag { margin: 0; font-family: "Gaegu", "Gowun Batang", serif; font-weight: 400; font-size: clamp(17px, 4.7vw, 21px); line-height: 1.55; word-break: keep-all; color: #2B2B33; letter-spacing: 0; }
+.hhex .hx-tag em { font-style: normal; font-weight: 700; font-size: 1.12em; color: #B5523B; }
+.hhex .hx-me { position: absolute; top: calc(var(--hh) * 1.02 + var(--gap)); right: 1%; width: auto; padding: 0; gap: 3px; z-index: 1; }
 .hhex .hx-me b { margin-bottom: 4px; }
 .hhex .hx-me b { font-size: 17.5px; font-weight: 600; letter-spacing: .01em; }
 .hhex .hx-me span { font-size: 12.5px; }
 .hx { position: absolute; width: var(--hw); height: var(--hh); border: 0; padding: 0; background: none; color: #2A2F3E; top: 0; }
 .hhex { --off: calc(var(--hw) / 2 + var(--gap) * .6); }
-.hx.h1 { left: calc(50% - var(--off) / 2 - var(--hw) / 2); }
-.hx.h2 { left: calc(50% + var(--off) / 2 - var(--hw) / 2); margin-top: calc(var(--hh) * .75 + var(--gap)); }
-.hx.h3 { left: calc(50% - var(--off) / 2 - var(--hw) / 2); margin-top: calc(var(--hh) * 1.5 + var(--gap) * 2); }
+.hx.h1 { left: calc(50% + var(--off) / 2 - var(--hw) / 2); }
+.hx.h2 { left: calc(50% - var(--off) / 2 - var(--hw) / 2); margin-top: calc(var(--hh) * .75 + var(--gap)); }
+.hx.h3 { left: calc(50% + var(--off) / 2 - var(--hw) / 2); margin-top: calc(var(--hh) * 1.5 + var(--gap) * 2); }
 .hx-bg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hx::before { content: ""; position: absolute; inset: 0; background: rgba(255, 255, 255, .34); -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px); -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20216%20250%22%20preserveAspectRatio%3D%22none%22%3E%3Cpath%20d%3D%22M89.6%2010.6Q108.0%200.0%20126.4%2010.6L197.6%2051.9Q216.0%2062.5%20216.0%2083.8L216.0%20166.2Q216.0%20187.5%20197.6%20198.1L126.4%20239.4Q108.0%20250.0%2089.6%20239.4L18.4%20198.1Q0.0%20187.5%200.0%20166.2L0.0%2083.8Q0.0%2062.5%2018.4%2051.9Z%22/%3E%3C/svg%3E") center / 100% 100% no-repeat; mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20216%20250%22%20preserveAspectRatio%3D%22none%22%3E%3Cpath%20d%3D%22M89.6%2010.6Q108.0%200.0%20126.4%2010.6L197.6%2051.9Q216.0%2062.5%20216.0%2083.8L216.0%20166.2Q216.0%20187.5%20197.6%20198.1L126.4%20239.4Q108.0%20250.0%2089.6%20239.4L18.4%20198.1Q0.0%20187.5%200.0%20166.2L0.0%2083.8Q0.0%2062.5%2018.4%2051.9Z%22/%3E%3C/svg%3E") center / 100% 100% no-repeat; }
 .hx:active::before { background: rgba(255, 255, 255, .6); }
@@ -890,12 +891,13 @@ body.is-home .fab:not(.closet) svg { display: none; }
 body.is-home .qbtn { display: grid; place-items: center; position: fixed; z-index: 11; right: max(16px, calc((100vw - 560px) / 2 + 16px)); bottom: calc(var(--fab-home, 131px) + env(safe-area-inset-bottom, 0px)); width: 54px; height: 54px; border: 1px solid rgba(255, 255, 255, .9); border-radius: 50%; background: rgba(255, 255, 255, .62); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); color: #1B2945; box-shadow: 0 6px 16px rgba(20, 30, 60, .18); }
 .qbtn svg { width: 24px; height: 24px; transition: transform .25s; }
 body.qd-open .qbtn svg { transform: rotate(45deg); }
-/*FABV*/body.is-home .fab:not(.closet) { width: auto; height: 40px; padding: 0 18px; border-radius: 999px; font-size: 13px; font-weight: 500; letter-spacing: .02em; right: max(66px, calc((100vw - 560px) / 2 + 66px)); box-shadow: 0 6px 16px rgba(20, 30, 60, .2); background: linear-gradient(110deg, #1B2945 8%, #574459 52%, #1B2945 92%); }
-body.is-home .qbtn { width: 40px; height: 40px; border: 1px solid rgba(255, 255, 255, .85); background: rgba(255, 255, 255, .45); box-shadow: 0 4px 12px rgba(20, 30, 60, .12); }
+/*FABV*/body.is-home .fab:not(.closet) { width: 96px; height: 40px; padding: 0; border-radius: 999px; font-size: 13px; font-weight: 500; letter-spacing: .02em; right: auto; left: max(16px, calc((100vw - 560px) / 2 + 16px)); box-shadow: 0 6px 16px rgba(20, 30, 60, .2); background: linear-gradient(110deg, #1B2945 8%, #574459 52%, #1B2945 92%); }
+body.is-home .qbtn { width: 40px; height: 40px; right: auto; left: max(122px, calc((100vw - 560px) / 2 + 122px)); border: 1px solid rgba(255, 255, 255, .85); background: rgba(255, 255, 255, .45); box-shadow: 0 4px 12px rgba(20, 30, 60, .12); }
 body.is-home .qbtn svg { width: 18px; height: 18px; }
 body.is-home .qbtn .q-x, body.qd-open .qbtn .q-grid { display: none; }
 body.qd-open .qbtn .q-x { display: block; transform: none; }
-body.is-home .qdial { bottom: calc(var(--fab-home, 131px) + 52px + env(safe-area-inset-bottom, 0px)); }/*/FABV*/
+body.is-home .qdial { bottom: calc(var(--fab-home, 131px) + 52px + env(safe-area-inset-bottom, 0px)); right: auto; left: max(16px, calc((100vw - 560px) / 2 + 16px)); align-items: flex-start; }
+body.is-home .qdial button { flex-direction: row-reverse; }/*/FABV*/
 body.is-home .qd-back { display: block; position: fixed; inset: 0; z-index: 10; border: 0; background: rgba(40, 36, 44, .28); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); opacity: 0; pointer-events: none; transition: opacity .2s; }
 body.qd-open .qd-back { opacity: 1; pointer-events: auto; }
 body.is-home .qdial { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; position: fixed; z-index: 11; right: max(16px, calc((100vw - 560px) / 2 + 16px)); bottom: calc(var(--fab-home, 131px) + 66px + env(safe-area-inset-bottom, 0px)); pointer-events: none; }
@@ -1342,8 +1344,8 @@ body.qd-open .fab:not(.closet) { opacity: 0; pointer-events: none; }
   function hex(cls, act, title, lines) { return '<button class="hx ' + cls + '" ' + act + '>' + HEX_BG + '<span class="hx-in"><b class="hx-t">' + title + '</b><span class="hx-d">' + lines + '</span>' + HEX_GO + '</span></button>'; }
   function vHome() {
     var t = today(), mon = t.slice(0, 8) + '01';
-    return '<div class="hmin hhex"><p class="hx-tag">함께 기도할 때, 하나님은 <em>선</em>을 이루십니다.</p>' +
-      '<div class="hx-wrap">' +
+    return '<div class="hmin hhex"><div class="hx-wrap">' +
+      '<p class="hx-tag">함께 <em>기도</em>할 때,<br>하나님은 <em>선</em>을<br>이루십니다.</p>' +
       '<button class="hfloat hx-me" data-act="hero-go"><b>' + esc(myName()) + '님의 기도</b><span>연속 ' + streak() + '일째</span><span>' + (+t.slice(5, 7)) + '월 기도 총 ' + fmtMin(sumRange(mon, t)) + '</span><span>오늘 기도 ' + fmtMin(sumRange(t, t)) + '</span></button>' +
       hex('h1', 'data-go="pray"', '중보기도', '얼굴은 몰라도<br>서로의 짐을 지고<br>함께 기도해요') +
       hex('h2', 'data-tab="diary"', '나의 기도', '주님과 나만 아는<br>은밀한<br>기도의 자리') +
