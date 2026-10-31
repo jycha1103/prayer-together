@@ -801,11 +801,13 @@ body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; back
 .htk2 .htk-track { gap: 10px; padding-bottom: 8px; }
 .htk-track.drift { scroll-snap-type: none; }
 /* 홈 육각형 */
-body.is-home { --fab-home: 92px; }
-.hhex { --fab-home: 92px; position: relative; --gap: 14px; --hh: min(calc(57vw / .866), calc((100svh - 235px) / 2.5), 380px); --hw: calc(var(--hh) * .866); justify-content: center; }
-.hhex .hx-wrap { position: relative; }
-.hhex::before { content: ""; display: block; height: calc(var(--hh) * 2.5 + var(--gap) * 2); }
-.hx { position: absolute; width: var(--hw); height: var(--hh); border: 0; padding: 0; background: none; color: #2A2F3E; top: calc(50% - var(--hh) * 1.25 - var(--gap)); }
+body.is-home { --fab-home: 178px; }
+.hhex { --fab-home: 178px; position: relative; --gap: 12px; --hh: min(calc(57vw / .866), calc((100svh - 330px) / 2.5), 380px); --hw: calc(var(--hh) * .866); justify-content: flex-end; }
+.hhex .hx-wrap { position: relative; flex: none; height: calc(var(--hh) * 2.5 + var(--gap) * 2); margin: auto 0 0; }
+.hhex .htk2 { margin-top: 10px; }
+.hx-me { position: absolute; top: 4%; right: 3%; width: auto; max-width: 42%; padding: 0; }
+.hx-me span { display: block; }
+.hx { position: absolute; width: var(--hw); height: var(--hh); border: 0; padding: 0; background: none; color: #2A2F3E; top: 0; }
 .hx.h1 { left: 3%; }
 .hx.h2 { right: 3%; margin-top: calc(var(--hh) * .75 + var(--gap)); }
 .hx.h3 { left: 3%; margin-top: calc(var(--hh) * 1.5 + var(--gap) * 2); }
@@ -1324,11 +1326,13 @@ body.qd-open .fab:not(.closet) { opacity: 0; pointer-events: none; }
   var HEX_GO = '<span class="hx-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13.5 6.5 19 12l-5.5 5.5"/></svg></span>';
   function hex(cls, act, title, lines) { return '<button class="hx ' + cls + '" ' + act + '>' + HEX_BG + '<span class="hx-in"><b class="hx-t">' + title + '</b><span class="hx-d">' + lines + '</span>' + HEX_GO + '</span></button>'; }
   function vHome() {
-    return '<div class="hmin hhex">' +
+    var t = today(), mon = t.slice(0, 8) + '01';
+    return '<div class="hmin hhex"><div class="hx-wrap">' +
+      '<button class="hfloat hx-me" data-act="hero-go"><b>' + esc(myName()) + '님의 기도</b><span>연속 ' + streak() + '일째</span><span>' + (+t.slice(5, 7)) + '월 ' + fmtMin(sumRange(mon, t)) + ' · 오늘 ' + fmtMin(sumRange(t, t)) + '</span></button>' +
       hex('h1', 'data-go="pray"', '중보기도', '얼굴은 몰라도<br>서로의 짐을 지고<br>함께 기도해요') +
       hex('h2', 'data-tab="diary"', '나의 기도', '주님과 나만 아는<br>은밀한<br>기도의 자리') +
       hex('h3', 'data-qm="rooms"', '우리 교회<br>기도방', '한 몸 된 지체들과<br>마음을 모아<br>함께 엎드리는 자리') +
-      '</div>';
+      '</div>' + homeTicker() + '</div>';
   }
   // 홈 맨 위: 중보기도와 나의 기도 큰 상자, 그 아래 나의 기도 기록 줄
   var HGLOBE = '<svg class="globe" viewBox="0 0 200 200" aria-hidden="true"><g class="gl-grid" fill="none" stroke="#B7C3EC" stroke-width="1.4" opacity=".55"><circle cx="100" cy="100" r="88"/><ellipse cx="100" cy="100" rx="20" ry="88"/><ellipse cx="100" cy="100" rx="42" ry="88"/><ellipse cx="100" cy="100" rx="62" ry="88"/><ellipse cx="100" cy="100" rx="78" ry="88"/><ellipse cx="100" cy="40" rx="64.4" ry="7.7"/><ellipse cx="100" cy="70" rx="82.7" ry="9.9"/><ellipse cx="100" cy="100" rx="88.0" ry="10.6"/><ellipse cx="100" cy="130" rx="82.7" ry="9.9"/><ellipse cx="100" cy="160" rx="64.4" ry="7.7"/></g><g class="gl-ln" stroke="#F5C870" stroke-width="2.6" opacity=".95"><line x1="58" y1="52" x2="96" y2="34"/><line x1="96" y1="34" x2="138" y2="48"/><line x1="138" y1="48" x2="150" y2="92"/><line x1="150" y1="92" x2="126" y2="126"/><line x1="126" y1="126" x2="84" y2="116"/><line x1="84" y1="116" x2="48" y2="98"/><line x1="48" y1="98" x2="58" y2="52"/><line x1="84" y1="116" x2="70" y2="150"/><line x1="70" y1="150" x2="118" y2="162"/><line x1="118" y1="162" x2="126" y2="126"/><line x1="126" y1="126" x2="160" y2="132"/><line x1="150" y1="92" x2="160" y2="132"/><line x1="96" y1="34" x2="84" y2="116"/><line x1="138" y1="48" x2="126" y2="126"/></g><g class="gl-dot" fill="#F5C870"><circle cx="58" cy="52" r="5.5"/><circle cx="96" cy="34" r="5.5"/><circle cx="138" cy="48" r="5.5"/><circle cx="150" cy="92" r="5.5"/><circle cx="126" cy="126" r="5.5"/><circle cx="84" cy="116" r="5.5"/><circle cx="48" cy="98" r="5.5"/><circle cx="70" cy="150" r="5.5"/><circle cx="118" cy="162" r="5.5"/><circle cx="160" cy="132" r="5.5"/></g></svg>';
