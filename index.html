@@ -844,8 +844,26 @@ body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; back
 .hmin .htk2-head .more { display: none; }
 .htk2-hb { all: inherit; display: inline; cursor: pointer; }
 .hmin .htk2-head h2::after { content: " ›"; font-weight: 400; color: #6B6F80; }
-body.is-home .fab:not(.closet) { width: 50px; height: 50px; font-size: 0; gap: 0; bottom: calc(var(--fab-home, 133px) + env(safe-area-inset-bottom, 0px)); box-shadow: 0 6px 16px rgba(20, 30, 60, .3); }
-body.is-home .fab:not(.closet) svg { width: 24px; height: 24px; }
+/* 홈: 작은 기도 요청 + 그 아래 펼침 메뉴 버튼 */
+body.is-home .fab:not(.closet) { width: 54px; height: 54px; font-size: 11px; font-weight: 600; letter-spacing: -.03em; bottom: calc(var(--fab-home, 131px) + 64px + env(safe-area-inset-bottom, 0px)); }
+body.is-home .fab:not(.closet) svg { display: none; }
+.qbtn, .qdial, .qd-back { display: none; }
+body.is-home .qbtn { display: grid; place-items: center; position: fixed; z-index: 11; right: max(16px, calc((100vw - 560px) / 2 + 16px)); bottom: calc(var(--fab-home, 131px) + env(safe-area-inset-bottom, 0px)); width: 54px; height: 54px; border: 1px solid rgba(255, 255, 255, .9); border-radius: 50%; background: rgba(255, 255, 255, .62); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); color: #1B2945; box-shadow: 0 6px 16px rgba(20, 30, 60, .18); }
+.qbtn svg { width: 24px; height: 24px; transition: transform .25s; }
+body.qd-open .qbtn svg { transform: rotate(45deg); }
+body.is-home .qd-back { display: block; position: fixed; inset: 0; z-index: 10; border: 0; background: rgba(40, 36, 44, .28); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); opacity: 0; pointer-events: none; transition: opacity .2s; }
+body.qd-open .qd-back { opacity: 1; pointer-events: auto; }
+body.is-home .qdial { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; position: fixed; z-index: 11; right: max(16px, calc((100vw - 560px) / 2 + 16px)); bottom: calc(var(--fab-home, 131px) + 66px + env(safe-area-inset-bottom, 0px)); pointer-events: none; }
+.qdial button { display: flex; align-items: center; gap: 10px; border: 0; background: none; padding: 0; opacity: 0; transform: translateY(16px) scale(.9); transition: opacity .2s, transform .25s; transition-delay: calc(var(--i) * 30ms); }
+body.qd-open .qdial { pointer-events: auto; }
+body.qd-open .qdial button { opacity: 1; transform: none; }
+.qd-l { padding: 6px 12px; border-radius: 999px; background: rgba(255, 255, 255, .92); font-size: 13px; font-weight: 500; color: #2B2F3A; box-shadow: 0 2px 8px rgba(40, 30, 30, .12); }
+.qdial .hic-i { width: 54px; height: 54px; border-radius: 50%; background: rgba(255, 255, 255, .95); box-shadow: 0 4px 12px rgba(40, 30, 30, .15); }
+.qdial .hic-i::before { inset: 5px; }
+.qdial .hic-i svg { width: 28px; height: 28px; }
+body.qd-open .fab:not(.closet) { opacity: 0; pointer-events: none; }
+.hmin .hbn { justify-content: flex-start; gap: 14px; }
+.hmin .hbn .hb2-go { position: static; margin-top: 0; }
 .hmin .htk2-c { border-radius: 999px; padding: 6px 20px 5px; background: rgba(255,255,255,.24); border-color: rgba(255,255,255,.6); -webkit-backdrop-filter: blur(10px) saturate(1.15); backdrop-filter: blur(10px) saturate(1.15); box-shadow: 0 3px 12px rgba(120,90,70,.06); }
 .hmin .htk2-t { font-size: 12.5px; line-height: 1.35; font-weight: 400; color: #1A1A1F; letter-spacing: -.01em; }
 .hmin .htk2-m { color: #8A8790; font-weight: 400; margin-top: 0; line-height: 1.35; }
@@ -873,6 +891,9 @@ body.is-home .fab:not(.closet) svg { width: 24px; height: 24px; }
   </header>
   <main id="view" class="stack"></main>
 </div>
+<button class="qd-back" data-act="quick-close" aria-label="닫기" tabindex="-1"></button>
+<div class="qdial" id="qdial" aria-label="기도 도구"></div>
+<button class="qbtn" data-act="quick" aria-label="기도 도구 열기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
 <div class="tabbar"><nav id="tabs" aria-label="메뉴"></nav></div>
 <button class="fab" id="topWrite"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>기도 요청</button>
 <div id="sheetRoot"></div>
@@ -3020,6 +3041,8 @@ body.is-home .fab:not(.closet) svg { width: 24px; height: 24px; }
     if (b.dataset.close && (e.target === b || b.classList.contains('x'))) return closeSheet();
     if (b.classList.contains('sheet-back')) return;
     var d = b.dataset;
+    if (d.act === 'quick') { if (!el('qdial').innerHTML) el('qdial').innerHTML = HOME_ICONS.map(function (m, i) { return '<button data-qm="' + m[0] + '" style="--i:' + (HOME_ICONS.length - 1 - i) + '"><span class="qd-l">' + m[1] + '</span><span class="hic-i ic-' + m[0] + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + m[2] + '</svg></span></button>'; }).join(''); return document.body.classList.toggle('qd-open'); }
+    if (document.body.classList.contains('qd-open')) { document.body.classList.remove('qd-open'); if (d.act === 'quick-close') return; }
     if (d.tab === 'rooms') { ptab = 'rooms'; cat = '전체'; q = ''; return go('pray'); }
     if (d.tab) { if (d.tab === 'diary' && tab !== 'diary') dtab = 'items'; if (d.tab === 'pray' && (tab !== 'pray' || ptab === 'rooms')) { ptab = 'all'; cat = '전체'; q = ''; } return go(d.tab); }
     if (d.guideTab) { gtab = d.guideTab; return go('guide'); }
