@@ -830,6 +830,16 @@ body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; back
 .tabbar button[aria-current="page"] svg { fill: none; stroke: #C0504A; }
 .tabbar button[aria-current="page"] svg .fillme { fill: #D0625A; stroke: #D0625A; }
 .tabbar button[aria-current="page"]::after { content: ""; position: absolute; bottom: 4px; left: 50%; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: #C0504A; }
+
+/* 홈은 그림 세 개로 한 화면을 채워요 */
+.hmin { display: flex; flex-direction: column; height: calc(100svh - 64px - 182px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)); min-height: 560px; }
+.hmin .hwel2 { padding: 26px 0 30px; }
+.hmin .hb2 { flex: 1; margin-top: 0; min-height: 250px; }
+.hmin .hb2-c { aspect-ratio: auto; height: 100%; padding-top: 22%; }
+.hmin .hbn { aspect-ratio: auto; height: 118px; flex: none; }
+.diary-top { margin: 4px 0 14px; }
+.diary-top .hstrip3 { background: rgba(255, 255, 255, .85); border-color: var(--line); box-shadow: none; }
+.diary-top .hic { margin: 10px -16px 0; padding: 4px 10px 0; }
 </style>
 
 <div class="app">
@@ -1237,38 +1247,30 @@ body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; back
     return '<section class="sec"><div class="sec-head"><h2><button class="sec-t" data-act="rooms">기도 모임방</button>' + (many ? ' <span class="seg-n">' + S.rooms.length + '</span>' : '') + '</h2><button class="more" data-act="rooms">전체 보기</button></div>' +
       (many ? '<div class="dly-track">' + rows + '</div>' : group(rows)) + '</section>';
   }
-  function vHome() {
-    var t = today(), act = attendItems(), allDone = act.length > 0 && act.every(function (i) { return i.checks.indexOf(t) >= 0; });
-    var tips = board('tips');
-    var AG = prayGuides(), allThings = (AG[0] ? lineItem('data-guide="' + AG[0].id + '"', AG[0].kind, AG[0].title) : '') +
-      (tips[0] ? lineItem('data-open="' + tips[0].id + '"', '노하우', tips[0].title) : AG[1] ? lineItem('data-guide="' + AG[1].id + '"', AG[1].kind, AG[1].title) : '');
-    return homeHero() + homeIcons() + installBanner() +
-      (SB ? '<button class="beta" data-act="feedback">시험 운영 중이에요. 불편한 점은 <u>운영자에게 한마디</u>로 알려 주세요.</button>' : '') +
-      '<section class="sec">' + secHead('간증', 'story') + group(board('story').slice(0, 2).map(function (p) { return item(p); }).join('')) + '</section>' +
-      (allThings ? '<section class="sec">' + secHead('기도의 모든 것', 'guide') + group(allThings) + '</section>' : '') +
-      openRoomsSec() +
-      '<section class="sec">' + secHead('말못할 사연', 'concern') + group(board('concern').slice(0, 2).map(function (p) { return item(p, 'concern'); }).join('')) + '</section>';
-  }
+  // 홈은 인사 글과 큰 그림 세 개만: 중보기도, 나의 기도, 우리 교회 모임방
+  function vHome() { return '<div class="hmin">' + homeHero() + '</div>' + installBanner(); }
   // 홈 맨 위: 중보기도와 나의 기도 큰 상자, 그 아래 나의 기도 기록 줄
   var HGLOBE = '<svg class="globe" viewBox="0 0 200 200" aria-hidden="true"><g class="gl-grid" fill="none" stroke="#B7C3EC" stroke-width="1.4" opacity=".55"><circle cx="100" cy="100" r="88"/><ellipse cx="100" cy="100" rx="20" ry="88"/><ellipse cx="100" cy="100" rx="42" ry="88"/><ellipse cx="100" cy="100" rx="62" ry="88"/><ellipse cx="100" cy="100" rx="78" ry="88"/><ellipse cx="100" cy="40" rx="64.4" ry="7.7"/><ellipse cx="100" cy="70" rx="82.7" ry="9.9"/><ellipse cx="100" cy="100" rx="88.0" ry="10.6"/><ellipse cx="100" cy="130" rx="82.7" ry="9.9"/><ellipse cx="100" cy="160" rx="64.4" ry="7.7"/></g><g class="gl-ln" stroke="#F5C870" stroke-width="2.6" opacity=".95"><line x1="58" y1="52" x2="96" y2="34"/><line x1="96" y1="34" x2="138" y2="48"/><line x1="138" y1="48" x2="150" y2="92"/><line x1="150" y1="92" x2="126" y2="126"/><line x1="126" y1="126" x2="84" y2="116"/><line x1="84" y1="116" x2="48" y2="98"/><line x1="48" y1="98" x2="58" y2="52"/><line x1="84" y1="116" x2="70" y2="150"/><line x1="70" y1="150" x2="118" y2="162"/><line x1="118" y1="162" x2="126" y2="126"/><line x1="126" y1="126" x2="160" y2="132"/><line x1="150" y1="92" x2="160" y2="132"/><line x1="96" y1="34" x2="84" y2="116"/><line x1="138" y1="48" x2="126" y2="126"/></g><g class="gl-dot" fill="#F5C870"><circle cx="58" cy="52" r="5.5"/><circle cx="96" cy="34" r="5.5"/><circle cx="138" cy="48" r="5.5"/><circle cx="150" cy="92" r="5.5"/><circle cx="126" cy="126" r="5.5"/><circle cx="84" cy="116" r="5.5"/><circle cx="48" cy="98" r="5.5"/><circle cx="70" cy="150" r="5.5"/><circle cx="118" cy="162" r="5.5"/><circle cx="160" cy="132" r="5.5"/></g></svg>';
   var HHANDS = '<svg class="hands" viewBox="0 0 66.6 100" aria-hidden="true"><path class="hd-p" fill="#F5C870" fill-rule="evenodd" d="M62.1 1.0 L61.7 0.9 L59.8 1.0 L58.5 1.9 L57.5 3.0 L56.8 2.2 L55.9 1.7 L54.3 1.7 L53.3 2.2 L51.3 4.0 L48.4 7.8 L40.5 17.0 L38.6 20.6 L37.9 19.7 L36.3 18.9 L34.7 18.9 L33.7 19.6 L31.8 25.4 L30.3 28.7 L28.8 31.0 L25.5 35.4 L24.4 38.2 L23.9 40.9 L23.9 44.4 L23.8 44.5 L23.9 49.4 L24.4 53.6 L24.4 57.1 L23.8 58.6 L21.9 61.1 L18.3 64.7 L16.4 63.5 L15.3 63.3 L13.4 63.4 L12.0 64.0 L10.8 64.8 L4.9 70.5 L0.9 73.6 L0.9 74.1 L1.4 74.2 L5.0 72.2 L8.8 69.2 L11.7 66.3 L13.7 65.0 L15.1 64.8 L16.0 65.1 L18.6 67.0 L21.8 70.2 L24.8 73.8 L27.2 77.1 L30.4 82.1 L31.7 84.7 L32.6 87.2 L32.7 90.2 L32.3 91.5 L30.1 94.8 L26.8 98.6 L27.1 99.1 L27.4 99.1 L29.3 97.7 L31.6 95.4 L33.1 93.2 L34.0 91.4 L34.3 90.2 L34.3 87.8 L34.0 86.3 L33.0 83.9 L37.6 77.5 L42.1 70.0 L42.9 69.2 L46.0 67.0 L49.4 63.5 L52.0 60.2 L54.9 55.6 L57.6 49.7 L58.5 47.0 L59.4 42.9 L63.5 31.7 L63.7 32.6 L62.4 40.5 L62.4 45.5 L61.7 49.0 L59.9 53.6 L57.5 58.8 L55.2 62.8 L52.4 66.7 L51.7 68.7 L51.6 71.6 L51.7 71.8 L52.2 81.7 L51.9 84.0 L51.3 85.9 L50.4 86.9 L49.1 87.5 L47.1 87.5 L46.0 87.2 L43.2 86.0 L40.6 84.3 L38.8 82.6 L36.9 80.4 L36.5 80.4 L36.2 80.7 L36.2 81.1 L37.9 83.9 L39.5 85.4 L41.9 87.2 L44.2 88.3 L46.8 89.0 L49.4 89.0 L50.4 88.8 L51.4 88.2 L52.2 87.5 L52.7 86.6 L53.5 84.4 L53.7 82.0 L53.7 78.7 L53.6 78.5 L53.5 75.1 L53.7 74.9 L56.2 77.1 L57.3 78.7 L58.8 81.4 L60.5 85.9 L62.4 89.3 L64.1 91.4 L64.6 91.5 L65.0 91.1 L62.8 87.0 L60.1 80.3 L58.5 77.4 L57.6 76.2 L55.6 74.2 L53.3 72.8 L53.5 68.4 L53.9 67.4 L57.3 62.2 L59.7 57.9 L62.7 50.7 L63.8 46.1 L64.0 39.6 L64.8 34.9 L65.6 28.5 L65.7 20.5 L65.0 18.9 L64.3 18.3 L63.3 18.0 L63.3 17.4 L64.0 15.7 L64.8 12.5 L65.0 10.2 L64.4 8.6 L63.1 7.6 L63.7 5.0 L63.7 3.0 L63.3 2.0ZM61.1 2.3 L61.8 2.7 L62.2 3.6 L62.2 4.8 L61.5 7.2 L61.1 7.8 L60.5 8.1 L59.7 8.9 L55.2 17.3 L51.4 23.8 L49.9 27.1 L47.3 33.9 L45.4 37.3 L45.4 37.8 L45.7 38.0 L46.3 38.0 L47.7 36.2 L49.3 32.9 L51.6 26.8 L57.9 15.4 L60.7 10.1 L61.8 9.1 L62.8 9.2 L63.4 9.9 L63.5 11.2 L62.5 15.4 L61.2 18.9 L60.1 20.5 L57.1 27.8 L54.0 34.1 L52.2 39.0 L51.4 41.6 L51.4 42.2 L51.7 42.8 L52.4 42.9 L52.7 42.7 L52.7 41.9 L53.2 40.3 L55.6 34.1 L57.9 29.5 L61.5 20.9 L62.2 19.9 L62.7 19.6 L63.4 19.6 L64.1 20.3 L64.3 20.7 L64.3 23.3 L64.0 24.9 L61.5 33.3 L58.2 41.6 L57.5 44.1 L57.1 46.5 L56.1 49.7 L53.3 55.3 L50.4 59.8 L47.8 63.0 L45.2 65.6 L41.1 68.7 L37.3 75.1 L34.4 79.4 L32.3 82.1 L29.7 77.8 L26.5 73.3 L22.9 69.0 L19.6 65.7 L21.3 64.1 L24.5 60.5 L25.8 58.2 L25.9 54.2 L25.8 54.0 L25.5 47.7 L25.4 47.6 L25.4 42.5 L25.5 42.4 L25.6 39.5 L26.2 37.5 L26.8 36.3 L30.0 32.0 L31.4 29.7 L33.6 25.1 L34.9 20.7 L35.2 20.5 L36.2 20.5 L36.9 21.0 L37.5 22.2 L37.6 23.3 L35.2 29.0 L31.4 34.4 L28.2 40.6 L28.1 41.2 L28.4 41.5 L29.1 41.4 L31.3 38.0 L33.1 34.4 L35.2 31.8 L37.0 28.7 L38.5 25.4 L39.9 21.3 L41.4 18.4 L48.1 10.5 L52.3 5.2 L53.9 3.6 L55.0 3.2 L55.5 3.3 L56.2 4.0 L56.2 5.0 L46.0 19.9 L44.7 22.5 L41.9 29.5 L40.8 31.8 L39.3 33.6 L39.2 34.3 L39.5 34.6 L40.1 34.6 L41.1 33.7 L43.1 30.5 L46.0 23.2 L47.6 20.2 L59.1 3.5 L59.8 2.7Z"/></svg>';
   var HLEAF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><path d="M4 20C9 15 13 11 19 4"/><path d="M8.5 15.5c-2.2-.2-3.6-1.5-4-3.6 2.2.1 3.6 1.3 4 3.6zM11.5 12.2c-2-.6-3-2.1-3-4.2 2 .6 3 2 3 4.2zM14.6 8.8c-1.8-.9-2.5-2.5-2.2-4.5 1.8.9 2.5 2.4 2.2 4.5zM11 15c.4-2.2 1.9-3.4 4.1-3.5-.4 2.2-1.9 3.3-4.1 3.5zM14.2 11.4c.6-2.1 2.1-3.1 4.3-3-.6 2.1-2.1 3.1-4.3 3z"/></svg>';
   var ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13.5 6.5 19 12l-5.5 5.5"/></svg>';
   var CANDLE2 = '<svg viewBox="0 0 40 48" aria-hidden="true"><defs><radialGradient id="cglow" cx="50%" cy="40%" r="50%"><stop offset="0" stop-color="#FFD98A" stop-opacity=".75"/><stop offset="1" stop-color="#FFD98A" stop-opacity="0"/></radialGradient><linearGradient id="cflame" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE7A8"/><stop offset=".6" stop-color="#F6B443"/><stop offset="1" stop-color="#E9822C"/></linearGradient></defs><circle cx="20" cy="12" r="14" fill="url(#cglow)"/><path d="M20 3.5c2.6 3.2 4 5.6 4 8.2a4 4 0 0 1-8 0c0-2.6 1.4-5 4-8.2z" fill="url(#cflame)"/><path d="M20 15.5v3" stroke="#6B5444" stroke-width="1.1"/><rect x="11.5" y="19" width="17" height="25" rx="3.5" fill="#FFF8EE" stroke="#E5C9A6" stroke-width="1.2"/><path d="M13 22.5c2 .9 4.4 1.2 7 1.2s5-.3 7-1.2" stroke="#EBD3B4" stroke-width="1" fill="none"/></svg>';
+  function prayStrip() {
+    var t = today(), mon = t.slice(0, 8) + '01';
+    return '<button class="hstrip3" data-act="hero-go"><span class="hs-txt"><span class="hs-name">' + esc(myName()) + '님의 기도</span><span class="hs-sub">연속 ' + streak() + ' 일째 / ' + (+t.slice(5, 7)) + '월 ' + fmtMin(sumRange(mon, t)) + ' / 오늘 기도 ' + fmtMin(sumRange(t, t)) + '</span></span>' +
+        '<span class="hs-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span></button>';
+  }
   function homeHero() {
     var t = today(), mon = t.slice(0, 8) + '01';
     return '<div class="hwel2"><p>나를 위해 기도를 세우는 곳,<br>남을 위해 중보 하는 곳,<br>함께 기도의 동역자가 되는 곳,<br>합력하여 <em class="sun">선</em>을 이루는 기도입니다.</p><span class="hwel-side" aria-hidden="true">TOGETHER<br>IN PRAYER<br>FOR GOOD</span></div>' +
-      '<button class="hstrip3" data-act="hero-go"><span class="hs-txt"><span class="hs-name">' + esc(myName()) + '님의 기도</span><span class="hs-sub">연속 ' + streak() + ' 일째 / ' + (+t.slice(5, 7)) + '월 ' + fmtMin(sumRange(mon, t)) + ' / 오늘 기도 ' + fmtMin(sumRange(t, t)) + '</span></span>' +
-        '<span class="hs-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span></button>' +
       '<div class="hb2"><button class="hb2-c p1" data-go="pray"><span class="hb2-t">중보기도</span><i class="hb2-dash"></i><span class="hb2-d">함께 드리는 기도가<br>더 큰 길을 만듭니다.</span><span class="hb2-go">' + ARROW + '</span></button>' +
         '<button class="hb2-c p2" data-tab="diary"><span class="hb2-t">나의 기도</span><i class="hb2-dash"></i><span class="hb2-d">하나님과의 깊은 만남이<br>시작됩니다.</span><span class="hb2-go">' + ARROW + '</span></button></div>' +
-      '<button class="hbn" data-qm="rooms"><span class="hbn-t">우리 교회 모임방</span><span class="hb2-go">' + ARROW + '</span></button>' +
-      homeTicker();
+      '<button class="hbn" data-qm="rooms"><span class="hbn-t">우리 교회 모임방</span><span class="hb2-go">' + ARROW + '</span></button>';
   }
   // 중보기도 제목이 몇 초마다 옆으로 넘어가요. 손가락으로 밀어서 넘겨도 돼요.
-  function homeTicker() {
+  function homeTicker(noMore) {
     var list = urgentFirst(board('pray')).slice(0, 8);
-    return '<section class="htk2"><div class="htk2-head"><h2>지금, 함께 기도하고 있어요</h2><button class="more" data-go="pray">모두 보기</button></div>' +
+    return '<section class="htk2"><div class="htk2-head"><h2>지금, 함께 기도하고 있어요</h2>' + (noMore ? '' : '<button class="more" data-go="pray">모두 보기</button>') + '</div>' +
       (list.length ? '<div class="htk-track" id="htk">' + list.map(function (p, i) {
         return '<button class="htk2-c" data-open="' + p.id + '"><span class="htk2-t">' + esc(p.title) + '</span><span class="htk2-m"><span>' + esc(p.author) + '</span><span>' + ago(p.created) + '</span>' + countSpan(p) + '<span>댓글 ' + p.comments.length + '</span></span></button>';
       }).join('') + '</div>' : '<div class="htk2-empty">첫 기도 제목을 올려 주세요. 함께 기도할게요.</div>') + '</section>';
@@ -1431,7 +1433,7 @@ body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; back
     var list = board('pray').filter(function (p) {
       return (cat === '전체' || p.cat === cat) && (!q || (p.title + p.body + p.author).toLowerCase().indexOf(q.toLowerCase()) >= 0);
     });
-    return prayHead() +
+    return prayHead() + (cat === '전체' && !q ? homeTicker(true) : '') +
       '<input class="search" id="q" type="search" placeholder="기도 제목 검색 (예: 수술, 취업, 선교)" value="' + esc(q) + '">' +
       (list.length ? list.map(postCard).join('') : '<div class="empty">아직 올라온 기도 제목이 없어요.<br>오른쪽 아래 기도 요청 버튼으로 첫 기도 제목을 나눠 주세요.</div>');
   }
@@ -1594,6 +1596,7 @@ body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; back
   function vDiary() {
     var h = '<div class="page-head"><h1 class="page-title">🔒 내 기도 노트</h1><div class="row hd-btns"><button class="btn sm ghost wbtn" data-act="calendar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>캘린더</button><button class="btn sm ghost wbtn" data-act="widget"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="17" height="7" rx="2"/></svg>위젯</button></div></div><div class="seg" role="group">' + [['items', '내 기도 제목'], ['time', '기도 시간'], ['letter', '기도 편지'], ['scrap', '스크랩']].map(function (s) {
       return '<button data-dtab="' + s[0] + '" aria-pressed="' + (dtab === s[0]) + '">' + s[1] + '</button>'; }).join('') + '</div>';
+    h += '<div class="diary-top">' + prayStrip() + homeIcons() + '</div>';
     if (S.example && dtab !== 'scrap') h += '<div class="note row between"><span>예시 기록이 채워져 있어요. 내 기록으로 시작하려면 지워 주세요.</span><button class="linkbtn blue" data-act="clear-example">예시 지우기</button></div>';
     if (dtab === 'items') h += vItems(); else if (dtab === 'time') h += vTime(); else if (dtab === 'scrap') h += vScraps(); else h += vLetters();
     return h;
@@ -2559,7 +2562,7 @@ body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; back
     el('topWrite').innerHTML = tab === 'diary' ? FAB_CLOSET : FAB_REQ;
     el('topWrite').classList.toggle('closet', tab === 'diary');
     addHelpBtn();
-    if (tab === 'home') htkStart();
+    if (tab === 'pray') htkStart();
     navTrack();
     if (el('bellDot')) el('bellDot').hidden = !noticeNew() || tab === 'notice';
     visitLog();
