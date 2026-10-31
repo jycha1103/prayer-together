@@ -793,6 +793,7 @@ body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; back
 .htk2-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
 .htk2-head h2 { margin: 0; font-family: var(--font-display); font-size: 16px; font-weight: 700; color: #1F2A44; letter-spacing: -.02em; }
 .htk2 .htk-track { gap: 10px; padding-bottom: 8px; }
+.htk-track.drift { scroll-snap-type: none; }
 .htk2-c { flex: 0 0 60%; scroll-snap-align: start; text-align: left; border: 1px solid rgba(255, 255, 255, .95); border-radius: 20px; padding: 9px 14px 8px; background: rgba(255, 255, 255, .78); box-shadow: 0 4px 14px rgba(120, 90, 70, .08); color: var(--ink); }
 .htk2-t { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .htk2-t i { flex: none; width: 8px; height: 8px; border-radius: 50%; }
@@ -1326,19 +1327,27 @@ body.qd-open .fab:not(.closet) { opacity: 0; pointer-events: none; }
   }
   window.addEventListener('scroll', function () { document.body.classList.toggle('scrolled', window.scrollY > 8); }, { passive: true });
   var htkTimer = null;
+  // 함께 기도 줄: 기도 제목이 천천히 이어서 흘러가요 (손으로 만지면 잠시 멈춤)
   function htkStart() {
-    clearInterval(htkTimer);
-    var tr = el('htk'); if (!tr) return;
-    var hold = 0, idx = function () { return Math.round(tr.scrollLeft / (tr.firstChild.offsetWidth + 10)); };
-    var dots = function () { var i = idx(); el('htkDots') && Array.prototype.forEach.call(el('htkDots').children, function (d, k) { d.className = k === i ? 'on' : ''; }); };
-    tr.addEventListener('scroll', function () { dots(); }, { passive: true });
-    tr.addEventListener('touchstart', function () { hold = Date.now(); }, { passive: true });
-    htkTimer = setInterval(function () {
-      if (!document.body.contains(tr)) return clearInterval(htkTimer);
-      if (Date.now() - hold < 6000 || document.hidden) return;
-      var end = tr.scrollLeft >= tr.scrollWidth - tr.clientWidth - 2;
-      tr.scrollTo({ left: end ? 0 : (idx() + 1) * (tr.firstChild.offsetWidth + 10), behavior: 'smooth' });
-    }, 4000);
+    if (htkTimer) cancelAnimationFrame(htkTimer);
+    var tr = el('htk'); if (!tr || tr.children.length < 2) return;
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var n = tr.children.length;
+    Array.prototype.slice.call(tr.children).forEach(function (c) { var k = c.cloneNode(true); k.setAttribute('aria-hidden', 'true'); k.tabIndex = -1; tr.appendChild(k); });
+    tr.classList.add('drift');
+    var hold = 0, pos = tr.scrollLeft, last = 0, SPEED = 14;
+    var stop = function () { hold = Date.now(); };
+    ['touchstart', 'pointerdown', 'wheel'].forEach(function (ev) { tr.addEventListener(ev, stop, { passive: true }); });
+    var step = function (t) {
+      if (!document.body.contains(tr)) return;
+      var dt = last ? Math.min(t - last, 100) : 0; last = t;
+      var half = tr.children[n].offsetLeft - tr.children[0].offsetLeft;
+      if (Date.now() - hold < 5000 || document.hidden) { pos = tr.scrollLeft; }
+      else { pos += SPEED * dt / 1000; if (pos >= half) pos -= half; tr.scrollLeft = pos; }
+      if (tr.scrollLeft >= half) { tr.scrollLeft -= half; pos = tr.scrollLeft; }
+      htkTimer = requestAnimationFrame(step);
+    };
+    htkTimer = requestAnimationFrame(step);
   }
   var QM_ICONS = {
     pray: '<path d="M12 20s-7.5-4.6-7.5-10.2A4.1 4.1 0 0 1 12 7.4a4.1 4.1 0 0 1 7.5 2.4C19.5 15.4 12 20 12 20z"/>',
