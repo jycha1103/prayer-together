@@ -841,6 +841,11 @@ body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; back
 .hfloat span { font-size:11.5px; color:#8E5A64; letter-spacing:.02em; }
 .hfloat svg { display:none; }
 .hmin .htk2 { margin-top: 16px; }
+.hmin .htk2-head .more { display: none; }
+.htk2-hb { all: inherit; display: inline; cursor: pointer; }
+.hmin .htk2-head h2::after { content: " ›"; font-weight: 400; color: #6B6F80; }
+body.is-home .fab:not(.closet) { width: 50px; height: 50px; font-size: 0; gap: 0; bottom: calc(var(--fab-home, 133px) + env(safe-area-inset-bottom, 0px)); box-shadow: 0 6px 16px rgba(20, 30, 60, .3); }
+body.is-home .fab:not(.closet) svg { width: 24px; height: 24px; }
 .hmin .htk2-c { border-radius: 999px; padding: 6px 20px 5px; background: rgba(255,255,255,.24); border-color: rgba(255,255,255,.6); -webkit-backdrop-filter: blur(10px) saturate(1.15); backdrop-filter: blur(10px) saturate(1.15); box-shadow: 0 3px 12px rgba(120,90,70,.06); }
 .hmin .htk2-t { font-size: 12.5px; line-height: 1.35; font-weight: 400; color: #1A1A1F; letter-spacing: -.01em; }
 .hmin .htk2-m { color: #8A8790; font-weight: 400; margin-top: 0; line-height: 1.35; }
@@ -1285,7 +1290,7 @@ body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; back
   // 중보기도 제목이 몇 초마다 옆으로 넘어가요. 손가락으로 밀어서 넘겨도 돼요.
   function homeTicker(noMore) {
     var list = urgentFirst(board('pray')).slice(0, 8);
-    return '<section class="htk2"><div class="htk2-head"><h2>지금, 함께 기도하고 있어요</h2>' + (noMore ? '' : '<button class="more" data-go="pray">모두 보기</button>') + '</div>' +
+    return '<section class="htk2"><div class="htk2-head"><h2><button class="htk2-hb" data-go="pray">지금, 함께 기도하고 있어요</button></h2>' + (noMore ? '' : '<button class="more" data-go="pray">모두 보기</button>') + '</div>' +
       (list.length ? '<div class="htk-track" id="htk">' + list.map(function (p, i) {
         return '<button class="htk2-c" data-open="' + p.id + '"><span class="htk2-t">' + esc(p.title) + '</span><span class="htk2-m"><span>' + esc(p.author) + '</span><span>' + ago(p.created) + '</span>' + countSpan(p) + '<span>댓글 ' + p.comments.length + '</span></span></button>';
       }).join('') + '</div>' : '<div class="htk2-empty">첫 기도 제목을 올려 주세요. 함께 기도할게요.</div>') + '</section>';
