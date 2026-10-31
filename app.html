@@ -32,6 +32,7 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .brand .mark svg { width: 22px; height: 22px; }
 .brand-txt { min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
 .not-home .brand-sub { display: none; }
+@font-face { font-family: "MaruBuri"; font-weight: 300; font-display: swap; src: url("fonts/MaruBuri-Light.woff2") format("woff2"); }
 @font-face { font-family: "MaruBuri"; font-weight: 400; font-display: swap; src: url("fonts/MaruBuri-Regular.woff2") format("woff2"); }
 @font-face { font-family: "MaruBuri"; font-weight: 700; font-display: swap; src: url("fonts/MaruBuri-Bold.woff2") format("woff2"); }
 .topbar { background: rgba(247, 243, 238, .82); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
@@ -762,18 +763,18 @@ button.cal-row b { color: var(--gold); }
 .topbar .brand-name { font-weight: 400; font-size: 16.5px; color: #1F2A44; }
 .brand-sub { display: none; }
 .icon-btn.avatar svg { width: 32px; height: 32px; }
-body.is-home { background: linear-gradient(to bottom, rgba(247, 243, 238, 0) 0, rgba(247, 243, 238, 0) 60vw, var(--bg) 87vw) top center / 100% 87vw no-repeat, url("home-bg.jpg") top center / 100% auto no-repeat, var(--bg); }
-.hwel2 { position: relative; padding: 10px 0 16px; text-align: center; }
-.hwel2 p { margin: 0; font-family: var(--font-display); font-size: 17px; line-height: 1.9; color: #1F2A44; letter-spacing: -.01em; }
-.hwel2 .sun { font-style: normal; font-size: 1.55em; line-height: 1; color: #C0504A; vertical-align: -.06em; }
+body.is-home { background: linear-gradient(to bottom, rgba(247, 243, 238, 0) 0, rgba(247, 243, 238, 0) 82vw, var(--bg) 106vw) top center / 100% 116vw no-repeat, url("home-bg.jpg") top center / 100% 112vw no-repeat, var(--bg); }
+.hwel2 { position: relative; padding: 34px 0 40px; text-align: center; }
+.hwel2 p { margin: 0; font-family: var(--font-display); font-weight: 300; font-size: 15px; line-height: 2.45; color: #3A4258; letter-spacing: .05em; }
+.hwel2 .sun { font-style: normal; font-weight: 400; font-size: 1.6em; line-height: 1; color: #C0504A; vertical-align: -.06em; }
 .hwel-side { position: absolute; right: -6px; top: 37%; border-left: 1px solid #6E6A72; padding-left: 7px; font-size: 7.5px; line-height: 1.75; letter-spacing: .06em; color: #4D4A55; text-align: left; }
-.hstrip3 { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; border: 1px solid rgba(255, 255, 255, .95); border-radius: 24px; padding: 8px 14px; background: rgba(255, 255, 255, .7); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 6px 20px rgba(120, 90, 70, .1); color: var(--ink); }
+.hstrip3 { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; border: 1px solid rgba(255, 255, 255, .95); border-radius: 999px; padding: 10px 18px 10px 24px; background: rgba(255, 255, 255, .7); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 6px 20px rgba(120, 90, 70, .1); color: var(--ink); }
 .hs-candle svg { display: block; width: 32px; height: 40px; }
 .hs-txt { flex: 1; min-width: 0; }
 .hstrip3 .hs-name { display: block; font-family: var(--font-display); font-size: 15.5px; font-weight: 400; color: #1F2A44; }
 .hs-sub { display: block; margin-top: 2px; font-size: 12.5px; color: #8A8790; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .hstrip3 .hs-go { color: #3A3A44; padding: 0; }
-.hb2 { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; margin-top: 14px; }
+.hb2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 11px; margin-top: 14px; }
 .hb2-c { position: relative; aspect-ratio: 361 / 350; border: 0; border-radius: 3px; padding: 22% 9% 0; text-align: left; background: #F2E6DA center / cover no-repeat; color: #1F2A44; display: flex; flex-direction: column; align-items: flex-start; box-shadow: 0 2px 10px rgba(120, 90, 70, .08); }
 .hb2-c.p1 { background-image: url("home-pray.jpg"); }
 .hb2-c.p2 { background-image: url("home-mine.jpg"); }
@@ -1239,7 +1240,7 @@ body.is-home { background: linear-gradient(to bottom, rgba(247, 243, 238, 0) 0, 
   function homeHero() {
     var t = today(), mon = t.slice(0, 8) + '01';
     return '<div class="hwel2"><p>나를 위해 기도를 세우는 곳,<br>남을 위해 중보 하는 곳,<br>함께 기도의 동역자가 되는 곳,<br>합력하여 <em class="sun">선</em>을 이루는 기도입니다.</p><span class="hwel-side" aria-hidden="true">TOGETHER<br>IN PRAYER<br>FOR GOOD</span></div>' +
-      '<button class="hstrip3" data-act="hero-go"><span class="hs-candle">' + CANDLE2 + '</span><span class="hs-txt"><span class="hs-name">' + esc(myName()) + '님의 기도</span><span class="hs-sub">연속 ' + streak() + ' 일째 / ' + (+t.slice(5, 7)) + '월 ' + fmtMin(sumRange(mon, t)) + ' / 오늘 기도 ' + fmtMin(sumRange(t, t)) + '</span></span>' +
+      '<button class="hstrip3" data-act="hero-go"><span class="hs-txt"><span class="hs-name">' + esc(myName()) + '님의 기도</span><span class="hs-sub">연속 ' + streak() + ' 일째 / ' + (+t.slice(5, 7)) + '월 ' + fmtMin(sumRange(mon, t)) + ' / 오늘 기도 ' + fmtMin(sumRange(t, t)) + '</span></span>' +
         '<span class="hs-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span></button>' +
       '<div class="hb2"><button class="hb2-c p1" data-go="pray"><span class="hb2-t">중보기도</span><i class="hb2-dash"></i><span class="hb2-d">함께 드리는 기도가<br>더 큰 길을 만듭니다.</span><span class="hb2-go">' + ARROW + '</span></button>' +
         '<button class="hb2-c p2" data-tab="diary"><span class="hb2-t">나의 기도</span><i class="hb2-dash"></i><span class="hb2-d">하나님과의 깊은 만남이<br>시작됩니다.</span><span class="hb2-go">' + ARROW + '</span></button></div>' +
