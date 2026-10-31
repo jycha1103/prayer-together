@@ -28,7 +28,7 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 /* top bar */
 .topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 14px 12px; margin-inline: -16px; padding-inline: 16px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .brand { min-width: 0; display: flex; align-items: center; gap: 9px; background: none; border: 0; padding: 0; text-align: left; }
-.brand .mark { flex: none; width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(#17276C, #0F1D55); display: grid; place-items: center; box-shadow: 0 3px 10px rgba(23, 32, 74, .25); }
+.brand .mark { flex: none; width: 38px; height: 38px; border-radius: 10px; background: #F1E2D3; display: grid; place-items: center; box-shadow: 0 2px 8px rgba(120, 70, 40, .16); }
 .brand .mark svg { width: 38px; height: 38px; }
 .brand-txt { min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
 .not-home .brand-sub { display: none; }
@@ -478,7 +478,7 @@ textarea.paper { width: 100%; min-height: 260px; resize: vertical; font-size: 16
 .join-bar { height: 5px; border-radius: 3px; background: var(--line); overflow: hidden; margin-top: -4px; }
 .join-bar i { display: block; height: 100%; background: linear-gradient(90deg, #E6A92E, #C98A12); transition: width .3s; }
 .join-hero { text-align: center; padding: 26px 0 8px; }
-.join-hero .mark { display: inline-grid; place-items: center; width: 64px; height: 64px; border-radius: 20px; background: linear-gradient(#17276C, #0F1D55); box-shadow: 0 8px 22px rgba(23, 32, 74, .3); }
+.join-hero .mark { display: inline-grid; place-items: center; width: 64px; height: 64px; border-radius: 20px; background: #F1E2D3; box-shadow: 0 8px 22px rgba(120, 70, 40, .18); }
 .join-hero .mark svg { width: 64px; height: 64px; }
 .join-hero h1 { font-family: var(--font-display); font-size: 23px; color: var(--navy); margin-top: 14px; }
 .join-hero p { color: var(--ink-2); margin: 6px 0 0; }
@@ -873,9 +873,9 @@ body.qd-open .fab:not(.closet) { opacity: 0; pointer-events: none; }
 body.is-home { background: #FFFFFF; }
 body.is-home::before { position: absolute; inset: 0 0 auto 0; height: var(--home-img-h, 60vh); background-position: center top; }
 .hmin .hb2 { position: relative; }
-.hmin .hb2::before { content: ""; position: absolute; z-index: -1; left: -16px; right: -16px; top: -22px; height: 44px; border-radius: 24px 24px 0 0; background: #FFFFFF; }
+.hmin .hb2::before { content: ""; position: absolute; z-index: -1; left: -16px; right: -16px; top: -22px; height: 44px; border-radius: 0; background: #FFFFFF; }
 .hmin { position: relative; z-index: 0; }
-.hmin .hb2-c, .hmin .hbn { box-shadow: 0 4px 14px rgba(60, 50, 40, .12); }
+.hmin .hb2-c, .hmin .hbn { border-radius: 0; box-shadow: 0 4px 14px rgba(60, 50, 40, .12); }
 .hmin .htk2-c { background: #F4F0EC; border: 1px solid #E6DFD8; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; }
 body.is-home .qbtn { background: #FFFFFF; border-color: #E6E1DC; box-shadow: 0 4px 12px rgba(20, 30, 60, .14); }
 
@@ -898,7 +898,7 @@ body.is-home .qbtn { background: #FFFFFF; border-color: #E6E1DC; box-shadow: 0 4
 <div class="app">
   <header class="topbar">
     <button class="nav-back" id="navBack" data-act="nav-back" aria-label="이전으로" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
-    <button class="brand" data-tab="home" aria-label="홈으로"><span class="mark" aria-hidden="true"><svg viewBox="0 0 512 512"><defs><linearGradient id="nf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F8BA52"/><stop offset="1" stop-color="#F2A238"/></linearGradient></defs><g stroke="#F4B85A" stroke-width="15" stroke-linecap="round"><path d="M136 152l32 18M140 210l34 10M376 152l-32 18M372 210l-34 10"/></g><path d="M162 296c0-20 12-32 32-33 24-1 38 9 62 8 26-1 40-12 66-9 19 2 31 14 31 34v84c0 18-13 30-31 30H193c-18 0-31-12-31-30z" fill="#FBF0DE"/><path d="M266 92c14 38 52 68 52 118 0 36-28 64-62 64s-60-28-60-62c0-48 40-72 70-120z" fill="url(#nf)"/><path d="M258 176c12 22 22 36 22 54 0 20-10 34-22 34s-22-14-22-34c0-18 10-32 22-54z" fill="#FCE6BC"/></svg></span><span class="brand-txt"><span class="brand-name">합력하여 <span class="sun">선</span>을 이루는 기도</span><small class="brand-sub">얼굴을 몰라도, 서로를 위해 기도하는 곳</small></span></button>
+    <button class="brand" data-tab="home" aria-label="홈으로"><span class="mark" aria-hidden="true"><svg viewBox="0 0 512 512"><g transform="translate(256 250) scale(.84) translate(-256 -236)"><g fill="none" stroke="#B05A3C" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M126 150l38 24M118 226l44-2M386 150l-38 24M394 226l-44-2"/><path d="M258 74c40 50 74 92 74 146 0 44-32 74-76 74s-76-30-76-72c0-34 18-58 34-78 4 22 14 36 28 40-8-40 0-78 16-110z"/><path d="M258 168c20 28 30 46 30 66 0 22-14 36-32 36s-32-14-32-34c0-22 14-40 34-68z"/><path d="M256 240v54"/></g><path d="M150 312c0-14 12-22 26-20 34 6 54-8 80-4 28 4 50-8 80-2 14 3 26 10 26 24v34c0 20-14 32-34 32H184c-20 0-34-12-34-32z" fill="#B05A3C"/></g></svg></span><span class="brand-txt"><span class="brand-name">합력하여 <span class="sun">선</span>을 이루는 기도</span><small class="brand-sub">얼굴을 몰라도, 서로를 위해 기도하는 곳</small></span></button>
     <div class="top-actions">
       <button class="icon-btn bell" data-act="notices" aria-label="공지사항"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg><i class="ndot" id="bellDot" hidden></i></button>
       <button class="icon-btn" data-tab="me" aria-label="내 정보"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="8" r="5.5"/><path d="M4.5 21c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/></svg></button>
