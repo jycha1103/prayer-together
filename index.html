@@ -19,7 +19,7 @@
   --gold: #A0650A; --gold-soft: #FCF2E0; --green: #A0650A; --green-soft: #FCF2E0; --amber: #A0650A; --amber-soft: #FCF2E0;
   --paper: #FFFBF1; --paper-line: #EADBBB; --warn: #B3412E;
   --shadow: none;
-  --font-display: "MaruBuri", "AppleMyungjo", "Batang", serif;
+  --font-display: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif; --font-serif: "MaruBuri", "AppleMyungjo", "Batang", serif;
   --font-body: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
   --r: 16px;
 }
@@ -769,29 +769,30 @@ button.cal-row b { color: var(--gold); }
 .topbar .brand-name { font-weight: 400; font-size: 16.5px; color: #1F2A44; }
 .brand-sub { display: none; }
 .icon-btn.avatar svg { width: 32px; height: 32px; }
-body.is-home { background: linear-gradient(to bottom, rgba(247, 243, 238, 0) 0, rgba(247, 243, 238, 0) 82vw, var(--bg) 106vw) top center / 100% 116vw no-repeat, url("home-bg.jpg") top center / 100% 112vw no-repeat, var(--bg); }
+body.is-home { background: transparent; }
+body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; background: #F4EDE6 url("home-bg.jpg") center / cover no-repeat; }
 .hwel2 { position: relative; padding: 34px 0 40px; text-align: center; }
-.hwel2 p { margin: 0; font-family: var(--font-display); font-weight: 300; font-size: 15px; line-height: 2.45; color: #3A4258; letter-spacing: .05em; }
+.hwel2 p { margin: 0; font-family: var(--font-serif); font-weight: 300; font-size: 15px; line-height: 2.45; color: #3A4258; letter-spacing: .05em; }
 .hwel2 .sun { font-style: normal; font-weight: 400; font-size: 1.6em; line-height: 1; color: #C0504A; vertical-align: -.06em; }
 .hwel-side { position: absolute; right: -6px; top: 37%; border-left: 1px solid #6E6A72; padding-left: 7px; font-size: 7.5px; line-height: 1.75; letter-spacing: .06em; color: #4D4A55; text-align: left; }
-.hstrip3 { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; border: 1px solid rgba(255, 255, 255, .95); border-radius: 999px; padding: 10px 18px 10px 24px; background: rgba(255, 255, 255, .7); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 6px 20px rgba(120, 90, 70, .1); color: var(--ink); }
+.hstrip3 { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; border: 1px solid rgba(255, 255, 255, .7); border-radius: 999px; padding: 10px 18px 10px 24px; background: rgba(255, 255, 255, .38); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 6px 20px rgba(120, 90, 70, .1); color: var(--ink); }
 .hs-candle svg { display: block; width: 32px; height: 40px; }
 .hs-txt { flex: 1; min-width: 0; }
-.hstrip3 .hs-name { display: block; font-family: var(--font-display); font-size: 15.5px; font-weight: 400; color: #1F2A44; }
+.hstrip3 .hs-name { display: block; font-family: var(--font-display); font-size: 15px; font-weight: 500; color: #1F2A44; }
 .hs-sub { display: block; margin-top: 2px; font-size: 12.5px; color: #8A8790; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .hstrip3 .hs-go { color: #3A3A44; padding: 0; }
 .hb2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 11px; margin-top: 14px; }
 .hb2-c { position: relative; aspect-ratio: 361 / 350; border: 0; border-radius: 3px; padding: 22% 9% 0; text-align: left; background: #F2E6DA center / cover no-repeat; color: #1F2A44; display: flex; flex-direction: column; align-items: flex-start; box-shadow: 0 2px 10px rgba(120, 90, 70, .08); }
 .hb2-c.p1 { background-image: url("home-pray.jpg"); }
 .hb2-c.p2 { background-image: url("home-mine.jpg"); }
-.hb2-t { font-family: var(--font-display); font-size: 22px; letter-spacing: -.02em; line-height: 1.2; }
+.hb2-t { font-family: var(--font-display); font-weight: 500; font-size: 21px; letter-spacing: -.02em; line-height: 1.2; }
 .hb2-dash { display: block; width: 18px; height: 1px; background: currentColor; margin: 11px 0 10px; opacity: .8; }
 .hb2-d { font-size: 12.5px; line-height: 1.65; color: #4A4650; letter-spacing: -.02em; }
 .hb2-go { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; border: 1.3px solid currentColor; margin-top: auto; margin-bottom: 10%; }
 .hb2-go svg { width: 18px; height: 18px; }
 .hb2-c.p2 .hb2-go { color: #C0605A; }
 .hbn { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-top: 10px; aspect-ratio: 741 / 150; border: 0; border-radius: 3px; padding: 0 5% 0 4.5%; background: #8FA9C2 url("home-rooms.jpg") center / cover no-repeat; color: #1F2A44; box-shadow: 0 2px 10px rgba(60, 80, 110, .1); }
-.hbn-t { font-family: var(--font-display); font-size: 19px; letter-spacing: -.01em; }
+.hbn-t { font-family: var(--font-display); font-weight: 500; font-size: 18px; letter-spacing: -.01em; }
 .hbn .hb2-go { margin: 0; color: #FFFFFF; border-color: rgba(255, 255, 255, .9); }
 .htk2 { margin-top: 14px; }
 .htk2-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
@@ -804,9 +805,19 @@ body.is-home { background: linear-gradient(to bottom, rgba(247, 243, 238, 0) 0, 
 .htk2-m .cnt { display: inline-flex; align-items: center; gap: 2px; color: #D0862A; font-weight: 700; }
 .htk2-m .cnt svg { width: 11px; height: 11px; }
 .htk2-empty { padding: 14px 16px; border-radius: 22px; background: rgba(255, 255, 255, .7); font-size: 13px; color: var(--muted); }
-.hic { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; margin-top: 8px; padding-right: 74px; }
-.hic button { border: 0; background: none; padding: 0; display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 12px; color: #2B2F3A; letter-spacing: -.04em; white-space: nowrap; }
-.hic img { width: 100%; max-width: 56px; height: auto; aspect-ratio: 1; }
+.hic { position: relative; z-index: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; margin: 8px -16px 0; padding: 14px 10px 78px; }
+.hic button { border: 0; background: none; padding: 0; display: flex; flex-direction: column; align-items: center; gap: 0; font-size: 12px; color: #3A3A40; letter-spacing: -.04em; white-space: nowrap; }
+.hic-i { position: relative; display: grid; place-items: center; width: 50px; height: 46px; }
+.hic-i::before { content: ""; position: absolute; inset: 0; border-radius: 52% 48% 46% 54% / 58% 50% 50% 42%; background: radial-gradient(70% 70% at 45% 40%, var(--blob), var(--blob2)); filter: blur(1.2px); opacity: .9; }
+.hic-i svg { position: relative; width: 30px; height: 30px; }
+.hic-l { margin-top: 9px; }
+.hic-dash { display: block; width: 12px; height: 1px; margin-top: 7px; background: #B9B3AE; }
+.ic-closet { --blob: #F3D9D0; --blob2: #F6E6DE; color: #8A5444; }
+.ic-letter { --blob: #D5DEE5; --blob2: #E6EBEE; color: #4A5D68; }
+.ic-relay { --blob: #F6D6CB; --blob2: #F8E5DC; color: #C8665A; }
+.ic-tips { --blob: #E2E1D6; --blob2: #ECEAE2; color: #55574E; }
+.ic-story { --blob: #F3E1CF; --blob2: #F7EBDE; color: #8C6A50; }
+
 .fab:not(.closet) { width: 72px; height: 72px; padding: 0; border-radius: 50%; flex-direction: column; justify-content: center; gap: 2px; font-size: 11.5px; font-weight: 600; background: #1B2945; box-shadow: 0 10px 24px rgba(20, 30, 60, .35); bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
 .fab:not(.closet) svg { width: 26px; height: 26px; }
 .tabbar { left: 10px; right: 10px; bottom: calc(8px + env(safe-area-inset-bottom, 0px)); padding-bottom: 0; border: 1px solid rgba(255, 255, 255, .95); border-radius: 30px; background: rgba(255, 255, 255, .9); box-shadow: 0 6px 24px rgba(80, 60, 50, .14); max-width: 560px; margin: 0 auto; }
@@ -1262,10 +1273,18 @@ body.is-home { background: linear-gradient(to bottom, rgba(247, 243, 238, 0) 0, 
         return '<button class="htk2-c" data-open="' + p.id + '"><span class="htk2-t"><i style="background:' + TK_DOTS[i % TK_DOTS.length] + '"></i>' + esc(p.title) + '</span><span class="htk2-m"><span>' + esc(p.author) + '</span><span>' + ago(p.created) + '</span>' + countSpan(p) + '<span>댓글 ' + p.comments.length + '</span></span></button>';
       }).join('') + '</div>' : '<div class="htk2-empty">첫 기도 제목을 올려 주세요. 함께 기도할게요.</div>') + '</section>';
   }
-  var HOME_ICONS = [['closet', '골방기도'], ['letter', '기도 편지'], ['relay', '릴레이기도'], ['tips', '기도노하우'], ['story', '간증 나눔']];
+  // 홈 아이콘 줄: 수채화 얼룩 위에 가는 선 그림
+  var HOME_ICONS = [
+    ['closet', '골방기도', '<path d="M11.4 4.2c-.8.7-1.3 1.9-1.3 3.3v5.4l-3.6 4.2M12.6 4.2c.8.7 1.3 1.9 1.3 3.3v5.4l3.6 4.2M11.4 4.2c.3-.3.9-.3 1.2 0M12 4.6v11.6"/><path d="M6.5 17.1 4 20.2M17.5 17.1l2.5 3.1M10.1 9.5 8 11.9M13.9 9.5l2.1 2.4"/>'],
+    ['letter', '기도 편지', '<path d="M12 20.5V11"/><path d="M12 12.5C8.2 12.6 5.6 10.4 5.2 6.5c3.8-.3 6.6 2 6.8 6z"/><path d="M12 11c.3-4 3.2-6.4 7.2-6.2-.3 4-3.2 6.4-7.2 6.2z"/>'],
+    ['relay', '릴레이기도', '<path d="M20.5 4 3.5 11l6.2 2.2L20.5 4l-8.3 11.3 1.2 5.2 2.8-4.2"/><path d="m9.7 13.2 1.7 5.6 1-3.6"/>'],
+    ['tips', '기도노하우', '<path d="M12 6.5C10 5.3 7 4.8 3.8 5v13.2c3.2-.2 6.2.3 8.2 1.5 2-1.2 5-1.7 8.2-1.5V5C17 4.8 14 5.3 12 6.5zM12 6.5v13.2"/>'],
+    ['story', '간증 나눔', '<circle cx="12" cy="7.2" r="2.7"/><circle cx="6.2" cy="9.4" r="2"/><circle cx="17.8" cy="9.4" r="2"/><path d="M7.6 19.5v-2.8c0-2.6 2-4.4 4.4-4.4s4.4 1.8 4.4 4.4v2.8M3 18.8v-2.2c0-2 1.3-3.4 3.2-3.4.8 0 1.4.2 1.9.6M21 18.8v-2.2c0-2-1.3-3.4-3.2-3.4-.8 0-1.4.2-1.9.6"/>']
+  ];
   function homeIcons() {
-    return '<nav class="hic" aria-label="바로 가기">' + HOME_ICONS.map(function (m) { return '<button data-qm="' + m[0] + '"><img src="ic-' + m[0] + '.webp" alt="" width="56" height="56"><span>' + m[1] + '</span></button>'; }).join('') + '</nav>';
+    return '<nav class="hic" aria-label="바로 가기">' + HOME_ICONS.map(function (m) { return '<button data-qm="' + m[0] + '"><span class="hic-i ic-' + m[0] + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + m[2] + '</svg></span><span class="hic-l">' + m[1] + '</span><i class="hic-dash"></i></button>'; }).join('') + '</nav>';
   }
+  window.addEventListener('scroll', function () { document.body.classList.toggle('scrolled', window.scrollY > 8); }, { passive: true });
   var htkTimer = null;
   function htkStart() {
     clearInterval(htkTimer);
