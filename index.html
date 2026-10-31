@@ -817,8 +817,8 @@ body.is-home { --fab-home: 160px; }
 .hhex .hx-tag em { font-style: normal; color: #B23A2E; font-family: "Nanum Brush Script", serif; font-weight: 400; font-size: 2.15em; line-height: .8; margin: 0 0 0 .04em; vertical-align: -.06em; }/*/TAGV*/
 .hhex .hx-me { position: absolute; top: calc(var(--hh) * .16); right: 1%; width: auto; padding: 0; gap: 3px; z-index: 1; }
 .hhex .hx-me b { margin-bottom: 4px; }
-.hx-door { position: absolute; z-index: 1; border: 0; padding: 0; background: none; width: calc(var(--hw) * .36); height: calc(var(--hw) * .54); left: calc(50% + var(--off) / 2 - var(--hw) / 2 - var(--hw) * .36 - var(--hw) * .16); top: calc(var(--hh) * 1.25 + var(--gap) - var(--hw) * .3); }
-.hx-door svg { width: 100%; height: 100%; overflow: visible; }
+.hx-door { position: absolute; z-index: 1; border: 0; padding: 0; background: none; width: calc(var(--hw) * .5); height: calc(var(--hw) * .5); left: calc(50% + var(--off) / 2 - var(--hw) / 2 - var(--hw) * .5 - var(--hw) * .24); top: calc(var(--hh) * 1.25 + var(--gap) - var(--hw) * .27); }
+.hx-door img { display: block; width: 100%; height: 100%; object-fit: contain; }
 .hx-door:active { transform: scale(.96); }
 .hhex .hx-me b { font-size: 17.5px; font-weight: 600; letter-spacing: .01em; }
 .hhex .hx-me span { font-size: 12.5px; }
@@ -1356,22 +1356,7 @@ body.qd-open .fab:not(.closet) { opacity: 0; pointer-events: none; }
       '<div class="hx-wrap">' +
       '<button class="hfloat hx-me" data-act="hero-go"><b>' + esc(myName()) + '님의 기도</b><span>연속 ' + streak() + '일째</span><span>' + (+t.slice(5, 7)) + '월 기도 총 ' + fmtMin(sumRange(mon, t)) + '</span><span>오늘 기도 ' + fmtMin(sumRange(t, t)) + '</span></button>' +
       hex('h1', 'data-go="pray"', '중보기도', '얼굴은 몰라도<br>서로의 짐을 지고<br>함께 기도해요') +
-'<button class="hx-door" data-qm="closet" aria-label="골방기도"><svg viewBox="0 0 80 120" aria-hidden="true"><defs>' +
-        '<linearGradient id="dIn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F4EFEE" stop-opacity=".7"/><stop offset=".6" stop-color="#FFF8EE" stop-opacity=".95"/><stop offset="1" stop-color="#FFF1DC"/></linearGradient>' +
-        '<radialGradient id="dGlow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFF6E2"/><stop offset=".35" stop-color="#FFE9C8" stop-opacity=".7"/><stop offset="1" stop-color="#FFE9C8" stop-opacity="0"/></radialGradient>' +
-        '<linearGradient id="dLeaf" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".95"/><stop offset="1" stop-color="#EDE8EC" stop-opacity=".9"/></linearGradient>' +
-        '<linearGradient id="dFl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".75"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></linearGradient></defs>' +
-        '<path d="M14 104 L-6 120 H86 L66 104 Z" fill="url(#dFl)"/>' +
-        '<path d="M20 104 V44 A20 24 0 0 1 60 44 V104 Z" fill="url(#dIn)"/>' +
-        '<path d="M44 104 V30 C50 23 56 24 60 34 V104 Z" fill="url(#dLeaf)" stroke="#C3BFCD" stroke-width=".6"/>' +
-        '<ellipse cx="42" cy="74" rx="5" ry="34" fill="url(#dGlow)"/>' +
-        '<ellipse cx="40" cy="102" rx="26" ry="9" fill="url(#dGlow)"/>' +
-        '<path d="M14 104 V42 A26 30 0 0 1 66 42 V104" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" opacity=".9"/>' +
-        '<path d="M14 104 V42 A26 30 0 0 1 66 42 V104" fill="none" stroke="#A8A4B8" stroke-width="1" stroke-linecap="round"/>' +
-        '<path d="M20 104 V44 A20 24 0 0 1 60 44 V104" fill="none" stroke="#BDB9C9" stroke-width=".7" stroke-linecap="round"/>' +
-        '<path d="M40 12 l1 1.6 -1 1.6 -1 -1.6 z" fill="#B3AFC2"/>' +
-        '<path d="M2 106 Q40 101 78 106" fill="none" stroke="#CFCAD6" stroke-width=".6" opacity=".7"/>' +
-        '</svg></button>' +
+'<button class="hx-door" data-qm="closet" aria-label="골방기도"><img src="closet-door.png" alt=""></button>' +
       hex('h2', 'data-tab="diary"', '나의 기도', '주님과 나만 아는<br>은밀한<br>기도의 자리') +
       hex('h3', 'data-qm="rooms"', '우리 교회 기도방', '한 몸 된 지체들과<br>마음을 모아<br>함께 엎드리는 자리') +
       '</div>' + homeTicker() + '</div>';
