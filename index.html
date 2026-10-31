@@ -821,8 +821,8 @@ body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; back
 
 .fab:not(.closet) { width: 72px; height: 72px; padding: 0; border-radius: 50%; flex-direction: column; justify-content: center; gap: 2px; font-size: 11.5px; font-weight: 600; background: #1B2945; box-shadow: 0 10px 24px rgba(20, 30, 60, .35); bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
 .fab:not(.closet) svg { width: 26px; height: 26px; }
-.tabbar { left: 10px; right: 10px; bottom: calc(8px + env(safe-area-inset-bottom, 0px)); padding-bottom: 0; border: 1px solid rgba(255, 255, 255, .95); border-radius: 30px; background: rgba(255, 255, 255, .55); -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2); box-shadow: 0 6px 24px rgba(80, 60, 50, .12); max-width: 560px; margin: 0 auto; }
-.tabbar nav { padding: 2px 4px; }
+.tabbar { left: 10px; right: 10px; bottom: calc(8px + env(safe-area-inset-bottom, 0px)); padding-bottom: 0; border: 1px solid rgba(255, 255, 255, .95); border-radius: 999px; background: rgba(255, 255, 255, .55); -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2); box-shadow: 0 6px 24px rgba(80, 60, 50, .12); max-width: 560px; margin: 0 auto; }
+.tabbar nav { padding: 2px 14px; }
 .tabbar button { position: relative; color: #2B2F3A; font-weight: 500; font-size: 9.5px; padding: 8px 2px 9px; gap: 3px; letter-spacing: -.03em; }
 .tabbar button + button::before { content: ""; position: absolute; left: 0; top: 30%; height: 34%; width: 1px; background: #E8E2DC; }
 .tabbar svg { width: 25px; height: 25px; stroke: #2B2F3A; stroke-width: 1.4; }
@@ -839,7 +839,7 @@ body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; back
 .hfloat span { font-size:11.5px; color:#8E5A64; letter-spacing:.02em; }
 .hfloat svg { display:none; }
 .hmin .htk2 { margin-top: 18px; }
-.hmin .htk2-c { background: rgba(255,255,255,.42); border-color: rgba(255,255,255,.7); -webkit-backdrop-filter: blur(10px) saturate(1.15); backdrop-filter: blur(10px) saturate(1.15); box-shadow: 0 3px 12px rgba(120,90,70,.06); }
+.hmin .htk2-c { border-radius: 999px; padding: 10px 22px 9px; background: rgba(255,255,255,.24); border-color: rgba(255,255,255,.6); -webkit-backdrop-filter: blur(10px) saturate(1.15); backdrop-filter: blur(10px) saturate(1.15); box-shadow: 0 3px 12px rgba(120,90,70,.06); }
 .hmin .hb2 { margin-top: 0; }
 .hmin .hb2-c { aspect-ratio: 361 / 352; padding-top: 18%; }
 .hmin .hbn { aspect-ratio: auto; height: 86px; }
