@@ -28,8 +28,8 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 /* top bar */
 .topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 14px 12px; margin-inline: -16px; padding-inline: 16px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .brand { min-width: 0; display: flex; align-items: center; gap: 9px; background: none; border: 0; padding: 0; text-align: left; }
-.brand .mark { flex: none; width: 36px; height: 36px; border-radius: 10px; background: radial-gradient(110% 100% at 100% 0%, var(--navy-2), var(--navy) 70%); display: grid; place-items: center; box-shadow: 0 3px 10px rgba(23, 32, 74, .25); }
-.brand .mark svg { width: 22px; height: 22px; }
+.brand .mark { flex: none; width: 38px; height: 38px; border-radius: 10px; background: #1B2945; display: grid; place-items: center; box-shadow: 0 3px 10px rgba(23, 32, 74, .25); }
+.brand .mark svg { width: 34px; height: 34px; }
 .brand-txt { min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
 .not-home .brand-sub { display: none; }
 @font-face { font-family: "MaruBuri"; font-weight: 300; font-display: swap; src: url("fonts/MaruBuri-Light.woff2") format("woff2"); }
@@ -765,8 +765,8 @@ button.cal-row b { color: var(--gold); }
 .icon-btn.avatar svg { width: 32px; height: 32px; }
 body.is-home { background: transparent; }
 body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; background: #F4EDE6 url("home-bg.jpg") center / cover no-repeat; }
-.hwel2 { position: relative; padding: 34px 0 40px; text-align: center; }
-.hwel2 p { margin: 0; font-family: var(--font-serif); font-weight: 300; font-size: 15px; line-height: 2.45; color: #3A4258; letter-spacing: .05em; }
+.hwel2 { position: relative; padding: 22px 0 28px; text-align: center; }
+.hwel2 p { margin: 0; font-family: var(--font-serif); font-weight: 300; font-size: 15px; line-height: 2.3; color: #3A4258; letter-spacing: .05em; }
 .hwel2 .sun { font-style: normal; font-weight: 400; font-size: 1.6em; line-height: 1; color: #C0504A; vertical-align: -.06em; }
 .hwel-side { position: absolute; right: -6px; top: 37%; border-left: 1px solid #6E6A72; padding-left: 7px; font-size: 7.5px; line-height: 1.75; letter-spacing: .06em; color: #4D4A55; text-align: left; }
 .hstrip3 { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; border: 1px solid rgba(255, 255, 255, .7); border-radius: 999px; padding: 10px 18px 10px 24px; background: rgba(255, 255, 255, .38); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 6px 20px rgba(120, 90, 70, .1); color: var(--ink); }
@@ -776,18 +776,19 @@ body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; back
 .hs-sub { display: block; margin-top: 2px; font-size: 12.5px; color: #8A8790; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .hstrip3 .hs-go { color: #3A3A44; padding: 0; }
 .hb2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 11px; margin-top: 14px; }
-.hb2-c { position: relative; aspect-ratio: 361 / 350; border: 0; border-radius: 3px; padding: 22% 9% 0; text-align: left; background: #F2E6DA center / cover no-repeat; color: #1F2A44; display: flex; flex-direction: column; align-items: flex-start; box-shadow: 0 2px 10px rgba(120, 90, 70, .08); }
+.hb2-c { position: relative; aspect-ratio: 361 / 395; border: 0; border-radius: 4px; padding: 26% 9% 0; text-align: left; background: #F2E6DA center / cover no-repeat; color: #1F2A44; display: flex; flex-direction: column; align-items: flex-start; box-shadow: 0 2px 10px rgba(120, 90, 70, .08); }
 .hb2-c.p1 { background-image: url("home-pray.jpg"); }
 .hb2-c.p2 { background-image: url("home-mine.jpg"); }
-.hb2-t { font-family: var(--font-display); font-weight: 500; font-size: 21px; letter-spacing: -.02em; line-height: 1.2; }
+.hb2-t { font-family: var(--font-display); font-weight: 500; font-size: 23px; letter-spacing: -.02em; line-height: 1.2; }
 .hb2-dash { display: block; width: 18px; height: 1px; background: currentColor; margin: 11px 0 10px; opacity: .8; }
 .hb2-d { font-size: 12.5px; line-height: 1.65; color: #4A4650; letter-spacing: -.02em; }
-.hb2-go { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; border: 1.3px solid currentColor; margin-top: auto; margin-bottom: 10%; }
+.hb2-go { position: absolute; right: 14px; bottom: 14px; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; border: 1.3px solid rgba(255, 255, 255, .95); color: #FFFFFF; background: rgba(40, 40, 50, .14); box-shadow: 0 2px 8px rgba(60, 40, 30, .15); }
 .hb2-go svg { width: 18px; height: 18px; }
-.hb2-c.p2 .hb2-go { color: #C0605A; }
-.hbn { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-top: 10px; aspect-ratio: 741 / 150; border: 0; border-radius: 3px; padding: 0 5% 0 4.5%; background: #8FA9C2 url("home-rooms.jpg") center / cover no-repeat; color: #1F2A44; box-shadow: 0 2px 10px rgba(60, 80, 110, .1); }
-.hbn-t { font-family: var(--font-display); font-weight: 500; font-size: 18px; letter-spacing: -.01em; }
-.hbn .hb2-go { margin: 0; color: #FFFFFF; border-color: rgba(255, 255, 255, .9); }
+
+.hbn { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-top: 11px; aspect-ratio: 741 / 205; border: 0; border-radius: 4px; padding: 0 5% 0 4.5%; background: #8FA9C2 url("home-rooms.jpg") center / cover no-repeat; color: #1F2A44; box-shadow: 0 2px 10px rgba(60, 80, 110, .1); }
+.hbn-t { font-family: var(--font-display); font-weight: 500; font-size: 20px; letter-spacing: -.01em; }
+.hbn { position: relative; }
+.hbn .hb2-go { top: 50%; bottom: auto; right: 5%; margin-top: -18px; }
 .htk2 { margin-top: 14px; }
 .htk2-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
 .htk2-head h2 { margin: 0; font-family: var(--font-display); font-size: 16px; font-weight: 700; color: #1F2A44; letter-spacing: -.02em; }
@@ -795,7 +796,7 @@ body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; back
 .htk2-c { flex: 0 0 60%; scroll-snap-align: start; text-align: left; border: 1px solid rgba(255, 255, 255, .95); border-radius: 20px; padding: 9px 14px 8px; background: rgba(255, 255, 255, .78); box-shadow: 0 4px 14px rgba(120, 90, 70, .08); color: var(--ink); }
 .htk2-t { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .htk2-t i { flex: none; width: 8px; height: 8px; border-radius: 50%; }
-.htk2-m { display: flex; flex-wrap: nowrap; gap: 6px; margin-top: 2px; padding-left: 15px; font-size: 10.5px; color: #8A8790; white-space: nowrap; overflow: hidden; }
+.htk2-m { display: flex; flex-wrap: nowrap; gap: 6px; margin-top: 2px; padding-left: 0; font-size: 10.5px; color: #8A8790; white-space: nowrap; overflow: hidden; }
 .htk2-m .cnt { display: inline-flex; align-items: center; gap: 2px; color: #D0862A; font-weight: 700; }
 .htk2-m .cnt svg { width: 11px; height: 11px; }
 .htk2-empty { padding: 14px 16px; border-radius: 22px; background: rgba(255, 255, 255, .7); font-size: 13px; color: var(--muted); }
@@ -828,11 +829,11 @@ body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; back
 <div class="app">
   <header class="topbar">
     <button class="nav-back" id="navBack" data-act="nav-back" aria-label="이전으로" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
-    <button class="brand" data-tab="home" aria-label="홈으로"><span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path fill="#F2C46B" d="M8.4 2.6c1.4 1.9 2.8 3.4 2.8 5.6a2.8 2.8 0 0 1-5.6 0c0-2.2 1.4-3.7 2.8-5.6z"/><rect x="6.5" y="12.2" width="3.8" height="9" rx=".9" fill="#FBF0DA"/><path fill="#F2C46B" d="M15.6 1.8c1.4 1.9 2.8 3.4 2.8 5.6a2.8 2.8 0 0 1-5.6 0c0-2.2 1.4-3.7 2.8-5.6z"/><rect x="13.7" y="11.4" width="3.8" height="9.8" rx=".9" fill="#FBF0DA"/></svg></span><span class="brand-txt"><span class="brand-name">합력하여 <span class="sun">선</span>을 이루는 기도</span><small class="brand-sub">얼굴을 몰라도, 서로를 위해 기도하는 곳</small></span></button>
+    <button class="brand" data-tab="home" aria-label="홈으로"><span class="mark" aria-hidden="true"><svg viewBox="0 0 512 512"><defs><radialGradient id="cg" cx="50%" cy="34%" r="46%"><stop offset="0" stop-color="#F6CB74" stop-opacity=".5"/><stop offset="1" stop-color="#F6CB74" stop-opacity="0"/></radialGradient><linearGradient id="cf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF1C7"/><stop offset=".55" stop-color="#F6C060"/><stop offset="1" stop-color="#E58A2E"/></linearGradient><linearGradient id="cb" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFF8EA"/><stop offset="1" stop-color="#EBD9B8"/></linearGradient></defs><circle cx="256" cy="176" r="200" fill="url(#cg)"/><path d="M256 70c26 34 44 60 44 92a44 44 0 0 1-88 0c0-32 18-58 44-92z" fill="url(#cf)"/><path d="M256 132c10 14 17 24 17 37a17 17 0 0 1-34 0c0-13 7-23 17-37z" fill="#FFF6DE"/><path d="M256 204v22" stroke="#4A3A30" stroke-width="7" stroke-linecap="round"/><rect x="204" y="226" width="104" height="168" rx="12" fill="url(#cb)"/><path d="M204 250c16 8 34 11 52 11s36-3 52-11" fill="none" stroke="#E2CBA4" stroke-width="5"/><ellipse cx="256" cy="404" rx="150" ry="36" fill="#E9D3A8"/><ellipse cx="256" cy="396" rx="150" ry="32" fill="#F7E8C8"/><ellipse cx="256" cy="394" rx="78" ry="14" fill="#E2C996"/></svg></span><span class="brand-txt"><span class="brand-name">합력하여 <span class="sun">선</span>을 이루는 기도</span><small class="brand-sub">얼굴을 몰라도, 서로를 위해 기도하는 곳</small></span></button>
     <div class="top-actions">
-      <button class="icon-btn" data-act="menu-search" aria-label="검색"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="10.8" cy="10.8" r="6.3"/><path d="M15.5 15.5 20 20"/></svg></button>
       <button class="icon-btn bell" data-act="notices" aria-label="공지사항"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg><i class="ndot" id="bellDot" hidden></i></button>
-      <button class="icon-btn avatar" data-act="menu" aria-label="전체 메뉴와 내 정보"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="16" fill="#D8D8DC"/><circle cx="16" cy="12.6" r="5.4" fill="#FFFFFF"/><path d="M6.4 26.6c1.6-4.6 5.2-7 9.6-7s8 2.4 9.6 7A15.9 15.9 0 0 1 16 32a15.9 15.9 0 0 1-9.6-5.4z" fill="#FFFFFF"/></svg></button>
+      <button class="icon-btn" data-tab="me" aria-label="내 정보"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="8" r="5.5"/><path d="M4.5 21c.8-4 3.8-6 7.5-6s6.7 2 7.5 6"/></svg></button>
+      <button class="icon-btn" data-act="menu" aria-label="전체 메뉴"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6.5h16M4 12h16M4 17.5h16"/></svg></button>
     </div>
   </header>
   <main id="view" class="stack"></main>
@@ -1259,12 +1260,11 @@ body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; back
       homeTicker();
   }
   // 중보기도 제목이 몇 초마다 옆으로 넘어가요. 손가락으로 밀어서 넘겨도 돼요.
-  var TK_DOTS = ['#E2857C', '#B79AD9', '#74BE98', '#E6B067', '#82A7D6'];
   function homeTicker() {
     var list = urgentFirst(board('pray')).slice(0, 8);
     return '<section class="htk2"><div class="htk2-head"><h2>지금, 함께 기도하고 있어요</h2><button class="more" data-go="pray">모두 보기</button></div>' +
       (list.length ? '<div class="htk-track" id="htk">' + list.map(function (p, i) {
-        return '<button class="htk2-c" data-open="' + p.id + '"><span class="htk2-t"><i style="background:' + TK_DOTS[i % TK_DOTS.length] + '"></i>' + esc(p.title) + '</span><span class="htk2-m"><span>' + esc(p.author) + '</span><span>' + ago(p.created) + '</span>' + countSpan(p) + '<span>댓글 ' + p.comments.length + '</span></span></button>';
+        return '<button class="htk2-c" data-open="' + p.id + '"><span class="htk2-t">' + esc(p.title) + '</span><span class="htk2-m"><span>' + esc(p.author) + '</span><span>' + ago(p.created) + '</span>' + countSpan(p) + '<span>댓글 ' + p.comments.length + '</span></span></button>';
       }).join('') + '</div>' : '<div class="htk2-empty">첫 기도 제목을 올려 주세요. 함께 기도할게요.</div>') + '</section>';
   }
   // 홈 아이콘 줄: 수채화 얼룩 위에 가는 선 그림
@@ -3190,7 +3190,6 @@ body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; back
     }
     switch (d.act) {
       case 'menu': return openDrawer();
-      case 'menu-search': openDrawer(); if (el('dq')) el('dq').focus(); return;
       case 'widget': return widgetSheet();
       case 'fold-answered': showAnswered = !showAnswered; render(); return;
       case 'calendar': calM = ''; calSel = ''; return calendarSheet();
