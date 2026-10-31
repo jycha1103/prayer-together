@@ -866,6 +866,25 @@ body.qd-open .fab:not(.closet) { opacity: 0; pointer-events: none; }
 /* 긴 휴대폰에서도 짧은 화면과 같은 비율: 상자 높이를 화면 길이에 맞춰요 */
 .hmin .hb2-c { aspect-ratio: auto; height: max(160px, 20svh); }
 .hmin .hbn { height: max(80px, 10.2svh); }
+/* 하단 탭: 기도 요청 버튼과 같은 남색 바탕, 흰 아이콘 */
+.tabbar { background: #1B2945; border-color: #1B2945; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: 0 8px 22px rgba(20, 30, 60, .3); }
+.tabbar button { color: rgba(255, 255, 255, .72); }
+.tabbar svg { stroke: rgba(255, 255, 255, .72); }
+.tabbar button + button::before { background: rgba(255, 255, 255, .14); }
+.tabbar button[aria-current="page"] { color: #FFFFFF; }
+.tabbar button[aria-current="page"] svg { stroke: #FFFFFF; }
+.tabbar button[aria-current="page"] svg .fillme { fill: #FFFFFF; stroke: #FFFFFF; }
+.tabbar button[aria-current="page"]::after { background: #FFFFFF; }
+/* 홈: 위쪽만 그림, 중보기도 상자부터는 흰 바탕 */
+body.is-home { background: #FFFFFF; }
+body.is-home::before { position: absolute; inset: 0 0 auto 0; height: var(--home-img-h, 60vh); background-position: center top; }
+.hmin .hb2 { position: relative; }
+.hmin .hb2::before { content: ""; position: absolute; z-index: -1; left: -16px; right: -16px; top: -22px; height: 44px; border-radius: 24px 24px 0 0; background: #FFFFFF; }
+.hmin { position: relative; z-index: 0; }
+.hmin .hb2-c, .hmin .hbn { box-shadow: 0 4px 14px rgba(60, 50, 40, .12); }
+.hmin .htk2-c { background: #F4F0EC; border: 1px solid #E6DFD8; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; }
+body.is-home .qbtn { background: #FFFFFF; border-color: #E6E1DC; box-shadow: 0 4px 12px rgba(20, 30, 60, .14); }
+
 .hmin .hbn .hb2-go { position: static; margin-top: 0; }
 .hmin .htk2-c { border-radius: 999px; padding: 6px 20px 5px; background: rgba(255,255,255,.24); border-color: rgba(255,255,255,.6); -webkit-backdrop-filter: blur(10px) saturate(1.15); backdrop-filter: blur(10px) saturate(1.15); box-shadow: 0 3px 12px rgba(120,90,70,.06); }
 .hmin .htk2-t { font-size: 12.5px; line-height: 1.35; font-weight: 400; color: #1A1A1F; letter-spacing: -.01em; }
@@ -1331,6 +1350,9 @@ body.qd-open .fab:not(.closet) { opacity: 0; pointer-events: none; }
     return '<nav class="hic" aria-label="바로 가기">' + HOME_ICONS.map(function (m) { return '<button data-qm="' + m[0] + '"><span class="hic-i ic-' + m[0] + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + m[2] + '</svg></span><span class="hic-l">' + m[1] + '</span><i class="hic-dash"></i></button>'; }).join('') + '</nav>';
   }
   window.addEventListener('scroll', function () { document.body.classList.toggle('scrolled', window.scrollY > 8); }, { passive: true });
+  // 홈 그림은 중보기도 상자 바로 위까지만
+  function homeImgH() { var b = document.querySelector('.hmin .hb2'); if (b) document.body.style.setProperty('--home-img-h', Math.round(b.getBoundingClientRect().top + window.scrollY + 4) + 'px'); }
+  window.addEventListener('resize', function () { if (tab === 'home') homeImgH(); });
   var htkTimer = null;
   function htkStart() {
     clearInterval(htkTimer);
@@ -2607,6 +2629,7 @@ body.qd-open .fab:not(.closet) { opacity: 0; pointer-events: none; }
     el('topWrite').classList.toggle('closet', tab === 'diary');
     addHelpBtn();
     if (tab === 'pray' || tab === 'home') htkStart();
+    if (tab === 'home') homeImgH();
     navTrack();
     if (el('bellDot')) el('bellDot').hidden = !noticeNew() || tab === 'notice';
     visitLog();
