@@ -837,10 +837,11 @@ body.is-home { --fab-home: 160px; }
 .hx-d { margin-top: 8px; font-family: var(--font-hx, var(--font-body)); font-weight: 400; font-size: calc(var(--hw) * .06); line-height: 1.6; color: #2C3040; letter-spacing: -.01em; font-weight: 700; }
 /*GOV*/.hx-go { position: relative; margin-top: 8px; display: grid; place-items: center; width: 30px; height: 30px; background: none; color: #1B2945; }
 .hx-go em { display: none; }
-.hhex .hx-go svg { position: relative; z-index: 1; width: 24px; height: 24px; stroke-width: 2.4; filter: drop-shadow(0 2px 1.5px rgba(27, 41, 69, .25)); animation: hxNudge 3.2s ease-in-out infinite; }
-.hx-go::after { content: ""; position: absolute; left: 50%; bottom: -3px; width: 22px; height: 6px; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(closest-side, rgba(27, 41, 69, .32), rgba(27, 41, 69, 0)); animation: hxShadow 3.2s ease-in-out infinite; }
-@keyframes hxNudge { 0%, 70%, 100% { transform: translateX(0); } 80% { transform: translateX(4px); } 90% { transform: translateX(0); } }
-@keyframes hxShadow { 0%, 70%, 100% { transform: translateX(-50%) scaleX(1); opacity: 1; } 80% { transform: translateX(calc(-50% + 4px)) scaleX(.85); opacity: .7; } 90% { transform: translateX(-50%); } }
+.hhex .hx-go svg { position: relative; z-index: 1; width: 24px; height: 24px; stroke-width: 1.7; filter: drop-shadow(0 2px 1.5px rgba(27, 41, 69, .22)); animation: hxNudge 9s ease-in-out infinite; animation-delay: var(--nd, 0s); }
+.hx-go::after { content: ""; position: absolute; left: 50%; bottom: -3px; width: 22px; height: 6px; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(closest-side, rgba(27, 41, 69, .32), rgba(27, 41, 69, 0)); animation: hxShadow 9s ease-in-out infinite; animation-delay: var(--nd, 0s); }
+@keyframes hxNudge { 0%, 9%, 100% { transform: translateX(0); } 4% { transform: translateX(4px); } }
+.hx.h2 { --nd: 3s; } .hx.h3 { --nd: 6s; }
+@keyframes hxShadow { 0%, 9%, 100% { transform: translateX(-50%) scaleX(1); opacity: 1; } 4% { transform: translateX(calc(-50% + 4px)) scaleX(.85); opacity: .7; } }
 @media (prefers-reduced-motion: reduce) { .hhex .hx-go svg, .hx-go::after { animation: none; } }/*/GOV*/
 .hx-go svg { width: 16px; height: 16px; }
 .hx-t { background: linear-gradient(120deg, #1F2638 0%, #3A3550 40%, #9A6A66 78%, #C49A78 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
