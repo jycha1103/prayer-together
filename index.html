@@ -892,10 +892,12 @@ body.is-home .fab:not(.closet) svg { display: none; }
 body.is-home .qbtn { display: grid; place-items: center; position: fixed; z-index: 11; right: max(16px, calc((100vw - 560px) / 2 + 16px)); bottom: calc(var(--fab-home, 131px) + env(safe-area-inset-bottom, 0px)); width: 54px; height: 54px; border: 1px solid rgba(255, 255, 255, .9); border-radius: 50%; background: rgba(255, 255, 255, .62); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); color: #1B2945; box-shadow: 0 6px 16px rgba(20, 30, 60, .18); }
 .qbtn svg { width: 24px; height: 24px; transition: transform .25s; }
 body.qd-open .qbtn svg { transform: rotate(45deg); }
-/*FABV*/body.is-home .fab:not(.closet) { width: auto; height: 40px; padding: 0 18px; border-radius: 999px; font-size: 13px; font-weight: 500; letter-spacing: .02em; right: max(66px, calc((100vw - 560px) / 2 + 66px)); box-shadow: 0 6px 16px rgba(20, 30, 60, .2); }
-body.is-home .qbtn { width: 40px; height: 40px; border: 1px solid rgba(255, 255, 255, .85); background: rgba(255, 255, 255, .45); box-shadow: 0 4px 12px rgba(20, 30, 60, .12); }
-body.is-home .qbtn svg { width: 18px; height: 18px; }
-body.is-home .qdial { bottom: calc(var(--fab-home, 131px) + 52px + env(safe-area-inset-bottom, 0px)); }/*/FABV*/
+/*FABV*/body.is-home .fab:not(.closet) { width: 96px; height: 40px; padding: 0; border-radius: 999px; font-size: 13px; font-weight: 500; letter-spacing: .02em; bottom: calc(var(--fab-home, 131px) + 46px + env(safe-area-inset-bottom, 0px)); right: max(16px, calc((100vw - 560px) / 2 + 16px)); box-shadow: 0 6px 16px rgba(20, 30, 60, .2); }
+body.is-home .qbtn { width: 40px; height: 40px; border: 0; background: none; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; color: #1B2945; right: max(44px, calc((100vw - 560px) / 2 + 44px)); }
+body.is-home .qbtn svg { width: 28px; height: 28px; filter: drop-shadow(0 0 6px rgba(255, 255, 255, .7)); }
+body.is-home .qbtn .q-x, body.qd-open .qbtn .q-grid { display: none; }
+body.qd-open .qbtn .q-x { display: block; transform: none; color: #FFFFFF; filter: none; }
+body.is-home .qdial { bottom: calc(var(--fab-home, 131px) + 98px + env(safe-area-inset-bottom, 0px)); }/*/FABV*/
 body.is-home .qd-back { display: block; position: fixed; inset: 0; z-index: 10; border: 0; background: rgba(40, 36, 44, .28); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); opacity: 0; pointer-events: none; transition: opacity .2s; }
 body.qd-open .qd-back { opacity: 1; pointer-events: auto; }
 body.is-home .qdial { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; position: fixed; z-index: 11; right: max(16px, calc((100vw - 560px) / 2 + 16px)); bottom: calc(var(--fab-home, 131px) + 66px + env(safe-area-inset-bottom, 0px)); pointer-events: none; }
@@ -941,7 +943,7 @@ body.qd-open .fab:not(.closet) { opacity: 0; pointer-events: none; }
 </div>
 <button class="qd-back" data-act="quick-close" aria-label="닫기" tabindex="-1"></button>
 <div class="qdial" id="qdial" aria-label="기도 도구"></div>
-<button class="qbtn" data-act="quick" aria-label="기도 도구 열기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+<button class="qbtn" data-act="quick" aria-label="기도 도구 열기"><svg class="q-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><path d="M12 3.5v17M3.5 12h17"/></svg><svg class="q-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
 <div class="tabbar"><nav id="tabs" aria-label="메뉴"></nav></div>
 <button class="fab" id="topWrite"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>기도 요청</button>
 <div id="sheetRoot"></div>
