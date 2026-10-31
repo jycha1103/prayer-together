@@ -821,22 +821,27 @@ body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; back
 
 .fab:not(.closet) { width: 72px; height: 72px; padding: 0; border-radius: 50%; flex-direction: column; justify-content: center; gap: 2px; font-size: 11.5px; font-weight: 600; background: #1B2945; box-shadow: 0 10px 24px rgba(20, 30, 60, .35); bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
 .fab:not(.closet) svg { width: 26px; height: 26px; }
-.tabbar { left: 10px; right: 10px; bottom: calc(8px + env(safe-area-inset-bottom, 0px)); padding-bottom: 0; border: 1px solid rgba(255, 255, 255, .95); border-radius: 30px; background: rgba(255, 255, 255, .9); box-shadow: 0 6px 24px rgba(80, 60, 50, .14); max-width: 560px; margin: 0 auto; }
+.tabbar { left: 10px; right: 10px; bottom: calc(8px + env(safe-area-inset-bottom, 0px)); padding-bottom: 0; border: 1px solid rgba(255, 255, 255, .95); border-radius: 30px; background: rgba(255, 255, 255, .55); -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2); box-shadow: 0 6px 24px rgba(80, 60, 50, .12); max-width: 560px; margin: 0 auto; }
 .tabbar nav { padding: 2px 4px; }
-.tabbar button { position: relative; color: #2B2F3A; font-weight: 500; font-size: 11.5px; padding: 8px 2px 10px; gap: 3px; }
+.tabbar button { position: relative; color: #2B2F3A; font-weight: 500; font-size: 10.5px; padding: 8px 2px 10px; gap: 3px; letter-spacing: -.03em; }
 .tabbar button + button::before { content: ""; position: absolute; left: 0; top: 30%; height: 34%; width: 1px; background: #E8E2DC; }
 .tabbar svg { width: 25px; height: 25px; stroke: #2B2F3A; stroke-width: 1.4; }
-.tabbar button[aria-current="page"] { color: #C0504A; font-weight: 700; }
-.tabbar button[aria-current="page"] svg { fill: none; stroke: #C0504A; }
-.tabbar button[aria-current="page"] svg .fillme { fill: #D0625A; stroke: #D0625A; }
-.tabbar button[aria-current="page"]::after { content: ""; position: absolute; bottom: 4px; left: 50%; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: #C0504A; }
+.tabbar button[aria-current="page"] { color: #1B2945; font-weight: 700; }
+.tabbar button[aria-current="page"] svg { fill: none; stroke: #1B2945; stroke-width: 1.7; }
+.tabbar button[aria-current="page"] svg .fillme { fill: #1B2945; stroke: #1B2945; }
+.tabbar button[aria-current="page"]::after { content: ""; position: absolute; bottom: 4px; left: 50%; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: #1B2945; }
 
-/* 홈은 그림 세 개로 한 화면을 채워요 */
-.hmin { display: flex; flex-direction: column; height: calc(100svh - 64px - 182px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)); min-height: 560px; }
-.hmin .hwel2 { padding: 26px 0 30px; }
-.hmin .hb2 { flex: 1; margin-top: 0; min-height: 250px; }
-.hmin .hb2-c { aspect-ratio: auto; height: 100%; padding-top: 22%; }
-.hmin .hbn { aspect-ratio: auto; height: 118px; flex: none; }
+/* 홈: 인사 글, 바탕에 뜬 기도 기록, 그림 세 개 */
+.hmin .hwel2 { padding: 44px 0 18px; }
+.hfloat { display: flex; flex-direction: column; align-items: center; gap: 2px; width: 100%; border: 0; background: none; padding: 4px 0 22px; color: #3A4258; position: relative; }
+.hfloat b { font-size: 14px; font-weight: 500; letter-spacing: .02em; }
+.hfloat span { font-size: 12px; color: #7D7A84; letter-spacing: .02em; }
+.hfloat svg { position: absolute; right: 22%; top: 6px; width: 15px; height: 15px; color: #8A8790; }
+.hmin .hb2 { margin-top: 0; }
+.hmin .hb2-c { aspect-ratio: 361 / 352; padding-top: 18%; }
+.hmin .hbn { aspect-ratio: auto; height: 86px; }
+.hmin .hbn-t { font-size: 18px; }
+.hmin .hbn .hb2-go { width: 32px; height: 32px; margin-top: -16px; }
 .diary-top { margin: 4px 0 14px; }
 .diary-top .hstrip3 { background: rgba(255, 255, 255, .85); border-color: var(--line); box-shadow: none; }
 .diary-top .hic { margin: 10px -16px 0; padding: 4px 10px 0; }
@@ -1263,6 +1268,7 @@ body.is-home::before { content: ""; position: fixed; inset: 0; z-index: -1; back
   function homeHero() {
     var t = today(), mon = t.slice(0, 8) + '01';
     return '<div class="hwel2"><p>나를 위해 기도를 세우는 곳,<br>남을 위해 중보 하는 곳,<br>함께 기도의 동역자가 되는 곳,<br>합력하여 <em class="sun">선</em>을 이루는 기도입니다.</p><span class="hwel-side" aria-hidden="true">TOGETHER<br>IN PRAYER<br>FOR GOOD</span></div>' +
+      '<button class="hfloat" data-act="hero-go"><b>' + esc(myName()) + '님의 기도</b><span>연속 ' + streak() + '일째 · ' + (+t.slice(5, 7)) + '월 ' + fmtMin(sumRange(mon, t)) + ' · 오늘 ' + fmtMin(sumRange(t, t)) + '</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>' +
       '<div class="hb2"><button class="hb2-c p1" data-go="pray"><span class="hb2-t">중보기도</span><i class="hb2-dash"></i><span class="hb2-d">함께 드리는 기도가<br>더 큰 길을 만듭니다.</span><span class="hb2-go">' + ARROW + '</span></button>' +
         '<button class="hb2-c p2" data-tab="diary"><span class="hb2-t">나의 기도</span><i class="hb2-dash"></i><span class="hb2-d">하나님과의 깊은 만남이<br>시작됩니다.</span><span class="hb2-go">' + ARROW + '</span></button></div>' +
       '<button class="hbn" data-qm="rooms"><span class="hbn-t">우리 교회 모임방</span><span class="hb2-go">' + ARROW + '</span></button>';
