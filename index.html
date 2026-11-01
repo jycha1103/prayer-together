@@ -854,6 +854,9 @@ body.is-home { --fab-home: 160px; }
 .hx-go svg { width: 16px; height: 16px; }
 .hx-t { background: linear-gradient(120deg, #1F2638 0%, #3A3550 40%, #9A6A66 78%, #C49A78 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 .hx.h3 .hx-t { white-space: nowrap; font-size: calc(var(--hw) * .098); }
+.hx-n { margin-top: 7px; padding: 2px 9px 3px; border-radius: 99px; background: rgba(255, 255, 255, .62); box-shadow: 0 0 0 1px rgba(178, 58, 46, .14); font-size: calc(var(--hw) * .056); font-weight: 600; color: #7A3A34; letter-spacing: -.02em; white-space: nowrap; }
+.hx-n i { font-style: normal; font-weight: 800; color: #B23A2E; }
+.hhex .hx-n + .hx-go { margin-top: 2px; }
 /* 하단 탭: 배경 그림의 카키색, 흰 글씨와 선 */
 body .tabbar { background: #1B2945; border-color: rgba(255, 255, 255, .35); }
 body .tabbar button { color: rgba(255, 255, 255, .82); }
@@ -1365,16 +1368,30 @@ body.qd-open .fab:not(.closet) { opacity: 0; pointer-events: none; }
   // 홈: 둥근 육각형 세 개 (중보기도, 나의 기도, 우리 교회 기도방)
   var HEX_BG = '<svg class="hx-bg" viewBox="0 0 216 250" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="hxGl" x1="0" y1="0" x2=".55" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".62"/><stop offset=".34" stop-color="#fff" stop-opacity=".16"/><stop offset=".36" stop-color="#fff" stop-opacity=".04"/><stop offset="1" stop-color="#fff" stop-opacity=".18"/></linearGradient><linearGradient id="hxFd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".42"/><stop offset=".55" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#C9B49A" stop-opacity=".12"/></linearGradient><linearGradient id="hxBv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="1"/><stop offset=".5" stop-color="#fff" stop-opacity=".75"/><stop offset="1" stop-color="#A8906F" stop-opacity=".45"/></linearGradient><filter id="hxSh" x="-.3" y="-.3" width="1.6" height="1.6"><feGaussianBlur in="SourceAlpha" stdDeviation="2.5"/><feOffset dy="2.5" result="b"/><feFlood flood-color="#5C4630" flood-opacity=".09"/><feComposite in2="b" operator="in"/><feComposite in2="SourceAlpha" operator="out"/></filter></defs><path class="hx-sh" d="M89.6 10.6Q108.0 0.0 126.4 10.6L197.6 51.9Q216.0 62.5 216.0 83.8L216.0 166.2Q216.0 187.5 197.6 198.1L126.4 239.4Q108.0 250.0 89.6 239.4L18.4 198.1Q0.0 187.5 0.0 166.2L0.0 83.8Q0.0 62.5 18.4 51.9Z"/><path class="hx-fx" d="M89.6 10.6Q108.0 0.0 126.4 10.6L197.6 51.9Q216.0 62.5 216.0 83.8L216.0 166.2Q216.0 187.5 197.6 198.1L126.4 239.4Q108.0 250.0 89.6 239.4L18.4 198.1Q0.0 187.5 0.0 166.2L0.0 83.8Q0.0 62.5 18.4 51.9Z"/><path d="M89.6 10.6Q108.0 0.0 126.4 10.6L197.6 51.9Q216.0 62.5 216.0 83.8L216.0 166.2Q216.0 187.5 197.6 198.1L126.4 239.4Q108.0 250.0 89.6 239.4L18.4 198.1Q0.0 187.5 0.0 166.2L0.0 83.8Q0.0 62.5 18.4 51.9Z"/></svg>';
   var HEX_GO = '<span class="hx-go" aria-hidden="true"><em>들어가기</em><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5.5 15.5 12 9 18.5"/></svg></span>';
-  function hex(cls, act, title, lines) { return '<button class="hx ' + cls + '" ' + act + '>' + HEX_BG + '<span class="hx-in"><b class="hx-t">' + title + '</b><span class="hx-d">' + lines + '</span>' + HEX_GO + '</span></button>'; }
+  function hex(cls, act, title, lines, news) { return '<button class="hx ' + cls + '" ' + act + '>' + HEX_BG + '<span class="hx-in"><b class="hx-t">' + title + '</b><span class="hx-d">' + lines + '</span>' + (news ? '<span class="hx-n">' + news + '</span>' : '') + HEX_GO + '</span></button>'; }
+  // 육각형 안 오늘의 소식 한 줄
+  function hexNews() {
+    var day = Date.now() - 864e5, num = function (n) { return '<i>' + n + '</i>'; };
+    var live = S.posts.filter(function (p) { return p.board === 'pray' && !p.roomId && !p.answered && !p.adminOnly && (p.mine || !hiddenPost(p)); });
+    var fresh = live.filter(function (p) { return !p.mine && p.created > day; }).length;
+    var act = activeItems().length;
+    var mine = S.rooms.map(function (r) { return r.id; });
+    var rnew = S.posts.filter(function (p) { return p.roomId && mine.indexOf(p.roomId) >= 0 && !p.mine && p.created > day; }).length;
+    return {
+      pray: fresh ? '오늘 새 기도 제목 ' + num(fresh) + '개' : live.length ? '함께 기도 중인 제목 ' + num(live.length) + '개' : '첫 기도 제목을 올려 보세요',
+      mine: act ? '기도 중인 제목 ' + num(act) + '개' : '첫 기도 제목을 적어 보세요',
+      rooms: rnew ? '새 기도 제목 ' + num(rnew) + '개' : S.rooms.length ? '함께하는 모임방 ' + num(S.rooms.length) + '곳' : '모임방 둘러보기'
+    };
+  }
   function vHome() {
-    var t = today(), mon = t.slice(0, 8) + '01';
+    var t = today(), mon = t.slice(0, 8) + '01', nw = hexNews();
     return '<div class="hmin hhex"><div class="hx-tag"><span>함께 기도할 때,</span><b>하나님은 <em>선</em>을 이루십니다.</b></div>' +
       '<div class="hx-wrap">' +
       '<button class="hfloat hx-me" data-act="hero-go"><b>' + esc(myName()) + '님의 기도</b><span>연속 ' + streak() + '일째</span><span>' + (+t.slice(5, 7)) + '월 기도 총 ' + fmtMin(sumRange(mon, t)) + '</span><span>오늘 기도 ' + fmtMin(sumRange(t, t)) + '</span></button>' +
-      hex('h1', 'data-go="pray"', '중보기도', '얼굴은 몰라도<br>서로의 짐을 지고<br>함께 기도해요') +
+      hex('h1', 'data-go="pray"', '중보기도', '얼굴은 몰라도<br>서로의 짐을 지고<br>함께 기도해요', nw.pray) +
 '<button class="hx-door" data-qm="closet" aria-label="골방기도"><img src="closet-door.png" alt=""><small>골방</small></button>' +
-      hex('h2', 'data-tab="diary"', '나의 기도', '주님과 나만 아는<br>은밀한<br>기도의 자리') +
-      hex('h3', 'data-qm="rooms"', '우리 교회 기도방', '한 몸 된 지체들과<br>마음을 모아<br>함께 엎드리는 자리') +
+      hex('h2', 'data-tab="diary"', '나의 기도', '주님과 나만 아는<br>은밀한<br>기도의 자리', nw.mine) +
+      hex('h3', 'data-qm="rooms"', '우리 교회 기도방', '한 몸 된 지체들과<br>마음을 모아<br>함께 엎드리는 자리', nw.rooms) +
       '</div>' + homeTicker() + '</div>';
   }
   // 홈 맨 위: 중보기도와 나의 기도 큰 상자, 그 아래 나의 기도 기록 줄
