@@ -954,8 +954,8 @@ body.is-home.wvh::before { background: #F3EAE3 url("data:image/svg+xml,%3Csvg xm
 .hwv { position: relative; --wv-h: clamp(260px, calc(100svh - 500px), 370px); }
 .wv-leaf { position: absolute; z-index: 0; top: -34px; right: -16px; width: 42%; pointer-events: none; opacity: .95; }
 .wv-tag { position: relative; z-index: 1; margin: 14px 0 0 2px; padding-left: 16px; border-left: 1.5px solid #CBA898; }
-.wv-tag p { margin: 0; font-family: "Gowun Batang", serif; font-weight: 400; font-size: clamp(21px, 6vw, 25px); line-height: 1.5; color: #2E2826; letter-spacing: -.02em; }
-.wv-tag em { position: relative; font-style: normal; font-family: "Nanum Brush Script", serif; font-size: 2em; line-height: .8; color: #B23A2E; vertical-align: -.06em; }
+.wv-tag p { margin: 0; font-family: "Gowun Batang", serif; font-weight: 700; font-size: clamp(20px, 5.7vw, 24px); line-height: 1.42; color: #64666C; letter-spacing: -.02em; }
+.wv-tag em { position: relative; font-style: normal; font-family: "Nanum Brush Script", serif; font-weight: 400; font-size: 2.15em; line-height: .8; color: #B23A2E; vertical-align: -.06em; }
 .wv-tag em::after { content: ""; position: absolute; left: -.1em; right: -.25em; bottom: -.02em; height: .22em; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 10' preserveAspectRatio='none'%3E%3Cpath d='M2 7C18 3 36 2 58 4' fill='none' stroke='%23C0573F' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat; }
 .wv-tag small { display: block; margin-top: 10px; font-family: "Gowun Batang", serif; font-size: 10px; letter-spacing: .46em; color: #7E6F68; }
 .wv-door { position: absolute; right: 8px; bottom: 2px; width: 34px; border: 0; padding: 0; background: none; }
@@ -977,30 +977,20 @@ body.is-home.wvh::before { background: #F3EAE3 url("data:image/svg+xml,%3Csvg xm
 .wv-edge { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
 .wv-edge path { fill: none; stroke: rgba(255, 255, 255, .95); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
 .wv-tx { position: absolute; left: 0; right: 0; bottom: 0; top: 40%; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 9px 10px 11px; }
-.wv-t { font-family: "Gowun Batang", serif; font-weight: 700; font-size: clamp(16px, 4.6vw, 19px); line-height: 1.28; color: #2A2422; letter-spacing: -.03em; }
+.wv-t { font-family: "Gowun Batang", serif; font-weight: 700; font-size: clamp(16px, 4.6vw, 19px); line-height: 1.28; letter-spacing: -.03em; background: linear-gradient(120deg, #1F2638 0%, #3A3550 40%, #9A6A66 78%, #C49A78 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 .wv-dash { display: block; width: 14px; height: 1px; margin: 9px 0 9px; background: #B9826A; }
-.wv-d { font-family: "Gowun Batang", serif; font-weight: 400; font-size: clamp(10.5px, 2.9vw, 12px); line-height: 1.6; color: #4A423E; letter-spacing: -.04em; word-break: keep-all; }
-.wv-go { align-self: flex-end; display: grid; place-items: center; width: 30px; height: 30px; margin-top: 8px; border-radius: 50%; background: rgba(255, 255, 255, .92); color: #2A2422; box-shadow: 0 3px 8px rgba(120, 88, 66, .14); }
+.wv-d { font-family: "Gowun Batang", serif; font-weight: 700; font-size: clamp(10.5px, 2.9vw, 12px); line-height: 1.6; color: #2C3040; letter-spacing: -.04em; word-break: keep-all; }
+.wv-go { align-self: flex-end; display: grid; place-items: center; width: 30px; height: 30px; margin-top: 8px; border-radius: 50%; background: rgba(255, 255, 255, .92); color: #1B2945; box-shadow: 0 3px 8px rgba(120, 88, 66, .14); }
 .wv-go svg { width: 16px; height: 16px; }
 .wv-me { position: relative; z-index: 1; align-self: flex-start; margin: 0 0 0 2px; padding: 2px 0 2px 14px; border: 0; border-left: 1.5px solid #CBA898; background: none; text-align: left; color: #2E2826; }
-.wv-me b { display: block; font-family: "Gowun Batang", serif; font-weight: 700; font-size: 17px; letter-spacing: -.02em; }
-.wv-me b span { font-weight: 400; color: #6E625C; }
-.wv-st { display: flex; gap: 0; margin-top: 5px; font-size: 11px; color: #4A423E; white-space: nowrap; }
+.wv-me b { display: block; font-size: 15.5px; font-weight: 600; color: #7A2236; letter-spacing: .01em; }
+.wv-me b span { font-weight: 400; }
+.wv-st { display: flex; gap: 0; margin-top: 5px; font-size: 11.5px; color: #8E5A64; letter-spacing: .01em; white-space: nowrap; }
 .wv-st span + span::before { content: ""; display: inline-block; width: 1px; height: 9px; margin: 0 7px; background: #B9A79D; vertical-align: -1px; }
 .hwv .htk2 { margin-top: 14px; }
 .hwv .htk2-head { display: none; }
 .hwv .htk2-c { border-radius: 22px; padding: 9px 18px 8px; background: rgba(255, 255, 255, .55); border-color: rgba(255, 255, 255, .95); }
 body.is-home.wvh { --fab-home: calc(var(--wv-fab, 168px)); }
-body.is-home.wvh .fab:not(.closet) { background: linear-gradient(110deg, #8A6266 0%, #A88184 55%, #8A6266 100%); box-shadow: 0 6px 16px rgba(110, 70, 74, .25); }
-body.is-home.wvh .qbtn { background: rgba(255, 255, 255, .8); color: #3A2E2A; }
-body.is-home.wvh .tabbar { background: rgba(255, 255, 255, .7); border-color: rgba(255, 255, 255, .95); box-shadow: 0 6px 20px rgba(120, 88, 66, .12); }
-body.is-home.wvh .tabbar button { color: #3A2E2A; }
-body.is-home.wvh .tabbar svg { stroke: #3A2E2A; }
-body.is-home.wvh .tabbar button + button::before { background: #E6DAD2; }
-body.is-home.wvh .tabbar button[aria-current="page"] { color: #8A4F55; }
-body.is-home.wvh .tabbar button[aria-current="page"] svg { stroke: #8A4F55; }
-body.is-home.wvh .tabbar button[aria-current="page"] svg .fillme { fill: #8A4F55; stroke: #8A4F55; }
-body.is-home.wvh .tabbar button[aria-current="page"]::after { background: #8A4F55; }
 </style>
 
 <div class="app">
