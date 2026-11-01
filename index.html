@@ -948,6 +948,59 @@ body.qd-open .fab:not(.closet) { opacity: 0; pointer-events: none; }
 .diary-top { margin: 4px 0 14px; }
 .diary-top .hstrip3 { background: rgba(255, 255, 255, .85); border-color: var(--line); box-shadow: none; }
 .diary-top .hic { margin: 10px -16px 0; padding: 4px 10px 0; }
+
+/* ===== 홈 물결 카드 시안 ===== */
+body.is-home.wvh::before { background: #F3EAE3 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 390 844' preserveAspectRatio='none'%3E%3Ccircle cx='300' cy='-20' r='190' fill='%23F8F2ED'/%3E%3Cpath d='M0 690C70 650 140 660 210 690S330 700 390 670V844H0Z' fill='%23EADDD3'/%3E%3Cpath d='M0 740C90 710 180 735 260 745S350 735 390 725V844H0Z' fill='%23E4D5CA'/%3E%3C/svg%3E") center / 100% 100% no-repeat; filter: none; }
+.hwv { position: relative; --wv-h: clamp(260px, calc(100svh - 500px), 370px); }
+.wv-leaf { position: absolute; z-index: 0; top: -34px; right: -16px; width: 42%; pointer-events: none; opacity: .95; }
+.wv-tag { position: relative; z-index: 1; margin: 14px 0 0 2px; padding-left: 16px; border-left: 1.5px solid #CBA898; }
+.wv-tag p { margin: 0; font-family: "Gowun Batang", serif; font-weight: 400; font-size: clamp(21px, 6vw, 25px); line-height: 1.5; color: #2E2826; letter-spacing: -.02em; }
+.wv-tag em { position: relative; font-style: normal; font-family: "Nanum Brush Script", serif; font-size: 2em; line-height: .8; color: #B23A2E; vertical-align: -.06em; }
+.wv-tag em::after { content: ""; position: absolute; left: -.1em; right: -.25em; bottom: -.02em; height: .22em; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 10' preserveAspectRatio='none'%3E%3Cpath d='M2 7C18 3 36 2 58 4' fill='none' stroke='%23C0573F' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat; }
+.wv-tag small { display: block; margin-top: 10px; font-family: "Gowun Batang", serif; font-size: 10px; letter-spacing: .46em; color: #7E6F68; }
+.wv-door { position: absolute; right: 8px; bottom: 2px; width: 34px; border: 0; padding: 0; background: none; }
+.wv-door img { display: block; width: 100%; filter: brightness(1.18) saturate(.6) contrast(.92); opacity: .9; }
+.wv-door small { position: absolute; left: 31%; top: 92%; transform: translateX(-50%); margin: 0; font-size: 9.5px; letter-spacing: .1em; color: #7C7480; white-space: nowrap; }
+.wv-row { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: auto -4px; padding: 26px 0 22px; flex: none; }
+.wv-c { position: relative; height: var(--wv-h); border: 0; padding: 0; background: none; text-align: left; color: inherit; filter: drop-shadow(0 8px 14px rgba(120, 88, 66, .13)); }
+.wv-c.w3 { height: calc(var(--wv-h) + 8px); margin-top: -8px; }
+.wv-in { position: absolute; inset: 0; display: block; background: #F7F1EC; -webkit-mask: var(--m) center / 100% 100% no-repeat; mask: var(--m) center / 100% 100% no-repeat; }
+.wv-c.w1 { --m: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M0 26C0 19 5 16 15 14C38 10 54 9 70 5C80 2 85 .5 90 .5Q100 .5 100 6V96.5Q100 100 92 100H8Q0 100 0 96.5Z'/%3E%3C/svg%3E"); }
+.wv-c.w2 { --m: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M0 22C0 15 6 11 18 10C42 9 58 8 74 4C82 2 86 1 90 1Q100 1 100 6.5V96.5Q100 100 92 100H8Q0 100 0 96.5Z'/%3E%3C/svg%3E"); }
+.wv-c.w3 { --m: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M0 28C0 20 4 16 13 13C30 8 44 4 62 1.5C72 0 82 0 90 0Q100 0 100 5.5V96.5Q100 100 92 100H8Q0 100 0 96.5Z'/%3E%3C/svg%3E"); }
+.wv-img { position: absolute; left: 0; top: 0; width: 100%; height: 66%; object-fit: cover; object-position: center top; }
+.wv-c.w2 .wv-img { object-position: 30% top; }
+.wv-c.w3 .wv-img { object-position: 84% top; }
+.wv-panel { position: absolute; inset: 0; width: 100%; height: 100%; }
+.wv-panel path { fill: rgba(250, 246, 242, .96); }
+.wv-c.w3 .wv-panel { transform: translateY(-7%); height: 107%; }
+.wv-edge { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.wv-edge path { fill: none; stroke: rgba(255, 255, 255, .95); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+.wv-tx { position: absolute; left: 0; right: 0; bottom: 0; top: 40%; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 9px 10px 11px; }
+.wv-t { font-family: "Gowun Batang", serif; font-weight: 700; font-size: clamp(16px, 4.6vw, 19px); line-height: 1.28; color: #2A2422; letter-spacing: -.03em; }
+.wv-dash { display: block; width: 14px; height: 1px; margin: 9px 0 9px; background: #B9826A; }
+.wv-d { font-family: "Gowun Batang", serif; font-weight: 400; font-size: clamp(10.5px, 2.9vw, 12px); line-height: 1.6; color: #4A423E; letter-spacing: -.04em; word-break: keep-all; }
+.wv-go { align-self: flex-end; display: grid; place-items: center; width: 30px; height: 30px; margin-top: 8px; border-radius: 50%; background: rgba(255, 255, 255, .92); color: #2A2422; box-shadow: 0 3px 8px rgba(120, 88, 66, .14); }
+.wv-go svg { width: 16px; height: 16px; }
+.wv-me { position: relative; z-index: 1; align-self: flex-start; margin: 0 0 0 2px; padding: 2px 0 2px 14px; border: 0; border-left: 1.5px solid #CBA898; background: none; text-align: left; color: #2E2826; }
+.wv-me b { display: block; font-family: "Gowun Batang", serif; font-weight: 700; font-size: 17px; letter-spacing: -.02em; }
+.wv-me b span { font-weight: 400; color: #6E625C; }
+.wv-st { display: flex; gap: 0; margin-top: 5px; font-size: 11px; color: #4A423E; white-space: nowrap; }
+.wv-st span + span::before { content: ""; display: inline-block; width: 1px; height: 9px; margin: 0 7px; background: #B9A79D; vertical-align: -1px; }
+.hwv .htk2 { margin-top: 14px; }
+.hwv .htk2-head { display: none; }
+.hwv .htk2-c { border-radius: 22px; padding: 9px 18px 8px; background: rgba(255, 255, 255, .55); border-color: rgba(255, 255, 255, .95); }
+body.is-home.wvh { --fab-home: calc(var(--wv-fab, 168px)); }
+body.is-home.wvh .fab:not(.closet) { background: linear-gradient(110deg, #8A6266 0%, #A88184 55%, #8A6266 100%); box-shadow: 0 6px 16px rgba(110, 70, 74, .25); }
+body.is-home.wvh .qbtn { background: rgba(255, 255, 255, .8); color: #3A2E2A; }
+body.is-home.wvh .tabbar { background: rgba(255, 255, 255, .7); border-color: rgba(255, 255, 255, .95); box-shadow: 0 6px 20px rgba(120, 88, 66, .12); }
+body.is-home.wvh .tabbar button { color: #3A2E2A; }
+body.is-home.wvh .tabbar svg { stroke: #3A2E2A; }
+body.is-home.wvh .tabbar button + button::before { background: #E6DAD2; }
+body.is-home.wvh .tabbar button[aria-current="page"] { color: #8A4F55; }
+body.is-home.wvh .tabbar button[aria-current="page"] svg { stroke: #8A4F55; }
+body.is-home.wvh .tabbar button[aria-current="page"] svg .fillme { fill: #8A4F55; stroke: #8A4F55; }
+body.is-home.wvh .tabbar button[aria-current="page"]::after { background: #8A4F55; }
 </style>
 
 <div class="app">
@@ -1363,8 +1416,35 @@ body.qd-open .fab:not(.closet) { opacity: 0; pointer-events: none; }
   var HEX_BG = '<svg class="hx-bg" viewBox="0 0 216 250" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="hxGl" x1="0" y1="0" x2=".55" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".62"/><stop offset=".34" stop-color="#fff" stop-opacity=".16"/><stop offset=".36" stop-color="#fff" stop-opacity=".04"/><stop offset="1" stop-color="#fff" stop-opacity=".18"/></linearGradient><linearGradient id="hxFd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".42"/><stop offset=".55" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#C9B49A" stop-opacity=".12"/></linearGradient><linearGradient id="hxBv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="1"/><stop offset=".5" stop-color="#fff" stop-opacity=".75"/><stop offset="1" stop-color="#A8906F" stop-opacity=".45"/></linearGradient><filter id="hxSh" x="-.3" y="-.3" width="1.6" height="1.6"><feGaussianBlur in="SourceAlpha" stdDeviation="2.5"/><feOffset dy="2.5" result="b"/><feFlood flood-color="#5C4630" flood-opacity=".09"/><feComposite in2="b" operator="in"/><feComposite in2="SourceAlpha" operator="out"/></filter></defs><path class="hx-sh" d="M89.6 10.6Q108.0 0.0 126.4 10.6L197.6 51.9Q216.0 62.5 216.0 83.8L216.0 166.2Q216.0 187.5 197.6 198.1L126.4 239.4Q108.0 250.0 89.6 239.4L18.4 198.1Q0.0 187.5 0.0 166.2L0.0 83.8Q0.0 62.5 18.4 51.9Z"/><path class="hx-fx" d="M89.6 10.6Q108.0 0.0 126.4 10.6L197.6 51.9Q216.0 62.5 216.0 83.8L216.0 166.2Q216.0 187.5 197.6 198.1L126.4 239.4Q108.0 250.0 89.6 239.4L18.4 198.1Q0.0 187.5 0.0 166.2L0.0 83.8Q0.0 62.5 18.4 51.9Z"/><path d="M89.6 10.6Q108.0 0.0 126.4 10.6L197.6 51.9Q216.0 62.5 216.0 83.8L216.0 166.2Q216.0 187.5 197.6 198.1L126.4 239.4Q108.0 250.0 89.6 239.4L18.4 198.1Q0.0 187.5 0.0 166.2L0.0 83.8Q0.0 62.5 18.4 51.9Z"/></svg>';
   var HEX_GO = '<span class="hx-go" aria-hidden="true"><em>들어가기</em><svg viewBox="0 0 34 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6h31M27 1.5 32 6l-5 4.5"/></svg></span>';
   function hex(cls, act, title, lines) { return '<button class="hx ' + cls + '" ' + act + '>' + HEX_BG + '<span class="hx-in"><b class="hx-t">' + title + '</b><span class="hx-d">' + lines + '</span>' + HEX_GO + '</span></button>'; }
+  // 홈 (물결 카드 시안): 사진 카드 세 장, 은혜님의 기도 한 줄, 흐르는 기도 제목
+  var WV_GO = '<span class="wv-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13.5 6.5 19 12l-5.5 5.5"/></svg></span>';
+  var WV_PANEL = '<svg class="wv-panel" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 57C16 53 30 57 48 54S78 47 100 45V100H0Z"/></svg>';
+  function wcard(cls, act, img, title, lines) {
+    return '<button class="wv-c ' + cls + '" ' + act + '><span class="wv-in"><img class="wv-img" src="' + img + '" alt="">' + WV_PANEL +
+      '<span class="wv-tx"><b class="wv-t">' + title + '</b><i class="wv-dash"></i><span class="wv-d">' + lines + '</span>' + WV_GO + '</span></span>' +
+      '<svg class="wv-edge" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="' + WV_SHAPE[cls] + '"/></svg></button>';
+  }
+  var WV_SHAPE = {
+    w1: 'M0 26C0 19 5 16 15 14C38 10 54 9 70 5C80 2 85 .5 90 .5Q100 .5 100 6V96.5Q100 100 92 100H8Q0 100 0 96.5Z',
+    w2: 'M0 22C0 15 6 11 18 10C42 9 58 8 74 4C82 2 86 1 90 1Q100 1 100 6.5V96.5Q100 100 92 100H8Q0 100 0 96.5Z',
+    w3: 'M0 28C0 20 4 16 13 13C30 8 44 4 62 1.5C72 0 82 0 90 0Q100 0 100 5.5V96.5Q100 100 92 100H8Q0 100 0 96.5Z'
+  };
+  function vHomeWave() {
+    var t = today(), mon = t.slice(0, 8) + '01';
+    return '<div class="hmin hwv"><img class="wv-leaf" src="home-leaf.png" alt="" aria-hidden="true">' +
+      '<div class="wv-tag"><p>함께 기도할 때,<br>하나님은 <em>선</em>을 이루십니다.</p><small>PRAYER TOGETHER</small>' +
+      '<button class="wv-door" data-qm="closet" aria-label="골방기도"><img src="closet-door.png" alt=""><small>골방</small></button></div>' +
+      '<div class="wv-row">' +
+      wcard('w1', 'data-go="pray"', 'home-w1.jpg', '중보기도', '얼굴은 몰라도<br>서로의 짐을 지고<br>함께 기도해요') +
+      wcard('w2', 'data-tab="diary"', 'home-w2.jpg', '나의 기도', '주님과 나만 아는<br>은밀한<br>기도의 자리') +
+      wcard('w3', 'data-qm="rooms"', 'home-w3.jpg', '우리 교회<br>기도방', '한 몸 된 지체들과<br>마음을 모아<br>함께 엎드리는 자리') +
+      '</div>' +
+      '<button class="wv-me" data-act="hero-go"><b>' + esc(myName()) + '님의 기도 <span>›</span></b><span class="wv-st"><span>연속 ' + streak() + '일째</span><span>' + (+t.slice(5, 7)) + '월 총 ' + fmtMin(sumRange(mon, t)) + '</span><span>오늘 ' + fmtMin(sumRange(t, t)) + '</span></span></button>' +
+      homeTicker() + '</div>';
+  }
   function vHome() {
     var t = today(), mon = t.slice(0, 8) + '01';
+    if (window.WAVE !== false) return vHomeWave();
     return '<div class="hmin hhex"><div class="hx-tag"><span>함께 기도할 때,</span><b>하나님은 <em>선</em>을 이루십니다.</b></div>' +
       '<div class="hx-wrap">' +
       '<button class="hfloat hx-me" data-act="hero-go"><b>' + esc(myName()) + '님의 기도</b><span>연속 ' + streak() + '일째</span><span>' + (+t.slice(5, 7)) + '월 기도 총 ' + fmtMin(sumRange(mon, t)) + '</span><span>오늘 기도 ' + fmtMin(sumRange(t, t)) + '</span></button>' +
@@ -2690,6 +2770,7 @@ body.qd-open .fab:not(.closet) { opacity: 0; pointer-events: none; }
     document.body.classList.toggle('big', BIG);
     document.body.classList.toggle('not-home', tab !== 'home');
     document.body.classList.toggle('is-home', tab === 'home');
+    document.body.classList.toggle('wvh', tab === 'home' && window.WAVE !== false);
     renderTabs();
     el('view').innerHTML = (BIG && BIG_VIEWS[tab] ? BIG_VIEWS[tab] : VIEWS[tab])();
     el('topWrite').hidden = tab === 'join' || tab === 'admin' || tab === 'closet' || tab === 'howto' || (BIG && tab !== 'home' && tab !== 'diary');
