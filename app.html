@@ -944,9 +944,9 @@ body.qd-open .fab:not(.closet) { opacity: 0; pointer-events: none; }
 .diary-top .hic { margin: 10px -16px 0; padding: 4px 10px 0; }
 
 /* ===== 홈 물결 카드 시안 ===== */
-body.is-home.wvh::before { background: #F3EAE3 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 390 844' preserveAspectRatio='none'%3E%3Ccircle cx='300' cy='-20' r='190' fill='%23F8F2ED'/%3E%3Cpath d='M0 690C70 650 140 660 210 690S330 700 390 670V844H0Z' fill='%23EADDD3'/%3E%3Cpath d='M0 740C90 710 180 735 260 745S350 735 390 725V844H0Z' fill='%23E4D5CA'/%3E%3C/svg%3E") center / 100% 100% no-repeat; filter: none; }
+body.is-home.wvh::before { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 390 844' preserveAspectRatio='none'%3E%3Ccircle cx='300' cy='-20' r='190' fill='%23F8F2ED' fill-opacity='.55'/%3E%3Cpath d='M0 690C70 650 140 660 210 690S330 700 390 670V844H0Z' fill='%23EADDD3' fill-opacity='.6'/%3E%3Cpath d='M0 740C90 710 180 735 260 745S350 735 390 725V844H0Z' fill='%23E4D5CA' fill-opacity='.6'/%3E%3C/svg%3E") center / 100% 100% no-repeat, linear-gradient(rgba(243, 234, 227, var(--wv-veil, .35)), rgba(243, 234, 227, var(--wv-veil, .35))), url("home-bg1b.jpg") center / cover no-repeat, #F3EAE3; filter: none; }
 .hwv { position: relative; --wv-h: clamp(260px, calc(100svh - 500px), 370px); }
-.wv-leaf { position: absolute; z-index: 0; top: -34px; right: -16px; width: 42%; pointer-events: none; opacity: .95; }
+.wv-leaf { position: absolute; z-index: 0; top: -16px; right: -16px; width: min(38%, 150px); pointer-events: none; opacity: .95; }
 .wv-tag { position: relative; z-index: 1; margin: 14px 0 0 2px; padding-left: 16px; border-left: 1.5px solid #CBA898; }
 .wv-tag p { margin: 0; font-family: "Gowun Batang", serif; font-weight: 700; font-size: clamp(20px, 5.7vw, 24px); line-height: 1.42; color: #64666C; letter-spacing: -.02em; }
 .wv-tag em { position: relative; font-style: normal; font-family: "Nanum Brush Script", serif; font-weight: 400; font-size: 2.15em; line-height: .8; color: #B23A2E; vertical-align: -.06em; }
@@ -955,7 +955,7 @@ body.is-home.wvh::before { background: #F3EAE3 url("data:image/svg+xml,%3Csvg xm
 .wv-door { position: absolute; right: 8px; bottom: 2px; width: 34px; border: 0; padding: 0; background: none; }
 .wv-door img { display: block; width: 100%; filter: brightness(1.18) saturate(.6) contrast(.92); opacity: .9; }
 .wv-door small { position: absolute; left: 31%; top: 92%; transform: translateX(-50%); margin: 0; font-size: 9.5px; letter-spacing: .1em; color: #7C7480; white-space: nowrap; }
-.wv-row { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: auto -4px; padding: 26px 0 22px; flex: none; }
+.wv-row { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0 -4px; padding: 30px 0 24px; flex: none; }
 .wv-c { position: relative; height: var(--wv-h); border: 0; padding: 0; background: none; text-align: left; color: inherit; filter: drop-shadow(0 8px 14px rgba(120, 88, 66, .13)); }
 .wv-c.w3 { height: calc(var(--wv-h) + 8px); margin-top: -8px; }
 .wv-in { position: absolute; inset: 0; display: block; background: #F7F1EC; -webkit-mask: var(--m) center / 100% 100% no-repeat; mask: var(--m) center / 100% 100% no-repeat; }
@@ -984,7 +984,6 @@ body.is-home.wvh::before { background: #F3EAE3 url("data:image/svg+xml,%3Csvg xm
 .hwv .htk2 { margin-top: 14px; }
 .hwv .htk2-head { display: none; }
 .hwv .htk2-c { border-radius: 22px; padding: 9px 18px 8px; background: rgba(255, 255, 255, .55); border-color: rgba(255, 255, 255, .95); }
-body.is-home.wvh { --fab-home: calc(var(--wv-fab, 168px)); }
 </style>
 
 <div class="app">
@@ -1413,6 +1412,13 @@ body.is-home.wvh { --fab-home: calc(var(--wv-fab, 168px)); }
     w2: 'M0 22C0 15 6 11 18 10C42 9 58 8 74 4C82 2 86 1 90 1Q100 1 100 6.5V96.5Q100 100 92 100H8Q0 100 0 96.5Z',
     w3: 'M0 28C0 20 4 16 13 13C30 8 44 4 62 1.5C72 0 82 0 90 0Q100 0 100 5.5V96.5Q100 100 92 100H8Q0 100 0 96.5Z'
   };
+  // 기도 요청 버튼을 은혜님의 기도 줄 높이에 맞춰요
+  function wvFab() {
+    var m = document.querySelector('.wv-me'); if (!m) { document.body.style.removeProperty('--fab-home'); return; }
+    var r = m.getBoundingClientRect();
+    document.body.style.setProperty('--fab-home', Math.max(90, Math.round(innerHeight - r.bottom + (r.height - 40) / 2 + scrollY)) + 'px');
+  }
+  addEventListener('resize', function () { if (document.body.classList.contains('wvh')) wvFab(); });
   function vHomeWave() {
     var t = today(), mon = t.slice(0, 8) + '01';
     return '<div class="hmin hwv"><img class="wv-leaf" src="home-leaf.png" alt="" aria-hidden="true">' +
@@ -2762,6 +2768,7 @@ body.is-home.wvh { --fab-home: calc(var(--wv-fab, 168px)); }
     el('topWrite').classList.toggle('closet', tab === 'diary');
     addHelpBtn();
     if (tab === 'pray' || tab === 'home') htkStart();
+    if (tab === 'home') wvFab();
     navTrack();
     if (el('bellDot')) el('bellDot').hidden = !noticeNew() || tab === 'notice';
     visitLog();
