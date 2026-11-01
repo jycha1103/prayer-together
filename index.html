@@ -831,6 +831,10 @@ body.is-home { --fab-home: 160px; }
 .hx-bg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hx::before { content: ""; position: absolute; inset: 0; background: rgba(255, 255, 255, .34); -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px); -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20216%20250%22%20preserveAspectRatio%3D%22none%22%3E%3Cpath%20d%3D%22M89.6%2010.6Q108.0%200.0%20126.4%2010.6L197.6%2051.9Q216.0%2062.5%20216.0%2083.8L216.0%20166.2Q216.0%20187.5%20197.6%20198.1L126.4%20239.4Q108.0%20250.0%2089.6%20239.4L18.4%20198.1Q0.0%20187.5%200.0%20166.2L0.0%2083.8Q0.0%2062.5%2018.4%2051.9Z%22/%3E%3C/svg%3E") center / 100% 100% no-repeat; mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20216%20250%22%20preserveAspectRatio%3D%22none%22%3E%3Cpath%20d%3D%22M89.6%2010.6Q108.0%200.0%20126.4%2010.6L197.6%2051.9Q216.0%2062.5%20216.0%2083.8L216.0%20166.2Q216.0%20187.5%20197.6%20198.1L126.4%20239.4Q108.0%20250.0%2089.6%20239.4L18.4%20198.1Q0.0%20187.5%200.0%20166.2L0.0%2083.8Q0.0%2062.5%2018.4%2051.9Z%22/%3E%3C/svg%3E") center / 100% 100% no-repeat; }
 .hx:active::before { background: rgba(255, 255, 255, .6); }
+/*IMGV*/.hx::before { background: linear-gradient(rgba(255,255,255,var(--wa,.12)), rgba(255,255,255,var(--wb,.35))), var(--img) var(--ipos, center) / cover no-repeat; }
+.hx.h1 { --img: url("home-pray.jpg"); }
+.hx.h2 { --img: url("home-mine.jpg"); --ipos: 30% center; }
+.hx.h3 { --img: url("home-rooms.jpg"); --ipos: 63% center; }/*/IMGV*/
 .hx-bg path { fill: none; stroke: rgba(255, 255, 255, .9); stroke-width: 1.7; vector-effect: non-scaling-stroke; }
 .hx-bg { overflow: visible; }
 /*HXV*/.hx-bg .hx-sh { fill: #000; stroke: none; filter: url(#hxSh); }
