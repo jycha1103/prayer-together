@@ -1080,6 +1080,11 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
 .nst-ims img:nth-child(1) { transform: rotate(-8deg); } .nst-ims img:nth-child(2) { position: relative; z-index: 1; transform: translateY(-3px); } .nst-ims img:nth-child(3) { transform: rotate(7deg); }
 .nst[aria-pressed="true"] { background: rgba(242, 198, 97, .16); box-shadow: inset 0 0 0 2px #1B2945; }
 .nst-hint { display: block; margin-top: 6px; font-style: normal; font-size: 12px; color: rgba(58, 51, 64, .55); }
+
+/*SWIPE*/
+@keyframes swl { from { opacity: .3; transform: translateX(36px); } to { opacity: 1; transform: none; } }
+@keyframes swr { from { opacity: .3; transform: translateX(-36px); } to { opacity: 1; transform: none; } }
+#view.sw-l { animation: swl .28s ease-out; } #view.sw-r { animation: swr .28s ease-out; }
 </style>
 
 <div class="app">
@@ -2932,6 +2937,30 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
     if (el('sheet')) { closeSheet(); try { history.pushState({ pt: 1 }, ''); navPushed++; } catch (e) {} return; }
     navGoBack();
   });
+
+  /*SWIPE*/
+  (function () {
+    var sx = 0, sy = 0, st = 0, ok = false;
+    function blocked(t) {
+      if (!t.closest) return true;
+      if (el('sheetRoot') && el('sheetRoot').children.length) return true;
+      if (el('drawerRoot') && el('drawerRoot').children.length) return true;
+      if (t.closest('input,textarea,select,[contenteditable],#tabs,.fab,#dlyTrack,.chips,.pseg,.seg,.hscroll,.carousel,iframe,audio,video,[data-noswipe]')) return true;
+      for (var n = t; n && n !== document.body; n = n.parentElement) { if (n.scrollWidth > n.clientWidth + 4 && /auto|scroll/.test(getComputedStyle(n).overflowX)) return true; }
+      return false;
+    }
+    document.addEventListener('touchstart', function (e) { if (e.touches.length !== 1) { ok = false; return; } var p = e.touches[0]; sx = p.clientX; sy = p.clientY; st = Date.now(); ok = !blocked(e.target); }, { passive: true });
+    document.addEventListener('touchend', function (e) {
+      if (!ok) return; ok = false;
+      var p = e.changedTouches[0], dx = p.clientX - sx, dy = p.clientY - sy;
+      if (Date.now() - st > 700 || Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy) * 2) return;
+      var bs = [].slice.call(el('tabs').querySelectorAll('button[data-tab]')), i = bs.findIndex(function (b) { return b.hasAttribute('aria-current'); });
+      if (i < 0) return;
+      var j = (i + (dx < 0 ? 1 : -1) + bs.length) % bs.length;
+      bs[j].click();
+      var v = el('view'); v.classList.remove('sw-l', 'sw-r'); void v.offsetWidth; v.classList.add(dx < 0 ? 'sw-l' : 'sw-r');
+    }, { passive: true });
+  })();
   function go(t) { tab = t; closeSheet(); closeDrawer(); render(); window.scrollTo(0, 0); }
 
   // ---------- drawer ----------
