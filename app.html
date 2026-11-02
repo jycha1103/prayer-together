@@ -1103,9 +1103,9 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
 .tc-in { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
 .tc-hands { width: 26px; height: 26px; color: #C98F4E; }
 .tc2 .time-big { font-family: "MaruBuri", var(--font-display); color: #14213F; align-items: baseline; }
-.tc2 .time-big b { font-size: 40px; font-weight: 700; letter-spacing: -.03em; }
+.tc2 .time-big b { font-size: 33px; font-weight: 700; letter-spacing: -.03em; }
 .tc2 .time-big b.sm { font-size: 25px; } .tc2 .time-big b.sm + span { font-size: 12.5px; margin: 0 3px 0 1px; }
-.tc2 .time-big span { font-size: 16px; font-weight: 700; margin: 0 2px 0 3px; }
+.tc2 .time-big span { font-size: 14px; font-weight: 700; margin: 0 2px 0 3px; }
 .tc-vl { width: 1px; align-self: stretch; margin: 18px 0; background: rgba(160, 120, 80, .2); flex: none; }
 .tc-st { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
 .tc-st div { display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: #2A3550; letter-spacing: -.03em; line-height: 1.35; }
@@ -1146,9 +1146,9 @@ body.sub-bg::before { content: ""; position: fixed; inset: -8%; z-index: -1; bac
 
 /*TC4*/
 .tc-in:has(.tc-hr) .tc-hands { width: 20px; height: 20px; margin-bottom: -2px; }
-.tc2 .time-big { flex-wrap: wrap; justify-content: center; } .tc-hr { flex-basis: 100%; text-align: center; font-style: normal; font-family: var(--font-body); font-size: 14px; font-weight: 700; color: #5E8A4F; margin-bottom: 3px; letter-spacing: -.02em; }
+.tc2 .time-big { flex-wrap: wrap; justify-content: center; } .tc-hr { flex-basis: 100%; text-align: center; font-style: normal; font-family: var(--font-body); font-size: 14px; font-weight: 700; color: #8A6A3E; margin-bottom: 2px; letter-spacing: -.02em; }
 .tc-dot.g { filter: drop-shadow(0 0 4px rgba(127, 168, 108, .9)); }
-.tc-ring.over + .tc-in .tc-hands { color: #6F9A5E; }
+
 </style>
 
 <div class="app">
@@ -2055,13 +2055,21 @@ body.sub-bg::before { content: ""; position: fixed; inset: -8%; z-index: -1; bac
     var clock = function (ts) { var x = new Date(ts), hh = x.getHours(); return (hh < 12 ? '오전 ' : '오후 ') + ((hh + 11) % 12 + 1) + ':' + pad(x.getMinutes()); };
     var r = bump; bump = false;
     var dt = new Date(d + 'T00:00:00'), dLabel = dt.getFullYear() + '. ' + pad(dt.getMonth() + 1) + '. ' + pad(dt.getDate()) + '. (' + '일월화수목금토'[dt.getDay()] + ')';
-    var RR = 54, CC = 2 * Math.PI * RR, f1 = Math.min(1, v / 60), f2 = v > 60 ? Math.min(1, (v - 60) / 60) : 0, fe = f2 || f1, ang = fe * 2 * Math.PI - Math.PI / 2;
-    var arc = function (f, c, w) { return '<circle cx="70" cy="70" r="' + RR + '" fill="none" stroke="' + c + '" stroke-width="' + w + '" stroke-linecap="round" stroke-dasharray="' + (f * CC).toFixed(1) + ' ' + CC.toFixed(1) + '" transform="rotate(-90 70 70)"/>'; };
-    var ticks = ''; for (var q = 0; q < 6; q++) { var ta = q / 6 * 2 * Math.PI - Math.PI / 2, big2 = q % 3 === 0, r1 = 63.5, r2 = big2 ? 68.5 : 66.5; ticks += '<line x1="' + (70 + r1 * Math.cos(ta)).toFixed(1) + '" y1="' + (70 + r1 * Math.sin(ta)).toFixed(1) + '" x2="' + (70 + r2 * Math.cos(ta)).toFixed(1) + '" y2="' + (70 + r2 * Math.sin(ta)).toFixed(1) + '" stroke="' + (big2 ? 'rgba(160,110,60,.55)' : 'rgba(160,110,60,.32)') + '" stroke-width="' + (big2 ? 2 : 1.5) + '" stroke-linecap="round"/>'; }
-    var ring = '<svg class="tc-ring' + (f2 ? ' over' : '') + '" viewBox="0 0 140 140" aria-hidden="true"><defs><linearGradient id="tcg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E9C28A"/><stop offset="1" stop-color="#C98F4E"/></linearGradient><linearGradient id="tcgg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#B5CC9A"/><stop offset="1" stop-color="#6F9A5E"/></linearGradient></defs>' +
-      '<circle cx="70" cy="70" r="' + RR + '" fill="none" stroke="rgba(201,143,78,.13)" stroke-width="6"/>' + ticks +
-      (f1 ? arc(f1, f2 ? 'rgba(214,170,110,.55)' : 'url(#tcg)', 6) : '') + (f2 ? arc(f2, 'url(#tcgg)', 6) : '') +
-      (fe ? '<circle cx="' + (70 + RR * Math.cos(ang)).toFixed(1) + '" cy="' + (70 + RR * Math.sin(ang)).toFixed(1) + '" r="4.5" fill="' + (f2 ? '#F2F8EC' : '#FFF6E6') + '" stroke="' + (f2 ? '#7FA86C' : '#E0A85E') + '" stroke-width="1.5" class="tc-dot' + (f2 ? ' g' : '') + '"/>' : '') + '</svg>';
+    var RR = 54, CC = 2 * Math.PI * RR, HC = ['#D9A863', '#86AE72', '#9CC3D6', '#B4A6DA', '#E7A48E', '#D99AB4'];
+    // 1시간 안: 한 바퀴 = 60분(시계처럼). 1시간 넘으면: 반 바퀴 = 1시간, 한 바퀴 = 2시간. 시간마다 색이 바뀌어요.
+    var scale = v <= 60 ? 60 : 120, hrs = Math.floor(v / 60), lapStart = v <= 60 ? 0 : Math.floor((v - 1) / 120) * 120;
+    var segs = '', fe = 0;
+    if (lapStart) segs += '<circle cx="70" cy="70" r="' + RR + '" fill="none" stroke="' + HC[Math.min(HC.length - 1, (lapStart / 60) - 1)] + '" stroke-opacity=".35" stroke-width="6"/>';
+    for (var hk = lapStart / 60; hk * 60 < v; hk++) {
+      var a = (hk * 60 - lapStart) / scale, b = (Math.min(v, (hk + 1) * 60) - lapStart) / scale, c = HC[hk % HC.length];
+      segs += '<circle cx="70" cy="70" r="' + RR + '" fill="none" stroke="' + c + '" stroke-width="6" stroke-linecap="round" stroke-dasharray="0 ' + (a * CC).toFixed(1) + ' ' + ((b - a) * CC).toFixed(1) + ' ' + CC.toFixed(1) + '" transform="rotate(-90 70 70)"/>';
+      fe = b; var ec = c;
+    }
+    var ang = fe * 2 * Math.PI - Math.PI / 2;
+    var ticks = ''; for (var q = 0; q < 12; q++) { var ta = q / 12 * 2 * Math.PI - Math.PI / 2, big2 = q % 6 === 0, mid2 = q % 2 === 0, r1 = 63.5, r2 = big2 ? 68.5 : mid2 ? 66.8 : 65.5; ticks += '<line x1="' + (70 + r1 * Math.cos(ta)).toFixed(1) + '" y1="' + (70 + r1 * Math.sin(ta)).toFixed(1) + '" x2="' + (70 + r2 * Math.cos(ta)).toFixed(1) + '" y2="' + (70 + r2 * Math.sin(ta)).toFixed(1) + '" stroke="rgba(160,110,60,' + (big2 ? .55 : mid2 ? .38 : .22) + ')" stroke-width="' + (big2 ? 2 : 1.4) + '" stroke-linecap="round"/>'; }
+    var ring = '<svg class="tc-ring" viewBox="0 0 140 140" aria-hidden="true">' +
+      '<circle cx="70" cy="70" r="' + RR + '" fill="none" stroke="rgba(201,143,78,.13)" stroke-width="6"/>' + ticks + segs +
+      (fe ? '<circle cx="' + (70 + RR * Math.cos(ang)).toFixed(1) + '" cy="' + (70 + RR * Math.sin(ang)).toFixed(1) + '" r="4.5" fill="#FFFFFF" stroke="' + ec + '" stroke-width="1.6" class="tc-dot" style="filter:drop-shadow(0 0 4px ' + ec + ')"/>' : '') + '</svg>';
     var hands = '<svg class="tc-hands" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.2 6.6c-.9.9-1.6 2.3-1.6 4.2v4.6l-3.4 3.4M12.8 6.6c.9.9 1.6 2.3 1.6 4.2v4.6l3.4 3.4M11.2 6.6c.4-.4 1.2-.4 1.6 0M12 7v9.2"/><path d="M9.6 11.6 7.6 14M14.4 11.6l2 2.4M12 1.6v2M8.4 2.6l.9 1.6M15.6 2.6l-.9 1.6M6 4.8l1.4 1M18 4.8l-1.4 1"/></svg>';
     var ICK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.2 12.3 2.6 2.6 5-5.4"/></svg>';
     var IBAR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5 20V13M9.5 20V9M14 20v-6M18.5 20V5M3 20.5h18"/></svg>';
