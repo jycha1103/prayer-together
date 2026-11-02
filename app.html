@@ -2832,7 +2832,7 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
   function helpBody(k) { var x = HELP[k]; return '<p class="help-p">' + esc(x[1]) + '</p><ol class="help-ol">' + x[2].map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ol>'; }
   function helpSheet(k) { sheet(HELP[k][0] + ' 이용법', helpBody(k) + '<button class="linkbtn blue" data-tab="howto" style="align-self:flex-start">앱 전체 이용법 보기</button>'); }
   function addHelpBtn() {
-    var k = helpKey(), h = k && el('view').querySelector('.page-title');
+    var k = helpKey(), h = k && k !== 'diary' && el('view').querySelector('.page-title');
     if (h) h.insertAdjacentHTML('beforeend', '<button class="help-q" data-help="' + k + '" aria-label="' + esc(HELP[k][0]) + ' 이용법">?</button>');
   }
   function vHowto() {
