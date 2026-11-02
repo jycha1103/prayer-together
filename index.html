@@ -1044,17 +1044,18 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
 .npk img { width: 100%; height: 100%; object-fit: contain; }
 .npk[aria-pressed="true"] { background: rgba(27, 41, 69, .08); box-shadow: inset 0 0 0 2px #1B2945; }
 .icard.sq .icard-main { padding: 24% 12% 18% 12%; gap: 5px; }
-.icard.sq .icard-main b { font-size: 14px; line-height: 1.38; -webkit-line-clamp: 2; padding-right: 26px; min-height: 2.76em; margin-bottom: 3px; }
+.icard.sq .icard-main b { font-size: 14px; line-height: 1.38; -webkit-line-clamp: 2; padding-right: 30px; min-height: 2.76em; margin-bottom: 3px; }
 .icard.sq .nmeta { display: flex; align-items: center; gap: 0; font-size: 10.5px; font-weight: 500; color: rgba(47, 42, 54, .78); letter-spacing: -.03em; white-space: nowrap; }
 .icard.sq .nmeta svg { flex: none; margin-right: 3px; width: 13px; height: 13px; color: rgba(47, 42, 54, .7); }
 .icard.sq .nmeta .nsep { display: inline-block; flex: none; width: 1px; height: 10px; margin: 0 5px; background: rgba(47, 42, 54, .28); }
 .icard.sq .progress.thin { position: static; display: block; width: 100%; height: 7px; margin-top: 8px; background: rgba(255, 255, 255, .62); box-shadow: inset 0 0 0 1px rgba(47, 42, 54, .06); }
 .icard.sq .progress.thin i { min-width: 7px; background: var(--bc, #9DB394); box-shadow: none; }
 .icard.sq .progress.thin i::after { content: none; }
-.icard.sq .att-btn { left: auto; bottom: auto; right: 10%; top: 17%; width: 27px; height: 27px; background: rgba(255, 255, 255, .7); color: #BDB8C2; box-shadow: inset 0 0 0 1.5px #C9C4CE; }
-.icard.sq .att-btn svg { width: 15px; height: 15px; }
-.icard.sq .att-btn svg * { stroke-width: 2.6; }
-.icard.sq .att-btn.on { background: #FFFDF8; color: var(--cc, #6B5A3A); box-shadow: inset 0 0 0 1.6px var(--cc, #6B5A3A), 0 1px 3px rgba(60, 40, 30, .15); }
+.icard.sq .att-btn { left: auto; bottom: auto; right: 8%; top: 14%; width: 34px; height: 34px; padding: 0; background: none; box-shadow: none; color: #A9A4AE; }
+.icard.sq .att-btn svg { width: 30px; height: 30px; overflow: visible; }
+.icard.sq .att-btn .ck-mark { opacity: .38; }
+.icard.sq .att-btn.on { background: none; box-shadow: none; color: var(--cc, #6B5A3A); }
+.icard.sq .att-btn.on .ck-mark { opacity: 1; }
 .nb0, .nb4, .nb6 { --cc: #8A6A2E; } .nb3, .nb9 { --cc: #4F7A3A; } .nb1, .nb7, .nb10 { --cc: #B4565E; } .nb2, .nb8 { --cc: #2D4A7A; } .nb5, .nb11 { --cc: #6A4E9C; }
 .nb0, .nb3, .nb9 { --bc: #9DBA84; } .nb1, .nb7 { --bc: #E9A3A6; } .nb2, .nb8 { --bc: #8FB0D9; } .nb4 { --bc: #EDB94A; } .nb5, .nb11 { --bc: #B9A3DF; } .nb6 { --bc: #D9B98A; } .nb10 { --bc: #EE9C8C; }
 /*TSP*/body:not(.is-home) .page-title { margin-top: 18px; margin-bottom: 6px; } body:not(.is-home) .page-head .page-title { margin-bottom: 0; } body:not(.is-home) .page-head { margin-top: 18px; margin-bottom: 6px; } body:not(.is-home) .page-head .page-title { margin-top: 0; } body:not(.is-home) .pseg { margin: 14px 0 20px; }
@@ -1077,7 +1078,7 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
 <div class="qdial" id="qdial" aria-label="기도 도구"></div>
 <button class="qbtn" data-act="quick" aria-label="기도 도구 열기"><svg class="q-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><path d="M12 3.5v17M3.5 12h17"/></svg><svg class="q-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
 <div class="tabbar"><nav id="tabs" aria-label="메뉴"></nav></div>
-<button class="fab" id="topWrite"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>기도 요청</button>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="crayon" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.6" xChannelSelector="R" yChannelSelector="G" result="d"/><feTurbulence type="fractalNoise" baseFrequency="2.2" numOctaves="1" seed="7" result="g"/><feColorMatrix in="g" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.7 1.55" result="ga"/><feComposite in="d" in2="ga" operator="in"/></filter></svg><button class="fab" id="topWrite"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>기도 요청</button>
 <div id="sheetRoot"></div>
 <div id="drawerRoot"></div>
 <div id="toastRoot"></div>
@@ -1911,8 +1912,9 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
       '<span class="nmeta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>' + i.days + '일 기도<i class="nsep"></i>' + st.label + '<i class="nsep"></i>총 ' + st.cnt + '회' + (i.example ? ' · 예시' : '') + '</span>' +
 
       '<span class="progress thin"><i style="width:' + Math.min(100, Math.round(st.cnt / i.days * 100)) + '%"></i></span></button>' +
-      '<button class="att-btn' + (st.checked ? ' on' : '') + '" data-check="' + i.id + '" aria-label="오늘 기도 완료" aria-pressed="' + st.checked + '">' + CHECK + '</button></div>';
+      '<button class="att-btn' + (st.checked ? ' on' : '') + '" data-check="' + i.id + '" aria-label="오늘 기도 완료" aria-pressed="' + st.checked + '">' + CRAYON_CK + '</button></div>';
   }
+  var CRAYON_CK = '<svg viewBox="0 0 32 32" aria-hidden="true"><g filter="url(#crayon)"><path class="ck-box" d="M21 6.6H9.6a3.2 3.2 0 0 0-3.2 3.2v13.6a3.2 3.2 0 0 0 3.2 3.2h13.6a3.2 3.2 0 0 0 3.2-3.2v-8.6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path class="ck-mark" d="M8.4 15.1c3-.5 5 1.2 6.4 3.8 3.3-6.9 8.4-12.7 15.6-16.1-5.3 5.5-9.3 11.7-12.3 19-1 2.1-3 2.2-4 .2-1.4-2.7-3.1-4.9-5.7-6.9z" fill="currentColor"/></g></svg>';
   function openItem(id) {
     var i = S.items.find(function (x) { return x.id === id; }); if (!i) return closeSheet();
     var t = today(), st = itemState(i), linked = i.postId && postById(i.postId), dots = '';
