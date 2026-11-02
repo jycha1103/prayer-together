@@ -918,6 +918,10 @@ body.is-home .qbtn svg { width: 18px; height: 18px; }
 body.is-home .qbtn .q-x, body.qd-open .qbtn .q-grid { display: none; }
 body.qd-open .qbtn .q-x { display: block; transform: none; }
 body.is-home .qdial { bottom: calc(var(--fab-home, 131px) + 52px + env(safe-area-inset-bottom, 0px)); }/*/FABV*/
+body:not(.is-home) .fab:not(.closet) { bottom: calc(100px + env(safe-area-inset-bottom, 0px)); width: auto; height: 40px; padding: 0 18px; border-radius: 999px; flex-direction: row; gap: 0; font-size: 13px; font-weight: 500; letter-spacing: .02em; box-shadow: 0 6px 16px rgba(20, 30, 60, .2); background: linear-gradient(110deg, #1B2945 8%, #574459 52%, #1B2945 92%); }
+body:not(.is-home) .fab:not(.closet) svg { display: none; }
+body:not(.is-home) .fab.closet { bottom: calc(100px + env(safe-area-inset-bottom, 0px)); height: 40px; padding: 0 18px 0 15px; gap: 5px; font-size: 13px; font-weight: 600; box-shadow: 0 6px 16px rgba(160, 101, 10, .28); }
+body:not(.is-home) .fab.closet svg { width: 15px; height: 15px; }
 body.is-home .qd-back { display: block; position: fixed; inset: 0; z-index: 10; border: 0; background: rgba(40, 36, 44, .28); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); opacity: 0; pointer-events: none; transition: opacity .2s; }
 body.qd-open .qd-back { opacity: 1; pointer-events: auto; }
 body.is-home .qdial { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; position: fixed; z-index: 11; right: max(16px, calc((100vw - 560px) / 2 + 16px)); bottom: calc(var(--fab-home, 131px) + 66px + env(safe-area-inset-bottom, 0px)); pointer-events: none; }
