@@ -995,17 +995,15 @@ body.is-diary { background: transparent; }
 body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; background: linear-gradient(rgba(247, 243, 238, .74), rgba(247, 243, 238, .74)), #F4EDE6 url("home-bg1b.jpg") center / cover no-repeat; }
 .hhex .hx.h3 .hx-d { text-align: left; }
 
-/* 중보기도 분류: 말풍선 */
-.pseg { display: flex; gap: 6px; margin: 8px 0 14px; }
-.pseg button { position: relative; flex: 1 1 auto; height: 46px; padding: 0 8px; border: 1px solid rgba(255, 255, 255, .95); border-radius: 15px; background: rgba(255, 252, 249, .92); font-size: 13px; font-weight: 600; color: #3A3442; letter-spacing: -.05em; white-space: nowrap; box-shadow: 0 4px 12px rgba(120, 90, 70, .1); transition: background .2s, color .2s; }
-.pseg button[aria-pressed="true"] { background: linear-gradient(160deg, #2C3757 0%, #1B2945 100%); border-color: transparent; color: #FFFFFF; box-shadow: 0 6px 14px rgba(27, 41, 69, .28); }
-.pseg button[aria-pressed="true"]::after { content: ""; position: absolute; left: 50%; bottom: -7px; width: 14px; height: 14px; margin-left: -7px; background: #1B2945; border-radius: 0 0 3px 0; transform: rotate(45deg); }
-
-/* 서브페이지 글씨: 홈의 고딕(Noto Sans KR)과 같은 굵기 느낌으로 */
-body:not(.is-home) .page-title { font-weight: 600; letter-spacing: -.02em; }
-body:not(.is-home) .sec-head h2 { font-weight: 600; }
-body:not(.is-home) .post h3, body:not(.is-home) .dly-n b, body:not(.is-home) .item h3, body:not(.is-home) .card b { font-weight: 600; }
-body:not(.is-home) .pseg button { font-weight: 500; }
+/* 중보기도 분류: 글자 줄 + 고른 칸만 말풍선 */
+.pseg { display: flex; align-items: center; margin: 8px 0 14px; padding-bottom: 10px; border-bottom: 1px solid rgba(27, 41, 69, .12); }
+.pseg button { position: relative; flex: 1 1 auto; height: 40px; padding: 0 6px; border: 0; border-radius: 14px; background: none; font-size: 13.5px; font-weight: 500; color: #3A3442; letter-spacing: -.05em; white-space: nowrap; }
+.pseg button + button::before { content: ""; position: absolute; left: 0; top: 30%; height: 40%; width: 1px; background: rgba(27, 41, 69, .14); }
+.pseg button[aria-pressed="true"] + button::before, .pseg button[aria-pressed="true"]::before { display: none; }
+.pseg button[aria-pressed="true"] { flex: 0 0 auto; padding: 0 16px; background: linear-gradient(160deg, #2C3757 0%, #1B2945 100%); color: #FFFFFF; font-weight: 600; box-shadow: 0 6px 14px rgba(27, 41, 69, .28); }
+.pseg button[aria-pressed="true"]::after { content: ""; position: absolute; left: 50%; bottom: -6px; width: 12px; height: 12px; margin-left: -6px; background: #1B2945; border-radius: 0 0 3px 0; transform: rotate(45deg); }
+.post .row .tag { padding: 2px 9px; border-radius: 999px; background: #F6E6D6; color: #9A5A2C; }
+.post .row .tag.gold { background: #F3E7C9; color: #8A6516; }
 </style>
 
 <div class="app">
