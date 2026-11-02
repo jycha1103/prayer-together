@@ -1059,6 +1059,18 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
 .icard-new .an-plus::before, .icard-new .an-plus::after { content: ""; position: absolute; left: 50%; top: 50%; width: 16px; height: 3px; margin: -1.5px 0 0 -8px; border-radius: 2px; background: #5A3E10; }
 .icard-new .an-plus::after { transform: rotate(90deg); }
 .igrid > .icard.sq:nth-child(2n) { transform: rotate(-1.2deg); } .igrid > .icard.sq:nth-child(2n+1) { transform: rotate(1.3deg); }
+/*DDIAL*/.ddial { display: none; }
+body.is-diary .ddial { display: flex; flex-direction: row-reverse; align-items: center; gap: 8px; position: fixed; z-index: 10; right: max(132px, calc((100vw - 560px) / 2 + 132px)); bottom: calc(100px + env(safe-area-inset-bottom, 0px)); }
+.dd-btn { flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; border: 1px solid rgba(255, 255, 255, .9); background: rgba(255, 255, 255, .6); color: #1B2945; box-shadow: 0 4px 12px rgba(20, 30, 60, .14); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.dd-btn svg { width: 18px; height: 18px; } .dd-btn .q-x { display: none; }
+.ddial.open .dd-btn { background: #1B2945; color: #FFFFFF; } .ddial.open .dd-btn .q-grid { display: none; } .ddial.open .dd-btn .q-x { display: block; }
+.dd-row { display: flex; flex-direction: row-reverse; gap: 8px; pointer-events: none; }
+.dd-i { position: relative; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; border: 0; background: #FFFFFF; color: #1B2945; box-shadow: 0 4px 12px rgba(20, 30, 60, .14); opacity: 0; transform: translateX(24px) scale(.6); transition: opacity .2s, transform .25s cubic-bezier(.3, 1.4, .5, 1); }
+.dd-i svg { width: 18px; height: 18px; }
+.dd-i b { position: absolute; white-space: nowrap; line-height: 1.3; bottom: -7px; left: 50%; transform: translateX(-50%); font-size: 8.5px; font-weight: 700; letter-spacing: .02em; padding: 1px 5px; border-radius: 999px; background: #E3E6EC; color: #6E7A99; }
+.dd-i.on { background: linear-gradient(160deg, #F6D58A, #DDA845); color: #1B2945; } .dd-i.on b { background: #1B2945; color: #FFFFFF; }
+.ddial.open .dd-row { pointer-events: auto; } .ddial.open .dd-i { opacity: 1; transform: none; }
+.ddial.open .dd-i:nth-child(2) { transition-delay: .04s; } .ddial.open .dd-i:nth-child(3) { transition-delay: .08s; }
 /*TSP*/body:not(.is-home) .page-title { margin-top: 18px; margin-bottom: 6px; } body:not(.is-home) .page-head .page-title { margin-bottom: 0; } body:not(.is-home) .page-head { margin-top: 18px; margin-bottom: 6px; } body:not(.is-home) .page-head .page-title { margin-top: 0; } body:not(.is-home) .pseg { margin: 14px 0 20px; }
 .page-title .lock-i { flex: none; width: auto; height: 27px; margin-right: 2px; filter: drop-shadow(0 2px 3px rgba(138,101,22,.22)); }
 </style>
@@ -1077,7 +1089,7 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
 </div>
 <button class="qd-back" data-act="quick-close" aria-label="닫기" tabindex="-1"></button>
 <div class="qdial" id="qdial" aria-label="기도 도구"></div>
-<button class="qbtn" data-act="quick" aria-label="기도 도구 열기"><svg class="q-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><path d="M12 3.5v17M3.5 12h17"/></svg><svg class="q-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+<div class="ddial" id="ddial"></div><button class="qbtn" data-act="quick" aria-label="기도 도구 열기"><svg class="q-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><path d="M12 3.5v17M3.5 12h17"/></svg><svg class="q-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
 <div class="tabbar"><nav id="tabs" aria-label="메뉴"></nav></div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="crayon" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.6" xChannelSelector="R" yChannelSelector="G" result="d"/><feTurbulence type="fractalNoise" baseFrequency="2.2" numOctaves="1" seed="7" result="g"/><feColorMatrix in="g" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.7 1.55" result="ga"/><feComposite in="d" in2="ga" operator="in"/></filter></svg><button class="fab" id="topWrite"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>기도 요청</button>
 <div id="sheetRoot"></div>
@@ -1876,7 +1888,7 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
 
   // ---------- diary ----------
   function vDiary() {
-    var h = '<div class="page-head"><h1 class="page-title"><img class="lock-i" src="lock-gold.png" alt="" aria-hidden="true">내 기도 노트</h1><div class="row hd-btns"><button class="btn sm ghost wbtn" data-act="calendar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>캘린더</button><button class="btn sm ghost wbtn" data-act="widget"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="17" height="7" rx="2"/></svg>위젯</button></div></div><div class="pseg" role="group">' + [['items', '내 기도 제목'], ['time', '기도 시간'], ['letter', '기도 편지'], ['scrap', '스크랩']].map(function (s) {
+    var h = '<div class="page-head"><h1 class="page-title"><img class="lock-i" src="lock-gold.png" alt="" aria-hidden="true">내 기도 노트</h1></div><div class="pseg" role="group">' + [['items', '내 기도 제목'], ['time', '기도 시간'], ['letter', '기도 편지'], ['scrap', '스크랩']].map(function (s) {
       return '<button data-dtab="' + s[0] + '" aria-pressed="' + (dtab === s[0]) + '">' + s[1] + '</button>'; }).join('') + '</div>';
     if (S.example && dtab !== 'scrap') h += '<div class="note row between"><span>예시 기록이 채워져 있어요. 내 기록으로 시작하려면 지워 주세요.</span><button class="linkbtn blue" data-act="clear-example">예시 지우기</button></div>';
     if (dtab === 'items') h += vItems(); else if (dtab === 'time') h += vTime(); else if (dtab === 'scrap') h += vScraps(); else h += vLetters();
@@ -1887,10 +1899,7 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
   function vItems() {
     var t = today();
     var a = S.alarm, ts = a.times.slice().sort();
-    var h = '<div class="add-row">' +
-      '<div class="alm-pill' + (a.on ? ' on' : '') + '"><button class="alm-lbl" data-act="alarm">' + BELL + '<span><b>기도 알림</b><small>' + (a.on ? (ts.length ? esc(ts[0]) + (ts.length > 1 ? ' 외 ' + (ts.length - 1) : '') : '시간 설정') : '꺼짐') + '</small></span></button>' +
-      '<button class="switch' + (a.on ? ' on' : '') + '" data-act="alm-toggle" role="switch" aria-checked="' + a.on + '" aria-label="기도 알림"><i></i></button></div></div>';
-    if (!S.items.length) return h + '<div class="empty">기도 제목을 정하고 작정 기간을 세워 보세요.<br>매일 기도 완료를 누르며 꾸준히 기도할 수 있어요.</div>';
+    var h = '';
     var open = S.items.filter(function (i) { return !i.answered; }), done = S.items.filter(function (i) { return i.answered; });
     h += '<div class="igrid"><button class="icard-new" data-act="add-item"><i class="an-plus" aria-hidden="true"></i><span>새 기도 제목<br>붙이기</span></button>' + open.map(itemCard).join('') + '</div>';
     if (done.length) {
@@ -1915,6 +1924,14 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
       '<span class="progress thin"><i style="width:' + Math.min(100, Math.round(st.cnt / i.days * 100)) + '%"></i></span></button>' +
       '<button class="att-btn' + (st.checked ? ' on' : '') + '" data-check="' + i.id + '" aria-label="오늘 기도 완료" aria-pressed="' + st.checked + '">' + CRAYON_CK + '</button></div>';
   }
+  function ddialHtml() {
+    var a = S.alarm || {};
+    return '<button class="dd-btn" data-act="dd-toggle" aria-label="노트 도구" aria-expanded="' + ddOpen + '"><svg class="q-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="6" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="18" cy="12" r="1.6"/></svg><svg class="q-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>' +
+      '<div class="dd-row"><button class="dd-i' + (a.on ? ' on' : '') + '" data-act="alm-toggle" role="switch" aria-checked="' + !!a.on + '" aria-label="기도 알림 ' + (a.on ? '끄기' : '켜기') + '">' + BELL + '<b>' + (a.on ? 'ON' : 'OFF') + '</b></button>' +
+      '<button class="dd-i" data-act="widget" aria-label="위젯"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="17" height="7" rx="2"/></svg></button>' +
+      '<button class="dd-i" data-act="calendar" aria-label="캘린더"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></button></div>';
+  }
+  var ddOpen = false;
   var CRAYON_CK = '<svg viewBox="0 0 32 32" aria-hidden="true"><g filter="url(#crayon)"><path class="ck-box" d="M21 6.6H9.6a3.2 3.2 0 0 0-3.2 3.2v13.6a3.2 3.2 0 0 0 3.2 3.2h13.6a3.2 3.2 0 0 0 3.2-3.2v-8.6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path class="ck-mark" d="M8.4 15.1c3-.5 5 1.2 6.4 3.8 3.3-6.9 8.4-12.7 15.6-16.1-5.3 5.5-9.3 11.7-12.3 19-1 2.1-3 2.2-4 .2-1.4-2.7-3.1-4.9-5.7-6.9z" fill="currentColor"/></g></svg>';
   function openItem(id) {
     var i = S.items.find(function (x) { return x.id === id; }); if (!i) return closeSheet();
@@ -2844,6 +2861,8 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
     document.body.classList.toggle('not-home', tab !== 'home');
     document.body.classList.toggle('is-home', tab === 'home');
     document.body.classList.toggle('is-diary', tab === 'diary');
+    if (tab !== 'diary') ddOpen = false;
+    el('ddial').innerHTML = tab === 'diary' ? ddialHtml() : ''; el('ddial').classList.toggle('open', ddOpen);
     document.body.classList.toggle('wvh', tab === 'home' && window.WAVE === true);
     renderTabs();
     el('view').innerHTML = (BIG && BIG_VIEWS[tab] ? BIG_VIEWS[tab] : VIEWS[tab])();
@@ -3598,6 +3617,7 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
         S.posts = S.posts.filter(function (x) { return x.roomId !== rl.id; }); S.relays = S.relays.filter(function (x) { return x.roomId !== rl.id; });
         save(); ptab = 'rooms'; go('pray'); toast(isLeader(rl) ? '모임방을 없앴어요' : '모임방에서 나왔어요'); return;
       case 'alarm': return alarmSheet();
+      case 'dd-toggle': ddOpen = !ddOpen; el('ddial').classList.toggle('open', ddOpen); b.setAttribute('aria-expanded', ddOpen); return;
       case 'alm-home': closeSheet(); ptab = 'all'; cat = '전체'; return go('pray');
       case 'alm-toggle':
         S.alarm.on = !S.alarm.on; save(); render(); if (S.alarm.on || el('almTime') || document.querySelector('.alm-on')) alarmSheet();
