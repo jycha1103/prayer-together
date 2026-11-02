@@ -1075,6 +1075,17 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
 .fab.closet .cl-t { position: absolute; left: 0; right: 0; bottom: 9px; text-align: center; font-family: var(--font-display); font-size: 11.5px; font-weight: 700; letter-spacing: -.02em; white-space: nowrap; background: linear-gradient(180deg, #FCE7B0, #E3AF4C); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .45)); }
 /*TSP*/body:not(.is-home) .page-title { margin-top: 18px; margin-bottom: 6px; } body:not(.is-home) .page-head .page-title { margin-bottom: 0; } body:not(.is-home) .page-head { margin-top: 18px; margin-bottom: 6px; } body:not(.is-home) .page-head .page-title { margin-top: 0; } body:not(.is-home) .pseg { margin: 14px 0 20px; }
 .page-title .lock-i { flex: none; width: auto; height: 27px; margin-right: 2px; filter: drop-shadow(0 2px 3px rgba(138,101,22,.22)); }
+
+/*MODERN*/
+.nb12, .nb16, .nb22 { --bc: #E0B98C; --cc: #8A6A2E; } .nb13, .nb19, .nb20 { --bc: #8FB0D9; --cc: #2D4A7A; } .nb14, .nb18 { --bc: #AEB8CC; --cc: #4A5570; } .nb15, .nb21 { --bc: #9DBA84; --cc: #4F7A3A; } .nb17, .nb23 { --bc: #B4B3DE; --cc: #5A5490; }
+.nsty { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+.nst { min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 8px 10px; border: 0; border-radius: 14px; background: rgba(27, 41, 69, .04); box-shadow: inset 0 0 0 1.5px rgba(27, 41, 69, .1); color: #3A3340; font: inherit; }
+.nst b { font-size: 14px; font-weight: 700; }
+.nst-ims { display: flex; justify-content: center; height: 54px; }
+.nst-ims img { width: 46px; height: 50px; object-fit: contain; margin: 0 -9px; filter: drop-shadow(0 2px 3px rgba(90, 60, 40, .15)); }
+.nst-ims img:nth-child(1) { transform: rotate(-8deg); } .nst-ims img:nth-child(2) { position: relative; z-index: 1; transform: translateY(-3px); } .nst-ims img:nth-child(3) { transform: rotate(7deg); }
+.nst[aria-pressed="true"] { background: rgba(242, 198, 97, .16); box-shadow: inset 0 0 0 2px #1B2945; }
+.nst-hint { display: block; margin-top: 6px; font-style: normal; font-size: 12px; color: rgba(58, 51, 64, .55); }
 </style>
 
 <div class="app">
@@ -1910,9 +1921,12 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
     }
     return h;
   }
-  var showAnswered = false, ITH = 12, noteSel = 0;
-  function noteOf(i) { return i.theme != null ? i.theme % ITH : (S.items.indexOf(i) % ITH); }
-  function notePick(cur, attr) { return '<div class="npick" role="group" aria-label="메모지 고르기">' + Array.apply(null, Array(ITH)).map(function (_, n) { return '<button type="button" class="npk" ' + attr + '="' + n + '" aria-pressed="' + (cur === n) + '" aria-label="메모지 ' + (n + 1) + '"><img src="notes/n' + n + '.webp" alt=""></button>'; }).join('') + '</div>'; }
+  var showAnswered = false, ITH = 24, nStyle = 0;
+  function noteOf(i) { return i.theme != null ? i.theme % ITH : (S.items.indexOf(i) % 12); }
+  function noteImg(k) { return k < 12 ? 'notes/n' + k + '.webp' : 'notes/m' + (k - 12) + '.webp'; }
+  function noteRnd(st, not) { var k; do { k = st * 12 + Math.floor(Math.random() * 12); } while (k === not); return k; }
+  function styleOf(k) { return k < 12 ? 0 : 1; }
+  function stylePick(cur, attr) { return '<div class="nsty" role="group" aria-label="메모지 스타일">' + [['감성', [0, 1, 4]], ['모던', [12, 13, 15]]].map(function (o, n) { return '<button type="button" class="nst" ' + attr + '="' + n + '" aria-pressed="' + (cur === n) + '"><span class="nst-ims">' + o[1].map(function (k) { return '<img src="' + noteImg(k) + '" alt="">'; }).join('') + '</span><b>' + o[0] + '</b></button>'; }).join('') + '</div>'; }
   function itemState(i) {
     var t = today(), day = diffDays(i.start, t) + 1;
     return { day: day, cnt: i.checks.length, checked: i.checks.indexOf(t) >= 0, label: day < 1 ? md(i.start) + ' 시작' : day > i.days ? '작정 마침' : day + '일째' };
@@ -1920,7 +1934,7 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
   function itemCard(i) {
     var st = itemState(i);
     var th = noteOf(i);
-    return '<div class="icard sq nb' + th + '" style="background-image:url(notes/n' + th + '.webp)"><button class="icard-main" data-item-open="' + i.id + '"><b>' + esc(i.title) + '</b>' +
+    return '<div class="icard sq nb' + th + '" style="background-image:url(' + noteImg(th) + ')"><button class="icard-main" data-item-open="' + i.id + '"><b>' + esc(i.title) + '</b>' +
       '<span class="nmeta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>' + i.days + '일 기도<i class="nsep"></i>' + st.label + '<i class="nsep"></i>총 ' + st.cnt + '회' + (i.example ? ' · 예시' : '') + '</span>' +
 
       '<span class="progress thin"><i style="width:' + Math.min(100, Math.round(st.cnt / i.days * 100)) + '%"></i></span></button>' +
@@ -1942,7 +1956,7 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
       (i.body ? '<p class="item-body">' + esc(i.body) + '</p>' : '') +
       (i.answered ? '' : '<button class="btn block ' + (st.checked ? 'done' : 'gold') + '" data-check="' + i.id + '" data-from="item">' + (st.checked ? '✓ 오늘 기도 완료' : '아직 기도 전 · 기도했으면 눌러 주세요') + '</button>') +
       '<div class="dots">' + dots + '</div>' +
-      (i.answered ? '' : '<div class="label">메모지 바꾸기</div>' + notePick(noteOf(i), 'data-th').replace(/data-th=/g, 'data-ith="' + i.id + '" data-th=')) +
+      (i.answered ? '' : '<div class="label">메모지 바꾸기 <span class="muted small">누를 때마다 새 메모지로 바뀌어요</span></div>' + stylePick(styleOf(noteOf(i)), 'data-nst').replace(/data-nst=/g, 'data-ith="' + i.id + '" data-nst=')) +
       '<button class="chk' + (i.answered ? ' on' : '') + '" data-answer="' + i.id + '"><i>' + CHECK + '</i>' + (i.answered ? '응답 받았어요' : '응답 기다리는 중') + '</button>' +
       (i.memo ? '<div class="note"><b>응답 메모</b> ' + esc(i.memo) + '</div>' : '') +
       '<div class="ic-foot">' + (linked ? '<button class="linkbtn blue" data-open="' + linked.id + '">중보기도 요청 보기 · 함께 기도 ' + linked.prayers + '</button>' : '<button class="linkbtn blue" data-share="' + i.id + '">중보기도 요청하기</button>') +
@@ -3128,7 +3142,7 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
       '<div class="field"><span>작정 기간</span><div class="chips" id="iDaysChips">' + [7, 21, 40, 100].map(function (n) { return '<button class="chip" type="button" data-days="' + n + '" aria-pressed="' + (n === dd) + '">' + n + '일</button>'; }).join('') + '</div>' +
       '<input class="input" type="number" min="1" max="365" id="iDays" value="' + dd + '" inputmode="numeric"></div>' +
       '<label class="field"><span>시작일</span><input class="input" type="date" id="iStart" value="' + (e ? e.start : today()) + '"></label>' +
-      '<div class="field"><span>메모지 고르기</span>' + notePick(noteSel = e ? noteOf(e) : S.items.length % ITH, 'data-inote') + '</div>' +
+      '<div class="field"><span>메모지 스타일</span>' + stylePick(nStyle = e ? styleOf(noteOf(e)) : nStyle, 'data-inst') + '<em class="nst-hint">메모지는 이 스타일 안에서 랜덤으로 붙어요</em></div>' +
       '<label class="field"><span>기도 내용</span><textarea class="input" id="iBody" style="min-height:110px" placeholder="어떤 마음으로, 무엇을 구하며 기도할지 적어 두세요">' + esc(e ? e.body : '') + '</textarea></label>' +
       (e ? '<button class="btn block" data-act="save-item" data-edit="' + e.id + '">고친 내용 저장</button>' :
       '<div class="small muted">기도 제목은 나만 볼 수 있어요. 중보기도 요청하기를 누르면 내 기도 노트에 추가되고, 이어서 중보기도 탭에 올릴 내용을 확인할 수 있어요.</div>' +
@@ -3483,8 +3497,8 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
       S.items.push({ id: uid(), title: pp2.title, body: pp2.body, start: today(), days: 40, checks: [today()], answered: false, memo: '', postId: pp2.id, made: Date.now() });
       save(); render(); attendSheet(); toast('기도 완료! 내 기도 노트에도 담았어요'); return;
     }
-    if (d.inote != null) { noteSel = +d.inote; b.parentNode.querySelectorAll('.npk').forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); return; }
-    if (d.ith) { var it = S.items.find(function (x) { return x.id === d.ith; }); if (it) { it.theme = +d.th; save(); render(); openItem(it.id); } return; }
+    if (d.inst != null) { nStyle = +d.inst; b.parentNode.querySelectorAll('.nst').forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); return; }
+    if (d.ith) { var it = S.items.find(function (x) { return x.id === d.ith; }); if (it) { it.theme = noteRnd(+d.nst, noteOf(it)); save(); render(); openItem(it.id); } return; }
     if (d.check) {
       var it = S.items.find(function (x) { return x.id === d.check; }), td = today(), ix = it.checks.indexOf(td);
       if (ix >= 0) it.checks.splice(ix, 1); else { it.checks.push(td); toast('오늘 기도 완료!'); }
@@ -3654,8 +3668,8 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
         var ti = val('iTitle'), days = Math.max(1, Math.min(365, parseInt(val('iDays'), 10) || 40)), ib = val('iBody');
         if (!ti) return toast('기도 제목을 적어 주세요');
         var ei = d.edit && S.items.find(function (x) { return x.id === d.edit; });
-        if (ei) { ei.title = ti; ei.body = ib; ei.theme = noteSel; ei.days = days; ei.start = val('iStart') || ei.start; save(); render(); openItem(ei.id); return toast('고쳤어요'); }
-        var ni = { id: uid(), title: ti, body: ib, start: val('iStart') || today(), days: days, checks: [], answered: false, memo: '', made: Date.now(), theme: noteSel };
+        if (ei) { ei.title = ti; ei.body = ib; if (styleOf(noteOf(ei)) !== nStyle) ei.theme = noteRnd(nStyle); ei.days = days; ei.start = val('iStart') || ei.start; save(); render(); openItem(ei.id); return toast('고쳤어요'); }
+        var ni = { id: uid(), title: ti, body: ib, start: val('iStart') || today(), days: days, checks: [], answered: false, memo: '', made: Date.now(), theme: noteRnd(nStyle) };
         S.items.push(ni);
         save(); closeSheet(); if (tab !== 'closet') { tab = 'diary'; dtab = 'items'; } render();
         if (d.act === 'save-item-share') { writePost('pray', { cat: '개인 중보', title: ti, body: ib, itemId: ni.id }); toast('내 기도 노트에 추가했어요. 요청 내용을 확인하고 올려 주세요'); return; }
