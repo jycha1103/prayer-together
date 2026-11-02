@@ -1053,11 +1053,12 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
 .icard.sq .att-btn.on .ck-mark { opacity: 1; }
 .nb0, .nb4, .nb6 { --cc: #8A6A2E; } .nb3, .nb9 { --cc: #4F7A3A; } .nb1, .nb7, .nb10 { --cc: #B4565E; } .nb2, .nb8 { --cc: #2D4A7A; } .nb5, .nb11 { --cc: #6A4E9C; }
 .nb0, .nb3, .nb9 { --bc: #9DBA84; } .nb1, .nb7 { --bc: #E9A3A6; } .nb2, .nb8 { --bc: #8FB0D9; } .nb4 { --bc: #EDB94A; } .nb5, .nb11 { --bc: #B9A3DF; } .nb6 { --bc: #D9B98A; } .nb10 { --bc: #EE9C8C; }
-.add-row .btn.add-note { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: #FFF9EC; color: #4A3B2A; font-weight: 600; letter-spacing: -.03em; border: 1.5px dashed rgba(150, 118, 70, .45); border-radius: 14px; box-shadow: 0 3px 8px rgba(120, 90, 50, .10); }
-.add-row .btn.add-note::before { content: ""; position: absolute; left: 14px; top: -7px; width: 38px; height: 13px; background: rgba(226, 196, 150, .75); transform: rotate(-6deg); border-radius: 1px; box-shadow: 0 1px 2px rgba(120, 90, 50, .12); }
-.add-row .btn.add-note .an-plus { position: relative; display: inline-block; flex: none; width: 22px; height: 22px; border-radius: 50%; background: #F2C661; box-shadow: inset 0 0 0 1.5px rgba(160, 110, 20, .35); }
-.add-row .btn.add-note .an-plus::before, .add-row .btn.add-note .an-plus::after { content: ""; position: absolute; left: 50%; top: 50%; width: 10px; height: 2.4px; margin: -1.2px 0 0 -5px; border-radius: 2px; background: #5A3E10; }
-.add-row .btn.add-note .an-plus::after { transform: rotate(90deg); }
+.add-row { justify-content: flex-end; }
+.icard-new { aspect-ratio: 1 / 1.08; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; margin: 8% 6% 10%; border: 2px dashed rgba(150, 118, 70, .45); border-radius: 14px; background: rgba(255, 249, 236, .7); color: #6A5638; font-size: 13px; font-weight: 600; line-height: 1.4; letter-spacing: -.03em; transform: rotate(-1deg); }
+.icard-new .an-plus { position: relative; display: inline-block; width: 38px; height: 38px; border-radius: 50%; background: #F2C661; box-shadow: inset 0 0 0 1.5px rgba(160, 110, 20, .35), 0 3px 8px rgba(160, 110, 20, .2); }
+.icard-new .an-plus::before, .icard-new .an-plus::after { content: ""; position: absolute; left: 50%; top: 50%; width: 16px; height: 3px; margin: -1.5px 0 0 -8px; border-radius: 2px; background: #5A3E10; }
+.icard-new .an-plus::after { transform: rotate(90deg); }
+.igrid > .icard.sq:nth-child(2n) { transform: rotate(-1.2deg); } .igrid > .icard.sq:nth-child(2n+1) { transform: rotate(1.3deg); }
 /*TSP*/body:not(.is-home) .page-title { margin-top: 18px; margin-bottom: 6px; } body:not(.is-home) .page-head .page-title { margin-bottom: 0; } body:not(.is-home) .page-head { margin-top: 18px; margin-bottom: 6px; } body:not(.is-home) .page-head .page-title { margin-top: 0; } body:not(.is-home) .pseg { margin: 14px 0 20px; }
 .page-title .lock-i { flex: none; width: auto; height: 27px; margin-right: 2px; filter: drop-shadow(0 2px 3px rgba(138,101,22,.22)); }
 </style>
@@ -1886,12 +1887,12 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
   function vItems() {
     var t = today();
     var a = S.alarm, ts = a.times.slice().sort();
-    var h = '<div class="add-row"><button class="btn block add-note" data-act="add-item"><i class="an-plus" aria-hidden="true"></i>기도 제목 붙이기</button>' +
+    var h = '<div class="add-row">' +
       '<div class="alm-pill' + (a.on ? ' on' : '') + '"><button class="alm-lbl" data-act="alarm">' + BELL + '<span><b>기도 알림</b><small>' + (a.on ? (ts.length ? esc(ts[0]) + (ts.length > 1 ? ' 외 ' + (ts.length - 1) : '') : '시간 설정') : '꺼짐') + '</small></span></button>' +
       '<button class="switch' + (a.on ? ' on' : '') + '" data-act="alm-toggle" role="switch" aria-checked="' + a.on + '" aria-label="기도 알림"><i></i></button></div></div>';
     if (!S.items.length) return h + '<div class="empty">기도 제목을 정하고 작정 기간을 세워 보세요.<br>매일 기도 완료를 누르며 꾸준히 기도할 수 있어요.</div>';
     var open = S.items.filter(function (i) { return !i.answered; }), done = S.items.filter(function (i) { return i.answered; });
-    h += open.length ? '<div class="igrid">' + open.map(itemCard).join('') + '</div>' : '<div class="empty" style="padding:14px">지금 기도 중인 제목이 없어요.</div>';
+    h += '<div class="igrid"><button class="icard-new" data-act="add-item"><i class="an-plus" aria-hidden="true"></i><span>새 기도 제목<br>붙이기</span></button>' + open.map(itemCard).join('') + '</div>';
     if (done.length) {
       h += '<button class="ans-fold" data-act="fold-answered"><span>응답받은 기도 ' + done.length + '개</span><b>' + (showAnswered ? '접기 ‹' : '펼치기 ›') + '</b></button>';
       if (showAnswered) h += '<div class="group">' + done.map(function (i) { return '<button class="row-item" data-item-open="' + i.id + '"><h3>' + esc(i.title) + '</h3><p>' + esc(i.memo || '응답 받았어요') + '</p></button>'; }).join('') + '</div>';
