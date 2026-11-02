@@ -1,7 +1,7 @@
 <title>합력하여 선을 이루는 기도</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Gowun+Batang:wght@400;700&family=Nanum+Brush+Script&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=Gowun+Batang:wght@400;700&family=Nanum+Brush+Script&display=swap">
 <style>
 /* Layout: phone-width column on a cool paper ground; white grouped cards carry content; one deep-navy scripture card is the only dark surface; white frosted tab bar.
    Single light theme on purpose: the owner asked for high readability on phones. */
@@ -1000,6 +1000,12 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
 .pseg button { position: relative; flex: 1 1 auto; height: 46px; padding: 0 8px; border: 1px solid rgba(255, 255, 255, .95); border-radius: 15px; background: rgba(255, 252, 249, .92); font-size: 13px; font-weight: 600; color: #3A3442; letter-spacing: -.05em; white-space: nowrap; box-shadow: 0 4px 12px rgba(120, 90, 70, .1); transition: background .2s, color .2s; }
 .pseg button[aria-pressed="true"] { background: linear-gradient(160deg, #2C3757 0%, #1B2945 100%); border-color: transparent; color: #FFFFFF; box-shadow: 0 6px 14px rgba(27, 41, 69, .28); }
 .pseg button[aria-pressed="true"]::after { content: ""; position: absolute; left: 50%; bottom: -7px; width: 14px; height: 14px; margin-left: -7px; background: #1B2945; border-radius: 0 0 3px 0; transform: rotate(45deg); }
+
+/* 서브페이지 글씨: 홈의 고딕(Noto Sans KR)과 같은 굵기 느낌으로 */
+body:not(.is-home) .page-title { font-weight: 600; letter-spacing: -.02em; }
+body:not(.is-home) .sec-head h2 { font-weight: 600; }
+body:not(.is-home) .post h3, body:not(.is-home) .dly-n b, body:not(.is-home) .item h3, body:not(.is-home) .card b { font-weight: 600; }
+body:not(.is-home) .pseg button { font-weight: 500; }
 </style>
 
 <div class="app">
