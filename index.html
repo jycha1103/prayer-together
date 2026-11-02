@@ -1010,6 +1010,7 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
 .pseg button[aria-pressed="true"]::after { content: ""; position: absolute; left: 50%; bottom: -6px; width: 12px; height: 12px; margin-left: -6px; background: #1B2945; border-radius: 0 0 3px 0; transform: rotate(45deg); }
 .post .row .tag { padding: 2px 9px; border-radius: 999px; background: #F6E6D6; color: #9A5A2C; }
 .post .row .tag.gold { background: #F3E7C9; color: #8A6516; }
+.post .row .ttag { font-size: 12px; font-weight: 600; color: #1B2945; letter-spacing: -.02em; }
 </style>
 
 <div class="app">
@@ -1578,9 +1579,9 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
   function postCard(p) {
     var mode = p.board;
     return '<button class="post" data-open="' + p.id + '">' +
-      '<div class="row" style="gap:6px">' + flags(p) + (p.cat ? '<span class="tag' + (p.cat === '선교지 편지' ? ' gold' : '') + '">' + esc(p.cat) + '</span>' : '') +
+      '<div class="row" style="gap:6px">' + flags(p) + (p.cat ? '<span class="tag' + (p.cat === '선교지 편지' ? ' gold' : '') + '">' + esc(p.cat) + '</span>' : '') + (p.tag ? '<span class="ttag">' + esc(p.tag) + '</span>' : '') +
       (mode === 'concern' ? p.scope.map(function (r) { return '<span class="tag">' + esc(r) + '</span>'; }).join('') : '') + exampleTag(p) + '</div>' +
-      '<h3>' + tagHtml(p) + esc(p.title) + '</h3>' + (mode === 'concern' ? '' : '<p>' + esc(p.body) + '</p>') +
+      '<h3>' + esc(p.title) + '</h3>' + (mode === 'concern' ? '' : '<p>' + esc(p.body) + '</p>') +
       '<div class="meta"><span>' + esc(p.author) + '</span><span>' + ago(p.created) + '</span>' +
       (mode === 'concern' ? concernStatus(p) : countSpan(p) + '<span>댓글 ' + p.comments.length + '</span>') + reactSum(p) + '</div></button>';
   }
