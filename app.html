@@ -921,10 +921,10 @@ body.is-home .qdial { bottom: calc(var(--fab-home, 131px) + 52px + env(safe-area
 .post:has(.pmore) h3, .post:has(.pmore) p { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; -webkit-line-clamp: unset; }
 .post.open h3, .post.open p { white-space: normal; overflow: visible; }
 .post.open p { margin-top: 2px; line-height: 1.6; }
-.post .meta .pmore { margin-left: auto; display: inline-flex; align-items: center; gap: 3px; color: #6E7A99; font-weight: 600; font-size: 12px; cursor: pointer; }
+.post .meta .pmore { margin: -8px -8px -8px auto; width: 34px; height: 30px; display: inline-grid; place-items: center; color: #6E7A99; cursor: pointer; }
 .post .meta .pmore[hidden] { display: none; }
-.post .meta .pmore::after { content: ""; width: 6px; height: 6px; border: solid currentColor; border-width: 0 1.5px 1.5px 0; transform: translateY(-2px) rotate(45deg); }
-.post.open .meta .pmore::after { transform: translateY(1px) rotate(-135deg); }
+.post .meta .pmore::after { content: ""; width: 8px; height: 8px; border: solid currentColor; border-width: 0 1.6px 1.6px 0; transform: translateY(-2px) rotate(45deg); transition: transform .2s; }
+.post.open .meta .pmore::after { transform: translateY(2px) rotate(-135deg); }
 body:not(.is-home) .fab:not(.closet) { bottom: calc(100px + env(safe-area-inset-bottom, 0px)); width: auto; height: 40px; padding: 0 18px; border-radius: 999px; flex-direction: row; gap: 0; font-size: 13px; font-weight: 500; letter-spacing: .02em; box-shadow: 0 6px 16px rgba(20, 30, 60, .2); background: linear-gradient(110deg, #1B2945 8%, #574459 52%, #1B2945 92%); }
 body:not(.is-home) .fab:not(.closet) svg { display: none; }
 body:not(.is-home) .fab.closet { bottom: calc(100px + env(safe-area-inset-bottom, 0px)); height: 40px; padding: 0 18px 0 15px; gap: 5px; font-size: 13px; font-weight: 600; box-shadow: 0 6px 16px rgba(160, 101, 10, .28); }
@@ -1591,7 +1591,7 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
       (mode === 'concern' ? p.scope.map(function (r) { return '<span class="tag">' + esc(r) + '</span>'; }).join('') : '') + exampleTag(p) + '</div>' +
       '<h3>' + esc(p.title) + '</h3>' + (mode === 'concern' ? '' : '<p>' + esc(p.body) + '</p>') +
       '<div class="meta"><span>' + esc(p.author) + '</span><span>' + ago(p.created) + '</span>' +
-      (mode === 'concern' ? concernStatus(p) : countSpan(p) + '<span>댓글 ' + p.comments.length + '</span>') + reactSum(p) + (mode === 'pray' ? '<span class="pmore" data-more="1" role="button" tabindex="0" hidden>더보기</span>' : '') + '</div></button>';
+      (mode === 'concern' ? concernStatus(p) : countSpan(p) + '<span>댓글 ' + p.comments.length + '</span>') + reactSum(p) + (mode === 'pray' ? '<span class="pmore" data-more="1" role="button" tabindex="0" aria-label="더보기" hidden></span>' : '') + '</div></button>';
   }
 
   function pageHead(title, act, label) { return '<div class="page-head"><h1 class="page-title">' + title + '</h1><button class="btn sm ghost" data-act="' + act + '">+ ' + label + '</button></div>'; }
@@ -3239,7 +3239,7 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
   // ---------- events ----------
   document.addEventListener('click', function (e) {
     var mo = e.target.closest && e.target.closest('[data-more]');
-    if (mo) { e.stopPropagation(); var pc = mo.closest('.post'); var on = pc.classList.toggle('open'); mo.textContent = on ? '접기' : '더보기'; return; }
+    if (mo) { e.stopPropagation(); var pc = mo.closest('.post'); var on = pc.classList.toggle('open'); mo.setAttribute('aria-label', on ? '접기' : '더보기'); return; }
     if (e.target.classList && e.target.classList.contains('drawer-back')) return closeDrawer();
     var b = e.target.closest('button, .sheet-back');
     if (!b) return;
