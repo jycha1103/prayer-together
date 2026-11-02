@@ -1031,9 +1031,11 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
 .igrid > .icard.sq:nth-child(3n) { transform: rotate(-.4deg); }
 .icard.sq .icard-main { width: 100%; height: 100%; display: flex; flex-direction: column; gap: 6px; padding: 27% 13% 20% 13%; color: #3A3340; }
 .icard.sq .icard-meta { font-size: 11px; font-weight: 600; color: rgba(58, 51, 64, .62); letter-spacing: -.02em; }
-.icard.sq .icard-main b { color: #2F2A36; font-size: 15.5px; font-weight: 600; line-height: 1.4; white-space: normal; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; letter-spacing: -.03em; }
-.icard.sq .icard-cnt { margin-top: auto; font-size: 11px; font-weight: 600; color: rgba(58, 51, 64, .55); padding-left: 40px; line-height: 32px; }
-.icard.sq .progress { display: none; }
+.icard.sq .icard-main b { color: #2F2A36; font-size: 14px; font-weight: 600; line-height: 1.4; white-space: normal; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; letter-spacing: -.03em; }
+.icard.sq .icard-meta { font-size: 10.5px; }
+.icard.sq .progress.thin { position: absolute; left: calc(12% + 40px); right: 27%; bottom: calc(17% + 11px); height: 10px; margin: 0; border-radius: 999px; background: rgba(255, 255, 255, .7); box-shadow: inset 0 0 0 1.5px rgba(58, 51, 64, .14); overflow: visible; }
+.icard.sq .progress.thin i { position: relative; min-width: 10px; height: 100%; border-radius: 999px; background: repeating-linear-gradient(-45deg, #F2B544 0 5px, #F7CB6B 5px 10px); box-shadow: inset 0 0 0 1.5px rgba(176, 118, 20, .35); }
+.icard.sq .progress.thin i::after { content: ""; position: absolute; right: -6px; top: 50%; width: 14px; height: 14px; margin-top: -7px; border-radius: 50%; background: #FFFFFF url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8a4.2 4.2 0 0 1 7.5 2.5c0 5.4-7.5 10-7.5 10z' fill='%23E98A8A'/%3E%3C/svg%3E") center / 10px no-repeat; box-shadow: 0 1px 3px rgba(60, 40, 30, .25); }
 .icard.sq .att-btn { position: absolute; left: 12%; bottom: 17%; width: 32px; height: 32px; background: rgba(255, 255, 255, .72); color: #9C93A0; box-shadow: 0 1px 3px rgba(60, 40, 30, .12); }
 .icard.sq .att-btn svg { width: 16px; height: 16px; }
 .icard.sq .att-btn.on { background: linear-gradient(160deg, #E6A92E, #C98A12); color: #FFFFFF; }
@@ -1892,7 +1894,7 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
     var st = itemState(i);
     var th = noteOf(i);
     return '<div class="icard sq" style="background-image:url(notes/n' + th + '.webp)"><button class="icard-main" data-item-open="' + i.id + '"><span class="icard-meta">' + i.days + '일 작정 · ' + st.label + (i.example ? ' · 예시' : '') + '</span><b>' + esc(i.title) + '</b>' +
-      '<span class="icard-cnt">기도 ' + st.cnt + '/' + i.days + '일</span>' +
+
       '<span class="progress thin"><i style="width:' + Math.min(100, Math.round(st.cnt / i.days * 100)) + '%"></i></span></button>' +
       '<button class="att-btn' + (st.checked ? ' on' : '') + '" data-check="' + i.id + '" aria-label="오늘 기도 완료" aria-pressed="' + st.checked + '">' + CHECK + '</button></div>';
   }
