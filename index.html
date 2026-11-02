@@ -1091,6 +1091,56 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
 @keyframes swl { from { opacity: .3; transform: translateX(36px); } to { opacity: 1; transform: none; } }
 @keyframes swr { from { opacity: .3; transform: translateX(-36px); } to { opacity: 1; transform: none; } }
 #view.sw-l { animation: swl .28s ease-out; } #view.sw-r { animation: swr .28s ease-out; }
+
+/*TC2*/
+.tc2 { background: linear-gradient(160deg, rgba(255,255,255,.92), rgba(253,246,240,.9)); border: 1px solid rgba(255,255,255,.9); border-radius: 24px; padding: 18px 16px 8px; box-shadow: 0 10px 30px rgba(120, 80, 50, .10); gap: 14px; }
+.tc-h { display: flex; align-items: center; gap: 10px; }
+.tc-ic { width: 40px; height: 40px; flex: none; border-radius: 50%; background: rgba(240, 228, 216, .7); display: grid; place-items: center; color: #1B2945; }
+.tc-ic svg { width: 21px; height: 21px; }
+.tc-t { flex: 1; min-width: 0; font-size: 16.5px; font-weight: 700; color: #1B2945; letter-spacing: -.03em; white-space: nowrap; }
+.tc-date { position: relative; flex: none; display: flex; align-items: center; gap: 4px; padding: 7px 10px 7px 12px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 2px 8px rgba(120, 80, 50, .10); font-size: 12.5px; color: #2A3550; font-variant-numeric: tabular-nums; }
+.tc-date svg { width: 15px; height: 15px; }
+.tc-date input { position: absolute; inset: 0; opacity: 0; width: 100%; height: 100%; border: 0; }
+.tc-m { display: flex; align-items: center; gap: 14px; }
+.tc-circ { position: relative; width: 136px; height: 136px; flex: none; }
+.tc-circ::before { content: ""; position: absolute; inset: 15px; border-radius: 50%; background: radial-gradient(circle at 45% 35%, #FFFDF9, #FBEFE4); box-shadow: 0 6px 16px rgba(201, 143, 78, .18), inset 0 0 0 1px rgba(255,255,255,.9); }
+.tc-ring { position: absolute; inset: 0; width: 100%; height: 100%; }
+.tc-dot { filter: drop-shadow(0 0 4px rgba(233, 170, 90, .9)); }
+.tc-in { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
+.tc-hands { width: 26px; height: 26px; color: #C98F4E; }
+.tc2 .time-big { font-family: "MaruBuri", var(--font-display); color: #14213F; align-items: baseline; }
+.tc2 .time-big b { font-size: 40px; font-weight: 700; letter-spacing: -.03em; }
+.tc2 .time-big b.sm { font-size: 28px; }
+.tc2 .time-big span { font-size: 16px; font-weight: 700; margin: 0 2px 0 3px; }
+.tc-vl { width: 1px; align-self: stretch; margin: 18px 0; background: rgba(160, 120, 80, .2); flex: none; }
+.tc-st { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 16px; }
+.tc-st div { display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: #2A3550; letter-spacing: -.03em; line-height: 1.35; }
+.tc-st i { width: 24px; height: 24px; flex: none; color: #C98F4E; }
+.tc-st i svg { width: 100%; height: 100%; }
+.tc-st b { font-weight: 700; color: #14213F; }
+.tc-add { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.tc2 .tchip { border: 0; background: #FFFFFF; color: #14213F; border-radius: 999px; padding: 11px 0; font-size: 15px; font-weight: 700; box-shadow: 0 3px 10px rgba(120, 80, 50, .10); }
+.tc2 .tchip:active { background: #FBF1E6; }
+.tc-in2 { display: flex; gap: 10px; align-items: center; }
+.tc-tin { flex: 1; min-width: 0; display: flex; align-items: center; gap: 6px; padding: 0 14px; height: 44px; border-radius: 999px; background: rgba(255,255,255,.75); box-shadow: inset 0 0 0 1px rgba(180, 140, 100, .28); color: #3A4560; }
+.tc-tin svg { width: 17px; height: 17px; flex: none; }
+.tc2 .tin { border: 0; background: none; padding: 0; text-align: left; font-size: 14px; height: 100%; }
+.tc2 .tplus { width: 48px; height: 48px; font-size: 26px; background: radial-gradient(circle at 40% 30%, #34466E, #1B2945); box-shadow: 0 6px 14px rgba(27, 41, 69, .3), 0 0 0 3px rgba(242, 198, 97, .18); flex: none; }
+.tc-log { list-style: none; margin: 0; padding: 0; border-top: 1px solid rgba(160, 120, 80, .16); }
+.tc-log li { display: flex; align-items: center; gap: 8px; padding: 10px 2px; font-size: 13.5px; color: #2A3550; }
+.tc-log li + li { border-top: 1px solid rgba(160, 120, 80, .1); }
+.tc-log li > i:first-child { width: 20px; height: 20px; color: #7A7F8E; flex: none; } .tc-log li > i svg { width: 100%; height: 100%; }
+.tc-log .at { font-variant-numeric: tabular-nums; min-width: 64px; }
+.tc-log b { padding: 3px 12px; border-radius: 999px; background: #F6E3C8; color: #8A5A22; font-size: 13px; font-weight: 700; margin-right: auto; }
+.tc-log button { display: flex; align-items: center; gap: 3px; border: 0; background: none; color: #6A6F80; font-size: 12.5px; padding: 4px 2px; }
+.tc-log button svg { width: 15px; height: 15px; }
+.tc-sep { width: 1px; height: 12px; background: rgba(160, 120, 80, .25); }
+.tc-empty { font-size: 12.5px; color: rgba(58, 51, 64, .55); text-align: center; padding: 4px 0 10px; }
+/*SUBBG*/
+body.sub-bg { background: transparent; }
+body.sub-bg::before { content: ""; position: fixed; inset: -8%; z-index: -1; background: linear-gradient(rgba(247, 243, 238, .7), rgba(247, 243, 238, .7)), #F4EDE6 url("home-bg1b.jpg") center / cover no-repeat; animation: subflow 38s ease-in-out infinite alternate; will-change: transform; }
+@keyframes subflow { 0% { transform: translate3d(-3%, -2%, 0) scale(1.04); } 50% { transform: translate3d(2.5%, 1.5%, 0) scale(1.08); } 100% { transform: translate3d(-1%, 3%, 0) scale(1.05); } }
+@media (prefers-reduced-motion: reduce) { body.sub-bg::before { animation: none; } }
 </style>
 
 <div class="app">
@@ -1993,18 +2043,33 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
   function timeCard() {
     var t = today(), d = tDay || t, v = +S.times[d] || 0, entries = (S.log && S.log[d]) || [];
     var h = Math.floor(v / 60), m = v % 60;
-    var big = h ? '<b>' + h + '</b><span>시간</span>' + (m ? '<b>' + m + '</b><span>분</span>' : '') : '<b>' + v + '</b><span>분</span>';
-    var sub = v ? (entries.length ? entries.length + '번 기도했어요' : '기도한 시간이 쌓였어요') + ' · 최근 7일 ' + fmtMin(sumRange(addDays(t, -6), t)) : '기도를 마치면 아래 버튼으로 시간을 더해 주세요';
+    var big = h ? '<b class="sm">' + h + '</b><span>시간</span>' + (m ? '<b class="sm">' + m + '</b><span>분</span>' : '') : '<b>' + v + '</b><span>분</span>';
     var clock = function (ts) { var x = new Date(ts), hh = x.getHours(); return (hh < 12 ? '오전 ' : '오후 ') + ((hh + 11) % 12 + 1) + ':' + pad(x.getMinutes()); };
     var r = bump; bump = false;
-    return '<div class="time-card" id="timeCard">' +
-      '<div class="time-top"><span class="label">' + (d === t ? '오늘의 기도 시간' : md(d) + ' 기도 시간') + '</span><input class="date-chip" type="date" id="tDate" value="' + d + '" max="' + t + '" aria-label="날짜 바꾸기"></div>' +
-      '<div><div class="time-big' + (r ? ' bump' : '') + '">' + big + '</div></div>' +
-      '<div class="time-sub">' + sub + '</div>' +
-      '<div class="tadd">' + [5, 10, 20, 30].map(function (n) { return '<button class="tchip" data-add="' + n + '">+' + n + '분</button>'; }).join('') +
-        '<input class="tin" type="number" inputmode="numeric" min="1" id="tMin" placeholder="직접" aria-label="직접 입력 (분)"><button class="tplus" data-act="add-time" aria-label="입력한 시간 더하기">+</button></div>' +
-      (entries.length ? '<ul class="log">' + entries.map(function (e, i) { return '<li><span class="at">' + clock(e.at) + '</span><b>+' + e.m + '분</b><button data-undo="' + i + '">지우기</button></li>'; }).join('') + '</ul>' : '') +
-      '<div class="row between"><span class="small muted">' + (entries.length ? '' : '') + '</span><button class="linkbtn" data-act="edit-time">합계 고치기</button></div>' +
+    var dt = new Date(d + 'T00:00:00'), dLabel = dt.getFullYear() + '. ' + pad(dt.getMonth() + 1) + '. ' + pad(dt.getDate()) + '. (' + '일월화수목금토'[dt.getDay()] + ')';
+    var RR = 54, CC = 2 * Math.PI * RR, fr = Math.min(1, v / 30), ang = fr * 2 * Math.PI - Math.PI / 2;
+    var ring = '<svg class="tc-ring" viewBox="0 0 140 140" aria-hidden="true"><defs><linearGradient id="tcg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E9C28A"/><stop offset="1" stop-color="#C98F4E"/></linearGradient></defs>' +
+      '<circle cx="70" cy="70" r="' + RR + '" fill="none" stroke="rgba(201,143,78,.13)" stroke-width="6"/>' +
+      (fr ? '<circle cx="70" cy="70" r="' + RR + '" fill="none" stroke="url(#tcg)" stroke-width="6" stroke-linecap="round" stroke-dasharray="' + (fr * CC).toFixed(1) + ' ' + CC.toFixed(1) + '" transform="rotate(-90 70 70)"/>' +
+      '<circle cx="' + (70 + RR * Math.cos(ang)).toFixed(1) + '" cy="' + (70 + RR * Math.sin(ang)).toFixed(1) + '" r="4.5" fill="#FFF6E6" stroke="#E0A85E" stroke-width="1.5" class="tc-dot"/>' : '') + '</svg>';
+    var hands = '<svg class="tc-hands" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11.2 6.6c-.9.9-1.6 2.3-1.6 4.2v4.6l-3.4 3.4M12.8 6.6c.9.9 1.6 2.3 1.6 4.2v4.6l3.4 3.4M11.2 6.6c.4-.4 1.2-.4 1.6 0M12 7v9.2"/><path d="M9.6 11.6 7.6 14M14.4 11.6l2 2.4M12 1.6v2M8.4 2.6l.9 1.6M15.6 2.6l-.9 1.6M6 4.8l1.4 1M18 4.8l-1.4 1"/></svg>';
+    var ICK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8.2 12.3 2.6 2.6 5-5.4"/></svg>';
+    var IBAR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5 20V13M9.5 20V9M14 20v-6M18.5 20V5M3 20.5h18"/></svg>';
+    var ICAL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4M8.5 14h.01M12 14h.01M15.5 14h.01M8.5 17h.01M12 17h.01"/></svg>';
+    var ICLK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>';
+    var IPEN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1-4.2L15.6 5.2a2 2 0 0 1 2.8 0l.4.4a2 2 0 0 1 0 2.8L8.2 19 4 20zM13.8 7l3.2 3.2"/></svg>';
+    var IBIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l.8 12.5h9.4L17.5 7M10.2 10.5v6M13.8 10.5v6"/></svg>';
+    return '<div class="time-card tc2" id="timeCard">' +
+      '<div class="tc-h"><span class="tc-ic">' + ICAL + '</span><b class="tc-t">' + (d === t ? '오늘의 기도 시간' : md(d) + ' 기도 시간') + '</b>' +
+        '<label class="tc-date"><span>' + dLabel + '</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg><input type="date" id="tDate" value="' + d + '" max="' + t + '" aria-label="날짜 바꾸기"></label></div>' +
+      '<div class="tc-m"><div class="tc-circ">' + ring + '<div class="tc-in">' + hands + '<div class="time-big' + (r ? ' bump' : '') + '">' + big + '</div></div></div>' +
+        '<i class="tc-vl"></i><div class="tc-st">' +
+        '<div><i>' + ICK + '</i><span>' + (d === t ? '오늘 ' : '이날 ') + '<b>' + entries.length + '번</b> 기도했어요</span></div>' +
+        '<div><i>' + IBAR + '</i><span>최근 7일 누적 <b>' + fmtMin(sumRange(addDays(t, -6), t)) + '</b></span></div></div></div>' +
+      '<div class="tc-add">' + [5, 10, 20, 30].map(function (n) { return '<button class="tchip" data-add="' + n + '">+' + n + '분</button>'; }).join('') + '</div>' +
+      '<div class="tc-in2"><label class="tc-tin">' + IPEN + '<input class="tin" type="number" inputmode="numeric" min="1" id="tMin" placeholder="직접 입력 (분)" aria-label="직접 입력 (분)"></label><button class="tplus" data-act="add-time" aria-label="입력한 시간 더하기">+</button></div>' +
+      (entries.length ? '<ul class="tc-log">' + entries.map(function (e, i) { return '<li><i>' + ICLK + '</i><span class="at">' + clock(e.at) + '</span><b>+' + e.m + '분</b><button data-act="edit-time">' + IPEN + '수정</button><i class="tc-sep"></i><button data-undo="' + i + '">' + IBIN + '삭제</button></li>'; }).join('') + '</ul>' :
+        (v ? '<div class="row between"><span></span><button class="linkbtn" data-act="edit-time">합계 고치기</button></div>' : '<div class="tc-empty">기도를 마치면 위 버튼으로 시간을 더해 주세요</div>')) +
       '</div>';
   }
   function addTime(d, n) {
@@ -2879,6 +2944,7 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
     document.body.classList.toggle('not-home', tab !== 'home');
     document.body.classList.toggle('is-home', tab === 'home');
     document.body.classList.toggle('is-diary', tab === 'diary');
+    document.body.classList.toggle('sub-bg', ['home', 'join', 'admin', 'closet'].indexOf(tab) < 0);
 
     document.body.classList.toggle('wvh', tab === 'home' && window.WAVE === true);
     renderTabs();
