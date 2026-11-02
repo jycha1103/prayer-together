@@ -1012,7 +1012,7 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
 .post .row .tag.gold { background: #F3E7C9; color: #8A6516; }
 .post .row .ttag { font-size: 13.5px; font-weight: 700; color: #1B2945; letter-spacing: -.02em; margin-left: 2px; }
 .post .row .ttag::before { content: "#"; margin-right: 1px; color: #6E7A99; font-weight: 600; }
-.page-title .lock-i { flex: none; width: 26px; height: 26px; margin-right: -3px; color: #1B2945; }
+.page-title .lock-i { flex: none; width: auto; height: 27px; margin-right: 2px; filter: drop-shadow(0 2px 3px rgba(138,101,22,.22)); }
 </style>
 
 <div class="app">
@@ -1828,7 +1828,7 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
 
   // ---------- diary ----------
   function vDiary() {
-    var h = '<div class="page-head"><h1 class="page-title"><svg class="lock-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.1 10.4c-.2-1.6-.1-3 .5-4.1.7-1.3 2-2.1 3.5-2.1 1.6 0 2.9.9 3.5 2.3.5 1.1.5 2.5.3 3.9"/><path d="M5.6 11.6c.1-.8.7-1.3 1.5-1.4 3.3-.3 6.6-.3 9.9 0 .8.1 1.4.6 1.5 1.4.3 2.4.3 4.9 0 7.3-.1.8-.7 1.3-1.5 1.4-3.3.3-6.6.3-9.9 0-.8-.1-1.4-.6-1.5-1.4-.3-2.4-.3-4.9 0-7.3z" fill="rgba(242,196,107,.28)"/><path d="M12 14.1c.6 0 1 .4 1 1 0 .4-.2.7-.5.9l.2 1.7"/><path d="M12.7 17.7h-1.3l.1-1.7c-.3-.2-.5-.5-.5-.9 0-.6.4-1 1-1"/></svg>내 기도 노트</h1><div class="row hd-btns"><button class="btn sm ghost wbtn" data-act="calendar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>캘린더</button><button class="btn sm ghost wbtn" data-act="widget"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="17" height="7" rx="2"/></svg>위젯</button></div></div><div class="seg" role="group">' + [['items', '내 기도 제목'], ['time', '기도 시간'], ['letter', '기도 편지'], ['scrap', '스크랩']].map(function (s) {
+    var h = '<div class="page-head"><h1 class="page-title"><img class="lock-i" src="lock-gold.png" alt="" aria-hidden="true">내 기도 노트</h1><div class="row hd-btns"><button class="btn sm ghost wbtn" data-act="calendar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>캘린더</button><button class="btn sm ghost wbtn" data-act="widget"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="17" height="7" rx="2"/></svg>위젯</button></div></div><div class="seg" role="group">' + [['items', '내 기도 제목'], ['time', '기도 시간'], ['letter', '기도 편지'], ['scrap', '스크랩']].map(function (s) {
       return '<button data-dtab="' + s[0] + '" aria-pressed="' + (dtab === s[0]) + '">' + s[1] + '</button>'; }).join('') + '</div>';
     h += '<div class="diary-top">' + prayStrip() + '</div>';
     if (S.example && dtab !== 'scrap') h += '<div class="note row between"><span>예시 기록이 채워져 있어요. 내 기록으로 시작하려면 지워 주세요.</span><button class="linkbtn blue" data-act="clear-example">예시 지우기</button></div>';
@@ -2632,7 +2632,7 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
   }
   function bigDiary() {
     var t = today(), open = S.items.filter(function (i) { return !i.answered; }), scr = (S.scraps || []).map(postById).filter(Boolean);
-    var h = '<h1 class="page-title"><svg class="lock-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.1 10.4c-.2-1.6-.1-3 .5-4.1.7-1.3 2-2.1 3.5-2.1 1.6 0 2.9.9 3.5 2.3.5 1.1.5 2.5.3 3.9"/><path d="M5.6 11.6c.1-.8.7-1.3 1.5-1.4 3.3-.3 6.6-.3 9.9 0 .8.1 1.4.6 1.5 1.4.3 2.4.3 4.9 0 7.3-.1.8-.7 1.3-1.5 1.4-3.3.3-6.6.3-9.9 0-.8-.1-1.4-.6-1.5-1.4-.3-2.4-.3-4.9 0-7.3z" fill="rgba(242,196,107,.28)"/><path d="M12 14.1c.6 0 1 .4 1 1 0 .4-.2.7-.5.9l.2 1.7"/><path d="M12.7 17.7h-1.3l.1-1.7c-.3-.2-.5-.5-.5-.9 0-.6.4-1 1-1"/></svg>내 기도 노트</h1>';
+    var h = '<h1 class="page-title"><img class="lock-i" src="lock-gold.png" alt="" aria-hidden="true">내 기도 노트</h1>';
     h += '<section class="bsec"><h2>내 기도 제목</h2><button class="btn block big-cta" data-act="add-item">＋ 기도 제목 올리기</button>' +
       (open.length ? '<div class="bstack">' + open.map(function (i) {
         var st = itemState(i);
