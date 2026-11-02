@@ -1915,7 +1915,7 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
     }
     return h;
   }
-  var showAnswered = false, ITH = 24, nStyle = 0;
+  var showAnswered = false, ITH = 24, nStyle = 1;
   function noteOf(i) { return i.theme != null ? i.theme % ITH : (S.items.indexOf(i) % 12); }
   function noteImg(k) { return k < 12 ? 'notes/n' + k + '.webp' : 'notes/m' + (k - 12) + '.webp'; }
   function noteRnd(st, not) { var k; do { k = st * 12 + Math.floor(Math.random() * 12); } while (k === not); return k; }
@@ -3136,7 +3136,7 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
       '<div class="field"><span>작정 기간</span><div class="chips" id="iDaysChips">' + [7, 21, 40, 100].map(function (n) { return '<button class="chip" type="button" data-days="' + n + '" aria-pressed="' + (n === dd) + '">' + n + '일</button>'; }).join('') + '</div>' +
       '<input class="input" type="number" min="1" max="365" id="iDays" value="' + dd + '" inputmode="numeric"></div>' +
       '<label class="field"><span>시작일</span><input class="input" type="date" id="iStart" value="' + (e ? e.start : today()) + '"></label>' +
-      '<div class="field"><span>메모지 스타일</span>' + stylePick(nStyle = e ? styleOf(noteOf(e)) : nStyle, 'data-inst') + '<em class="nst-hint">메모지는 이 스타일 안에서 랜덤으로 붙어요</em></div>' +
+      '<div class="field"><span>메모지 스타일</span>' + stylePick(nStyle = e ? styleOf(noteOf(e)) : 1, 'data-inst') + '<em class="nst-hint">메모지는 이 스타일 안에서 랜덤으로 붙어요</em></div>' +
       '<label class="field"><span>기도 내용</span><textarea class="input" id="iBody" style="min-height:110px" placeholder="어떤 마음으로, 무엇을 구하며 기도할지 적어 두세요">' + esc(e ? e.body : '') + '</textarea></label>' +
       (e ? '<button class="btn block" data-act="save-item" data-edit="' + e.id + '">고친 내용 저장</button>' :
       '<div class="small muted">기도 제목은 나만 볼 수 있어요. 중보기도 요청하기를 누르면 내 기도 노트에 추가되고, 이어서 중보기도 탭에 올릴 내용을 확인할 수 있어요.</div>' +
