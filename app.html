@@ -310,7 +310,7 @@ body.is-home.scrolled .topbar { background: rgba(247, 243, 238, .82); -webkit-ba
 
 .search { width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 12px; padding: 10px 14px; }
 .page-title { display: flex; align-items: center; gap: 9px; font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--ink); letter-spacing: -0.03em; line-height: 1.2; padding-inline: 2px; }
-.page-title::before { content: ""; flex: none; width: 5px; height: 22px; border-radius: 3px; background: linear-gradient(180deg, #E6A92E, #C98A12); }
+.page-title::before { content: none; }
 .note { background: var(--accent-soft); color: var(--ink-2); border-radius: 12px; padding: 10px 14px; font-size: 13px; }
 .note.warn { background: #FDF1E4; color: #6B3D12; } .note.warn small { color: #8A6A4A; word-break: break-all; }
 
@@ -829,7 +829,7 @@ body.is-home { --fab-home: 160px; }
 /*PHV*/.hx-ph { position: absolute; inset: 0; background: var(--ph) var(--php, 100% 100%) / var(--phs, 92%) auto no-repeat; opacity: var(--pho, .85); -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20216%20250%22%20preserveAspectRatio%3D%22none%22%3E%3Cpath%20d%3D%22M89.6%2010.6Q108.0%200.0%20126.4%2010.6L197.6%2051.9Q216.0%2062.5%20216.0%2083.8L216.0%20166.2Q216.0%20187.5%20197.6%20198.1L126.4%20239.4Q108.0%20250.0%2089.6%20239.4L18.4%20198.1Q0.0%20187.5%200.0%20166.2L0.0%2083.8Q0.0%2062.5%2018.4%2051.9Z%22/%3E%3C/svg%3E") center / 100% 100% no-repeat, radial-gradient(ellipse var(--prx, 92%) var(--pry, 82%) at 100% 100%, #000 0, rgba(0,0,0,.9) 45%, rgba(0,0,0,.5) 75%, transparent 100%), linear-gradient(var(--pha, 135deg), transparent 0, transparent var(--pf1, 26%), #000 var(--pf2, 70%)); -webkit-mask-composite: source-in, source-in; mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20216%20250%22%20preserveAspectRatio%3D%22none%22%3E%3Cpath%20d%3D%22M89.6%2010.6Q108.0%200.0%20126.4%2010.6L197.6%2051.9Q216.0%2062.5%20216.0%2083.8L216.0%20166.2Q216.0%20187.5%20197.6%20198.1L126.4%20239.4Q108.0%20250.0%2089.6%20239.4L18.4%20198.1Q0.0%20187.5%200.0%20166.2L0.0%2083.8Q0.0%2062.5%2018.4%2051.9Z%22/%3E%3C/svg%3E") center / 100% 100% no-repeat, radial-gradient(ellipse var(--prx, 92%) var(--pry, 82%) at 100% 100%, #000 0, rgba(0,0,0,.9) 45%, rgba(0,0,0,.5) 75%, transparent 100%), linear-gradient(var(--pha, 135deg), transparent 0, transparent var(--pf1, 26%), #000 var(--pf2, 70%)); mask-composite: intersect, intersect; }
 .hx.h1 { --ph: url("home-h1.png"); --phs: 52%; --php: 100% 96%; --prx: 900%; --pry: 900%; --pf1: -20%; --pf2: -10%; --pho: 1; }
 .hx.h2 { --ph: url("home-h2.png"); --phs: 64%; --php: 100% 86%; --prx: 900%; --pry: 900%; --pf1: -20%; --pf2: -10%; --pho: 1; }
-.hhex .hx.h1 .hx-in, .hhex .hx.h2 .hx-in { align-items: flex-start; text-align: left; padding-left: 15%; }
+.hhex .hx.h1 .hx-in, .hhex .hx.h2 .hx-in, .hhex .hx.h3 .hx-in { align-items: flex-start; text-align: left; padding-left: 15%; }
 .hx.h3 { --ph: url("home-w3.jpg"); --php: 100% 100%; }/*/PHV*/
 .hx-bg { overflow: visible; }
 /*HXV*/.hx-bg .hx-sh { fill: #000; stroke: none; filter: url(#hxSh); }
@@ -838,9 +838,9 @@ body.is-home { --fab-home: 160px; }
 .hx-in { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 0 6%; text-align: center; }
 .hx-t { font-family: var(--font-hx, var(--font-display)); font-weight: 700; font-size: calc(var(--hw) * .105); line-height: 1.3; letter-spacing: -.03em; color: #1F2638; }
 .hx-d { margin-top: 8px; font-family: var(--font-hx, var(--font-body)); font-weight: 400; font-size: calc(var(--hw) * .06); line-height: 1.6; color: #2C3040; letter-spacing: -.01em; font-weight: 700; }
-/*GOV*/.hx-go { position: relative; margin-top: 12px; display: grid; place-items: center; width: 40px; height: 16px; background: none; color: #6E6470; }
+/*GOV*/.hx-go { position: relative; margin-top: 12px; display: grid; place-items: center start; width: 26px; height: 16px; background: none; color: #6E6470; }
 .hx-go em { display: none; }
-.hhex .hx-go svg { width: 24px; height: 12px; stroke-width: 1.1; overflow: visible; animation: hxNudge 9s ease-in-out infinite; animation-delay: var(--nd, 0s); }
+.hhex .hx-go svg { width: 18px; height: 12px; stroke-width: 1.1; overflow: visible; animation: hxNudge 9s ease-in-out infinite; animation-delay: var(--nd, 0s); }
 @keyframes hxNudge { 0%, 9%, 100% { transform: translateX(0); } 4% { transform: translateX(4px); } }
 .hx.h2 { --nd: 3s; } .hx.h3 { --nd: 6s; }
 @media (prefers-reduced-motion: reduce) { .hhex .hx-go svg { animation: none; } }/*/GOV*/
@@ -996,10 +996,9 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
 .hhex .hx.h3 .hx-d { text-align: left; }
 
 /* 중보기도 분류 알약 */
-.pseg { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 2px; margin: 4px 0 6px; padding: 4px; border-radius: 999px; background: rgba(255, 255, 255, .78); border: 1px solid rgba(27, 41, 69, .08); box-shadow: 0 4px 14px rgba(27, 41, 69, .07); }
-.pseg button { position: relative; height: 40px; border: 0; border-radius: 999px; background: none; font-size: 12.5px; font-weight: 600; color: #4A5170; letter-spacing: -.05em; white-space: nowrap; transition: background .2s, color .2s; }
-.pseg button[aria-pressed="true"] { background: linear-gradient(110deg, #1B2945 8%, #574459 52%, #1B2945 92%); color: #FFFFFF; box-shadow: 0 3px 10px rgba(27, 41, 69, .25); }
-.pseg button[aria-pressed="true"]::before { content: ""; display: inline-block; width: 5px; height: 5px; margin: 0 4px 1px 0; border-radius: 50%; background: #F2C46B; vertical-align: middle; }
+.pseg { display: flex; justify-content: space-between; gap: 6px; margin: 6px 0 8px; }
+.pseg button { flex: 1 1 auto; height: 38px; padding: 0 10px; border: 1px solid rgba(255, 255, 255, .9); border-radius: 999px; background: #DDEBF6; font-size: 12.5px; font-weight: 600; color: #3E5A78; letter-spacing: -.05em; white-space: nowrap; box-shadow: 0 2px 8px rgba(62, 90, 120, .1); transition: background .2s, color .2s; }
+.pseg button[aria-pressed="true"] { background: linear-gradient(110deg, #1B2945 8%, #574459 52%, #1B2945 92%); border-color: transparent; color: #FFFFFF; box-shadow: 0 4px 12px rgba(27, 41, 69, .25); }
 </style>
 
 <div class="app">
@@ -1413,7 +1412,7 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
   // 홈은 인사 글과 큰 그림 세 개만: 중보기도, 나의 기도, 우리 교회 모임방
   // 홈: 둥근 육각형 세 개 (중보기도, 나의 기도, 우리 교회 기도방)
   var HEX_BG = '<svg class="hx-bg" viewBox="0 0 216 250" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="hxGl" x1="0" y1="0" x2=".55" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".62"/><stop offset=".34" stop-color="#fff" stop-opacity=".16"/><stop offset=".36" stop-color="#fff" stop-opacity=".04"/><stop offset="1" stop-color="#fff" stop-opacity=".18"/></linearGradient><linearGradient id="hxFd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".42"/><stop offset=".55" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#C9B49A" stop-opacity=".12"/></linearGradient><linearGradient id="hxBv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity="1"/><stop offset=".5" stop-color="#fff" stop-opacity=".75"/><stop offset="1" stop-color="#A8906F" stop-opacity=".45"/></linearGradient><filter id="hxSh" x="-.3" y="-.3" width="1.6" height="1.6"><feGaussianBlur in="SourceAlpha" stdDeviation="2.5"/><feOffset dy="2.5" result="b"/><feFlood flood-color="#5C4630" flood-opacity=".09"/><feComposite in2="b" operator="in"/><feComposite in2="SourceAlpha" operator="out"/></filter></defs><path class="hx-sh" d="M89.6 10.6Q108.0 0.0 126.4 10.6L197.6 51.9Q216.0 62.5 216.0 83.8L216.0 166.2Q216.0 187.5 197.6 198.1L126.4 239.4Q108.0 250.0 89.6 239.4L18.4 198.1Q0.0 187.5 0.0 166.2L0.0 83.8Q0.0 62.5 18.4 51.9Z"/><path class="hx-fx" d="M89.6 10.6Q108.0 0.0 126.4 10.6L197.6 51.9Q216.0 62.5 216.0 83.8L216.0 166.2Q216.0 187.5 197.6 198.1L126.4 239.4Q108.0 250.0 89.6 239.4L18.4 198.1Q0.0 187.5 0.0 166.2L0.0 83.8Q0.0 62.5 18.4 51.9Z"/><path d="M89.6 10.6Q108.0 0.0 126.4 10.6L197.6 51.9Q216.0 62.5 216.0 83.8L216.0 166.2Q216.0 187.5 197.6 198.1L126.4 239.4Q108.0 250.0 89.6 239.4L18.4 198.1Q0.0 187.5 0.0 166.2L0.0 83.8Q0.0 62.5 18.4 51.9Z"/></svg>';
-  var HEX_GO = '<span class="hx-go" aria-hidden="true"><em>들어가기</em><svg viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6h21M17.5 1.8 22 6l-4.5 4.2"/></svg></span>';
+  var HEX_GO = '<span class="hx-go" aria-hidden="true"><em>들어가기</em><svg viewBox="0 0 18 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6h15M12 2.2 16 6l-4 3.8"/></svg></span>';
   function hex(cls, act, title, lines) { return '<button class="hx ' + cls + '" ' + act + '>' + HEX_BG + '<span class="hx-ph" aria-hidden="true"></span><span class="hx-in"><b class="hx-t">' + title + '</b><span class="hx-d">' + lines + '</span>' + HEX_GO + '</span></button>'; }
   // 홈 (물결 카드 시안): 사진 카드 세 장, 은혜님의 기도 한 줄, 흐르는 기도 제목
   var WV_GO = '<span class="wv-go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13.5 6.5 19 12l-5.5 5.5"/></svg></span>';
