@@ -995,10 +995,11 @@ body.is-diary { background: transparent; }
 body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; background: linear-gradient(rgba(247, 243, 238, .74), rgba(247, 243, 238, .74)), #F4EDE6 url("home-bg1b.jpg") center / cover no-repeat; }
 .hhex .hx.h3 .hx-d { text-align: left; }
 
-/* 중보기도 분류 알약 */
-.pseg { display: flex; justify-content: space-between; gap: 6px; margin: 6px 0 8px; }
-.pseg button { flex: 1 1 auto; height: 38px; padding: 0 10px; border: 1px solid rgba(255, 255, 255, .9); border-radius: 999px; background: #DDEBF6; font-size: 12.5px; font-weight: 600; color: #3E5A78; letter-spacing: -.05em; white-space: nowrap; box-shadow: 0 2px 8px rgba(62, 90, 120, .1); transition: background .2s, color .2s; }
-.pseg button[aria-pressed="true"] { background: linear-gradient(110deg, #1B2945 8%, #574459 52%, #1B2945 92%); border-color: transparent; color: #FFFFFF; box-shadow: 0 4px 12px rgba(27, 41, 69, .25); }
+/* 중보기도 분류: 말풍선 */
+.pseg { display: flex; gap: 6px; margin: 8px 0 14px; }
+.pseg button { position: relative; flex: 1 1 auto; height: 46px; padding: 0 8px; border: 1px solid rgba(255, 255, 255, .95); border-radius: 15px; background: rgba(255, 252, 249, .92); font-size: 13px; font-weight: 600; color: #3A3442; letter-spacing: -.05em; white-space: nowrap; box-shadow: 0 4px 12px rgba(120, 90, 70, .1); transition: background .2s, color .2s; }
+.pseg button[aria-pressed="true"] { background: linear-gradient(160deg, #2C3757 0%, #1B2945 100%); border-color: transparent; color: #FFFFFF; box-shadow: 0 6px 14px rgba(27, 41, 69, .28); }
+.pseg button[aria-pressed="true"]::after { content: ""; position: absolute; left: 50%; bottom: -7px; width: 14px; height: 14px; margin-left: -7px; background: #1B2945; border-radius: 0 0 3px 0; transform: rotate(45deg); }
 </style>
 
 <div class="app">
