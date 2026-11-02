@@ -1051,9 +1051,11 @@ body.is-diary::before { content: ""; position: fixed; inset: 0; z-index: -1; bac
 .icard.sq .progress.thin { position: static; display: block; width: 100%; height: 7px; margin-top: 8px; background: rgba(255, 255, 255, .62); box-shadow: inset 0 0 0 1px rgba(47, 42, 54, .06); }
 .icard.sq .progress.thin i { min-width: 7px; background: var(--bc, #9DB394); box-shadow: none; }
 .icard.sq .progress.thin i::after { content: none; }
-.icard.sq .att-btn { left: auto; bottom: auto; right: 10%; top: 17%; width: 26px; height: 26px; background: rgba(255, 255, 255, .85); color: transparent; box-shadow: inset 0 0 0 1.5px rgba(47, 42, 54, .35); }
+.icard.sq .att-btn { left: auto; bottom: auto; right: 10%; top: 17%; width: 27px; height: 27px; background: rgba(255, 255, 255, .7); color: #BDB8C2; box-shadow: inset 0 0 0 1.5px #C9C4CE; }
 .icard.sq .att-btn svg { width: 15px; height: 15px; }
-.icard.sq .att-btn.on { background: #FFFFFF; color: #1B2945; box-shadow: inset 0 0 0 1.5px #1B2945; }
+.icard.sq .att-btn svg * { stroke-width: 2.6; }
+.icard.sq .att-btn.on { background: #FFFDF8; color: var(--cc, #6B5A3A); box-shadow: inset 0 0 0 1.6px var(--cc, #6B5A3A), 0 1px 3px rgba(60, 40, 30, .15); }
+.nb0, .nb4, .nb6 { --cc: #8A6A2E; } .nb3, .nb9 { --cc: #4F7A3A; } .nb1, .nb7, .nb10 { --cc: #B4565E; } .nb2, .nb8 { --cc: #2D4A7A; } .nb5, .nb11 { --cc: #6A4E9C; }
 .nb0, .nb3, .nb9 { --bc: #9DBA84; } .nb1, .nb7 { --bc: #E9A3A6; } .nb2, .nb8 { --bc: #8FB0D9; } .nb4 { --bc: #EDB94A; } .nb5, .nb11 { --bc: #B9A3DF; } .nb6 { --bc: #D9B98A; } .nb10 { --bc: #EE9C8C; }
 /*TSP*/body:not(.is-home) .page-title { margin-top: 18px; margin-bottom: 6px; } body:not(.is-home) .page-head .page-title { margin-bottom: 0; } body:not(.is-home) .page-head { margin-top: 18px; margin-bottom: 6px; } body:not(.is-home) .page-head .page-title { margin-top: 0; } body:not(.is-home) .pseg { margin: 14px 0 20px; }
 .page-title .lock-i { flex: none; width: auto; height: 27px; margin-right: 2px; filter: drop-shadow(0 2px 3px rgba(138,101,22,.22)); }
