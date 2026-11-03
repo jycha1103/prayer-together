@@ -1285,6 +1285,35 @@ body.is-closet .mnote2 { margin-top: 6px; }
 .lt-ic { width: 58px; height: 58px; flex: none; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle at 45% 40%, #FFF9EF, #FBEBD6); box-shadow: 0 4px 12px rgba(200, 140, 60, .14); }
 .lt-ic svg { width: 32px; height: 24px; }
 .lt-empty { text-align: center; color: #8A7C6A; font-size: 13.5px; padding: 18px 0; }
+
+/*LETTER3*/
+.lt-cta > svg:first-child { width: 26px; height: 26px; }
+.lpick-sub { font-size: 14px; color: var(--muted); margin: -4px 0 2px; }
+.lpick { display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; padding: 16px 14px 16px 16px; border: 1px solid #E7E2D8; border-radius: 18px; background: #FFFFFF; box-shadow: 0 4px 14px rgba(31, 45, 87, .06); color: var(--ink); }
+.lpick.gold { background: #FFF8EA; border-color: #F1DDB3; }
+.lpick > i { flex: none; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: #EEF1F8; color: #2B3B6B; }
+.lpick.gold > i { background: #F8E7C2; color: #9A6B1F; }
+.lpick > i svg { width: 22px; height: 22px; }
+.lpick > div { flex: 1; min-width: 0; }
+.lpick b { display: block; font-size: 16.5px; font-weight: 700; margin-bottom: 3px; }
+.lpick span { display: block; font-size: 13.5px; line-height: 1.5; color: var(--muted); word-break: keep-all; }
+.lpick .lp-chev { flex: none; width: 18px; height: 18px; color: #A9A397; }
+.lp-f > span { font-weight: 700; }
+.lp-date { position: relative; }
+.lp-date > svg { position: absolute; left: 14px; top: 50%; width: 19px; height: 19px; transform: translateY(-50%); color: #2B3B6B; pointer-events: none; }
+.lp-date .input { padding-left: 42px; }
+.lpaper { position: relative; container-type: inline-size; border-radius: 16px; overflow: hidden; background-position: center bottom; background-size: 100% auto; background-repeat: no-repeat; padding: 10% 7% var(--lp-pb, 70%); box-shadow: 0 6px 20px rgba(60, 50, 30, .12), inset 0 0 0 1px rgba(120, 100, 70, .12); }
+.lpaper::before { content: ""; position: absolute; left: 4%; right: 4%; top: 4%; bottom: calc(var(--lp-pb, 70%) - 6%); border-radius: 12px; background: rgba(255, 252, 245, .5); pointer-events: none; }
+.lp-ta, .lp-read { position: relative; display: block; width: 100%; min-height: var(--lp-th, 70cqw); border: 0; outline: 0; resize: none; overflow: hidden; background: transparent repeating-linear-gradient(to bottom, transparent 0, transparent 31px, rgba(125, 105, 75, .32) 31px, rgba(125, 105, 75, .32) 32px) 0 0 / 100% 32px local; font-family: var(--font-display); font-size: 16px; line-height: 32px; color: #3A3226; padding: 0 2px; }
+.lp-ta::placeholder { color: #8C7F6A; }
+.lp-read { white-space: pre-wrap; word-break: keep-all; }
+.lp-d { font-size: 13px; color: #8C7F6A; }
+.lp-v { font-size: 14.5px; color: #9A6B1F; }
+.lp-cap { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: -4px; font-size: 12.5px; color: var(--muted); }
+.lp-cap b { color: var(--ink); font-weight: 600; }
+.lp-cap button { display: inline-flex; align-items: center; gap: 4px; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 11px; font-size: 12.5px; color: var(--ink); }
+.lp-cap button svg { width: 14px; height: 14px; }
+.lp-save { background: linear-gradient(180deg, #34477A, #1F2D57); }
 </style>
 
 <div class="app">
@@ -2243,9 +2272,10 @@ body.is-closet .mnote2 { margin-top: 6px; }
   }
 
   function vLetters() {
+    var PLANE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 2.8 2.8 10.4l7.1 3.1 3.1 7.7 8.5-18.4z"/><path d="m21.5 2.8-11.6 10.7"/><path d="M9.9 13.5v5.3l2.6-2.7"/></svg>';
     var ENV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="1.8"/><path d="m3 6 9 7 9-7M3 18.5l7-6M21 18.5l-7-6"/></svg>';
     var h = '<div class="lt-hero" role="img" aria-label="눈 감고 하는 기도가 어려운 날, 하나님께 편지를 써 보세요."></div>' +
-      '<button class="lt-cta" data-act="write-letter">' + ENV + '<span>하나님께 드리는 기도 편지 쓰기</span><svg class="lt-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>';
+      '<button class="lt-cta" data-act="write-letter">' + PLANE + '<span>하나님께 기도편지 보내기</span><svg class="lt-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>';
     var L = S.letters.slice().sort(function (a, b) { return a.date < b.date ? 1 : -1; });
     if (!L.length) return h + '<div class="lt-empty">아직 쓴 편지가 없어요. 첫 편지를 써 보세요.</div>';
     var HEART = '<svg viewBox="0 0 40 30" aria-hidden="true"><rect x="2" y="3" width="36" height="24" rx="3" fill="#FFF6E4" stroke="#E2A94A" stroke-width="2"/><path d="M3 5l17 13L37 5" fill="none" stroke="#E2A94A" stroke-width="2" stroke-linejoin="round"/><path d="M20 21.5s-5-3-5-6.3a2.6 2.6 0 0 1 5-1 2.6 2.6 0 0 1 5 1c0 3.3-5 6.3-5 6.3z" fill="#E59A3C"/></svg>';
@@ -3483,9 +3513,9 @@ body.is-closet .mnote2 { margin-top: 6px; }
     ['resolve', '결단', '오늘 말씀과 기도로 다짐한 것을 한 줄로 적어요', '내일은 ~해 볼게요']];
   function writeLetterPick() {
     sheet('기도 편지 쓰기',
-      '<div class="small muted">어떤 편지로 쓸까요?</div>' +
-      '<button class="pick-card" data-act="write-letter-free"><b>자유롭게 쓰기</b><span>빈 편지지에 하나님께 하고 싶은 말을 편하게 적어요.</span></button>' +
-      '<button class="pick-card gold" data-act="write-letter-guide"><b>순서대로 쓰기</b><span>말씀 → 감사 → 회개 → 기도 편지 → 결단 순서로 칸을 채워요. 기도 편지가 처음이라면 추천해요.</span></button>');
+      '<div class="lpick-sub">어떤 방식으로 쓰실까요?</div>' +
+      '<button class="lpick" data-act="write-letter-free"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 3c-6 1-10.5 5-12.5 11L6 19"/><path d="M20 3c.5 5-2.5 10-8.5 11.5L8 14"/><path d="M4 21h9"/></svg></i><div><b>자유롭게 쓰기</b><span>하나님께 하고 싶은 말을 마음 가는 대로 써요.</span></div><svg class="lp-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>' +
+      '<button class="lpick gold" data-act="write-letter-guide"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 5.5h1v1H4zM4 11.5h1v1H4zM4 17.5h1v1H4z"/></svg></i><div><b>순서대로 쓰기</b><span>말씀 → 감사 → 회개 → 기도 편지 → 결단 순서에 따라 기도 편지를 써요.</span></div><svg class="lp-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>');
   }
   function writeLetterGuide() {
     sheet('순서대로 쓰는 기도 편지',
@@ -3494,16 +3524,39 @@ body.is-closet .mnote2 { margin-top: 6px; }
       '<div class="small muted">모든 칸을 채우지 않아도 괜찮아요. 쓴 칸만 편지에 담겨요.</div>' +
       '<button class="btn block" data-act="save-letter-guide">편지 보관하기</button>');
   }
-  function writeLetter() {
-    sheet('기도 편지 쓰기',
-      '<label class="field"><span>날짜</span><input class="input" type="date" id="lDate" value="' + today() + '"></label>' +
-      '<label class="field"><span>오늘 묵상한 말씀</span><input class="input" id="lVerse" placeholder="예: 빌립보서 4:6 아무 것도 염려하지 말고"></label>' +
-      '<textarea class="paper" id="lBody" placeholder="사랑하는 하나님께,"></textarea>' +
-      '<button class="btn block" data-act="save-letter">편지 보관하기</button>');
+  // 편지지 12장 (구약 7, 신약 5) — 새 편지마다 무작위로 한 장
+  var PAPERS = [['창조의 아침', '창세기 1장', .628, '#EADAC5'], ['아브라함의 믿음', '창세기 12장', .61, '#8787A3'], ['홍해를 가르신 하나님', '출애굽기 14장', .598, '#EEDECF'], ['십계명과 언약', '출애굽기 20장', .595, '#F4E0CD'], ['다윗의 기도', '시편', .605, '#D7C6A9'], ['엘리야의 만남', '열왕기상 19장', .61, '#D9D1D3'], ['다니엘의 신앙', '다니엘 6장', .616, '#E7D5C2'],
+    ['예수님의 탄생', '누가복음 2장', .801, '#B4B2C8'], ['산상수훈', '마태복음 5~7장', .77, '#F3E6DA'], ['십자가의 사랑', '요한복음 19장', .755, '#EDD9D2'], ['부활의 아침', '마태복음 28장', .77, '#E5D8C4'], ['승천과 약속', '사도행전 1장', .784, '#E8E1DF']];
+  var lpIdx = 0;
+  function paperStyle(i) {
+    var x = PAPERS[i] || PAPERS[0];
+    return 'background-color:' + x[3] + ';background-image:url(letters/p' + i + '.webp);--lp-pb:' + Math.round(44 / x[2]) + '%;--lp-th:' + Math.round((0.56 / x[2] - 0.1) * 100) + 'cqw';
   }
+  function paperCap(i) { return '<b>' + PAPERS[i][0] + '</b> · ' + PAPERS[i][1]; }
+  function writeLetter() {
+    var last = S.letters.length ? S.letters[S.letters.length - 1].paper : -1;
+    do { lpIdx = Math.floor(Math.random() * PAPERS.length); } while (lpIdx === last);
+    sheet('자유롭게 쓰기',
+      '<label class="field lp-f"><span>날짜</span><div class="lp-date">' + CAL + '<input class="input" type="date" id="lDate" value="' + today() + '"></div></label>' +
+      '<label class="field lp-f"><span>오늘 묵상한 말씀</span><input class="input" id="lVerse" placeholder="(선택) 성경 구절을 적어 보세요."></label>' +
+      '<div class="lpaper" id="lPaper" style="' + paperStyle(lpIdx) + '"><textarea class="lp-ta" id="lBody" placeholder="사랑하는 하나님께,"></textarea></div>' +
+      '<div class="lp-cap"><span id="lCap">' + paperCap(lpIdx) + '</span><button data-act="paper-shuffle">' + SHUF + '다른 편지지</button></div>' +
+      '<button class="btn block lp-save" data-act="save-letter">편지 보관하기</button>');
+    el('sheet').classList.add('full');
+  }
+  var CAL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>';
+  var SHUF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h11l-3-3M20 17H9l3 3"/></svg>';
+  document.addEventListener('input', function (e) {
+    var t = e.target; if (!t.classList || !t.classList.contains('lp-ta')) return;
+    t.style.height = 'auto'; t.style.height = t.scrollHeight + 'px';
+  });
 
   function openLetter(id) {
     var l = S.letters.find(function (x) { return x.id === id; });
+    if (l.paper != null && PAPERS[l.paper]) return sheet('기도 편지',
+      '<div class="lpaper read" style="' + paperStyle(l.paper) + '"><div class="lp-read"><div class="lp-d">' + esc(l.date.replace(/-/g, '. ')) + '</div>' + (l.verse ? '<div class="lp-v">' + esc(l.verse) + '</div>' : '') + '<div class="lp-body">' + esc(l.body) + '</div></div></div>' +
+      '<div class="lp-cap"><span>' + paperCap(l.paper) + '</span></div>' +
+      '<div class="row"><button class="btn ghost" data-copy="letter:' + id + '">글 복사하기</button><button class="btn line" data-del-letter="' + id + '">삭제</button></div>');
     sheet('기도 편지',
       '<div class="paper"><div class="date">' + esc(l.date.replace(/-/g, '. ')) + '</div>' + (l.verse ? '<div class="vs">' + esc(l.verse) + '</div>' : '') +
         (l.parts ? LPARTS.slice(1).filter(function (x) { return l.parts[x[0]]; }).map(function (x) { return '<div class="lsec">' + x[1] + '</div><div class="body">' + esc(l.parts[x[0]]) + '</div>'; }).join('') : '<div class="body">' + esc(l.body) + '</div>') + '</div>' +
@@ -3979,6 +4032,9 @@ body.is-closet .mnote2 { margin-top: 6px; }
         cFrom = rf; cTo = rt; range = 'custom'; picking = false; render(); return;
       case 'toggle-full': var shf = el('sheet'); return setFull(!(shf && shf.classList.contains('full')));
       case 'write-letter-free': return writeLetter();
+      case 'paper-shuffle':
+        var nx = lpIdx; while (nx === lpIdx) nx = Math.floor(Math.random() * PAPERS.length);
+        lpIdx = nx; el('lPaper').setAttribute('style', paperStyle(nx)); el('lCap').innerHTML = paperCap(nx); return;
       case 'write-letter-guide': return writeLetterGuide();
       case 'save-letter-guide':
         var parts = {}, any = false;
@@ -3989,7 +4045,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
         save(); closeSheet(); tab = 'diary'; dtab = 'letter'; render(); toast('기도 편지를 보관했어요'); return;
       case 'save-letter':
         var lb = val('lBody'); if (!lb) return toast('편지 내용을 적어 주세요');
-        S.letters.push({ id: uid(), date: val('lDate') || today(), verse: val('lVerse'), body: lb });
+        S.letters.push({ id: uid(), date: val('lDate') || today(), verse: val('lVerse'), body: lb, paper: lpIdx });
         save(); closeSheet(); tab = 'diary'; dtab = 'letter'; render(); toast('기도 편지를 보관했어요'); return;
       case 'clear-example':
         S.items = S.items.filter(function (x) { return !x.example; });
