@@ -1155,6 +1155,29 @@ body.sub-bg::before { content: ""; position: fixed; inset: -8%; z-index: -1; bac
 .tc2 .time-big { flex-wrap: wrap; justify-content: center; } .tc-hr { flex-basis: 100%; text-align: center; font-style: normal; font-family: var(--font-body); font-size: 14px; font-weight: 700; color: #8A6A3E; margin-bottom: 2px; letter-spacing: -.02em; }
 .tc-dot.g { filter: drop-shadow(0 0 4px rgba(127, 168, 108, .9)); }
 
+
+/*TR2*/
+.tr2 { margin-top: 14px; padding-bottom: 14px; }
+.tr-seg { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 4px; border-radius: 999px; background: rgba(240, 228, 216, .6); }
+.tr-seg button { border: 0; background: none; border-radius: 999px; padding: 8px 0; font-size: 13px; font-weight: 600; color: #6A6070; white-space: nowrap; }
+.tr-seg button[aria-pressed="true"] { background: #FFFFFF; color: #14213F; box-shadow: 0 2px 8px rgba(120, 80, 50, .14); }
+.tr-st { display: grid; grid-template-columns: repeat(3, 1fr); }
+.tr-st div { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 2px 4px; text-align: center; }
+.tr-st div + div { border-left: 1px solid rgba(160, 120, 80, .18); }
+.tr-st span { font-size: 11.5px; color: #7A7080; letter-spacing: -.03em; white-space: nowrap; }
+.tr-st b { font-family: "MaruBuri", var(--font-display); font-size: 19px; font-weight: 700; color: #14213F; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tr-st b.up { color: #5E8A4F; } .tr-st b.dn { color: #B4565E; }
+.tr-ch .chart { position: relative; height: 140px; padding-top: 18px; padding-left: 30px; gap: 7px; border-bottom: 1px solid rgba(160, 120, 80, .2); }
+.tr-ch .chart .bar { border-radius: 999px 999px 4px 4px; background: #D9A863; min-height: 3px; z-index: 1; }
+.tr-ch .chart .bar.zero { background: rgba(160, 120, 80, .14); }
+
+.tr-ch .chart .bar b { color: #6A6070; font-weight: 600; }
+.tr-ch .tg { position: absolute; left: 0; right: 0; z-index: 0; height: 0; border-top: 1px dashed rgba(160, 120, 80, .35); }
+.tr-ch .tg::before { content: ""; } .tr-ch .tg em { position: absolute; left: 0; top: -7px; font-style: normal; font-size: 10px; color: rgba(138, 106, 62, .8); background: rgba(253, 248, 243, .9); padding: 0 3px; border-radius: 4px; }
+.tr-ch .chart-x { gap: 7px; padding-left: 30px; white-space: nowrap; font-size: 10px; color: #8A8090; line-height: 1.3; }
+.tr-ch .chart-x .today { color: #14213F; font-weight: 700; }
+.tr-ft { font-size: 12.5px; color: #7A7080; text-align: center; padding-top: 2px; }
+.tr-ft b { color: #14213F; }
 </style>
 
 <div class="app">
@@ -2046,13 +2069,19 @@ body.sub-bg::before { content: ""; position: fixed; inset: -8%; z-index: -1; bac
     var cols = 'grid-template-columns: repeat(' + n + ', 1fr)';
     var chips = [[7, '최근 7일'], [14, '최근 2주'], [30, '최근 30일']].map(function (r) { return '<button class="chip" data-range="' + r[0] + '" aria-pressed="' + (range === r[0]) + '">' + r[1] + '</button>'; }).join('') +
       '<button class="chip" data-act="pick-range" aria-pressed="' + (range === 'custom') + '">' + (range === 'custom' ? md(from) + ' ~ ' + md(to) : '기간 설정') + '</button>';
+    var HC2 = ['#D9A863', '#86AE72', '#9CC3D6', '#B4A6DA', '#E7A48E', '#D99AB4'], top = Math.max(60, max), wk = '일월화수목금토';
+    var seg = [[7, '7일'], [14, '2주'], [30, '30일']].map(function (r) { return '<button data-range="' + r[0] + '" aria-pressed="' + (range === r[0]) + '">' + r[1] + '</button>'; }).join('') +
+      '<button data-act="pick-range" aria-pressed="' + (range === 'custom') + '">' + (range === 'custom' ? md(from) + '~' + md(to) : '기간') + '</button>';
+    var guide = function (mv, lb) { return mv <= top ? '<i class="tg" style="bottom:' + (mv / top * 100) + '%"><em>' + lb + '</em></i>' : ''; };
+    var IBAR2 = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M5 20V13M9.5 20V9M14 20v-6M18.5 20V5M3 20.5h18"/></svg>';
     return timeCard() +
-      '<div class="chips">' + chips + '</div>' +
-      (picking ? '<div class="card range-pick"><input class="input" type="date" id="rFrom" value="' + (cFrom || from) + '" aria-label="시작일"><span class="muted">~</span><input class="input" type="date" id="rTo" value="' + (cTo || to) + '" aria-label="종료일"><button class="btn sm" data-act="apply-range">보기</button></div>' : '') +
-      '<div class="stats"><div class="stat"><b>' + statMin(total) + '</b><span>기간 누적</span></div><div class="stat"><b>' + statMin(days ? total / days : 0) + '</b><span>기도한 날 평균</span></div><div class="stat"><b>' + (diff >= 0 ? '+' : '−') + statMin(Math.abs(diff)) + '</b><span>직전 ' + n + '일 대비</span></div></div>' +
-      '<div class="card"><div class="chart" style="' + cols + '">' + bars.map(function (b) { return '<div class="bar' + (b[1] ? '' : ' zero') + '" style="height:' + (max ? Math.max(1.5, b[1] / max * 100) : 1.5) + '%">' + (b[1] && n <= 14 ? '<b>' + b[1] + '</b>' : '') + '</div>'; }).join('') + '</div>' +
-      '<div class="chart-x" style="' + cols + '">' + bars.map(function (b, i) { return '<span>' + (i % step === 0 || i === n - 1 ? md(b[0]) : '') + '</span>'; }).join('') + '</div>' +
-      '<div class="small muted" style="margin-top:8px">' + (n <= 14 ? '막대 위 숫자는 분 단위예요. ' : '') + '지금까지 모두 ' + fmtMin(all) + ' 기도했어요.</div></div>';
+      '<div class="time-card tc2 tr2"><div class="tc-h"><span class="tc-ic">' + IBAR2 + '</span><b class="tc-t">기도 시간 돌아보기</b></div>' +
+      '<div class="tr-seg" role="group" aria-label="기간">' + seg + '</div>' +
+      (picking ? '<div class="range-pick"><input class="input" type="date" id="rFrom" value="' + (cFrom || from) + '" aria-label="시작일"><span class="muted">~</span><input class="input" type="date" id="rTo" value="' + (cTo || to) + '" aria-label="종료일"><button class="btn sm" data-act="apply-range">보기</button></div>' : '') +
+      '<div class="tr-st"><div><span>기간 누적</span><b>' + statMin(total) + '</b></div><div><span>기도한 날 평균</span><b>' + statMin(days ? total / days : 0) + '</b></div><div><span>직전 ' + n + '일 대비</span><b class="' + (diff > 0 ? 'up' : diff < 0 ? 'dn' : '') + '">' + (diff > 0 ? '▲ ' : diff < 0 ? '▼ ' : '') + statMin(Math.abs(diff)) + '</b></div></div>' +
+      '<div class="tr-ch"><div class="chart" style="' + cols + '">' + guide(30, '30분') + guide(60, '1시간') + bars.map(function (b) { var c = b[1] ? HC2[Math.min(5, Math.floor((b[1] - 1) / 60))] : ''; return '<div class="bar' + (b[1] ? '' : ' zero') + (b[0] === t ? ' today' : '') + '" style="height:' + (b[1] ? Math.max(4, b[1] / top * 100) : 3) + '%' + (c ? ';background:' + c : '') + '">' + (b[1] && n <= 14 ? '<b>' + b[1] + '</b>' : '') + '</div>'; }).join('') + '</div>' +
+      '<div class="chart-x" style="' + cols + '">' + bars.map(function (b, i) { var dd = new Date(b[0] + 'T00:00:00'); return '<span' + (b[0] === t ? ' class="today"' : '') + '>' + (n <= 7 ? wk[dd.getDay()] + '<br>' : '') + (n <= 7 || i % step === 0 || i === n - 1 ? md(b[0]) : '') + '</span>'; }).join('') + '</div></div>' +
+      '<div class="tr-ft">' + (n <= 14 ? '막대 위 숫자는 분이에요 · ' : '') + '지금까지 모두 <b>' + fmtMin(all) + '</b> 기도했어요</div></div>';
   }
   function timeCard() {
     var t = today(), d = tDay || t, v = +S.times[d] || 0, entries = (S.log && S.log[d]) || [];
