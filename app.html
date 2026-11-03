@@ -1359,6 +1359,38 @@ body.is-closet .mnote2 { margin-top: 6px; }
 .lg-save { display: flex; align-items: center; justify-content: center; gap: 10px; width: 86%; height: 56px; margin: 0 auto; border: 0; border-radius: 999px; background: linear-gradient(180deg, #34477A, #1F2D57); color: #FFFFFF; font-size: 16.5px; font-weight: 700; box-shadow: 0 10px 22px rgba(31, 45, 87, .28), inset 0 1px 0 rgba(255, 255, 255, .18); }
 .lg-save svg { width: 22px; height: 22px; }
 .lguide .lr-back { width: 38px; height: 38px; margin: 3px; border-radius: 50%; background: rgba(255, 252, 246, .78); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: 0 2px 8px rgba(60, 45, 20, .1); }
+
+/*PRAYW*/
+.sheet.pw { background: linear-gradient(180deg, #F3E9F0 0%, #FBEBDD 22%, #FCF3EA 46%, #F8F1EE 75%, #F1EDF4 100%); }
+.sheet.pw .sheet-head { background: rgba(250, 240, 236, .72); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.sheet.pw .sheet-head .x { background: rgba(255, 255, 255, .55); }
+.pw-head { position: relative; text-align: center; padding: 6px 0 8px; }
+.pw-head::before { content: ""; position: absolute; left: 50%; top: -40px; width: 320px; height: 220px; transform: translateX(-50%); background: radial-gradient(closest-side, rgba(255, 214, 150, .55), rgba(255, 214, 150, 0)); pointer-events: none; }
+.pw-head h1 { position: relative; margin: 0; font-family: var(--font-serif); font-size: 30px; font-weight: 700; letter-spacing: -.02em; color: #1F2D57; }
+.pw-swash { position: relative; display: block; width: 130px; height: 8px; margin: 8px auto 12px; background: radial-gradient(50% 100% at 50% 50%, #D9A863 0, #D9A863 30%, rgba(217, 168, 99, 0) 100%) center / 100% 3px no-repeat; }
+.pw-head p { position: relative; margin: 0; font-family: var(--font-serif); font-size: 15.5px; line-height: 1.6; color: #2B3252; }
+.sheet.pw .field.pw-card { padding: 16px 16px 16px; border-radius: 22px; background: rgba(255, 255, 255, .5); border: 1px solid rgba(255, 255, 255, .8); box-shadow: 0 8px 24px rgba(150, 110, 90, .08), inset 0 1px 0 rgba(255, 255, 255, .9); }
+.sheet.pw .field.pw-card > span { font-family: var(--font-serif); font-size: 17px; font-weight: 700; color: #1F2D57; margin-bottom: 10px; }
+.sheet.pw .field.pw-card > span small { font-family: var(--font); font-size: 12.5px; font-weight: 400; color: #6B6680; margin-left: 4px; }
+.sheet.pw .pw-card .input { border: 1px solid #EADFD6; border-radius: 16px; background: rgba(255, 255, 255, .78); color: #1F2D57; box-shadow: inset 0 1px 2px rgba(120, 90, 60, .05); }
+.sheet.pw .pw-card select.input { font-weight: 600; }
+.sheet.pw .pw-card .input::placeholder { color: #A59C99; }
+.sheet.pw .pw-card .input:focus { outline: 0; border-color: #D9A863; background: #FFFFFF; }
+.sheet.pw .pw-card textarea.input { min-height: 120px; line-height: 1.65; }
+.sheet.pw .pw-card .chips { gap: 8px; }
+.sheet.pw .pw-card .chip { padding: 8px 16px; font-size: 14px; color: #2B3252; background: rgba(255, 255, 255, .8); border: 1px solid #EFE4DA; box-shadow: 0 2px 6px rgba(150, 110, 90, .07); }
+.sheet.pw .pw-card .chip[aria-pressed="true"] { background: #FFF3DF; border-color: #D9A863; color: #8A5A17; font-weight: 700; box-shadow: 0 0 0 1px #D9A863 inset; }
+.sheet.pw .pw-guide { padding: 12px 16px; border-radius: 16px; background: rgba(247, 236, 214, .6); color: #5D5566; font-size: 13px; line-height: 1.6; }
+.sheet.pw .checks { justify-content: center; gap: 10px 30px; padding: 4px 0; }
+.sheet.pw .check { font-size: 15.5px; font-weight: 600; color: #1F2D57; }
+.sheet.pw .check.urgent { color: #C23A2B; }
+.sheet.pw .check input { width: 20px; height: 20px; margin-top: 0; accent-color: #24346A; }
+.sheet.pw .pw-send { display: flex; align-items: center; justify-content: center; gap: 10px; width: 88%; height: 58px; margin: 4px auto 0; border-radius: 999px; background: linear-gradient(180deg, #34477A, #1F2D57); font-family: var(--font-serif); font-size: 18px; font-weight: 700; box-shadow: 0 12px 24px rgba(31, 45, 87, .28), inset 0 1px 0 rgba(255, 255, 255, .18); }
+.sheet.pw .pw-send svg { width: 22px; height: 22px; }
+.sheet.pw .pw-card .input, .sheet.pw .pw-guide, .sheet.pw .check, .sheet.pw .pw-card .chip { font-family: var(--font-serif); }
+.sheet.pw .field.pw-inline { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 14px; padding: 10px 10px 10px 18px; }
+.sheet.pw .field.pw-inline > span { margin: 0; padding-right: 14px; border-right: 1px solid #E6D9CF; white-space: nowrap; }
+.sheet.pw .field.pw-inline .input { min-width: 0; }
 </style>
 
 <div class="app">
@@ -3491,6 +3523,19 @@ body.is-closet .mnote2 { margin-top: 6px; }
       '<div class="checks"><label class="check"><input type="checkbox" id="wAnon"' + (cfg[3] ? ' checked' : '') + '> 익명으로 올리기</label>') +
       (boardName === 'pray' ? '<label class="check urgent"><input type="checkbox" id="wUrgent"' + (preset && preset.urgent ? ' checked' : '') + '> 긴급기도 요청</label>' : '') + (boardName === 'concern' ? '' : '</div>') +
       '<button class="btn block" data-submit="' + boardName + '"' + (preset && preset.itemId ? ' data-item="' + preset.itemId + '"' : '') + (preset && preset.roomId ? ' data-room-id="' + preset.roomId + '"' : '') + '>올리기</button>');
+    if (boardName === 'pray') prayWriteSkin(preset);
+  }
+  // 기도 요청 화면: 노을빛 하늘 색감, 반투명 카드
+  function prayWriteSkin(preset) {
+    var sh = el('sheet'), bd = el('sheetBody'); if (!sh || !bd) return;
+    sh.classList.add('full', 'pw');
+    var hd = el('sheetHead').querySelector('h2'); if (hd) hd.textContent = '';
+    bd.insertAdjacentHTML('afterbegin', '<div class="pw-head"><h1>기도 요청하기</h1><i class="pw-swash" aria-hidden="true"></i><p>함께 중보기도가 필요한 내용을<br>남겨주세요.</p></div>');
+    var lab = function (id, t) { var n = el(id); n = n && n.closest('.field'); if (n) { var sp = n.querySelector(':scope > span'); if (sp) sp.innerHTML = t; n.classList.add('pw-card'); } };
+    lab('wCat', '기도 유형'); lab('wTitle', '기도 제목'); ['wCat', 'wTitle'].forEach(function (id) { var n = el(id); n = n && n.closest('.field'); if (n) n.classList.add('pw-inline'); }); lab('wTags', '기도 주제 <small>하나를 골라 주세요</small>'); lab('wBody', '기도 내용');
+    var g = bd.querySelector('.guide-line'); if (g) g.classList.add('pw-guide');
+    var b = bd.querySelector('[data-submit="pray"]'); if (b) { b.classList.add('pw-send'); b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 2.8 2.8 10.4l7.1 3.1 3.1 7.7 8.5-18.4z"/><path d="m21.5 2.8-11.6 10.7"/></svg>기도 요청 올리기'; }
+    var w = el('wBody'); if (w) w.placeholder = '상황과 구체적인 기도 제목을 적어주세요.\n함께 기도할 수 있도록 자세히 적어주시면 좋아요.';
   }
 
   function addItem(id) {
