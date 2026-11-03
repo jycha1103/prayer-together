@@ -1233,6 +1233,35 @@ body.is-closet::after { content: ""; position: fixed; z-index: -1; left: -10%; r
 .mn-t2 { min-height: 156px; padding: 12px 18px 6px; line-height: 30px; font-family: "MaruBuri", var(--font-display); font-size: 15px; background: repeating-linear-gradient(to bottom, transparent 0, transparent 29px, rgba(120, 100, 140, .28) 29px, rgba(120, 100, 140, .28) 30px) 0 12px / 100% 30px local; background-origin: padding-box; }
 .mn-box { position: relative; }
 .mn-box::before { content: ""; position: absolute; left: 12px; top: 0; height: 168px; width: 1px; background: rgba(214, 140, 140, .35); pointer-events: none; }
+
+/*CLSCENE*/
+body.is-closet::before { background: linear-gradient(180deg, #212B4C 0%, #2E3A62 40%, #464F76 70%, #464F76 100%); }
+body.is-closet::after { display: none; }
+.cl-scene { position: relative; margin: -4px -16px 0; aspect-ratio: 1024 / 1240; max-width: none; background: url(closet-bg.webp) center top / 100% 100% no-repeat; container-type: inline-size; overflow: hidden; }
+.cl-scene .cl-head { position: absolute; left: 0; right: 0; top: 3.2%; margin: 0; }
+.cl-scene .cl-title { font-size: 6.4cqw; letter-spacing: .05em; color: #F7EFE2; text-shadow: 0 0 2.4cqw rgba(255, 220, 170, .35); }
+.cl-scene .cl-head p { margin-top: 1.4cqw; font-size: 3.1cqw; color: rgba(247, 239, 226, .92); }
+.cl-scene .clw2 { position: absolute; inset: 0; display: block; }
+.cl-scene .cl-circ { position: absolute; left: 49.6%; top: 40%; width: 51cqw; height: 51cqw; transform: translate(-50%, -50%); }
+.cl-scene .cl-circ::before { inset: 0; background: radial-gradient(circle at 50% 40%, rgba(58, 68, 110, .62), rgba(36, 46, 84, .72) 70%); box-shadow: 0 0 0 1.5px rgba(255, 236, 210, .55), 0 0 2.6cqw rgba(255, 200, 140, .45), inset 0 0 3cqw rgba(255, 220, 180, .12); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
+.cl-scene .cl-ring { inset: -6.1%; width: 112.2%; height: 112.2%; }
+.cl-scene .cl-in { padding: 0 0 1cqw; gap: .4cqw; }
+.cl-scene .cl-hands { width: 8.6cqw; height: 7.2cqw; margin-bottom: 1.2cqw; color: #F4D3A0; }
+.cl-scene .cl-lb { font-size: 2.6cqw; margin-bottom: -.6cqw; }
+.cl-scene .cl-time { font-size: 12.6cqw; margin-bottom: 2.6cqw; letter-spacing: .02em; }
+.cl-scene .cl-bt { height: 7.4cqw; min-width: 29.5cqw; padding: 0 4cqw; font-size: 3.6cqw; gap: 2.4cqw; box-shadow: 0 0 2.4cqw rgba(255, 210, 150, .45), inset 0 1px 0 rgba(255, 255, 255, .8); }
+.cl-scene .cl-bt .cl-play { border-width: 1.5cqw 0 1.5cqw 2.4cqw; }
+.cl-scene .cl-bt .cl-pause { width: 2.4cqw; height: 2.8cqw; border-left-width: .8cqw; border-right-width: .8cqw; }
+.cl-scene .sw-skip { position: absolute; left: 50%; top: 62.4%; transform: translateX(-50%); margin: 0; font-size: 3cqw; white-space: nowrap; color: rgba(247, 232, 210, .85); }
+.cl-scene .cl-mus { position: absolute; left: 50%; top: 86.8%; transform: translate(-50%, -50%); margin: 0; width: 44.4cqw; height: 8.7cqw; padding: 0 2cqw 0 4.5cqw; gap: 0; justify-content: space-between; background: rgba(46, 56, 96, .38); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .32), 0 0 2.4cqw rgba(20, 25, 60, .2); }
+.cl-scene .cl-mn { display: flex; align-items: center; gap: 4cqw; min-width: 0; flex: 1; border: 0; background: none; color: #F4ECE0; padding: 0; }
+.cl-scene .cl-mn svg { width: 4.4cqw; height: 4.4cqw; }
+.cl-scene .cl-mn b { font-size: 3.4cqw; font-weight: 400; letter-spacing: .04em; max-width: 24cqw; }
+.cl-scene .cl-sep { height: 3.6cqw; margin: 0 4cqw 0 2cqw; }
+.cl-scene .cl-pb { width: 7cqw !important; height: 7cqw !important; }
+.cl-scene .cl-play.sm { border-width: 1.7cqw 0 1.7cqw 2.8cqw; border-color: transparent transparent transparent #F4ECE0; }
+.cl-scene .cl-pause.sm { width: 2.6cqw; height: 3cqw; border-left-width: .9cqw; border-right-width: .9cqw; }
+body.is-closet .mnote2 { margin-top: 6px; }
 </style>
 
 <div class="app">
@@ -2927,9 +2956,8 @@ body.is-closet::after { content: ""; position: fixed; z-index: -1; left: -10%; r
     if (done) h += '<button class="cl-bt" data-act="cl-add">+ 시간 더하기</button></div></div><button class="sw-skip" data-act="cl-skip">더하지 않고 지우기</button>';
     else h += '<button class="cl-bt' + (run ? ' stop' : '') + '" data-act="' + (run ? 'cl-stop' : 'cl-start') + '">' + (run ? '<i class="cl-pause"></i>기도 끝내기' : '<i class="cl-play"></i>기도 시작') + '</button></div></div>';
     var song = MUSIC.find(function (m) { return m[0] === bgmId; });
-    h += '<div class="cl-mus"><span class="cl-mn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5.5l11-2V16"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg><b>' + (song ? esc(song[1]) : '기도 음악') + '</b></span><i class="cl-sep"></i>' +
-      (song ? '<button data-act="music-off" aria-label="음악 멈추기"><i class="cl-pause sm"></i></button>' : '<button data-song="' + (bgmLast || MUSIC[0][0]) + '" aria-label="음악 틀기"><i class="cl-play sm"></i></button>') +
-      '<button data-act="cl-music" aria-label="음악 고르기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 6h10M4 12h10M4 18h7M18 5v8M15.5 10.5 18 13l2.5-2.5"/></svg></button></div>';
+    h += '<div class="cl-mus"><button class="cl-mn" data-act="cl-music" aria-label="찬양 고르기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5.5l11-2V16"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg><b>' + (song ? esc(song[1]) : '기도 음악') + '</b></button><i class="cl-sep"></i>' +
+      (song ? '<button class="cl-pb" data-act="music-off" aria-label="음악 멈추기"><i class="cl-pause sm"></i></button>' : '<button class="cl-pb" data-song="' + (bgmLast || MUSIC[0][0]) + '" aria-label="음악 틀기"><i class="cl-play sm"></i></button>') + '</div>';
     return h;
   }
   var mnRec = null;
@@ -2945,8 +2973,8 @@ body.is-closet::after { content: ""; position: fixed; z-index: -1; left: -10%; r
   }
   function vCloset() {
     var t = today(), dt = new Date(t + 'T00:00:00'), dl = dt.getFullYear() + '. ' + pad(dt.getMonth() + 1) + '. ' + pad(dt.getDate()) + '. (' + '일월화수목금토'[dt.getDay()] + ')';
-    return '<div class="cl-win" aria-hidden="true"></div><div class="cl-head"><h1 class="cl-title">골방 기도</h1><p>주님과 단둘이, 깊이 기도하는 시간</p></div>' +
-      '<div class="clw2" id="sw">' + swInner() + '</div>' +
+    return '<div class="cl-scene"><div class="cl-head"><h1 class="cl-title">골방 기도</h1><p>주님과 단둘이, 깊이 기도하는 시간</p></div>' +
+      '<div class="clw2" id="sw">' + swInner() + '</div></div>' +
       '<div class="mnote2"><div class="mn-h"><svg class="mn-quill" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 28c4-8 10-15 22-23-1 7-5 12-10 14l-4 1 3 1c-3 3-7 5-11 7zM5 28l9-10"/></svg><b>오늘의 묵상 노트</b>' +
       '<button class="mn-date" data-act="notes" aria-label="지난 묵상 노트 보기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><span>' + dl + '</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></button></div>' +
       '<div class="mn-box"><textarea class="mn-t2" id="mNote" aria-label="묵상 노트" placeholder="오늘 주신 말씀과 마음, 드린 기도를 기록해 보세요.">' + esc(notesObj()[t] || '') + '</textarea>' +
