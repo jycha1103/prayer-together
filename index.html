@@ -1178,6 +1178,54 @@ body.sub-bg::before { content: ""; position: fixed; inset: -8%; z-index: -1; bac
 .tr-ch .chart-x .today { color: #14213F; font-weight: 700; }
 .tr-ft { font-size: 12.5px; color: #7A7080; text-align: center; padding-top: 2px; }
 .tr-ft b { color: #14213F; }
+
+/*CLOSET2*/
+body.is-closet { background: transparent; }
+body.is-closet::before { content: ""; position: fixed; inset: 0; z-index: -1; background: radial-gradient(120% 55% at 30% 78%, rgba(240, 210, 200, .55), rgba(240, 210, 200, 0) 60%), linear-gradient(180deg, #1D2A4D 0%, #2B3A66 30%, #3E4877 52%, #6A6890 72%, #9590AE 100%); }
+body.is-closet::after { content: ""; position: fixed; z-index: -1; left: -10%; right: 0; top: 34%; height: 30%; background: linear-gradient(200deg, rgba(255, 220, 180, 0) 30%, rgba(255, 214, 170, .22) 55%, rgba(255, 220, 180, 0) 80%); transform: skewY(-14deg); filter: blur(6px); pointer-events: none; }
+.cl-win { position: absolute; right: -16px; top: 34px; width: 112px; height: 284px; background: url(closet-win.webp) right top / contain no-repeat; pointer-events: none; z-index: 0; }
+#view:has(.cl-win) { position: relative; }
+.cl-head { position: relative; z-index: 1; text-align: center; margin: 22px 0 18px; color: #F6EEDF; }
+.cl-title { margin: 0; font-family: "MaruBuri", var(--font-display); font-size: 31px; font-weight: 700; letter-spacing: .06em; color: #F9F1E2; text-shadow: 0 2px 14px rgba(255, 220, 170, .25); }
+.cl-head p { margin: 6px 0 0; font-family: "MaruBuri", var(--font-display); font-size: 14px; color: rgba(246, 238, 223, .88); letter-spacing: .01em; }
+.clw2 { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; color: #FFFFFF; }
+.cl-circ { position: relative; width: 232px; height: 232px; }
+.cl-circ::before { content: ""; position: absolute; inset: 14px; border-radius: 50%; background: radial-gradient(circle at 50% 30%, rgba(52, 64, 108, .92), rgba(28, 38, 72, .95) 70%); box-shadow: 0 0 0 1px rgba(255, 230, 190, .18), inset 0 2px 18px rgba(255, 255, 255, .06), 0 0 40px rgba(255, 210, 150, .18); }
+.cl-ring { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.cl-in { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
+.cl-hands { width: 50px; height: 42px; color: #F2CE94; margin-bottom: 2px; }
+.cl-lb { font-size: 12px; color: rgba(246, 230, 205, .8); letter-spacing: .04em; }
+.cl-time { font-family: "MaruBuri", var(--font-display); font-size: 50px; font-weight: 400; line-height: 1.1; letter-spacing: .01em; font-variant-numeric: tabular-nums; color: #FFFFFF; margin-bottom: 10px; }
+.cl-bt { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-width: 150px; height: 42px; padding: 0 22px; border: 0; border-radius: 999px; background: linear-gradient(180deg, #FDF0D6, #F1CF95); color: #1B2648; font-size: 16px; font-weight: 700; box-shadow: 0 6px 18px rgba(240, 190, 120, .35), inset 0 1px 0 rgba(255, 255, 255, .8); }
+.cl-bt.stop { background: rgba(255, 255, 255, .14); color: #FFF4E2; box-shadow: inset 0 0 0 1px rgba(255, 230, 190, .5); }
+.cl-play { width: 0; height: 0; border-style: solid; border-width: 7.5px 0 7.5px 12px; border-color: transparent transparent transparent currentColor; }
+.cl-play.sm { border-width: 8px 0 8px 13px; }
+.cl-pause { width: 12px; height: 14px; border-left: 4px solid currentColor; border-right: 4px solid currentColor; }
+.cl-pause.sm { width: 13px; height: 15px; }
+.clw2 .sw-skip { margin-top: 8px; color: rgba(246, 230, 205, .75); }
+.cl-mus { display: flex; align-items: center; gap: 4px; margin-top: 22px; height: 52px; padding: 0 8px 0 20px; border-radius: 999px; background: rgba(40, 50, 90, .45); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .22), 0 6px 18px rgba(10, 15, 40, .2); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); color: #F4ECE0; max-width: 100%; }
+.cl-mn { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.cl-mn svg { width: 22px; height: 22px; flex: none; color: #F2CE94; }
+.cl-mn b { font-size: 14.5px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; }
+.cl-sep { width: 1px; height: 22px; background: rgba(255, 255, 255, .25); margin: 0 10px; flex: none; }
+.cl-mus button { width: 42px; height: 42px; border: 0; background: none; color: #F4ECE0; display: grid; place-items: center; flex: none; }
+.cl-mus button svg { width: 22px; height: 22px; }
+.mnote2 { position: relative; z-index: 1; margin-top: 24px; border-radius: 22px; padding: 14px 12px 12px; background: linear-gradient(180deg, rgba(235, 228, 240, .55), rgba(246, 230, 226, .62)); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .55), 0 10px 30px rgba(20, 20, 50, .15); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+.mn-h { display: flex; align-items: center; gap: 8px; padding: 0 4px 10px; }
+.mn-quill { width: 30px; height: 30px; color: #E7B985; flex: none; }
+.mn-h b { flex: 1; min-width: 0; font-size: 16px; font-weight: 700; color: #1B2648; white-space: nowrap; }
+.mn-date { display: flex; align-items: center; gap: 5px; flex: none; height: 32px; padding: 0 9px; border: 0; border-radius: 999px; background: rgba(255, 255, 255, .55); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .7); color: #2A3550; font-family: "MaruBuri", var(--font-display); font-size: 12px; font-variant-numeric: tabular-nums; }
+.mn-date svg { width: 15px; height: 15px; }
+.mn-box { border-radius: 18px; background: rgba(255, 255, 255, .35); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .6); overflow: hidden; }
+.mn-t2 { display: block; width: 100%; min-height: 130px; border: 0; outline: 0; resize: vertical; padding: 14px 16px; background: none; font-family: var(--font-body); font-size: 14.5px; line-height: 1.7; color: #2A2F45; }
+.mn-t2::placeholder { color: rgba(60, 60, 80, .55); }
+.mn-bar { display: flex; align-items: center; gap: 2px; margin: 0 8px 8px; padding: 6px 6px 6px 12px; border-radius: 999px; background: rgba(255, 255, 255, .45); border-top: 1px solid rgba(255, 255, 255, .5); }
+.mn-bar > button:not(.mn-save) { display: flex; align-items: center; gap: 6px; border: 0; background: none; color: #2A3550; font-size: 13px; padding: 6px 2px; white-space: nowrap; }
+.mn-bar > button svg { width: 20px; height: 20px; flex: none; }
+.mn-bar .cl-sep { background: rgba(60, 60, 90, .2); margin: 0 8px; }
+.mn-voice.on { color: #C24D4D !important; }
+.mn-save { margin-left: auto; display: flex; align-items: center; gap: 6px; height: 38px; padding: 0 16px; border: 0; border-radius: 999px; background: #1F2D55; color: #FFFFFF; font-size: 14px; font-weight: 600; box-shadow: 0 4px 12px rgba(20, 30, 70, .3); }
+.mn-save svg { width: 17px; height: 17px; }
 </style>
 
 <div class="app">
@@ -2856,25 +2904,53 @@ body.sub-bg::before { content: ""; position: fixed; inset: -8%; z-index: -1; bac
   function notesObj() { return S.notes = S.notes || {}; }
   var MUSIC = [['still-waters', '고요한 물가', '맑은 피아노가 물결처럼 흘러요'], ['amazing-grace', '나 같은 죄인 살리신', '옛 찬송가 가락을 느린 피아노로'], ['dawn', '새벽 기도', '드문드문 울리는 조용한 건반'], ['river-of-grace', '은혜의 강', '조금 더 흐름이 있는 따뜻한 연주'], ['holy-rest', '거룩한 쉼', '길게 깔리는 소리 위에 천천히'], ['quiet-waiting', '잔잔한 기다림', '드문드문 놓이는 건반, 고요히 기다리며'], ['into-the-light', '빛 가운데로', '밝게 흐르는 건반 소리'], ['thanksgiving', '감사의 노래', '따뜻하게 이어지는 감사의 연주'], ['deep-meditation', '깊은 묵상', '느리고 낮게, 말씀을 곱씹으며'], ['peace', '평안', '가장 느린 곡, 잠들기 전에도 좋아요']];
   var bgm = null, bgmId = '';
+  var bgmLast = '';
+  function swArc() {
+    var c = S.closet, run = c && c.start && !c.end, done = c && c.end, ms = clMs(), RR = 116, CC = 2 * Math.PI * RR;
+    var fr = run || done ? Math.max(.004, (ms / 60000 % 60) / 60) : .17, ang = fr * 2 * Math.PI - Math.PI / 2;
+    return '<circle cx="130" cy="130" r="' + RR + '" fill="none" stroke="url(#clg)" stroke-width="5" stroke-linecap="round" stroke-dasharray="' + (fr * CC).toFixed(1) + ' ' + CC.toFixed(1) + '" transform="rotate(-90 130 130)" filter="url(#clgl)"/>' +
+      '<circle cx="' + (130 + RR * Math.cos(ang)).toFixed(1) + '" cy="' + (130 + RR * Math.sin(ang)).toFixed(1) + '" r="7" fill="#FCE7C0" filter="url(#clgl)"/>';
+  }
   function swInner() {
-    var c = S.closet, run = c && c.start && !c.end, done = c && c.end, song = MUSIC.find(function (m) { return m[0] === bgmId; });
-    var h = '<div class="sw-l">' + (run ? '기도하는 중이에요' : done ? '오늘 드린 기도' : '문을 닫고 주님과 마주하는 시간') + '</div><div class="sw-t" id="swT">' + fmtClock(clMs()) + '</div>';
-    if (done) h += '<div class="sw-res"><span>기도한 시간<b>' + fmtMin(clMin()) + '</b></span><button data-act="cl-add">+ 오늘 기도 시간에 더하기</button></div><button class="sw-skip" data-act="cl-skip">더하지 않고 지우기</button>';
-    else h += '<button class="sw-bt' + (run ? ' stop' : '') + '" data-act="' + (run ? 'cl-stop' : 'cl-start') + '">' + (run ? '기도 끝내기' : '기도 시작하기') + '</button>';
-    return h + '<div><button class="sw-mus" data-act="' + (song ? 'music-off' : 'cl-music') + '">' + (song ? '🔇 찬양 Off' : '🎵 찬양 On') + '</button></div>' + (song ? '<div class="sw-now">' + esc(song[1]) + ' 듣는 중</div>' : '');
+    var c = S.closet, run = c && c.start && !c.end, done = c && c.end;
+    var HANDS = '<svg class="cl-hands" viewBox="0 0 48 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22.4 11.2c-1.6 1.6-2.8 4-2.8 7.2v8.8l-6.6 6.6h7.4l4-4M25.6 11.2c1.6 1.6 2.8 4 2.8 7.2v8.8l6.6 6.6h-7.4l-4-4M22.4 11.2c.8-.8 2.4-.8 3.2 0M24 12v17"/><path d="M24 2v4M16.5 4.5l2 3M31.5 4.5l-2 3M11 9.5l3 1.8M37 9.5l-3 1.8"/></svg>';
+    var h = '<div class="cl-circ"><svg class="cl-ring" viewBox="0 0 260 260" aria-hidden="true"><defs><linearGradient id="clg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF3D6"/><stop offset="1" stop-color="#F2C27A"/></linearGradient><filter id="clgl" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>' +
+      '<circle cx="130" cy="130" r="116" fill="none" stroke="rgba(255,226,180,.55)" stroke-width="1.4"/><g id="swArc">' + swArc() + '</g></svg>' +
+      '<div class="cl-in">' + HANDS + (done ? '<div class="cl-lb">오늘 드린 기도</div>' : run ? '<div class="cl-lb">기도하는 중</div>' : '') + '<div class="cl-time" id="swT">' + fmtClock(clMs()) + '</div>';
+    if (done) h += '<button class="cl-bt" data-act="cl-add">+ 기도 시간에 더하기</button></div></div><button class="sw-skip" data-act="cl-skip">더하지 않고 지우기</button>';
+    else h += '<button class="cl-bt' + (run ? ' stop' : '') + '" data-act="' + (run ? 'cl-stop' : 'cl-start') + '">' + (run ? '<i class="cl-pause"></i>기도 끝내기' : '<i class="cl-play"></i>기도 시작') + '</button></div></div>';
+    var song = MUSIC.find(function (m) { return m[0] === bgmId; });
+    h += '<div class="cl-mus"><span class="cl-mn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5.5l11-2V16"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg><b>' + (song ? esc(song[1]) : '기도 음악') + '</b></span><i class="cl-sep"></i>' +
+      (song ? '<button data-act="music-off" aria-label="음악 멈추기"><i class="cl-pause sm"></i></button>' : '<button data-song="' + (bgmLast || MUSIC[0][0]) + '" aria-label="음악 틀기"><i class="cl-play sm"></i></button>') +
+      '<button data-act="cl-music" aria-label="음악 고르기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 6h10M4 12h10M4 18h7M18 5v8M15.5 10.5 18 13l2.5-2.5"/></svg></button></div>';
+    return h;
+  }
+  var mnRec = null;
+  function mnVoice(b) {
+    var R = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!R) return toast('이 기기에서는 음성 입력이 안 돼요. 키보드의 마이크 버튼을 눌러 보세요');
+    if (mnRec) { mnRec.stop(); return; }
+    mnRec = new R(); mnRec.lang = 'ko-KR'; mnRec.interimResults = false; mnRec.continuous = true;
+    mnRec.onresult = function (e) { var t = ''; for (var i = e.resultIndex; i < e.results.length; i++) if (e.results[i].isFinal) t += e.results[i][0].transcript; var ta = el('mNote'); if (ta && t) { ta.value = (ta.value ? ta.value.replace(/\s*$/, ' ') : '') + t.trim(); noteKeep(ta.value); } };
+    mnRec.onend = function () { mnRec = null; var x = document.querySelector('.mn-voice'); if (x) x.classList.remove('on'); };
+    mnRec.onerror = function () { toast('음성을 알아듣지 못했어요. 다시 눌러 주세요'); };
+    try { mnRec.start(); b.classList.add('on'); toast('듣고 있어요. 말씀해 주세요'); } catch (e) { mnRec = null; }
   }
   function vCloset() {
-    var t = today();
-    return '<div class="page-head"><h1 class="page-title">골방 기도</h1><button class="btn sm ghost" data-act="notes">묵상 노트 보기</button></div>' +
-      '<div class="private-note">찬양을 들으며 고요히 기도해 보세요. 주님과 함께한 시간도 차곡차곡 쌓여요.</div>' +
-      '<div class="clw" id="sw">' + swInner() + '</div>' +
-      '<div class="mnote"><div class="mn-d">' + md(t) + ' 묵상 노트</div><textarea class="mn-t" id="mNote" aria-label="묵상 노트" placeholder="오늘 주신 말씀과 마음, 드린 기도를 적어 보세요.">' + esc(notesObj()[t] || '') + '</textarea>' +
-      '<div class="mn-ft"><button class="linkbtn blue" data-act="add-item">+ 내 기도 제목 추가</button><button class="btn sm" data-act="note-save">저장</button></div></div>';
+    var t = today(), dt = new Date(t + 'T00:00:00'), dl = dt.getFullYear() + '. ' + pad(dt.getMonth() + 1) + '. ' + pad(dt.getDate()) + '. (' + '일월화수목금토'[dt.getDay()] + ')';
+    return '<div class="cl-win" aria-hidden="true"></div><div class="cl-head"><h1 class="cl-title">골방 기도</h1><p>주님과 단둘이, 깊이 기도하는 시간</p></div>' +
+      '<div class="clw2" id="sw">' + swInner() + '</div>' +
+      '<div class="mnote2"><div class="mn-h"><svg class="mn-quill" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 28c4-8 10-15 22-23-1 7-5 12-10 14l-4 1 3 1c-3 3-7 5-11 7zM5 28l9-10"/></svg><b>오늘의 묵상 노트</b>' +
+      '<button class="mn-date" data-act="notes" aria-label="지난 묵상 노트 보기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><span>' + dl + '</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 10 5 5 5-5"/></svg></button></div>' +
+      '<div class="mn-box"><textarea class="mn-t2" id="mNote" aria-label="묵상 노트" placeholder="오늘 주신 말씀과 마음, 드린 기도를 기록해 보세요.">' + esc(notesObj()[t] || '') + '</textarea>' +
+      '<div class="mn-bar"><button class="mn-voice" data-act="mn-voice"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg>음성 입력</button><i class="cl-sep"></i>' +
+      '<button data-act="mn-text"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M6 9.5h.01M9 9.5h.01M12 9.5h.01M15 9.5h.01M18 9.5h.01M6 12h.01M9 12h.01M12 12h.01M15 12h.01M18 12h.01M8 15h8"/></svg>텍스트 입력</button>' +
+      '<button class="mn-save" data-act="note-save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>저장</button></div></div></div>';
   }
   var FAB_REQ = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span>기도 요청</span>';
   var FAB_CLOSET = '<span class="cl-t">골방 기도</span>';
   function swRefresh() { if (el('sw')) el('sw').innerHTML = swInner(); }
-  setInterval(function () { var c = S.closet; if (tab === 'closet' && el('swT') && c && c.start && !c.end) el('swT').textContent = fmtClock(clMs()); }, 1000);
+  setInterval(function () { var c = S.closet; if (tab === 'closet' && el('swT') && c && c.start && !c.end) { el('swT').textContent = fmtClock(clMs()); if (el('swArc')) el('swArc').innerHTML = swArc(); } }, 1000);
   var noteTimer = null;
   function noteKeep(v) {
     var n = notesObj(), t = today();
@@ -2907,7 +2983,7 @@ body.sub-bg::before { content: ""; position: fixed; inset: -8%; z-index: -1; bac
     else {
       if (!bgm) { bgm = new Audio(); bgm.loop = true; }
       clearInterval(bgmFadeT);
-      bgm.src = 'music/' + id + '.mp3?v=2'; bgmId = id; logEv('closet-music');
+      bgm.src = 'music/' + id + '.mp3?v=2'; bgmId = id; bgmLast = id; logEv('closet-music');
       try { bgm.volume = 0; } catch (e) {}
       bgmFade(1, 1500);
       var pr = bgm.play(); if (pr && pr.catch) pr.catch(function () { bgmId = ''; swRefresh(); if (el('sheet') && el('sheet').querySelector('.songs')) musicSheet(); toast('찬양을 틀지 못했어요. 인터넷 연결을 확인해 주세요'); });
@@ -2993,6 +3069,7 @@ body.sub-bg::before { content: ""; position: fixed; inset: -8%; z-index: -1; bac
     document.body.classList.toggle('not-home', tab !== 'home');
     document.body.classList.toggle('is-home', tab === 'home');
     document.body.classList.toggle('is-diary', tab === 'diary');
+    document.body.classList.toggle('is-closet', tab === 'closet');
     document.body.classList.toggle('sub-bg', ['home', 'join', 'admin', 'closet'].indexOf(tab) < 0);
 
     document.body.classList.toggle('wvh', tab === 'home' && window.WAVE === true);
@@ -3683,6 +3760,8 @@ body.sub-bg::before { content: ""; position: fixed; inset: -8%; z-index: -1; bac
       case 'cl-add': var clm = clMin(); S.closet = null; logEv('closet-pray'); addTime(today(), clm); return;
       case 'cl-skip': if (!arm(b, '정말 지울까요? 한 번 더 누르세요')) return; S.closet = null; save(); swRefresh(); return toast('기록하지 않았어요');
       case 'cl-music': return musicSheet();
+      case 'mn-voice': return mnVoice(b);
+      case 'mn-text': if (el('mNote')) el('mNote').focus(); return;
       case 'music-off': return playSong('');
       case 'notes': return notesSheet();
       case 'note-save': if (el('mNote')) noteKeep(el('mNote').value); clearTimeout(noteTimer); save(); return toast(notesObj()[today()] ? '묵상 노트를 저장했어요' : '노트가 비어 있어요');
