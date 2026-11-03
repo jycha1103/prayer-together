@@ -2978,7 +2978,7 @@ body.is-closet::after { content: ""; position: fixed; z-index: -1; left: -10%; r
     sheet('골방 기도 찬양', '<div class="small muted">한 곡을 고르면 끝나도 처음부터 다시 흘러요. 다른 화면에 가도 계속 들려요.</div><div class="songs">' + MUSIC.map(function (m) {
       var on = bgmId === m[0];
       return '<button class="song' + (on ? ' on' : '') + '" data-song="' + m[0] + '" aria-pressed="' + on + '"><i>' + (on ? '❚❚' : '▶') + '</i><span><b>' + esc(m[1]) + '</b><small>' + esc(m[2]) + '</small></span></button>';
-    }).join('') + '</div>' + (bgmId ? '<button class="btn block line" data-act="music-off">찬양 끄기</button>' : ''));
+    }).join('') + '</div>' + (bgmId ? '<button class="btn block line" data-act="music-off">찬양 끄기</button>' : '') + '<div class="small muted" style="font-size:11px;opacity:.75">피아노 소리: Salamander Grand Piano V3 (Alexander Holm, CC BY 3.0)</div>');
   }
   // 찬양을 켜고 끌 때 소리가 갑자기 나거나 끊기지 않게 서서히 키우고 줄여요
   var bgmFadeT = null;
@@ -2996,7 +2996,7 @@ body.is-closet::after { content: ""; position: fixed; z-index: -1; left: -10%; r
     else {
       if (!bgm) { bgm = new Audio(); bgm.loop = true; }
       clearInterval(bgmFadeT);
-      bgm.src = 'music/' + id + '.mp3?v=2'; bgmId = id; bgmLast = id; logEv('closet-music');
+      bgm.src = 'music/' + id + '.mp3?v=3'; bgmId = id; bgmLast = id; logEv('closet-music');
       try { bgm.volume = 0; } catch (e) {}
       bgmFade(1, 1500);
       var pr = bgm.play(); if (pr && pr.catch) pr.catch(function () { bgmId = ''; swRefresh(); if (el('sheet') && el('sheet').querySelector('.songs')) musicSheet(); toast('찬양을 틀지 못했어요. 인터넷 연결을 확인해 주세요'); });
