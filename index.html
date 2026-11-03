@@ -1397,30 +1397,6 @@ body.is-closet .mnote2 { margin-top: 6px; }
 .sheet.pw .field.pw-inline { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 14px; padding: 10px 10px 10px 18px; }
 .sheet.pw .field.pw-inline > span { margin: 0; padding-right: 14px; border-right: 1px solid #E6D9CF; white-space: nowrap; }
 .sheet.pw .field.pw-inline .input { min-width: 0; }
-
-/*PRAYV*/
-body.pv-on::before { background: radial-gradient(70% 28% at 50% 0%, rgba(255, 214, 160, .55), transparent 75%), linear-gradient(180deg, #F1E7F1 0%, #FBEADB 24%, #FCF3EA 50%, #F8F1EE 76%, #EEEAF3 100%); }
-body.pv-on .pv-head { text-align: center; padding: 4px 0 2px; }
-body.pv-on .pv-head .page-title { justify-content: center; font-family: var(--font-serif); font-size: 28px; color: #1F2D57; }
-body.pv-on .pv-head .help-q { background: rgba(255, 255, 255, .6); }
-body.pv-on .pv-head .pw-swash { margin: 6px auto 8px; }
-body.pv-on .pv-head p { margin: 0; font-family: var(--font-serif); font-size: 14.5px; color: #4A4560; }
-body.pv-on .pseg { margin: 18px 0 14px; padding: 4px; border: 1px solid rgba(255, 255, 255, .85); border-radius: 999px; background: rgba(255, 255, 255, .5); box-shadow: 0 6px 18px rgba(150, 110, 90, .08); }
-body.pv-on .pseg button { height: 38px; border-radius: 999px; font-family: var(--font-serif); font-size: 13.5px; color: #3A3550; }
-body.pv-on .pseg button[aria-pressed="true"] { color: #FFFFFF; font-weight: 700; background: linear-gradient(180deg, #34477A, #1F2D57); box-shadow: 0 4px 12px rgba(31, 45, 87, .25); }
-body.pv-on .pseg button[aria-pressed="true"]::after { display: none; }
-body.pv-on .pseg button + button::before { background: rgba(120, 100, 90, .18); }
-body.pv-on .search { height: 46px; padding: 0 16px 0 44px; border: 1px solid rgba(255, 255, 255, .85); border-radius: 999px; background: rgba(255, 255, 255, .6) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A28A6A' stroke-width='1.8' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='6.5'/%3E%3Cpath d='m16 16 4 4'/%3E%3C/svg%3E") 16px 50% / 18px no-repeat; font-family: var(--font-serif); font-size: 14px; color: #1F2D57; box-shadow: 0 4px 14px rgba(150, 110, 90, .06); }
-body.pv-on .search::placeholder { color: #A59C99; }
-body.pv-on .post { margin-top: 12px; padding: 18px 18px 14px; border: 1px solid rgba(255, 255, 255, .85); border-radius: 22px; background: rgba(255, 255, 255, .58); box-shadow: 0 8px 24px rgba(150, 110, 90, .09), inset 0 1px 0 rgba(255, 255, 255, .9); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
-body.pv-on .post h3 { margin: 10px 0 5px; font-family: var(--font-serif); font-size: 16.5px; font-weight: 700; color: #1F2D57; letter-spacing: -.02em; }
-body.pv-on .post p { font-size: 13.5px; line-height: 1.6; color: #5A5468; }
-body.pv-on .post .row .tag { padding: 3px 10px; background: rgba(246, 230, 214, .8); color: #8A5A2C; font-weight: 600; }
-body.pv-on .post .row .tag.gold { background: rgba(243, 231, 201, .9); color: #7E5C12; }
-body.pv-on .post .row .ttag { font-family: var(--font-serif); font-size: 13.5px; color: #9A6B1F; }
-body.pv-on .post .row .ttag::before { color: #D2AE72; }
-body.pv-on .post .meta { margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(160, 130, 110, .14); color: #8A8296; }
-body.pv-on .fab:not(.closet) { background: linear-gradient(180deg, #34477A, #1F2D57); box-shadow: 0 0 0 2px #F1D29A, 0 0 0 5px rgba(241, 210, 154, .28), 0 10px 24px rgba(31, 45, 87, .32); font-family: var(--font-serif); }
 </style>
 
 <div class="app">
@@ -2000,7 +1976,7 @@ body.pv-on .fab:not(.closet) { background: linear-gradient(180deg, #34477A, #1F2
 
   function prayHead() {
     var LB = { '개인 중보': '개인 기도' };
-    return '<div class="pv-head"><h1 class="page-title">중보기도</h1><i class="pw-swash" aria-hidden="true"></i><p>얼굴은 몰라도, 같은 마음으로 함께 기도해요</p></div><div class="pseg" role="group" aria-label="게시판">' + ['전체'].concat(CATS).map(function (c) {
+    return '<h1 class="page-title">중보기도</h1><div class="pseg" role="group" aria-label="게시판">' + ['전체'].concat(CATS).map(function (c) {
       return '<button data-cat="' + esc(c) + '" aria-pressed="' + (cat === c) + '">' + esc(LB[c] || c) + '</button>'; }).join('') + '</div>' + dailySec();
   }
   function slotLabel(k) { var h = Math.floor(k / 2), m = k % 2 ? '30' : '00'; return pad(h) + ':' + m; }
@@ -3270,7 +3246,6 @@ body.pv-on .fab:not(.closet) { background: linear-gradient(180deg, #34477A, #1F2
     document.body.classList.toggle('is-diary', tab === 'diary');
     document.body.classList.toggle('is-closet', tab === 'closet');
     document.body.classList.toggle('sub-bg', ['home', 'join', 'admin', 'closet'].indexOf(tab) < 0);
-    document.body.classList.toggle('pv-on', tab === 'pray' && ptab !== 'rooms');
 
     document.body.classList.toggle('wvh', tab === 'home' && window.WAVE === true);
     renderTabs();
