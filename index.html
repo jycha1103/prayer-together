@@ -1268,6 +1268,23 @@ body.is-closet::after { display: none; }
 .cl-scene .cl-play.sm { border-width: 1.7cqw 0 1.7cqw 2.8cqw; border-color: transparent transparent transparent #F4ECE0; }
 .cl-scene .cl-pause.sm { width: 2.6cqw; height: 3cqw; border-left-width: .9cqw; border-right-width: .9cqw; }
 body.is-closet .mnote2 { margin-top: 6px; }
+
+/*LETTER2*/
+.lt-hero { margin: -12px -16px 0; aspect-ratio: 1024 / 424; background: url(letter-hero.webp) center / cover no-repeat; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 20%, #000 80%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 20%, #000 80%, transparent 100%); }
+.lt-cta { position: relative; display: flex; align-items: center; gap: 12px; width: 100%; margin: -6px 0 18px; height: 58px; padding: 0 18px 0 22px; border: 0; border-radius: 999px; background: linear-gradient(180deg, #34477A, #1F2D57); color: #FFFFFF; font-size: 16px; font-weight: 700; letter-spacing: -.02em; box-shadow: 0 0 0 2px #F1D29A, 0 0 0 5px rgba(241, 210, 154, .28), 0 10px 22px rgba(31, 45, 87, .28), inset 0 1px 0 rgba(255, 255, 255, .18); }
+.lt-cta > svg:first-child { width: 28px; height: 28px; flex: none; }
+.lt-cta span { flex: 1; text-align: center; white-space: nowrap; }
+.lt-chev { width: 20px; height: 20px; flex: none; }
+.lt-list { display: flex; flex-direction: column; gap: 12px; }
+.lt-card { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; padding: 18px 16px 18px 20px; border: 0; border-radius: 22px; background: rgba(255, 252, 248, .86); box-shadow: 0 6px 20px rgba(120, 80, 50, .08), inset 0 0 0 1px rgba(255, 255, 255, .9); color: #1B2648; }
+.lt-tx { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.lt-d { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #B07A26; font-variant-numeric: tabular-nums; }
+.lt-d i { font-style: normal; font-size: 11px; font-weight: 600; color: #8A7C6A; background: rgba(176, 122, 38, .1); padding: 1px 7px; border-radius: 999px; }
+.lt-card b { font-size: 17px; font-weight: 700; letter-spacing: -.03em; color: #1B2648; }
+.lt-b { font-size: 13.5px; color: #5E6070; line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.lt-ic { width: 58px; height: 58px; flex: none; border-radius: 50%; display: grid; place-items: center; background: radial-gradient(circle at 45% 40%, #FFF9EF, #FBEBD6); box-shadow: 0 4px 12px rgba(200, 140, 60, .14); }
+.lt-ic svg { width: 32px; height: 24px; }
+.lt-empty { text-align: center; color: #8A7C6A; font-size: 13.5px; padding: 18px 0; }
 </style>
 
 <div class="app">
@@ -2226,13 +2243,17 @@ body.is-closet .mnote2 { margin-top: 6px; }
   }
 
   function vLetters() {
-    var h = '<div class="note">눈 감고 하는 기도가 어려운 날, 하나님께 편지를 써 보세요.</div><button class="btn block" data-act="write-letter">하나님께 기도 편지 쓰기</button>';
+    var ENV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="1.8"/><path d="m3 6 9 7 9-7M3 18.5l7-6M21 18.5l-7-6"/></svg>';
+    var h = '<div class="lt-hero" role="img" aria-label="눈 감고 하는 기도가 어려운 날, 하나님께 편지를 써 보세요."></div>' +
+      '<button class="lt-cta" data-act="write-letter">' + ENV + '<span>하나님께 드리는 기도 편지 쓰기</span><svg class="lt-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>';
     var L = S.letters.slice().sort(function (a, b) { return a.date < b.date ? 1 : -1; });
-    if (!L.length) return h + '<div class="empty">아직 쓴 편지가 없어요.</div>';
+    if (!L.length) return h + '<div class="lt-empty">아직 쓴 편지가 없어요. 첫 편지를 써 보세요.</div>';
+    var HEART = '<svg viewBox="0 0 40 30" aria-hidden="true"><rect x="2" y="3" width="36" height="24" rx="3" fill="#FFF6E4" stroke="#E2A94A" stroke-width="2"/><path d="M3 5l17 13L37 5" fill="none" stroke="#E2A94A" stroke-width="2" stroke-linejoin="round"/><path d="M20 21.5s-5-3-5-6.3a2.6 2.6 0 0 1 5-1 2.6 2.6 0 0 1 5 1c0 3.3-5 6.3-5 6.3z" fill="#E59A3C"/></svg>';
+    h += '<div class="lt-list">';
     L.forEach(function (l) {
-      h += '<button class="post" data-letter="' + l.id + '"><span class="tag gold">' + md(l.date) + '</span> ' + (l.parts ? '<span class="tag">순서대로 쓴 편지</span>' : '') + exampleTag(l) + '<h3>' + esc(l.verse || '기도 편지') + '</h3><p>' + esc(l.body) + '</p></button>';
+      h += '<button class="lt-card" data-letter="' + l.id + '"><span class="lt-tx"><span class="lt-d">' + md(l.date) + (l.parts ? '<i>순서대로 쓴 편지</i>' : '') + exampleTag(l) + '</span><b>' + esc(l.verse || '기도 편지') + '</b><span class="lt-b">' + esc(l.body) + '</span></span><span class="lt-ic">' + HEART + '</span></button>';
     });
-    return h;
+    return h + '</div>';
   }
 
   // ---------- 기도 캘린더 ----------
