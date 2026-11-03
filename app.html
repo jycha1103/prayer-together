@@ -1330,6 +1330,35 @@ body.is-closet .mnote2 { margin-top: 6px; }
 
 .lp-art { position: absolute; left: 0; right: 0; bottom: 0; aspect-ratio: var(--lp-ar, .6); background: var(--lp-img) center bottom / 100% auto no-repeat; pointer-events: none; }
 .lp-art::before { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 9%; background: linear-gradient(var(--lp-c), transparent); }
+
+/*LGUIDE*/
+.lguide { background: #F8F2EA; }
+.lguide .lr-top { position: absolute; top: 0; left: 0; right: 0; z-index: 2; }
+.lg-scroll { position: relative; flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: calc(44px + env(safe-area-inset-top, 0px)) 18px calc(28px + env(safe-area-inset-bottom, 0px)); background: radial-gradient(120% 40% at 30% 0%, rgba(255, 228, 190, .55), transparent 70%), radial-gradient(90% 30% at 80% 100%, rgba(205, 210, 230, .35), transparent 70%); }
+.lg-face { position: absolute; left: -38px; top: 8px; width: 210px; height: 210px; background: url(letter-face.webp) center / contain no-repeat; opacity: .62; pointer-events: none; }
+.lg-leaf { position: absolute; right: -6px; top: 34px; width: 150px; height: 100px; background: url(letters/leafTR.webp) right top / contain no-repeat; opacity: .85; pointer-events: none; }
+.lg-leaf2 { display: block; height: 70px; margin: 6px -18px 0; background: url(letters/leafTR.webp) left bottom / auto 70px no-repeat; transform: scale(-1, -1); opacity: .6; pointer-events: none; }
+.lg-head { position: relative; text-align: center; padding: 34px 0 10px; }
+.lg-env { width: 46px; height: 34px; display: block; margin: 0 auto 6px; }
+.lg-head h1 { margin: 0; font-family: var(--font-display); font-size: 27px; font-weight: 700; color: #1F2D57; letter-spacing: -.02em; }
+.lg-div { position: relative; width: 170px; height: 12px; margin: 8px auto 6px; background: linear-gradient(90deg, transparent, #D9B77A 30%, #D9B77A 70%, transparent) center / 100% 1px no-repeat; }
+.lg-div i { position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; background: #D9A863; transform: translate(-50%, -50%) rotate(45deg); }
+.lg-head p { margin: 0; font-size: 14.5px; color: #4A4A55; }
+.lg-date { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 5px 12px; border: 1px solid #E6DCCB; border-radius: 999px; background: rgba(255, 255, 255, .6); color: #6B6152; font-size: 13px; }
+.lg-date svg { width: 15px; height: 15px; }
+.lg-date input { border: 0; background: transparent; font: inherit; color: inherit; padding: 0; }
+.lg-q { display: block; margin-top: 22px; }
+.lg-qh { display: flex; align-items: center; gap: 12px; margin-bottom: 9px; }
+.lg-qh i { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: radial-gradient(circle, #FBEFDD, #F3E4CC); color: #B07A30; }
+.lg-qh i svg { width: 24px; height: 24px; }
+.lg-qh b { font-size: 15.5px; font-weight: 600; line-height: 1.45; color: #1F2D57; word-break: keep-all; }
+.lg-q textarea { display: block; width: 100%; box-sizing: border-box; min-height: 74px; resize: vertical; padding: 13px 15px; border: 1px solid #E4DCD0; border-radius: 16px; background: rgba(255, 255, 255, .55); font: inherit; font-size: 15px; line-height: 1.6; color: var(--ink); box-shadow: inset 0 1px 2px rgba(80, 60, 30, .04); }
+.lg-q textarea::placeholder { color: #A39A8C; }
+.lg-q textarea:focus { outline: 0; border-color: #C9A56B; background: rgba(255, 255, 255, .85); }
+.lg-note { text-align: center; margin: 18px 0 14px; }
+.lg-save { display: flex; align-items: center; justify-content: center; gap: 10px; width: 86%; height: 56px; margin: 0 auto; border: 0; border-radius: 999px; background: linear-gradient(180deg, #34477A, #1F2D57); color: #FFFFFF; font-size: 16.5px; font-weight: 700; box-shadow: 0 10px 22px rgba(31, 45, 87, .28), inset 0 1px 0 rgba(255, 255, 255, .18); }
+.lg-save svg { width: 22px; height: 22px; }
+.lguide .lr-back { width: 38px; height: 38px; margin: 3px; border-radius: 50%; background: rgba(255, 252, 246, .78); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: 0 2px 8px rgba(60, 45, 20, .1); }
 </style>
 
 <div class="app">
@@ -3533,12 +3562,24 @@ body.is-closet .mnote2 { margin-top: 6px; }
       '<button class="lpick" data-act="write-letter-free"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 3c-6 1-10.5 5-12.5 11L6 19"/><path d="M20 3c.5 5-2.5 10-8.5 11.5L8 14"/><path d="M4 21h9"/></svg></i><div><b>자유롭게 쓰기</b><span>하나님께 하고 싶은 말을 마음 가는 대로 써요.</span></div><svg class="lp-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>' +
       '<button class="lpick gold" data-act="write-letter-guide"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 5.5h1v1H4zM4 11.5h1v1H4zM4 17.5h1v1H4z"/></svg></i><div><b>순서대로 쓰기</b><span>말씀 → 감사 → 회개 → 기도 편지 → 결단 순서에 따라 기도 편지를 써요.</span></div><svg class="lp-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>');
   }
+  var GQ = [['verse', '하나님께서 오늘 주신 말씀이 있나요?', '오늘 마음에 남은 말씀을 적어보세요.'],
+    ['thanks', '지금 {n} 님이 하나님께 감사드리고 싶은 것이 있나요?', '감사한 일과 은혜를 적어보세요.'],
+    ['repent', '하나님께 고백하고 회개하여 용서를 구할 것을 말씀드려보세요.', '내 마음을 솔직하게 고백해보세요.'],
+    ['letter', '지금 이 시간 하나님께 간구하고 싶은 마음들을 말씀해보세요.', '주님께 부탁드리고 싶은 기도 제목을 적어보세요.'],
+    ['resolve', '오늘 이 기도와 말씀을 기억하며 어떤 삶으로 나아가고 싶은가요?', '하나님과의 약속, 결단, 다짐을 적어보세요.']];
+  var GIC = {"verse": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 6.5C10 5 7 4.5 3.5 5v13c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5V5C17 4.5 14 5 12 6.5z\"/><path d=\"M12 6.5v13M6 8.5h3.5M6 11h3.5M14.5 8.5H18M14.5 11H18\"/></svg>", "thanks": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"3.6\"/><path d=\"M12 3v2.2M12 18.8V21M3 12h2.2M18.8 12H21M5.6 5.6l1.6 1.6M16.8 16.8l1.6 1.6M5.6 18.4l1.6-1.6M16.8 7.2l1.6-1.6\"/></svg>", "repent": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 20s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 7.6 4.2 4.2 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10z\"/></svg>", "letter": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 3.5 9.2 9.6v5.6L5 18.6l1.6 2.1 4.6-3.7\"/><path d=\"M12 3.5l2.8 6.1v5.6l4.2 3.4-1.6 2.1-4.6-3.7\"/><path d=\"M12 3.5V17\"/></svg>", "resolve": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 21v-9\"/><path d=\"M12 12c0-3.5-2.5-6-6.5-6 0 3.8 2.6 6 6.5 6z\"/><path d=\"M12 10.5c0-3.3 2.4-5.5 6.5-5.5 0 3.6-2.6 5.5-6.5 5.5z\"/><path d=\"M8 21h8\"/></svg>"};
   function writeLetterGuide() {
-    sheet('순서대로 쓰는 기도 편지',
-      '<label class="field"><span>날짜</span><input class="input" type="date" id="lDate" value="' + today() + '"></label>' +
-      LPARTS.map(function (x, i) { return '<label class="field lpart"><span><em>' + (i + 1) + '</em>' + x[1] + '</span><small>' + x[2] + '</small>' + (x[4] ? '<input class="input" id="lp_' + x[0] + '" placeholder="' + x[3] + '">' : '<textarea class="input" id="lp_' + x[0] + '" placeholder="' + x[3] + '"></textarea>') + '</label>'; }).join('') +
-      '<div class="small muted">모든 칸을 채우지 않아도 괜찮아요. 쓴 칸만 편지에 담겨요.</div>' +
-      '<button class="btn block" data-act="save-letter-guide">편지 보관하기</button>');
+    var nm = esc(myName());
+    el('sheetRoot').innerHTML = '<div class="lread lguide" id="sheet" role="dialog" aria-modal="true" aria-label="기도 편지 쓰기">' +
+      '<div class="lr-top"><button class="lr-back" data-close="1" aria-label="닫기">' + BACK + '</button><h2></h2><span></span></div>' +
+      '<div class="lg-scroll"><i class="lg-face" aria-hidden="true"></i><i class="lg-leaf" aria-hidden="true"></i>' +
+      '<div class="lg-head"><svg class="lg-env" viewBox="0 0 40 30" aria-hidden="true"><rect x="2" y="3" width="36" height="24" rx="3" fill="#FFF6E4" stroke="#C99A4E" stroke-width="1.8"/><path d="M3 5l17 13L37 5" fill="none" stroke="#C99A4E" stroke-width="1.8" stroke-linejoin="round"/><path d="M20 20.5s-4.6-2.8-4.6-5.8a2.4 2.4 0 0 1 4.6-.9 2.4 2.4 0 0 1 4.6.9c0 3-4.6 5.8-4.6 5.8z" fill="#E59A3C"/></svg>' +
+        '<h1>기도 편지 쓰기</h1><div class="lg-div"><i></i></div><p>하나님께, 오늘의 마음을 전해보세요</p>' +
+        '<label class="lg-date">' + CAL + '<input type="date" id="lDate" value="' + today() + '" aria-label="날짜"></label></div>' +
+      GQ.map(function (q) { return '<label class="lg-q"><span class="lg-qh"><i>' + GIC[q[0]] + '</i><b>' + q[1].replace('{n}', nm) + '</b></span><textarea id="lp_' + q[0] + '" rows="' + (q[0] === 'verse' ? 2 : 3) + '" placeholder="' + q[2] + '"></textarea></label>'; }).join('') +
+      '<div class="small muted lg-note">모든 칸을 채우지 않아도 괜찮아요. 쓴 칸만 편지에 담겨요.</div>' +
+      '<button class="lg-save" data-act="save-letter-guide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z"/><path d="M4 21h16"/></svg>기도 편지 저장하기</button>' +
+      '<i class="lg-leaf2" aria-hidden="true"></i></div></div>';
   }
   // 편지지 12장 (구약 7, 신약 5) — 새 편지마다 무작위로 한 장
   var PAPERS = [['창조의 아침', '창세기 1장', .628, '#EADAC5'], ['아브라함의 믿음', '창세기 12장', .61, '#8787A3'], ['홍해를 가르신 하나님', '출애굽기 14장', .598, '#EEDECF'], ['십계명과 언약', '출애굽기 20장', .595, '#F4E0CD'], ['다윗의 기도', '시편', .605, '#D7C6A9'], ['엘리야의 만남', '열왕기상 19장', .61, '#D9D1D3'], ['다니엘의 신앙', '다니엘 6장', .616, '#E7D5C2'],
@@ -4077,7 +4118,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
       case 'save-letter-guide':
         var parts = {}, any = false;
         LPARTS.forEach(function (x) { parts[x[0]] = val('lp_' + x[0]); if (parts[x[0]] && x[0] !== 'verse') any = true; });
-        if (!any) return toast('감사, 회개, 기도 편지, 결단 중 한 칸은 적어 주세요');
+        if (!any) return toast('감사, 회개, 간구, 결단 중 한 칸은 적어 주세요');
         var bodyTxt = LPARTS.slice(1).filter(function (x) { return parts[x[0]]; }).map(function (x) { return '[' + x[1] + ']\n' + parts[x[0]]; }).join('\n\n');
         S.letters.push({ id: uid(), date: val('lDate') || today(), verse: parts.verse, body: bodyTxt, parts: parts });
         save(); closeSheet(); tab = 'diary'; dtab = 'letter'; render(); toast('기도 편지를 보관했어요'); return;
