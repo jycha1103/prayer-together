@@ -1302,9 +1302,8 @@ body.is-closet .mnote2 { margin-top: 6px; }
 .lp-date { position: relative; }
 .lp-date > svg { position: absolute; left: 14px; top: 50%; width: 19px; height: 19px; transform: translateY(-50%); color: #2B3B6B; pointer-events: none; }
 .lp-date .input { padding-left: 42px; }
-.lpaper { position: relative; container-type: inline-size; border-radius: 16px; overflow: hidden; background-position: center bottom; background-size: 100% auto; background-repeat: no-repeat; padding: 10% 7% var(--lp-pb, 70%); box-shadow: 0 6px 20px rgba(60, 50, 30, .12), inset 0 0 0 1px rgba(120, 100, 70, .12); }
-.lpaper::before { content: ""; position: absolute; left: 4%; right: 4%; top: 4%; bottom: calc(var(--lp-pb, 70%) - 6%); border-radius: 12px; background: rgba(255, 252, 245, .5); pointer-events: none; }
-.lp-ta, .lp-read { position: relative; display: block; width: 100%; min-height: var(--lp-th, 70cqw); border: 0; outline: 0; resize: none; overflow: hidden; background: transparent repeating-linear-gradient(to bottom, transparent 0, transparent 31px, rgba(125, 105, 75, .32) 31px, rgba(125, 105, 75, .32) 32px) 0 0 / 100% 32px local; font-family: var(--font-display); font-size: 16px; line-height: 32px; color: #3A3226; padding: 0 2px; }
+.lpaper { position: relative; container-type: inline-size; border-radius: 16px; overflow: hidden; padding: 10% 7% var(--lp-pb, 70%); box-shadow: 0 6px 20px rgba(60, 50, 30, .12), inset 0 0 0 1px rgba(120, 100, 70, .12); }
+.lp-ta, .lp-read { position: relative; display: block; width: 100%; min-height: var(--lp-th, 70cqw); border: 0; outline: 0; resize: none; overflow: hidden; background: repeating-linear-gradient(to bottom, transparent 0, transparent 31px, rgba(125, 105, 75, .32) 31px, rgba(125, 105, 75, .32) 32px) 0 0 / 100% 32px local, rgba(255, 252, 245, .52); border-radius: 4px; box-shadow: 0 0 0 12px rgba(255, 252, 245, .52); font-family: var(--font-display); font-size: 16px; line-height: 32px; color: #3A3226; padding: 0 2px; }
 .lp-ta::placeholder { color: #8C7F6A; }
 .lp-read { white-space: pre-wrap; word-break: keep-all; }
 .lp-d { font-size: 13px; color: #8C7F6A; }
@@ -1314,6 +1313,29 @@ body.is-closet .mnote2 { margin-top: 6px; }
 .lp-cap button { display: inline-flex; align-items: center; gap: 4px; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 11px; font-size: 12.5px; color: var(--ink); }
 .lp-cap button svg { width: 14px; height: 14px; }
 .lp-save { background: linear-gradient(180deg, #34477A, #1F2D57); }
+
+/*LREAD*/
+.lread { position: fixed; inset: 0; z-index: 20; display: flex; flex-direction: column; background: linear-gradient(180deg, #F7F2E8, #EFE7D8); animation: lrIn .22s ease; }
+@keyframes lrIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.lr-top { display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; padding: calc(8px + env(safe-area-inset-top, 0px)) 8px 6px; }
+.lr-top h2 { margin: 0; text-align: center; font-size: 17px; font-weight: 700; color: var(--ink); }
+.lr-back { width: 44px; height: 44px; display: grid; place-items: center; border: 0; background: transparent; color: var(--ink); }
+.lr-back svg { width: 24px; height: 24px; pointer-events: none; }
+.lr-n { font-size: 13px; color: var(--muted); text-align: right; padding-right: 8px; font-variant-numeric: tabular-nums; }
+.lr-track { flex: 1; min-height: 0; display: flex; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; overscroll-behavior: contain; scrollbar-width: none; }
+.lr-track::-webkit-scrollbar { display: none; }
+.lr-slide { flex: 0 0 100%; scroll-snap-align: center; scroll-snap-stop: always; overflow-y: auto; padding: 6px 18px 18px; box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; }
+.lr-slide .lpaper { flex: none; }
+.lr-slide .lp-cap { margin-top: 0; justify-content: center; }
+.lp-sec { color: #9A6B1F; font-size: 14px; font-weight: 700; }
+.lr-hint { text-align: center; font-size: 12.5px; color: var(--muted); padding: 2px 0 6px; transition: opacity .4s; }
+.lr-hint.off { opacity: 0; }
+.lr-bar { display: flex; gap: 10px; padding: 8px 18px calc(12px + env(safe-area-inset-bottom, 0px)); }
+.lr-bar .btn { flex: 1; }
+@media (min-width: 600px) { .lr-slide { padding-left: calc(50% - 262px); padding-right: calc(50% - 262px); } }
+
+.lp-art { position: absolute; left: 0; right: 0; bottom: 0; aspect-ratio: var(--lp-ar, .6); background: var(--lp-img) center bottom / 100% auto no-repeat; pointer-events: none; }
+.lp-art::before { content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 9%; background: linear-gradient(var(--lp-c), transparent); }
 </style>
 
 <div class="app">
@@ -2276,7 +2298,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
     var ENV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="1.8"/><path d="m3 6 9 7 9-7M3 18.5l7-6M21 18.5l-7-6"/></svg>';
     var h = '<div class="lt-hero" role="img" aria-label="눈 감고 하는 기도가 어려운 날, 하나님께 편지를 써 보세요."></div>' +
       '<button class="lt-cta" data-act="write-letter">' + PLANE + '<span>하나님께 기도편지 보내기</span><svg class="lt-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>';
-    var L = S.letters.slice().sort(function (a, b) { return a.date < b.date ? 1 : -1; });
+    var L = letterOrder();
     if (!L.length) return h + '<div class="lt-empty">아직 쓴 편지가 없어요. 첫 편지를 써 보세요.</div>';
     var HEART = '<svg viewBox="0 0 40 30" aria-hidden="true"><rect x="2" y="3" width="36" height="24" rx="3" fill="#FFF6E4" stroke="#E2A94A" stroke-width="2"/><path d="M3 5l17 13L37 5" fill="none" stroke="#E2A94A" stroke-width="2" stroke-linejoin="round"/><path d="M20 21.5s-5-3-5-6.3a2.6 2.6 0 0 1 5-1 2.6 2.6 0 0 1 5 1c0 3.3-5 6.3-5 6.3z" fill="#E59A3C"/></svg>';
     h += '<div class="lt-list">';
@@ -3530,7 +3552,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
   var lpIdx = 0;
   function paperStyle(i) {
     var x = PAPERS[i] || PAPERS[0];
-    return 'background-color:' + x[3] + ';background-image:url(letters/p' + i + '.webp);--lp-pb:' + Math.round(44 / x[2]) + '%;--lp-th:' + Math.round((0.56 / x[2] - 0.1) * 100) + 'cqw';
+    return 'background-color:' + x[3] + ';--lp-c:' + x[3] + ';--lp-img:url(letters/p' + i + '.webp);--lp-ar:' + x[2] + ';--lp-pb:' + Math.round(44 / x[2]) + '%;--lp-th:' + Math.round((0.56 / x[2] - 0.1) * 100) + 'cqw';
   }
   function paperCap(i) { return '<b>' + PAPERS[i][0] + '</b> · ' + PAPERS[i][1]; }
   function writeLetter() {
@@ -3539,7 +3561,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
     sheet('자유롭게 쓰기',
       '<label class="field lp-f"><span>날짜</span><div class="lp-date">' + CAL + '<input class="input" type="date" id="lDate" value="' + today() + '"></div></label>' +
       '<label class="field lp-f"><span>오늘 묵상한 말씀</span><input class="input" id="lVerse" placeholder="(선택) 성경 구절을 적어 보세요."></label>' +
-      '<div class="lpaper" id="lPaper" style="' + paperStyle(lpIdx) + '"><textarea class="lp-ta" id="lBody" placeholder="사랑하는 하나님께,"></textarea></div>' +
+      '<div class="lpaper" id="lPaper" style="' + paperStyle(lpIdx) + '"><i class="lp-art"></i><textarea class="lp-ta" id="lBody" placeholder="사랑하는 하나님께,"></textarea></div>' +
       '<div class="lp-cap"><span id="lCap">' + paperCap(lpIdx) + '</span><button data-act="paper-shuffle">' + SHUF + '다른 편지지</button></div>' +
       '<button class="btn block lp-save" data-act="save-letter">편지 보관하기</button>');
     el('sheet').classList.add('full');
@@ -3551,16 +3573,38 @@ body.is-closet .mnote2 { margin-top: 6px; }
     t.style.height = 'auto'; t.style.height = t.scrollHeight + 'px';
   });
 
+  // 편지 펼쳐 보기: 전체 화면, 옆으로 넘기면 이전/다음 편지
+  function letterOrder() { return S.letters.map(function (l, i) { return [l, i]; }).sort(function (a, b) { return a[0].date < b[0].date ? 1 : a[0].date > b[0].date ? -1 : b[1] - a[1]; }).map(function (x) { return x[0]; }); }
+  function paperOf(l) {
+    if (l.paper != null && PAPERS[l.paper]) return l.paper;
+    var h = 0, k = String(l.id); for (var i = 0; i < k.length; i++) h = (h * 31 + k.charCodeAt(i)) >>> 0;
+    return h % PAPERS.length;
+  }
+  function letterSlide(l) {
+    var pi = paperOf(l);
+    var body = l.parts ? LPARTS.slice(1).filter(function (x) { return l.parts[x[0]]; }).map(function (x) { return '<div class="lp-sec">' + x[1] + '</div><div class="lp-body">' + esc(l.parts[x[0]]) + '</div>'; }).join('') : '<div class="lp-body">' + esc(l.body) + '</div>';
+    return '<section class="lr-slide" data-lid="' + l.id + '"><div class="lpaper read" style="' + paperStyle(pi) + '"><i class="lp-art"></i><div class="lp-read"><div class="lp-d">' + esc(l.date.replace(/-/g, '. ')) + '</div>' + (l.verse ? '<div class="lp-v">' + esc(l.verse) + '</div>' : '') + body + '</div></div>' +
+      '<div class="lp-cap"><span>' + paperCap(pi) + '</span></div></section>';
+  }
+  var BACK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>';
   function openLetter(id) {
-    var l = S.letters.find(function (x) { return x.id === id; });
-    if (l.paper != null && PAPERS[l.paper]) return sheet('기도 편지',
-      '<div class="lpaper read" style="' + paperStyle(l.paper) + '"><div class="lp-read"><div class="lp-d">' + esc(l.date.replace(/-/g, '. ')) + '</div>' + (l.verse ? '<div class="lp-v">' + esc(l.verse) + '</div>' : '') + '<div class="lp-body">' + esc(l.body) + '</div></div></div>' +
-      '<div class="lp-cap"><span>' + paperCap(l.paper) + '</span></div>' +
-      '<div class="row"><button class="btn ghost" data-copy="letter:' + id + '">글 복사하기</button><button class="btn line" data-del-letter="' + id + '">삭제</button></div>');
-    sheet('기도 편지',
-      '<div class="paper"><div class="date">' + esc(l.date.replace(/-/g, '. ')) + '</div>' + (l.verse ? '<div class="vs">' + esc(l.verse) + '</div>' : '') +
-        (l.parts ? LPARTS.slice(1).filter(function (x) { return l.parts[x[0]]; }).map(function (x) { return '<div class="lsec">' + x[1] + '</div><div class="body">' + esc(l.parts[x[0]]) + '</div>'; }).join('') : '<div class="body">' + esc(l.body) + '</div>') + '</div>' +
-      '<div class="row"><button class="btn ghost" data-copy="letter:' + id + '">글 복사하기</button><button class="btn line" data-del-letter="' + id + '">삭제</button></div>');
+    var L = letterOrder(), i = Math.max(0, L.findIndex(function (x) { return x.id === id; }));
+    el('sheetRoot').innerHTML = '<div class="lread" id="sheet" role="dialog" aria-modal="true" aria-label="기도 편지">' +
+      '<div class="lr-top"><button class="lr-back" data-close="1" aria-label="편지 목록으로">' + BACK + '</button><h2>기도 편지</h2><span class="lr-n" id="lrN"></span></div>' +
+      '<div class="lr-track" id="lrTrack">' + L.map(letterSlide).join('') + '</div>' +
+      (L.length > 1 ? '<div class="lr-hint" id="lrHint">옆으로 넘기면 다른 편지를 볼 수 있어요</div>' : '') +
+      '<div class="lr-bar"><button class="btn ghost" id="lrCopy" data-copy="">글 복사하기</button><button class="btn line" id="lrDel" data-del-letter="">삭제</button></div></div>';
+    var t = el('lrTrack');
+    function sync() {
+      var k = Math.round(t.scrollLeft / Math.max(1, t.clientWidth)); k = Math.max(0, Math.min(L.length - 1, k));
+      var l = L[k]; if (!l) return;
+      el('lrN').textContent = L.length > 1 ? (k + 1) + ' / ' + L.length : '';
+      var c = el('lrCopy'), d = el('lrDel');
+      if (c.dataset.copy !== 'letter:' + l.id) { c.dataset.copy = 'letter:' + l.id; d.dataset.delLetter = l.id; d.textContent = '삭제'; delete d.dataset.armed; d.style.color = ''; }
+    }
+    t.scrollLeft = i * t.clientWidth; sync();
+    var hid = 0;
+    t.addEventListener('scroll', function () { sync(); if (!hid && el('lrHint')) { hid = 1; el('lrHint').classList.add('off'); } }, { passive: true });
   }
 
   function logTime() { sheet('기도 시간 기록', timeCard()); }
