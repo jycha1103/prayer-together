@@ -1,5 +1,5 @@
 // 오프라인에서도 열리도록 기본 파일을 저장해 둡니다.
-const CACHE = 'prayer-together-v33';
+const CACHE = 'prayer-together-v34';
 const FILES = ['./', './index.html', './manifest.json', './icon.svg', './icon-192.png', './apple-touch-icon.png', './hero.jpg', './water.jpg', './home-bg.jpg', './home-bg1b.jpg', './home-h1.png', './home-h2.png', './home-w3.jpg', './home-pray.jpg', './home-mine.jpg', './home-rooms.jpg', './closet-door.png', './lock-gold.png', './closet-ic.png', './notes/n0.webp', './notes/n1.webp', './notes/n2.webp', './notes/n3.webp', './notes/n4.webp', './notes/n5.webp', './notes/n6.webp', './notes/n7.webp', './notes/n8.webp', './notes/n9.webp', './notes/n10.webp', './notes/n11.webp', './notes/m0.webp', './notes/m1.webp', './notes/m2.webp', './notes/m3.webp', './notes/m4.webp', './notes/m5.webp', './notes/m6.webp', './notes/m7.webp', './notes/m8.webp', './notes/m9.webp', './notes/m10.webp', './notes/m11.webp', './fonts/MaruBuri-Light.woff2', './fonts/MaruBuri-Regular.woff2', './fonts/MaruBuri-Bold.woff2', './config.js', './vendor/supabase.js'];
 self.addEventListener('install', e => e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES))));
 self.addEventListener('activate', e => e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k))))));
