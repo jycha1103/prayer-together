@@ -2165,12 +2165,12 @@ body.is-closet .mnote2 { margin-top: 6px; }
     return '<div class="rh"><h1 class="page-title">기도 모임</h1>' + seg + (rtab === 'church' ? vChurchHub() : vOpenHub()) + '</div>';
   }
   function vChurchHub() {
-    var ch = !SB ? DEMO_CHURCH : null, cn = myChurchName();
+    var ch = DEMO_CHURCH, cn = myChurchName();
     if (!ch) return '<div class="rh-empty"><b>' + (cn ? esc(cn) + ' 채널이 아직 없어요' : '아직 들어간 교회 채널이 없어요') + '</b><p>교회 채널은 같은 교회에 등록된 성도끼리만 보고 기도하는 공간이에요.</p>' +
       '<button class="rh-add" data-act="church-new">' + PLUS + '교회 채널 개설 신청하기</button></div>';
     var mine = S.rooms.filter(function (r) { return r.example; });
     var recent = ch.rooms.slice().sort(function (a, b) { return b.fresh - a.fresh; });
-    return '<div class="rh-church"><div class="rh-cn"><span class="rh-badge">인증 교회</span><h2>' + esc(ch.name) + '</h2><p>' + esc(ch.place) + ' · 등록 성도 ' + ch.members + '명 · 모임방 ' + (ch.rooms.length + mine.length) + '개</p></div>' +
+    return (SB ? '<div class="note rh-soon">교회 채널은 준비 중이에요. 지금 보이는 교회와 모임방은 예시예요.</div>' : '') + '<div class="rh-church"><div class="rh-cn"><span class="rh-badge">인증 교회</span>' + (SB ? '<span class="tag" style="margin-left:6px">예시</span>' : '') + '<h2>' + esc(ch.name) + '</h2><p>' + esc(ch.place) + ' · 등록 성도 ' + ch.members + '명 · 모임방 ' + (ch.rooms.length + mine.length) + '개</p></div>' +
         '<div class="small rh-lock">' + LOCK + '이 교회에 등록된 성도만 볼 수 있어요</div></div>' +
       '<div class="rh-sec"><h3>최근 열리거나 새 글이 올라온 모임</h3></div>' +
       '<div class="rb-row" data-noswipe>' + mine.map(function (r, i) { return bubble(r.name, i, 'data-room="' + r.id + '"', roomPosts(r).length, '내 모임'); }).join('') +
@@ -4202,8 +4202,8 @@ body.is-closet .mnote2 { margin-top: 6px; }
       case 'room-back': ptab = 'rooms'; return go('pray');
       case 'room-new': return roomNew();
       case 'church-new': return churchNew();
-      case 'church-req': if (!val('chName')) return toast('교회 이름을 적어 주세요'); closeSheet(); toast('신청했어요. 운영자가 확인하면 알려 드릴게요'); return;
-      case 'croom-req': closeSheet(); toast('방장에게 신청했어요'); return;
+      case 'church-req': if (!val('chName')) return toast('교회 이름을 적어 주세요'); closeSheet(); toast(SB ? '교회 채널 신청은 곧 열려요' : '신청했어요. 운영자가 확인하면 알려 드릴게요'); return;
+      case 'croom-req': closeSheet(); toast(SB ? '교회 모임방은 곧 열려요' : '방장에게 신청했어요'); return;
       case 'room-export': return roomExport();
       case 'room-share':
         var rxt = val('rxText');
