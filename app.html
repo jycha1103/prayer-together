@@ -1460,8 +1460,8 @@ body.is-closet .mnote2 { margin-top: 6px; }
 .sheet textarea.input.rx-txt { min-height: 46vh; font-size: 14px; line-height: 1.65; white-space: pre-wrap; }
 
 /*CHURCH2*/
-.rh-top { position: relative; margin: 0 -16px; padding: 4px 16px 6px; min-height: 120px; }
-.rh-top::after { content: ""; position: absolute; right: 0; top: -14px; width: 62%; height: 140px; background: url(church-head.webp) right top / cover no-repeat; pointer-events: none; z-index: -1; }
+.rh-top { position: relative; margin: 0 -16px; padding: 4px 16px 6px; }
+.rh-top::after { content: none; }
 .rh-top .page-title { position: relative; display: inline-flex; }
 .rh-top .page-title::after { content: ""; position: absolute; left: 2px; bottom: -4px; width: 68px; height: 3px; border-radius: 3px; background: linear-gradient(90deg, #D9A863, rgba(217, 168, 99, .2)); }
 .rh-top p { margin: 12px 0 0; font-size: 14.5px; line-height: 1.6; color: #4A4560; }
@@ -1530,6 +1530,19 @@ body.is-closet .mnote2 { margin-top: 6px; }
 .cf-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; font-size: 12px; color: #9A90A0; }
 .cf-pray { border: 1px solid #E8D5B0; border-radius: 999px; padding: 6px 12px; background: #FFF8EA; color: #8A5A17; font-size: 12.5px; font-weight: 700; }
 .cf-pray.on { background: linear-gradient(180deg, #34477A, #1F2D57); border-color: transparent; color: #FFFFFF; }
+
+/*CHURCH4*/
+.rh-church { align-items: center; }
+.rh-church > .ch-logo { width: 58px; height: 58px; }
+.rh-cmid { flex: 1; min-width: 0; }
+.rh-cmid h2 { font-size: 21px; margin: 4px 0 4px; }
+.rh-cmid p { white-space: nowrap; }
+.check.share-ch em { font-style: normal; }
+.rh-cadd { flex: none; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 10px 10px; border: 1.5px dashed #D9B77A; border-radius: 14px; background: rgba(255, 248, 234, .85); color: #8A5A17; font-size: 12px; font-weight: 700; line-height: 1.25; }
+.rh-cadd svg { width: 18px; height: 18px; }
+.check.share-ch { align-items: flex-start; padding: 12px 14px; border-radius: 14px; background: #F4F1FA; }
+.check.share-ch span { display: flex; flex-direction: column; gap: 2px; font-size: 14px; }
+.check.share-ch small { font-size: 12px; color: #7A7290; }
 </style>
 
 <div class="app">
@@ -2268,24 +2281,25 @@ body.is-closet .mnote2 { margin-top: 6px; }
         return '<button class="ch-row" data-church="' + x.id + '" data-q="' + esc(x.name + ' ' + x.place + ' ' + (x.pastor || '')) + '">' + churchLogo(x, i + mine.length) + '<span><b>' + esc(x.name) + '</b><small>소재지 · ' + esc(x.place) + '</small><small>담임목사 · ' + esc(x.pastor || '-') + '</small></span></button>'; }).join('') +
       '<div class="empty" id="chNone" hidden>찾는 교회가 없어요. 교회를 개설해 보세요.</div></div>';
   }
+  function ensureChFeed(c) {
+    if (S.posts.some(function (p) { return p.chDemo; })) return;
+    var now = Date.now(), mins = [10, 60, 180];
+    CH_FEED.forEach(function (f, i) {
+      S.posts.push({ id: f.id, chDemo: true, example: true, church: c.name, roomId: 'chfeed', board: 'pray', cat: f.room, tag: ['진로', '건강', '신앙'][i], title: f.title, body: f.body, author: f.by, created: now - mins[i] * 60000, prayers: f.n, prayed: false, comments: [] });
+    });
+  }
   function vChurchHome(c) {
     var ch = DEMO_CHURCH, mine = S.rooms.filter(function (r) { return r.example; });
-    var recent = ch.rooms.slice().sort(function (a, b) { return b.fresh - a.fresh; });
-    var rb = function (r, i, attr, fresh, sub) { return '<button class="rb" ' + attr + '><i style="--c:' + BUBBLE_C[i % BUBBLE_C.length] + '">' + RICONS[i % RICONS.length] + (fresh ? '<em>' + fresh + '</em>' : '') + '</i><span>' + esc(r.name) + '</span><small>' + esc(sub) + '</small></button>'; };
-    S.chPrayed = S.chPrayed || {};
+    ensureChFeed(c);
+    var feed = S.posts.filter(function (p) { return p.church === c.name; }).sort(function (a, b) { return b.created - a.created; });
     return (SB ? '<div class="note rh-soon">교회 채널은 준비 중이에요. 지금 보이는 교회와 모임방은 예시예요.</div>' : '') +
       '<button class="rh-back" data-church="">' + BACKS + '교회 목록</button>' +
-      '<div class="rh-church"><div><span class="rh-tags"><span>우리 교회</span></span><h2>' + esc(c.name) + '</h2>' +
-        '<p>' + PINI + esc(c.place) + ' · 성도 ' + c.members + '명 · 모임방 ' + (ch.rooms.length + mine.length) + '개</p></div>' + churchLogo(c, 0) + '</div>' +
-      '<div class="rh-sec"><h3>' + RICONS[0] + '최근 열리거나 새 글이 올라온 모임</h3></div>' +
-      '<div class="rb-row" data-noswipe>' + recent.map(function (r, i) { return rb(r, i, 'data-croom="' + r.id + '"', r.fresh, r.ago); }).join('') + '</div>' +
-      '<div class="two ch-two"><button class="rh-add" data-act="room-new">' + PLUS + '모임방 개설하기</button><button class="rh-add line" data-act="ch-find">' + SRCH + '모임방 찾기</button></div>' +
+      '<div class="rh-church">' + churchLogo(c, 0) + '<div class="rh-cmid"><span class="rh-tags"><span>우리 교회</span></span><h2>' + esc(c.name) + '</h2>' +
+        '<p>' + PINI + esc(c.place) + ' · 성도 ' + c.members + '명</p></div>' +
+        '<button class="rh-cadd" data-act="room-new">' + PLUS + '모임방<br>개설하기</button></div>' +
       '<div class="rh-sec"><h3>' + BOOKM + '내 모임방</h3></div>' + (mine.length ? mine.map(roomCard).join('') :
         '<div class="rh-none"><p>아직 참여한 모임방이 없어요.<br>관심 있는 기도모임에 참여해 보세요.</p></div>') +
-      '<div class="rh-sec"><h3>' + RICONS[4] + '성도들의 중보 기도 제목</h3></div>' + CH_FEED.map(function (f) {
-        var on = !!S.chPrayed[f.id];
-        return '<div class="post cf"><span class="cf-room">' + esc(f.room) + '</span><h3>' + esc(f.title) + '</h3><p>' + esc(f.body) + '</p>' +
-          '<div class="cf-foot"><span>' + esc(f.by) + ' · ' + esc(f.ago) + '</span><button class="cf-pray' + (on ? ' on' : '') + '" data-cfpray="' + f.id + '">' + (on ? '함께 기도했어요' : '함께 기도하기') + ' · ' + (f.n + (on ? 1 : 0)) + '</button></div></div>'; }).join('') +
+      '<div class="rh-sec"><h3>' + RICONS[4] + '성도들의 중보 기도 제목</h3></div>' + (feed.length ? feed.map(postCard).join('') : '<div class="empty">아직 교회에 나눈 기도 제목이 없어요.</div>') +
       '<div class="rh-sec" id="chRooms"><h3>' + esc(c.name) + ' 모임방</h3></div>' + ch.rooms.map(function (r) {
         return '<button class="post rh-room" data-croom="' + r.id + '"><h3>' + esc(r.name) + (r.fresh ? ' <span class="rh-new">새 글 ' + r.fresh + '</span>' : '') + '</h3><p>' + esc(r.intro) + '</p><div class="meta"><span>방장 ' + esc(r.leader) + '</span><span>멤버 ' + r.count + '명</span><span>' + esc(r.ago) + '</span></div></button>'; }).join('');
   }
@@ -3738,7 +3752,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
     var cp = cloud('create_post', { p_id: np.id, p_board: np.board, p_cat: np.cat || '', p_room: job.room || null, p_title: np.title, p_body: np.body, p_urgent: !!np.urgent, p_scope: np.scope || [], p_hide_after: np.hideAfter || null, p_author: np.author });
     if (job.pics && job.pics.length && picBoard(np) && !job.room) attachPics('post', np, job.pics, cp);
     if (np.tag) Promise.resolve(cp).then(function () { return cloud('set_post_tag', { p_id: np.id, p_tag: np.tag }); });
-    if (job.room) { np.roomId = job.room; np.cat = ''; S.posts.push(np); S.items.push({ id: uid(), title: np.title, body: np.body, start: today(), days: 40, checks: [], answered: false, memo: '', postId: np.id }); save(); closeSheet(); render(); toast('모임방에 올렸어요. 내 기도제목에도 담았어요'); return; }
+    if (job.room) { np.roomId = job.room; np.cat = np.church && roomById(job.room) ? roomById(job.room).name : ''; S.posts.push(np); S.items.push({ id: uid(), title: np.title, body: np.body, start: today(), days: 40, checks: [], answered: false, memo: '', postId: np.id }); save(); closeSheet(); render(); toast('모임방에 올렸어요. 내 기도제목에도 담았어요'); return; }
     S.posts.push(np);
     var autoItem = false;
     if (job.item) { var li = S.items.find(function (x) { return x.id === job.item; }); if (li) li.postId = np.id; }
@@ -3826,6 +3840,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
                 '<div class="note">닉네임, 실명, 연락처는 상담사와 목회자에게도 보이지 않아요. 답글에는 전화번호, 카톡 아이디, 링크를 쓸 수 없어요.</div><input type="checkbox" id="wAnon" hidden>' :
       '<div class="checks"><label class="check"><input type="checkbox" id="wAnon"' + (cfg[3] ? ' checked' : '') + '> 익명으로 올리기</label>') +
       (boardName === 'pray' ? '<label class="check urgent"><input type="checkbox" id="wUrgent"' + (preset && preset.urgent ? ' checked' : '') + '> 긴급기도 요청</label>' : '') + (boardName === 'concern' ? '' : '</div>') +
+      (preset && preset.roomId && myChurchName() ? '<label class="check share-ch"><input type="checkbox" id="wChurch" checked> <span><em><b>' + esc(myChurchName()) + '</b>에도 공유하기</em><small>교회 성도들의 중보 기도 제목에 함께 올라가요</small></span></label>' : '') +
       '<button class="btn block" data-submit="' + boardName + '"' + (preset && preset.itemId ? ' data-item="' + preset.itemId + '"' : '') + (preset && preset.roomId ? ' data-room-id="' + preset.roomId + '"' : '') + '>올리기</button>');
     if (boardName === 'pray') prayWriteSkin(preset);
   }
@@ -4257,6 +4272,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
       }
       var wt = document.querySelector('#wTags [aria-pressed="true"]');
       var np = { id: uid(), tag: d.submit === 'pray' && wt ? wt.getAttribute('data-wtag') : '', board: d.submit, cat: d.submit === 'pray' ? val('wCat') : '', scope: scope, mine: true, urgent: !!(el('wUrgent') && el('wUrgent').checked), title: title, body: body, author: d.submit === 'concern' ? alias : el('wAnon').checked ? '익명의 성도' : myName(), created: Date.now(), prayers: 0, prayed: false, comments: [] };
+      if (el('wChurch') && el('wChurch').checked) { np.church = myChurchName(); var shr = d.roomId ? roomById(d.roomId) : null; if (shr) np.cat = shr.name; }
       if (d.submit === 'concern' && val('wHide')) np.hideAfter = +val('wHide');
       var job = { np: np, room: d.roomId, item: d.item, pics: PICS.slice() };
       if (isCrisis(title + ' ' + body)) { pendingPost = job; return crisisSheet(); }
