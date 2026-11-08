@@ -1427,21 +1427,21 @@ body.is-closet .mnote2 { margin-top: 6px; }
 
 /*ROOMHUB*/
 .rh-seg { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin: 14px 0 16px; padding: 4px; border-radius: 999px; background: rgba(255, 255, 255, .6); border: 1px solid rgba(255, 255, 255, .9); box-shadow: 0 4px 14px rgba(120, 100, 80, .07); }
-.rh-seg button { height: 40px; border: 0; border-radius: 999px; background: none; font-family: var(--font-serif); font-size: 15px; color: #4A4560; }
+.rh-seg button { height: 40px; border: 0; border-radius: 999px; background: none; font-size: 15px; color: #4A4560; }
 .rh-seg button[aria-pressed="true"] { background: linear-gradient(180deg, #34477A, #1F2D57); color: #FFFFFF; font-weight: 700; box-shadow: 0 4px 12px rgba(31, 45, 87, .25); }
 .rh-church { position: relative; padding: 18px 18px 14px; border-radius: 22px; background: linear-gradient(150deg, #FFF7EA, #F6E9F2); border: 1px solid #F1E2CC; box-shadow: 0 8px 22px rgba(150, 110, 90, .1); }
 .rh-badge { display: inline-block; padding: 2px 9px; border-radius: 999px; background: #F3E2BE; color: #7E5C12; font-size: 11.5px; font-weight: 700; }
-.rh-cn h2 { margin: 8px 0 3px; font-family: var(--font-serif); font-size: 22px; color: #1F2D57; }
+.rh-cn h2 { margin: 8px 0 3px; font-size: 22px; color: #1F2D57; }
 .rh-cn p { margin: 0; font-size: 13px; color: #6B6680; }
 .rh-lock { display: flex; align-items: center; gap: 5px; margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(160, 130, 100, .3); color: #8A7A66; }
 .rh-lock svg { width: 14px; height: 14px; }
 .rh-sec { margin: 22px 2px 10px; }
-.rh-sec h3 { margin: 0; font-family: var(--font-serif); font-size: 16.5px; font-weight: 700; color: #1F2D57; }
+.rh-sec h3 { margin: 0; font-size: 16.5px; font-weight: 700; color: #1F2D57; }
 .rh-intro { margin: 0 2px; font-size: 13.5px; line-height: 1.6; color: #6B6680; }
 .rb-row { display: flex; gap: 12px; overflow-x: auto; margin: 0 -16px; padding: 2px 16px 6px; scrollbar-width: none; }
 .rb-row::-webkit-scrollbar { display: none; }
 .rb { flex: none; width: 72px; display: flex; flex-direction: column; align-items: center; gap: 6px; border: 0; background: none; padding: 0; }
-.rb i { position: relative; display: grid; place-items: center; width: 62px; height: 62px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #FFFFFF, var(--c) 75%); box-shadow: 0 0 0 2.5px #FFFFFF, 0 0 0 4px var(--c), 0 4px 10px rgba(80, 60, 40, .15); font-style: normal; font-family: var(--font-serif); font-size: 22px; font-weight: 700; color: #3A3550; }
+.rb i { position: relative; display: grid; place-items: center; width: 62px; height: 62px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #FFFFFF, var(--c) 75%); box-shadow: 0 0 0 2.5px #FFFFFF, 0 0 0 4px var(--c), 0 4px 10px rgba(80, 60, 40, .15); font-style: normal; font-size: 22px; font-weight: 700; color: #3A3550; }
 .rb em { position: absolute; right: -4px; top: -4px; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 999px; background: #E2583E; color: #FFFFFF; font-size: 11px; font-weight: 700; font-style: normal; line-height: 20px; box-shadow: 0 0 0 2px #FFFFFF; }
 .rb span { width: 100%; font-size: 12px; font-weight: 600; line-height: 1.3; color: #2B3252; text-align: center; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: keep-all; }
 .rb small { margin-top: -4px; font-size: 10.5px; color: #9A90A0; }
@@ -1452,7 +1452,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
 .rh-room h3 { display: flex; align-items: center; gap: 6px; }
 .rh-new { padding: 1px 8px; border-radius: 999px; background: #FDE7E1; color: #C2412B; font-size: 11px; font-weight: 700; }
 .rh-empty { padding: 26px 20px; border-radius: 22px; background: rgba(255, 255, 255, .65); text-align: center; }
-.rh-empty b { font-family: var(--font-serif); font-size: 17px; color: #1F2D57; }
+.rh-empty b { font-size: 17px; color: #1F2D57; }
 .rh-empty p { font-size: 13.5px; color: #6B6680; }
 .rm-mem { margin-top: 14px; }
 .rm-who { display: flex; align-items: center; gap: 8px; margin: 0 2px 8px; }
@@ -1464,6 +1464,47 @@ body.is-closet .mnote2 { margin-top: 6px; }
 .rm-acts .btn svg, .rx-send svg { width: 19px; height: 19px; }
 .rx-send { background: #FEE500 !important; color: #191600 !important; border: 0; }
 .sheet textarea.input.rx-txt { min-height: 46vh; font-size: 14px; line-height: 1.65; white-space: pre-wrap; }
+
+/*CHURCH2*/
+.rh-top { position: relative; margin: 0 -16px; padding: 4px 16px 6px; min-height: 120px; }
+.rh-top::after { content: ""; position: absolute; right: 0; top: -14px; width: 62%; height: 140px; background: url(church-head.webp) right top / cover no-repeat; pointer-events: none; z-index: -1; }
+.rh-top .page-title { position: relative; display: inline-flex; }
+.rh-top .page-title::after { content: ""; position: absolute; left: 2px; bottom: -4px; width: 68px; height: 3px; border-radius: 3px; background: linear-gradient(90deg, #D9A863, rgba(217, 168, 99, .2)); }
+.rh-top p { margin: 12px 0 0; font-size: 14.5px; line-height: 1.6; color: #4A4560; }
+.rh-seg button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; }
+.rh-seg button svg { width: 20px; height: 20px; }
+.rh-info { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; padding: 14px 16px; border-radius: 18px; background: rgba(255, 255, 255, .62); border: 1px solid rgba(255, 255, 255, .9); box-shadow: 0 4px 14px rgba(120, 100, 80, .06); }
+.rh-info > svg { flex: none; width: 24px; height: 24px; color: #8FA878; }
+.rh-info p { margin: 0; font-size: 13.5px; line-height: 1.55; color: #4A4560; word-break: keep-all; }
+.rh-back { display: inline-flex; align-items: center; gap: 4px; margin: 0 0 10px; padding: 4px 2px; border: 0; background: none; color: #6B6680; font-size: 13.5px; }
+.rh-back svg { width: 16px; height: 16px; }
+.rh-church { display: block; width: 100%; margin-top: 12px; text-align: left; overflow: hidden; background: rgba(255, 255, 255, .7); }
+.rh-church .rh-tags { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: #4A4560; }
+.rh-church h2 { position: relative; z-index: 1; margin: 10px 0 6px; font-size: 24px; color: #1F2D57; }
+.rh-church p { position: relative; z-index: 1; display: flex; align-items: center; gap: 4px; margin: 0; font-size: 12.5px; color: #6B6680; }
+.rh-church p svg { width: 15px; height: 15px; flex: none; }
+.rh-cimg { position: absolute; right: 0; top: 0; bottom: 0; width: 46%; background: url(church-card.webp) right center / cover no-repeat; opacity: .95; }
+.rh-church::after { content: ""; position: absolute; right: 12px; top: 50%; width: 9px; height: 9px; border: solid #4A4560; border-width: 2px 2px 0 0; transform: translateY(-50%) rotate(45deg); }
+.rh-sec h3 { display: flex; align-items: center; gap: 7px; }
+.rh-sec h3 svg { width: 20px; height: 20px; color: #A0A878; }
+.rb i svg { width: 28px; height: 28px; color: #6B5A80; }
+.rh-none { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 16px; border-radius: 18px; background: rgba(255, 255, 255, .62); }
+.rh-none p { margin: 0; font-size: 13px; line-height: 1.55; color: #4A4560; }
+.rh-none .btn { flex: none; display: inline-flex; align-items: center; gap: 5px; border-radius: 999px; }
+.rh-none .btn svg { width: 16px; height: 16px; }
+.ch-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px 8px; }
+.ch-tile { display: flex; flex-direction: column; align-items: center; gap: 6px; border: 0; background: none; padding: 0; }
+.ch-logo { position: relative; display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; overflow: hidden; background: radial-gradient(circle at 35% 30%, #FFFFFF, var(--c) 78%); box-shadow: 0 0 0 2.5px #FFFFFF, 0 0 0 4px var(--c), 0 4px 10px rgba(80, 60, 40, .14); font-style: normal; font-size: 22px; font-weight: 700; color: #3A3550; }
+.ch-logo img { width: 100%; height: 100%; object-fit: cover; }
+.ch-logo svg { width: 24px; height: 24px; color: #8A5A17; }
+.ch-tile b { font-size: 12.5px; line-height: 1.3; color: #2B3252; text-align: center; word-break: keep-all; }
+.ch-tile small { margin-top: -4px; font-size: 11px; color: #9A90A0; }
+.ch-up { display: flex; align-items: center; gap: 14px; padding: 10px 12px; border: 1.5px dashed #D9C7A8; border-radius: 16px; background: #FFFBF3; cursor: pointer; }
+.ch-up > span { font-size: 13.5px; color: #4A4560; line-height: 1.45; }
+.ch-up small { color: #9A90A0; }
+.ch-head { display: flex; align-items: center; gap: 14px; }
+.ch-head b { font-size: 18px; color: #1F2D57; }
+.ch-head p { margin: 2px 0 0; font-size: 13px; color: #6B6680; }
 </style>
 
 <div class="app">
@@ -2165,26 +2206,61 @@ body.is-closet .mnote2 { margin-top: 6px; }
     var pf = (C && C.profile) || S.profile || {};
     return pf.church && pf.church[0] ? pf.church[0] : (!SB ? DEMO_CHURCH.name : '');
   }
+  var CHURCHES = [
+    { id: 'c1', name: '세상의빛 교회', place: '서울 서초구', members: 128, logo: 'church-logo0.webp', mine: true },
+    { id: 'c2', name: '새소망교회', place: '경기 성남시', members: 86 },
+    { id: 'c3', name: '은혜와평강교회', place: '서울 마포구', members: 203 },
+    { id: 'c4', name: '빛과소금교회', place: '부산 해운대구', members: 64 },
+    { id: 'c5', name: '사랑나눔교회', place: '대전 서구', members: 57 },
+    { id: 'c6', name: '한빛선교교회', place: '서울 강남구', members: 141 }];
+  var churchSel = '', chLogo = '';
+  var RICONS = ["<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 20v-8\"/><path d=\"M12 12c0-3.6-2.6-6-6.5-6 0 3.8 2.6 6 6.5 6z\"/><path d=\"M12 12c0-3.6 2.6-6 6.5-6 0 3.8-2.6 6-6.5 6z\"/></svg>", "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"7.5\" r=\"2.8\"/><circle cx=\"5.8\" cy=\"9.5\" r=\"2.1\"/><circle cx=\"18.2\" cy=\"9.5\" r=\"2.1\"/><path d=\"M7.4 19c0-3 2-5 4.6-5s4.6 2 4.6 5M2.6 18.5c0-2.3 1.4-3.8 3.3-3.8M21.4 18.5c0-2.3-1.4-3.8-3.3-3.8\"/></svg>", "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"8.5\"/><path d=\"M3.5 12h17M12 3.5c2.4 2.4 3.5 5.2 3.5 8.5s-1.1 6.1-3.5 8.5c-2.4-2.4-3.5-5.2-3.5-8.5S9.6 5.9 12 3.5z\"/></svg>", "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 6.5C10 5 7 4.5 3.5 5v13c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5V5C17 4.5 14 5 12 6.5z\"/><path d=\"M12 6.5v13\"/></svg>", "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 13s-4-2.4-4-5.2A2.2 2.2 0 0 1 12 6.6a2.2 2.2 0 0 1 4 1.2c0 2.8-4 5.2-4 5.2z\"/><path d=\"M3.5 13.5l3.5 3.2c1 .9 2.2 1.3 3.5 1.3h6.5M20.5 13.5 17 16.7\"/></svg>"];
+  function allChurches() { return (S.churchReqs || []).map(function (c) { return Object.assign({ pending: true, members: 1 }, c); }).concat(CHURCHES); }
+  function churchLogo(c, i) {
+    return '<i class="ch-logo" style="--c:' + BUBBLE_C[i % BUBBLE_C.length] + '">' + (c.logo ? '<img src="' + esc(c.logo) + '" alt="">' : esc(c.name.charAt(0))) + '</i>';
+  }
   function vRoomsHub() {
-    var seg = '<div class="rh-seg" role="group" aria-label="기도 모임 구분">' + [['church', '우리 교회'], ['open', '함께 기도방']].map(function (x) {
-      return '<button data-rtab="' + x[0] + '" aria-pressed="' + (rtab === x[0]) + '">' + x[1] + '</button>'; }).join('') + '</div>';
-    return '<div class="rh"><h1 class="page-title">기도 모임</h1>' + seg + (rtab === 'church' ? vChurchHub() : vOpenHub()) + '</div>';
+    var seg = '<div class="rh-seg" role="group" aria-label="기도 모임 구분">' + [['church', '우리 교회', RICONS[1]], ['open', '함께 기도방', RICONS[1]]].map(function (x) {
+      return '<button data-rtab="' + x[0] + '" aria-pressed="' + (rtab === x[0]) + '">' + x[2] + x[1] + '</button>'; }).join('') + '</div>';
+    return '<div class="rh"><div class="rh-top"><h1 class="page-title">기도 모임</h1><p>함께 모여 기도할 때,<br>더 큰 응답의 길이 열립니다.</p></div>' + seg + (rtab === 'church' ? vChurchHub() : vOpenHub()) + '</div>';
   }
   function vChurchHub() {
-    var ch = DEMO_CHURCH, cn = myChurchName();
-    if (!ch) return '<div class="rh-empty"><b>' + (cn ? esc(cn) + ' 채널이 아직 없어요' : '아직 들어간 교회 채널이 없어요') + '</b><p>교회 채널은 같은 교회에 등록된 성도끼리만 보고 기도하는 공간이에요.</p>' +
-      '<button class="rh-add" data-act="church-new">' + PLUS + '교회 채널 개설 신청하기</button></div>';
-    var mine = S.rooms.filter(function (r) { return r.example; });
+    var list = allChurches();
+    var c = churchSel && list.find(function (x) { return x.id === churchSel; });
+    if (c && c.mine) return vChurchHome(c);
+    var mine = list.filter(function (x) { return x.mine || x.pending; }), other = list.filter(function (x) { return !x.mine && !x.pending; });
+    var tile = function (x, i) { return '<button class="ch-tile" data-church="' + x.id + '">' + churchLogo(x, i) + '<b>' + esc(x.name) + '</b><small>' + (x.pending ? '확인 중' : x.mine ? '내 교회' : '성도 ' + x.members + '명') + '</small></button>'; };
+    return '<div class="rh-info">' + RICONS[0] + '<p>교회에 등록된 성도끼리만 보고 기도하는 공간이에요. 내 교회를 찾아 들어가거나 새로 개설해 보세요.</p></div>' +
+      '<button class="rh-add" data-act="church-new">' + PLUS + '교회 개설하기</button>' +
+      (mine.length ? '<div class="rh-sec"><h3>내 교회</h3></div><div class="ch-grid">' + mine.map(tile).join('') + '</div>' : '') +
+      '<div class="rh-sec"><h3>등록된 교회</h3></div><div class="ch-grid">' + other.map(function (x, i) { return tile(x, i + mine.length); }).join('') + '</div>';
+  }
+  function vChurchHome(c) {
+    var ch = DEMO_CHURCH, mine = S.rooms.filter(function (r) { return r.example; });
     var recent = ch.rooms.slice().sort(function (a, b) { return b.fresh - a.fresh; });
-    return (SB ? '<div class="note rh-soon">교회 채널은 준비 중이에요. 지금 보이는 교회와 모임방은 예시예요.</div>' : '') + '<div class="rh-church"><div class="rh-cn"><span class="rh-badge">인증 교회</span>' + (SB ? '<span class="tag" style="margin-left:6px">예시</span>' : '') + '<h2>' + esc(ch.name) + '</h2><p>' + esc(ch.place) + ' · 등록 성도 ' + ch.members + '명 · 모임방 ' + (ch.rooms.length + mine.length) + '개</p></div>' +
-        '<div class="small rh-lock">' + LOCK + '이 교회에 등록된 성도만 볼 수 있어요</div></div>' +
-      '<div class="rh-sec"><h3>최근 열리거나 새 글이 올라온 모임</h3></div>' +
-      '<div class="rb-row" data-noswipe>' + mine.map(function (r, i) { return bubble(r.name, i, 'data-room="' + r.id + '"', roomPosts(r).length, '내 모임'); }).join('') +
-        recent.map(function (r, i) { return bubble(r.name, i + mine.length, 'data-croom="' + r.id + '"', r.fresh, r.ago); }).join('') + '</div>' +
+    var rb = function (r, i, attr, fresh, sub) { return '<button class="rb" ' + attr + '><i style="--c:' + BUBBLE_C[i % BUBBLE_C.length] + '">' + RICONS[i % RICONS.length] + (fresh ? '<em>' + fresh + '</em>' : '') + '</i><span>' + esc(r.name) + '</span><small>' + esc(sub) + '</small></button>'; };
+    return (SB ? '<div class="note rh-soon">교회 채널은 준비 중이에요. 지금 보이는 교회와 모임방은 예시예요.</div>' : '') +
+      '<button class="rh-back" data-church="">' + BACKS + '교회 목록</button>' +
+      '<div class="rh-info">' + RICONS[0] + '<p>교회, 셀, 사역 등 원하는 기도 모임을 만들고<br>함께 중보기도를 이어가세요.</p></div>' +
+      '<button class="rh-church" data-act="noop"><span class="rh-tags"><span class="rh-badge">대표 모임</span><span>우리 교회</span></span><h2>' + esc(c.name) + '</h2>' +
+        '<p>' + PINI + esc(c.place) + ' · 등록 성도 ' + c.members + '명 · 모임방 ' + (ch.rooms.length + mine.length) + '개</p><i class="rh-cimg" aria-hidden="true"></i></button>' +
+      '<div class="rh-sec"><h3>' + RICONS[0] + '최근 열리거나 새 글이 올라온 모임</h3></div>' +
+      '<div class="rb-row" data-noswipe>' + recent.map(function (r, i) { return rb(r, i, 'data-croom="' + r.id + '"', r.fresh, r.ago); }).join('') + '</div>' +
       '<button class="rh-add" data-act="room-new">' + PLUS + '우리 교회 기도모임방 만들기</button>' +
-      '<div class="rh-sec"><h3>내 모임방</h3></div>' + (mine.length ? mine.map(roomCard).join('') : '<div class="empty">아직 들어간 모임방이 없어요.</div>') +
-      '<div class="rh-sec"><h3>' + esc(ch.name) + ' 모임방</h3></div>' + ch.rooms.map(function (r) {
+      '<div class="rh-sec"><h3>' + BOOKM + '내 모임방</h3></div>' + (mine.length ? mine.map(roomCard).join('') :
+        '<div class="rh-none"><p>아직 참여한 모임방이 없어요.<br>관심 있는 기도모임에 참여해 보세요.</p><button class="btn sm" data-act="ch-find">' + SRCH + '기도 모임 찾기</button></div>') +
+      '<div class="rh-sec" id="chRooms"><h3>' + esc(c.name) + ' 모임방</h3></div>' + ch.rooms.map(function (r) {
         return '<button class="post rh-room" data-croom="' + r.id + '"><h3>' + esc(r.name) + (r.fresh ? ' <span class="rh-new">새 글 ' + r.fresh + '</span>' : '') + '</h3><p>' + esc(r.intro) + '</p><div class="meta"><span>방장 ' + esc(r.leader) + '</span><span>멤버 ' + r.count + '명</span><span>' + esc(r.ago) + '</span></div></button>'; }).join('');
+  }
+  var BACKS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>';
+  var PINI = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg>';
+  var BOOKM = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3.5h11v17l-5.5-4-5.5 4z"/></svg>';
+  var SRCH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>';
+  function churchSheet(id) {
+    var c = allChurches().find(function (x) { return x.id === id; }); if (!c) return;
+    if (c.pending) return sheet(c.name, '<div class="ch-head">' + churchLogo(c, 0) + '<div><b>' + esc(c.name) + '</b><p>' + esc(c.place || '') + '</p></div></div><div class="note">운영자가 확인하고 있어요. 확인이 끝나면 교회 채널이 열려요.</div>');
+    sheet(c.name, '<div class="ch-head">' + churchLogo(c, 1) + '<div><b>' + esc(c.name) + '</b><p>' + esc(c.place) + ' · 등록 성도 ' + c.members + '명</p></div></div>' +
+      '<div class="note">이 교회에 등록된 성도만 들어갈 수 있어요. 등록을 신청하면 교회 관리자가 확인해요.</div><button class="btn block" data-act="church-join">등록 신청하기</button>');
   }
   function vOpenHub() {
     var ol = openRooms(), mine = S.rooms.filter(function (r) { return !r.example; });
@@ -2207,14 +2283,31 @@ body.is-closet .mnote2 { margin-top: 6px; }
       '<div class="note">' + esc(DEMO_CHURCH.name) + ' 성도라면 방장에게 들어가기를 신청할 수 있어요.</div><button class="btn block" data-act="croom-req">들어가기 신청</button>');
   }
   function churchNew() {
-    var cn = myChurchName();
-    sheet('교회 채널 개설 신청',
-      '<p class="small muted">교회 인증을 받은 성도가 신청하면, 운영자가 확인한 뒤 채널을 열어 드려요.</p>' +
-      '<label class="field"><span>교회 이름</span><input class="input" id="chName" value="' + esc(cn) + '" placeholder="예: 세상의빛 교회"></label>' +
-      '<label class="field"><span>교회 주소</span><input class="input" id="chPlace" placeholder="예: 서울 마포구 망원로 12"></label>' +
+    chLogo = '';
+    sheet('교회 개설하기',
+      '<p class="small muted">교회 인증을 받은 성도가 개설을 신청하면, 운영자가 확인한 뒤 채널을 열어 드려요.</p>' +
+      '<div class="field"><span>교회 로고 <b class="opt">선택</b></span><label class="ch-up"><i class="ch-logo" id="chLogoPrev" style="--c:#E9C58A">' + PLUS + '</i><span>교회 로고나 사진을 올려 주세요<br><small>정사각형 그림이 가장 잘 어울려요</small></span><input type="file" accept="image/*" id="chLogoIn" hidden></label></div>' +
+      '<label class="field"><span>교회 이름</span><input class="input" id="chName" value="' + esc(myChurchName() === DEMO_CHURCH.name ? '' : myChurchName()) + '" placeholder="예: 세상의빛 교회"></label>' +
+      '<label class="field"><span>교회 주소</span><input class="input" id="chPlace" placeholder="예: 서울 서초구 반포대로 12"></label>' +
       '<label class="field"><span>교회에서 맡은 일 <b class="opt">선택</b></span><input class="input" id="chRole" placeholder="예: 청년부 교사, 구역장"></label>' +
-      '<button class="btn block" data-act="church-req">운영자에게 신청하기</button>');
+      '<button class="btn block" data-act="church-req">개설 신청하기</button>');
   }
+  document.addEventListener('change', function (e) {
+    if (e.target.id !== 'chLogoIn' || !e.target.files[0]) return;
+    var fr = new FileReader();
+    fr.onload = function () {
+      var im = new Image();
+      im.onload = function () {
+        var cv = document.createElement('canvas'), z = 200, sc = Math.max(z / im.width, z / im.height);
+        cv.width = cv.height = z; var g = cv.getContext('2d');
+        g.drawImage(im, (z - im.width * sc) / 2, (z - im.height * sc) / 2, im.width * sc, im.height * sc);
+        chLogo = cv.toDataURL('image/jpeg', 0.82);
+        var pv = el('chLogoPrev'); if (pv) pv.innerHTML = '<img src="' + chLogo + '" alt="">';
+      };
+      im.src = fr.result;
+    };
+    fr.readAsDataURL(e.target.files[0]);
+  });
   // 이번 주 모임 기도 제목을 카톡용 글 하나로 묶기
   function roomWeekText(r) {
     var since = Date.now() - 7 * 864e5, list = roomPosts(r).filter(function (p) { return p.created >= since; });
@@ -4031,6 +4124,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
     if (d.ptab) { ptab = d.ptab; render(); return; }
     if (d.rtab) { rtab = d.rtab; render(); return; }
     if (d.croom) return churchRoomSheet(d.croom);
+    if (d.church !== undefined) { var cc = allChurches().find(function (x) { return x.id === d.church; }); if (d.church && (!cc || !cc.mine)) return churchSheet(d.church); churchSel = d.church; render(); window.scrollTo(0, 0); return; }
     if (d.room) { roomId = d.room; return go('room'); }
     if (d.rrdays) { el('rrDays').querySelectorAll('.chip').forEach(function (c) { c.setAttribute('aria-pressed', c === b); }); return; }
     if (d.pub) {
@@ -4208,7 +4302,12 @@ body.is-closet .mnote2 { margin-top: 6px; }
       case 'room-back': ptab = 'rooms'; return go('pray');
       case 'room-new': return roomNew();
       case 'church-new': return churchNew();
-      case 'church-req': if (!val('chName')) return toast('교회 이름을 적어 주세요'); closeSheet(); toast(SB ? '교회 채널 신청은 곧 열려요' : '신청했어요. 운영자가 확인하면 알려 드릴게요'); return;
+      case 'church-req':
+        if (!val('chName')) return toast('교회 이름을 적어 주세요');
+        S.churchReqs = (S.churchReqs || []).concat([{ id: 'q' + uid(), name: val('chName'), place: val('chPlace'), role: val('chRole'), logo: chLogo }]);
+        save(); closeSheet(); render(); toast('개설을 신청했어요. 운영자가 확인하면 채널이 열려요'); return;
+      case 'church-join': closeSheet(); toast('등록을 신청했어요'); return;
+      case 'ch-find': var cr = el('chRooms'); if (cr) cr.scrollIntoView({ behavior: 'smooth' }); return;
       case 'croom-req': closeSheet(); toast(SB ? '교회 모임방은 곧 열려요' : '방장에게 신청했어요'); return;
       case 'room-export': return roomExport();
       case 'room-share':
