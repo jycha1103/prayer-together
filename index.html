@@ -1550,6 +1550,21 @@ body.is-closet .mnote2 { margin-top: 6px; }
 .check.share-ch span { display: flex; flex-direction: column; gap: 2px; font-size: 14px; }
 .check.share-ch small { font-size: 12px; color: #7A7290; }
 .rh .room-card > p { display: none; }
+
+/*CHURCH5*/
+.rh .pseg { margin-top: 14px; }
+.rh-cinfo { flex: 1; min-width: 0; display: flex; align-items: center; gap: 12px; cursor: pointer; }
+.rh-edit { display: inline-flex; align-items: center; gap: 3px; padding: 1px 8px; border-radius: 999px; background: #EEF1F8; color: #2B3B6B; font-size: 11px; font-weight: 700; }
+.rh-edit svg { width: 12px; height: 12px; }
+.ch-links { display: flex; gap: 8px; margin-top: 8px; }
+.ch-link { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: #FFFFFF; color: #4A4560; box-shadow: 0 1px 4px rgba(80, 60, 40, .12); }
+.ch-link svg { width: 17px; height: 17px; }
+.ch-lin { position: relative; display: block; }
+.ch-lin + .ch-lin { margin-top: 8px; }
+.ch-lin > svg { position: absolute; left: 13px; top: 50%; width: 19px; height: 19px; transform: translateY(-50%); color: #8A7A66; pointer-events: none; }
+.ch-lin .input { padding-left: 42px; }
+.ch-lbtn { display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
+.ch-lbtn svg { width: 19px; height: 19px; }
 </style>
 
 <div class="app">
@@ -2252,7 +2267,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
     return pf.church && pf.church[0] ? pf.church[0] : (!SB ? DEMO_CHURCH.name : '');
   }
   var CHURCHES = [
-    { id: 'c1', name: '세상의빛 교회', place: '서울 서초구', pastor: '김요한', members: 128, logo: 'church-logo0.webp', mine: true },
+    { id: 'c1', name: '세상의빛 교회', place: '서울 서초구', pastor: '김요한', members: 128, logo: 'church-logo0.webp', mine: true, owner: true, links: { home: 'https://example.org', insta: '', youtube: '' } },
     { id: 'c2', name: '새소망교회', place: '경기 성남시', pastor: '이다윗', members: 86 },
     { id: 'c3', name: '은혜와평강교회', place: '서울 마포구', pastor: '박사무엘', members: 203 },
     { id: 'c4', name: '빛과소금교회', place: '부산 해운대구', pastor: '최바울', members: 64 },
@@ -2260,13 +2275,13 @@ body.is-closet .mnote2 { margin-top: 6px; }
     { id: 'c6', name: '한빛선교교회', place: '서울 강남구', pastor: '한느헤미야', members: 141 }];
   var churchSel = '', chLogo = '';
   var RICONS = ["<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 20v-8\"/><path d=\"M12 12c0-3.6-2.6-6-6.5-6 0 3.8 2.6 6 6.5 6z\"/><path d=\"M12 12c0-3.6 2.6-6 6.5-6 0 3.8-2.6 6-6.5 6z\"/></svg>", "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"7.5\" r=\"2.8\"/><circle cx=\"5.8\" cy=\"9.5\" r=\"2.1\"/><circle cx=\"18.2\" cy=\"9.5\" r=\"2.1\"/><path d=\"M7.4 19c0-3 2-5 4.6-5s4.6 2 4.6 5M2.6 18.5c0-2.3 1.4-3.8 3.3-3.8M21.4 18.5c0-2.3-1.4-3.8-3.3-3.8\"/></svg>", "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"8.5\"/><path d=\"M3.5 12h17M12 3.5c2.4 2.4 3.5 5.2 3.5 8.5s-1.1 6.1-3.5 8.5c-2.4-2.4-3.5-5.2-3.5-8.5S9.6 5.9 12 3.5z\"/></svg>", "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 6.5C10 5 7 4.5 3.5 5v13c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5V5C17 4.5 14 5 12 6.5z\"/><path d=\"M12 6.5v13\"/></svg>", "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 13s-4-2.4-4-5.2A2.2 2.2 0 0 1 12 6.6a2.2 2.2 0 0 1 4 1.2c0 2.8-4 5.2-4 5.2z\"/><path d=\"M3.5 13.5l3.5 3.2c1 .9 2.2 1.3 3.5 1.3h6.5M20.5 13.5 17 16.7\"/></svg>"];
-  function allChurches() { return (S.churchReqs || []).map(function (c) { return Object.assign({ pending: true, members: 1 }, c); }).concat(CHURCHES); }
+  function allChurches() { var E = S.churchEdits || {}; return (S.churchReqs || []).map(function (c) { return Object.assign({ pending: true, members: 1 }, c); }).concat(CHURCHES.map(function (c) { return E[c.id] ? Object.assign({}, c, E[c.id]) : c; })); }
   function churchLogo(c, i) {
     return '<i class="ch-logo" style="--c:' + BUBBLE_C[i % BUBBLE_C.length] + '">' + (c.logo ? '<img src="' + esc(c.logo) + '" alt="">' : esc(c.name.charAt(0))) + '</i>';
   }
   function vRoomsHub() {
-    var seg = '<div class="rh-seg" role="group" aria-label="기도 모임 구분">' + [['church', '우리 교회', RICONS[1]], ['open', '함께 기도방', RICONS[1]]].map(function (x) {
-      return '<button data-rtab="' + x[0] + '" aria-pressed="' + (rtab === x[0]) + '">' + x[2] + x[1] + '</button>'; }).join('') + '</div>';
+    var seg = '<div class="pseg" role="group" aria-label="기도 모임 구분">' + [['church', '우리 교회 모임방'], ['open', '연합 모임방']].map(function (x) {
+      return '<button data-rtab="' + x[0] + '" aria-pressed="' + (rtab === x[0]) + '">' + x[1] + '</button>'; }).join('') + '</div>';
     return '<div class="rh"><div class="rh-top"><h1 class="page-title">기도 모임</h1><p>함께 모여 기도할 때,<br>더 큰 응답의 길이 열립니다.</p></div>' + seg + (rtab === 'church' ? vChurchHub() : vOpenHub()) + '</div>';
   }
   var CH_FEED = [
@@ -2301,8 +2316,8 @@ body.is-closet .mnote2 { margin-top: 6px; }
     var feed = S.posts.filter(function (p) { return p.church === c.name; }).sort(function (a, b) { return b.created - a.created; });
     return (SB ? '<div class="note rh-soon">교회 채널은 준비 중이에요. 지금 보이는 교회와 모임방은 예시예요.</div>' : '') +
       '<button class="rh-back" data-church="">' + BACKS + '교회 목록</button>' +
-      '<div class="rh-church">' + churchLogo(c, 0) + '<div class="rh-cmid"><span class="rh-tags"><span>우리 교회</span></span><h2>' + esc(c.name) + '</h2>' +
-        '<p>' + PINI + esc(c.place) + ' · 성도 ' + c.members + '명</p></div>' +
+      '<div class="rh-church">' + '<div class="rh-cinfo" role="button" tabindex="0" data-chinfo="' + c.id + '">' + churchLogo(c, 0) + '<div class="rh-cmid"><span class="rh-tags"><span>우리 교회</span>' + (c.owner ? '<span class="rh-edit">' + PEN + '정보 수정</span>' : '') + '</span><h2>' + esc(c.name) + '</h2>' +
+        '<p>' + PINI + esc(c.place) + ' · 성도 ' + c.members + '명</p>' + linkPills(c) + '</div></div>' +
         '<button class="rh-cadd" data-act="room-new">' + PLUS + '모임방<br>개설하기</button></div>' +
       '<div class="rh-sec"><h3>' + BOOKM + '내 모임방</h3></div>' + (mine.length ? mine.map(roomCard).join('') :
         '<div class="rh-none"><p>아직 참여한 모임방이 없어요.<br>관심 있는 기도모임에 참여해 보세요.</p></div>') +
@@ -2316,6 +2331,35 @@ body.is-closet .mnote2 { margin-top: 6px; }
     document.querySelectorAll('#chList .ch-row').forEach(function (r) { var ok = !q || r.dataset.q.indexOf(q) >= 0; r.hidden = !ok; if (ok) any = true; });
     var n = el('chNone'); if (n) n.hidden = any;
   });
+  var LINKS = [['home', '홈페이지', '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.4 2.4 3.5 5.2 3.5 8.5s-1.1 6.1-3.5 8.5c-2.4-2.4-3.5-5.2-3.5-8.5S9.6 5.9 12 3.5z"/></svg>'],
+    ['insta', '인스타그램', '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="3.8"/><circle cx="17.2" cy="6.8" r=".9" fill="currentColor"/></svg>'],
+    ['youtube', '유튜브', '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="m10 9.2 5 2.8-5 2.8z" fill="currentColor"/></svg>'],
+    ['blog', '블로그·카페', '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4.5h14v12H9l-4 3.5z"/><path d="M8.5 9h7M8.5 12h4.5"/></svg>']];
+  var PEN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15.5 4.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z"/></svg>';
+  function safeUrl(u) { u = (u || '').trim(); if (!u) return ''; if (!/^https?:\/\//i.test(u)) u = 'https://' + u; return /^https?:\/\/[^\s"'<>]+$/i.test(u) ? u : ''; }
+  function linkPills(c) {
+    var L = c.links || {}, h = LINKS.filter(function (x) { return safeUrl(L[x[0]]); }).map(function (x) { return '<a class="ch-link" href="' + esc(safeUrl(L[x[0]])) + '" target="_blank" rel="noopener" aria-label="' + x[1] + '">' + x[2] + '</a>'; }).join('');
+    return h ? '<div class="ch-links">' + h + '</div>' : '';
+  }
+  function churchEdit(id) {
+    var c = allChurches().find(function (x) { return x.id === id; }); if (!c) return;
+    chLogo = c.logo || ''; var L = c.links || {};
+    sheet('교회 정보 수정',
+      '<div class="field"><span>교회 로고</span><label class="ch-up"><i class="ch-logo" id="chLogoPrev" style="--c:#E9C58A">' + (chLogo ? '<img src="' + esc(chLogo) + '" alt="">' : PLUS) + '</i><span>눌러서 로고나 사진을 바꿀 수 있어요</span><input type="file" accept="image/*" id="chLogoIn" hidden></label></div>' +
+      '<label class="field"><span>교회 이름</span><input class="input" id="chName" value="' + esc(c.name) + '"></label>' +
+      '<label class="field"><span>교회 주소</span><input class="input" id="chPlace" value="' + esc(c.place || '') + '"></label>' +
+      '<label class="field"><span>담임목사</span><input class="input" id="chPastor" value="' + esc(c.pastor || '') + '"></label>' +
+      '<div class="field"><span>홈페이지와 SNS <b class="opt">선택</b></span>' + LINKS.map(function (x) {
+        return '<label class="ch-lin">' + x[2] + '<input class="input" id="chL_' + x[0] + '" inputmode="url" value="' + esc(L[x[0]] || '') + '" placeholder="' + x[1] + ' 주소"></label>'; }).join('') + '</div>' +
+      '<button class="btn block" data-act="church-save" data-cid="' + c.id + '">저장하기</button>');
+  }
+  function churchInfo(id) {
+    var c = allChurches().find(function (x) { return x.id === id; }); if (!c) return;
+    if (c.owner) return churchEdit(id);
+    var L = c.links || {};
+    sheet(c.name, '<div class="ch-head">' + churchLogo(c, 0) + '<div><b>' + esc(c.name) + '</b><p>' + esc(c.place) + ' · 담임목사 ' + esc(c.pastor || '-') + '</p></div></div>' +
+      LINKS.filter(function (x) { return safeUrl(L[x[0]]); }).map(function (x) { return '<a class="btn block line ch-lbtn" href="' + esc(safeUrl(L[x[0]])) + '" target="_blank" rel="noopener">' + x[2] + x[1] + '</a>'; }).join(''));
+  }
   var BACKS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>';
   var PINI = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg>';
   var BOOKM = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3.5h11v17l-5.5-4-5.5 4z"/></svg>';
@@ -4109,7 +4153,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
     var mo = e.target.closest && e.target.closest('[data-more]');
     if (mo) { e.stopPropagation(); var pc = mo.closest('.post'); var on = pc.classList.toggle('open'); mo.setAttribute('aria-label', on ? '접기' : '더보기'); return; }
     if (e.target.classList && e.target.classList.contains('drawer-back')) return closeDrawer();
-    var b = e.target.closest('button, .sheet-back');
+    var b = e.target.closest('button, .sheet-back, [data-chinfo]');
     if (!b) return;
     if (b.dataset.close && (e.target === b || b.classList.contains('x'))) return closeSheet();
     if (b.classList.contains('sheet-back')) return;
@@ -4191,6 +4235,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
     if (d.rtab) { rtab = d.rtab; render(); return; }
     if (d.croom) return churchRoomSheet(d.croom);
     if (d.chshare) { var sp = postById(d.chshare); if (!sp) return; if (sp.church) { sp.church = ''; toast('교회 공유를 취소했어요'); } else { sp.church = myChurchName(); var srm = roomById(sp.roomId); if (srm) sp.cat = srm.name; toast(sp.church + ' 성도들과 공유했어요'); } save(); openPost(sp.id); render(); return; }
+    if (d.chinfo) return churchInfo(d.chinfo);
     if (d.cfpray) { S.chPrayed = S.chPrayed || {}; S.chPrayed[d.cfpray] = !S.chPrayed[d.cfpray]; save(); render(); return; }
     if (d.church !== undefined) { var cc = allChurches().find(function (x) { return x.id === d.church; }); if (d.church && (!cc || !cc.mine)) return churchSheet(d.church); churchSel = d.church; render(); window.scrollTo(0, 0); return; }
     if (d.room) { roomId = d.room; return go('room'); }
@@ -4375,6 +4420,13 @@ body.is-closet .mnote2 { margin-top: 6px; }
         if (!val('chName')) return toast('교회 이름을 적어 주세요');
         S.churchReqs = (S.churchReqs || []).concat([{ id: 'q' + uid(), name: val('chName'), place: val('chPlace'), pastor: val('chPastor'), role: val('chRole'), logo: chLogo }]);
         save(); closeSheet(); render(); toast('개설을 신청했어요. 운영자가 확인하면 채널이 열려요'); return;
+      case 'church-save':
+        if (!val('chName')) return toast('교회 이름을 적어 주세요');
+        var lk = {}; LINKS.forEach(function (x) { var v = val('chL_' + x[0]); lk[x[0]] = v; });
+        var bad = LINKS.filter(function (x) { return lk[x[0]] && !safeUrl(lk[x[0]]); });
+        if (bad.length) return toast(bad[0][1] + ' 주소를 다시 확인해 주세요');
+        S.churchEdits = S.churchEdits || {}; S.churchEdits[d.cid] = { name: val('chName'), place: val('chPlace'), pastor: val('chPastor'), logo: chLogo, links: lk };
+        save(); closeSheet(); render(); toast('교회 정보를 저장했어요'); return;
       case 'church-join': closeSheet(); toast('등록을 신청했어요'); return;
       case 'ch-find': var cr = el('chRooms'); if (cr) cr.scrollIntoView({ behavior: 'smooth' }); return;
       case 'croom-req': closeSheet(); toast(SB ? '교회 모임방은 곧 열려요' : '방장에게 신청했어요'); return;
