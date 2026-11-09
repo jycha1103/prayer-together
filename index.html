@@ -2341,6 +2341,16 @@ body.is-closet .mnote2 { margin-top: 6px; }
     var L = c.links || {}, h = LINKS.filter(function (x) { return safeUrl(L[x[0]]); }).map(function (x) { return '<a class="ch-link" href="' + esc(safeUrl(L[x[0]])) + '" target="_blank" rel="noopener" aria-label="' + x[1] + '">' + x[2] + '</a>'; }).join('');
     return h ? '<div class="ch-links">' + h + '</div>' : '';
   }
+  function linkFields(L) {
+    return '<div class="field"><span>홈페이지와 SNS <b class="opt">선택</b></span>' + LINKS.map(function (x) {
+      return '<label class="ch-lin">' + x[2] + '<input class="input" id="chL_' + x[0] + '" inputmode="url" value="' + esc(L[x[0]] || '') + '" placeholder="' + x[1] + ' 주소"></label>'; }).join('') + '</div>';
+  }
+  function readLinks() {
+    var lk = {}; LINKS.forEach(function (x) { lk[x[0]] = val('chL_' + x[0]); });
+    var bad = LINKS.filter(function (x) { return lk[x[0]] && !safeUrl(lk[x[0]]); });
+    if (bad.length) { toast(bad[0][1] + ' 주소를 다시 확인해 주세요'); return null; }
+    return lk;
+  }
   function churchEdit(id) {
     var c = allChurches().find(function (x) { return x.id === id; }); if (!c) return;
     chLogo = c.logo || ''; var L = c.links || {};
@@ -2349,8 +2359,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
       '<label class="field"><span>교회 이름</span><input class="input" id="chName" value="' + esc(c.name) + '"></label>' +
       '<label class="field"><span>교회 주소</span><input class="input" id="chPlace" value="' + esc(c.place || '') + '"></label>' +
       '<label class="field"><span>담임목사</span><input class="input" id="chPastor" value="' + esc(c.pastor || '') + '"></label>' +
-      '<div class="field"><span>홈페이지와 SNS <b class="opt">선택</b></span>' + LINKS.map(function (x) {
-        return '<label class="ch-lin">' + x[2] + '<input class="input" id="chL_' + x[0] + '" inputmode="url" value="' + esc(L[x[0]] || '') + '" placeholder="' + x[1] + ' 주소"></label>'; }).join('') + '</div>' +
+      linkFields(L) +
       '<button class="btn block" data-act="church-save" data-cid="' + c.id + '">저장하기</button>');
   }
   function churchInfo(id) {
@@ -2399,6 +2408,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
       '<label class="field"><span>교회 주소</span><input class="input" id="chPlace" placeholder="예: 서울 서초구 반포대로 12"></label>' +
       '<label class="field"><span>담임목사</span><input class="input" id="chPastor" placeholder="예: 김요한 목사"></label>' +
       '<label class="field"><span>교회에서 맡은 일 <b class="opt">선택</b></span><input class="input" id="chRole" placeholder="예: 청년부 교사, 구역장"></label>' +
+      linkFields({}) +
       '<button class="btn block" data-act="church-req">개설 신청하기</button>');
   }
   document.addEventListener('change', function (e) {
@@ -4418,13 +4428,12 @@ body.is-closet .mnote2 { margin-top: 6px; }
       case 'church-new': return churchNew();
       case 'church-req':
         if (!val('chName')) return toast('교회 이름을 적어 주세요');
-        S.churchReqs = (S.churchReqs || []).concat([{ id: 'q' + uid(), name: val('chName'), place: val('chPlace'), pastor: val('chPastor'), role: val('chRole'), logo: chLogo }]);
+        var nl = readLinks(); if (!nl) return;
+        S.churchReqs = (S.churchReqs || []).concat([{ id: 'q' + uid(), name: val('chName'), place: val('chPlace'), pastor: val('chPastor'), role: val('chRole'), logo: chLogo, links: nl }]);
         save(); closeSheet(); render(); toast('개설을 신청했어요. 운영자가 확인하면 채널이 열려요'); return;
       case 'church-save':
         if (!val('chName')) return toast('교회 이름을 적어 주세요');
-        var lk = {}; LINKS.forEach(function (x) { var v = val('chL_' + x[0]); lk[x[0]] = v; });
-        var bad = LINKS.filter(function (x) { return lk[x[0]] && !safeUrl(lk[x[0]]); });
-        if (bad.length) return toast(bad[0][1] + ' 주소를 다시 확인해 주세요');
+        var lk = readLinks(); if (!lk) return;
         S.churchEdits = S.churchEdits || {}; S.churchEdits[d.cid] = { name: val('chName'), place: val('chPlace'), pastor: val('chPastor'), logo: chLogo, links: lk };
         save(); closeSheet(); render(); toast('교회 정보를 저장했어요'); return;
       case 'church-join': closeSheet(); toast('등록을 신청했어요'); return;
