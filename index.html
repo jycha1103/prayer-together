@@ -1480,7 +1480,8 @@ body.is-closet .mnote2 { margin-top: 6px; }
 .rm-who i { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #FFFFFF, var(--c) 80%); font-style: normal; font-weight: 700; font-size: 13px; color: #3A3550; }
 .rm-who b { font-size: 15px; color: #1F2D57; }
 .rm-who span { font-size: 12px; color: #9A90A0; }
-.rm-acts { display: grid; gap: 10px; margin-top: 18px; }
+.rm-acts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+.rm-acts .btn { min-height: 54px; padding: 0 8px; font-size: 15px; white-space: nowrap; border-radius: 18px; }
 .rm-acts .btn, .rx-send { display: flex; align-items: center; justify-content: center; gap: 7px; }
 .rm-acts .btn svg, .rx-send svg { width: 19px; height: 19px; }
 .rx-send { background: #FEE500 !important; color: #191600 !important; border: 0; }
@@ -2537,7 +2538,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
         : (isLeader(r) ? '<button class="btn block line" data-act="room-relay">+ 모임 릴레이 기도 열기</button>' : '')) +
       '<section class="sec"><div class="sec-head"><h2>멤버별 기도 제목</h2></div>' +
         (list.length ? roomByMember(list) : '<div class="empty">모임 식구들과 나눌 기도 제목을 올려 보세요.</div>') +
-        '<div class="rm-acts"><button class="btn block" data-act="room-write">' + PLUS + '기도 제목 올리기</button><button class="btn block rx-send" data-act="room-export">' + KAKAO + '이번 주 기도 제목 카톡으로 보내기</button></div></section>' +
+        '<div class="rm-acts"><button class="btn block" data-act="room-write">' + PLUS + '기도 제목 올리기</button><button class="btn block rx-send" data-act="room-export">' + KAKAO + '카톡으로 내보내기</button></div></section>' +
       '<div class="row" style="justify-content:center;gap:14px">' + (isLeader(r) && !r.example ? '<button class="linkbtn blue" data-act="room-move">' + (roomChurch(r) ? '연합 모임방으로 옮기기' : '우리 교회 모임방으로 옮기기') + '</button>' : '') + '<button class="linkbtn" data-act="room-leave">' + (isLeader(r) ? '모임방 없애기' : '모임방 나가기') + '</button></div>';
   }
   // 오픈 기도 모임방: 누구나 신청하고, 방장이 수락하면 들어가요
@@ -3977,13 +3978,14 @@ body.is-closet .mnote2 { margin-top: 6px; }
     var sh = el('sheet'), bd = el('sheetBody'); if (!sh || !bd) return;
     sh.classList.add('full', 'pw');
     var hd = el('sheetHead').querySelector('h2'); if (hd) hd.textContent = '';
-    bd.insertAdjacentHTML('afterbegin', '<div class="pw-head"><div class="pw-ht"><h1>기도 요청하기</h1><i class="pw-swash" aria-hidden="true"></i><p>함께 중보기도가 필요한<br>내용을 남겨주세요.</p></div></div>');
+    var inRoom = !!(preset && preset.roomId);
+    bd.insertAdjacentHTML('afterbegin', '<div class="pw-head"><div class="pw-ht"><h1>' + (inRoom ? '기도 제목 올리기' : '기도 요청하기') + '</h1><i class="pw-swash" aria-hidden="true"></i><p>함께 중보기도가 필요한<br>내용을 남겨주세요.</p></div></div>');
     var PWI = {"wCat": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"9\" cy=\"8\" r=\"3.2\"/><path d=\"M3.5 19c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5\"/><circle cx=\"16.5\" cy=\"9\" r=\"2.5\"/><path d=\"M15.5 14.2c2.6-.3 4.6 1.3 5 4.3\"/></svg>", "wTitle": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M15.5 4.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z\"/><path d=\"m13.5 6.5 3 3\"/></svg>", "wTags": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3.5 12.2V4.5a1 1 0 0 1 1-1h7.7l8.3 8.3a1.4 1.4 0 0 1 0 2l-6.2 6.2a1.4 1.4 0 0 1-2 0z\"/><circle cx=\"8\" cy=\"8\" r=\"1.4\"/></svg>", "wBody": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M6 3.5h8.5L19 8v12.5H6z\"/><path d=\"M14 3.5V8h5M9 12h7M9 15.5h7\"/></svg>"};
     var lab = function (id, t) { var n = el(id); n = n && n.closest('.field'); if (n) { var sp = n.querySelector(':scope > span'); if (sp) sp.innerHTML = '<i class="pw-ic">' + PWI[id] + '</i>' + t; n.classList.add('pw-card'); } };
     lab('wCat', ''); lab('wTitle', '기도 제목'); ['wCat', 'wTitle'].forEach(function (id) { var n = el(id); n = n && n.closest('.field'); if (n) n.classList.add('pw-inline'); }); var cf = el('wCat') && el('wCat').closest('.field'); if (cf) { cf.classList.add('pw-cat'); el('wCat').setAttribute('aria-label', '기도 유형'); } lab('wTags', '태그 <small>하나를 골라 주세요</small>'); var tg = el('wTags'); if (tg) tg.closest('.field').classList.add('pw-tagf'); lab('wBody', '기도 내용');
     var g = bd.querySelector('.guide-line'); if (g) { g.classList.add('pw-guide'); g.insertAdjacentHTML('afterbegin', '<i class="pw-ic"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 3.2 5 6v5.5c0 4.3 3 7.6 7 9.3 4-1.7 7-5 7-9.3V6z\"/><path d=\"m9 12 2.2 2.2L15.5 10\"/></svg></i>'); }
     var ug = bd.querySelector('.check.urgent'); if (ug) ug.insertAdjacentHTML('beforeend', '<i class="pw-siren">' + SIREN + '</i>');
-    var b = bd.querySelector('[data-submit="pray"]'); if (b) { b.classList.add('pw-send'); b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 2.8 2.8 10.4l7.1 3.1 3.1 7.7 8.5-18.4z"/><path d="m21.5 2.8-11.6 10.7"/></svg>기도 요청 올리기'; }
+    var b = bd.querySelector('[data-submit="pray"]'); if (b) { b.classList.add('pw-send'); b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 2.8 2.8 10.4l7.1 3.1 3.1 7.7 8.5-18.4z"/><path d="m21.5 2.8-11.6 10.7"/></svg>' + (inRoom ? '기도 제목 올리기' : '기도 요청 올리기'); }
     var w = el('wBody'); if (w) w.placeholder = '상황과 구체적인 기도 제목을 적어주세요.\n함께 기도할 수 있도록 자세히 적어주시면 좋아요.';
   }
 
