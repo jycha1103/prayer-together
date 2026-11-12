@@ -1444,6 +1444,8 @@ body.is-closet .mnote2 { margin-top: 6px; }
 .rh-lock svg { display: block; width: 13px; height: 13px; margin: 0 !important; position: static !important; }
 .rh-lock { flex: none; line-height: 0; padding: 0 !important; margin-left: 2px; }
 .rh-room.locked h3 { display: flex; align-items: center; }
+/*RBLOCK*/ .rb i .rb-lock { position: absolute; right: -3px; top: -3px; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: #4A4560; color: #FFFFFF; box-shadow: 0 0 0 2px #FFFFFF; }
+.rb i .rb-lock svg { width: 13px; height: 13px; color: #FFFFFF; }
 /*RBGRID*/ .rb-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 8px; padding: 4px 0 8px; justify-items: center; }
 @media (min-width: 440px) { .rb-grid { grid-template-columns: repeat(5, 1fr); } }
 .rb-grid .rb { width: 100%; max-width: 80px; }
@@ -2410,9 +2412,9 @@ body.is-closet .mnote2 { margin-top: 6px; }
       '<div class="rb-row" data-noswipe>' + ol.map(function (r, i) { return bubble(r.name, i + 2, 'data-oroom="' + r.id + '"', 0, '멤버 ' + (r.count || 1) + '명'); }).join('') + '</div>' +
       '<div class="two"><button class="rh-add" data-act="room-new">' + PLUS + '기도모임방 개설하기</button><button class="rh-add line" data-act="room-join">초대 코드로 들어가기</button></div>' +
       (mine.length ? '<div class="rh-sec"><h3>' + BOOKM + '내 모임방</h3></div><div class="rb-grid">' + mine.map(function (r, i) { return bubble(r.name, i, 'data-room="' + r.id + '"', 0, isLeader(r) ? '방장' : ''); }).join('') + '</div>' : '') +
-      '<div class="rh-sec"><h3>최근 개설 모임방</h3></div>' + (ol.length ? recentRooms(ol).map(function (r) {
-        if (r.locked) return '<button class="post rh-room locked" data-lroom="' + r.id + '"><h3>' + esc(r.name) + '<span class="rh-lock" aria-label="초대받은 사람만">' + LOCK + '</span></h3><p>' + esc(r.intro || '') + '</p><div class="meta"><span>방장 ' + esc(r.leader || '') + '</span><span>멤버 ' + (r.count || 1) + '명</span><span>초대받은 사람만</span></div></button>';
-        return '<button class="post rh-room" data-oroom="' + r.id + '"><h3>' + esc(r.name) + (r.requested ? ' <span class="pill amber">신청함</span>' : '') + '</h3><p>' + esc(r.intro || '') + '</p><div class="meta"><span>방장 ' + esc(r.leader || '') + '</span><span>멤버 ' + (r.count || 1) + '명</span></div></button>'; }).join('') : '<div class="empty">아직 열린 모임방이 없어요.</div>');
+      '<div class="rh-sec"><h3>최근 개설 모임방</h3></div>' + (ol.length ? '<div class="rb-grid">' + recentRooms(ol).map(function (r, i) {
+        var b = bubble(r.name, i + 1, r.locked ? 'data-lroom="' + r.id + '" aria-label="' + esc(r.name) + ' (초대받은 사람만)"' : 'data-oroom="' + r.id + '"', 0, r.requested ? '신청함' : '멤버 ' + (r.count || 1) + '명');
+        return r.locked ? b.replace('</i>', '<b class="rb-lock">' + LOCK + '</b></i>') : b; }).join('') + '</div>' : '<div class="empty">아직 열린 모임방이 없어요.</div>');
   }
   function roomByMember(list) {
     var order = [], by = {};
