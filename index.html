@@ -1440,6 +1440,10 @@ body.is-closet .mnote2 { margin-top: 6px; }
 .rh-intro { margin: 0 2px; font-size: 13.5px; line-height: 1.6; color: #6B6680; }
 .rb-row { display: flex; gap: 12px; overflow-x: auto; margin: 0 -16px; padding: 2px 16px 6px; scrollbar-width: none; }
 .rb-row::-webkit-scrollbar { display: none; }
+/*LOCKROOM*/ .rh-lock { display: inline-grid; place-items: center; width: 22px; height: 22px; margin-left: 6px; vertical-align: -3px; border-radius: 50%; background: #F1EBE2; color: #7A6A5A; }
+.rh-lock svg { display: block; width: 13px; height: 13px; margin: 0 !important; position: static !important; }
+.rh-lock { flex: none; line-height: 0; padding: 0 !important; margin-left: 2px; }
+.rh-room.locked h3 { display: flex; align-items: center; }
 /*RBGRID*/ .rb-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 8px; padding: 4px 0 8px; justify-items: center; }
 @media (min-width: 440px) { .rb-grid { grid-template-columns: repeat(5, 1fr); } }
 .rb-grid .rb { width: 100%; max-width: 80px; }
@@ -2384,6 +2388,21 @@ body.is-closet .mnote2 { margin-top: 6px; }
     sheet(c.name, '<div class="ch-head">' + churchLogo(c, 1) + '<div><b>' + esc(c.name) + '</b><p>' + esc(c.place) + ' · 등록 성도 ' + c.members + '명</p></div></div>' +
       '<div class="note">이 교회에 등록된 성도만 들어갈 수 있어요. 등록을 신청하면 교회 관리자가 확인해요.</div><button class="btn block" data-act="church-join">등록 신청하기</button>');
   }
+  // 초대장으로만 들어가는 모임방 (체험판 예시)
+  var DEMO_LOCKED = [
+    { id: 'lk1', locked: true, name: '다니엘 가정 예배', intro: '우리 가족끼리 매일 밤 함께 기도해요.', leader: '다니엘', count: 4 },
+    { id: 'lk2', locked: true, name: '목요 셀 기도방', intro: '목요일에 모이는 셀 식구들의 기도방이에요.', leader: '한나', count: 8 }];
+  function recentRooms(ol) {
+    if (SB) return ol;
+    var out = ol.slice(); out.splice(1, 0, DEMO_LOCKED[0]); out.splice(4, 0, DEMO_LOCKED[1]); return out;
+  }
+  function lockedRoomSheet(id) {
+    var r = DEMO_LOCKED.find(function (x) { return x.id === id; }); if (!r) return;
+    sheet('모임방 안내', '<div><h2 style="font-size:19px;display:flex;align-items:center;gap:6px">' + esc(r.name) + '<span class="rh-lock">' + LOCK + '</span></h2>' +
+      '<div class="meta" style="margin-top:4px"><span>방장 ' + esc(r.leader) + '</span><span>멤버 ' + r.count + '명</span></div></div>' +
+      '<p class="body-text" style="font-size:15px">' + esc(r.intro) + '</p>' +
+      '<div class="note">이 모임방은 방장이 보낸 초대 코드로만 들어갈 수 있어요.</div><button class="btn block" data-act="room-join">초대 코드로 들어가기</button>');
+  }
   function vOpenHub() {
     var ol = openRooms(), mine = S.rooms.filter(function (r) { return !roomChurch(r); });
     return '<p class="rh-intro">교회와 상관없이, 같은 마음을 가진 성도들이 주제별로 모여 기도해요.</p>' +
@@ -2391,7 +2410,8 @@ body.is-closet .mnote2 { margin-top: 6px; }
       '<div class="rb-row" data-noswipe>' + ol.map(function (r, i) { return bubble(r.name, i + 2, 'data-oroom="' + r.id + '"', 0, '멤버 ' + (r.count || 1) + '명'); }).join('') + '</div>' +
       '<div class="two"><button class="rh-add" data-act="room-new">' + PLUS + '기도모임방 개설하기</button><button class="rh-add line" data-act="room-join">초대 코드로 들어가기</button></div>' +
       (mine.length ? '<div class="rh-sec"><h3>' + BOOKM + '내 모임방</h3></div><div class="rb-grid">' + mine.map(function (r, i) { return bubble(r.name, i, 'data-room="' + r.id + '"', 0, isLeader(r) ? '방장' : ''); }).join('') + '</div>' : '') +
-      '<div class="rh-sec"><h3>누구나 들어올 수 있는 모임방</h3></div>' + (ol.length ? ol.map(function (r) {
+      '<div class="rh-sec"><h3>최근 개설 모임방</h3></div>' + (ol.length ? recentRooms(ol).map(function (r) {
+        if (r.locked) return '<button class="post rh-room locked" data-lroom="' + r.id + '"><h3>' + esc(r.name) + '<span class="rh-lock" aria-label="초대받은 사람만">' + LOCK + '</span></h3><p>' + esc(r.intro || '') + '</p><div class="meta"><span>방장 ' + esc(r.leader || '') + '</span><span>멤버 ' + (r.count || 1) + '명</span><span>초대받은 사람만</span></div></button>';
         return '<button class="post rh-room" data-oroom="' + r.id + '"><h3>' + esc(r.name) + (r.requested ? ' <span class="pill amber">신청함</span>' : '') + '</h3><p>' + esc(r.intro || '') + '</p><div class="meta"><span>방장 ' + esc(r.leader || '') + '</span><span>멤버 ' + (r.count || 1) + '명</span></div></button>'; }).join('') : '<div class="empty">아직 열린 모임방이 없어요.</div>');
   }
   function roomByMember(list) {
@@ -4217,6 +4237,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
     if (d.tpick) { closeSheet(); return addTime(today(), +d.tpick); }
     if (d.ropen != null) { document.querySelectorAll('#rOpen [data-ropen]').forEach(function (x) { var on = x.getAttribute('data-ropen') === d.ropen; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on); }); return; }
     if (d.oroom) return openRoomSheet(d.oroom);
+    if (d.lroom) return lockedRoomSheet(d.lroom);
     if (d.oreq || d.oreqCancel) {
       var oid = d.oreq || d.oreqCancel, on2 = !!d.oreq;
       if (SB) { var orr = (S.openRooms || []).find(function (x) { return x.id === oid; }); if (orr) orr.requested = on2; cloud(on2 ? 'room_request' : 'room_request_cancel', { p_id: oid }); }
