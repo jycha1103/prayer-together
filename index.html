@@ -1454,7 +1454,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
 .rh .rh-tabs button svg { width: 19px; height: 19px; flex: none; }
 .rh .rh-tabs button[aria-pressed="true"] { flex: 1 1 0; padding: 0 8px; font-size: 15px; font-weight: 700; }
 .rh .rh-tabs button[aria-pressed="true"]::after { bottom: -7px; width: 14px; height: 14px; margin-left: -7px; }
-/*CHEXPORT*/ .ch-export { margin: 14px 0 6px; }
+/*CHEXPORT*/ .ch-list.empty-list { background: none; border: 0; box-shadow: none; padding: 0; } .ch-export { margin: 14px 0 6px; }
 /*RQSEARCH*/ .rq-q { margin: 4px 0 2px; }
 #rqList { padding-top: 8px; }
 .rb-row .rb[hidden] { display: none; }
@@ -1745,6 +1745,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
 
   function cloudSeed() { var s = seed(); s.v = 8; s.example = false; s.posts = []; s.items = []; s.letters = []; s.times = {}; s.relays = []; s.rooms = []; s.me = { name: '', role: '일반 성도' }; return s; }
   var S = load() || (CLOUD_CFG ? cloudSeed() : seed());
+  if (S.posts) S.posts = S.posts.filter(function (p) { return !p.chDemo; });
   if (!S.v) { // 첫 버전에서 쓰던 기록에 새 게시판 예시를 더합니다
     var H0 = 3600000, n0 = Date.now();
     S.posts = S.posts.concat(seedConcerns(n0, H0), seedTips(n0, H0)); S.v = 2; save();
@@ -2288,12 +2289,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
     return pf.church && pf.church[0] ? pf.church[0] : (!SB ? DEMO_CHURCH.name : '');
   }
   var CHURCHES = [
-    { id: 'c1', name: '세상의빛 교회', place: '서울 서초구', pastor: '김요한', members: 128, logo: 'church-logo0.webp', mine: true, owner: true, links: { home: 'https://example.org', insta: '', youtube: '' } },
-    { id: 'c2', name: '새소망교회', place: '경기 성남시', pastor: '이다윗', members: 86 },
-    { id: 'c3', name: '은혜와평강교회', place: '서울 마포구', pastor: '박사무엘', members: 203 },
-    { id: 'c4', name: '빛과소금교회', place: '부산 해운대구', pastor: '최바울', members: 64 },
-    { id: 'c5', name: '사랑나눔교회', place: '대전 서구', pastor: '정에스라', members: 57 },
-    { id: 'c6', name: '한빛선교교회', place: '서울 강남구', pastor: '한느헤미야', members: 141 }];
+    { id: 'c1', name: '세상의빛 교회', place: '', pastor: '', logo: 'church-logo0.webp', mine: true, owner: true, links: {} }];
   var churchSel = '', chLogo = '';
   var RICONS = ["<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 20v-8\"/><path d=\"M12 12c0-3.6-2.6-6-6.5-6 0 3.8 2.6 6 6.5 6z\"/><path d=\"M12 12c0-3.6 2.6-6 6.5-6 0 3.8-2.6 6-6.5 6z\"/></svg>", "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"7.5\" r=\"2.8\"/><circle cx=\"5.8\" cy=\"9.5\" r=\"2.1\"/><circle cx=\"18.2\" cy=\"9.5\" r=\"2.1\"/><path d=\"M7.4 19c0-3 2-5 4.6-5s4.6 2 4.6 5M2.6 18.5c0-2.3 1.4-3.8 3.3-3.8M21.4 18.5c0-2.3-1.4-3.8-3.3-3.8\"/></svg>", "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"8.5\"/><path d=\"M3.5 12h17M12 3.5c2.4 2.4 3.5 5.2 3.5 8.5s-1.1 6.1-3.5 8.5c-2.4-2.4-3.5-5.2-3.5-8.5S9.6 5.9 12 3.5z\"/></svg>", "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 6.5C10 5 7 4.5 3.5 5v13c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5V5C17 4.5 14 5 12 6.5z\"/><path d=\"M12 6.5v13\"/></svg>", "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 13s-4-2.4-4-5.2A2.2 2.2 0 0 1 12 6.6a2.2 2.2 0 0 1 4 1.2c0 2.8-4 5.2-4 5.2z\"/><path d=\"M3.5 13.5l3.5 3.2c1 .9 2.2 1.3 3.5 1.3h6.5M20.5 13.5 17 16.7\"/></svg>"];
   function allChurches() { var E = S.churchEdits || {}; return (S.churchReqs || []).map(function (c) { return Object.assign({ pending: true, members: 1 }, c); }).concat(CHURCHES.map(function (c) { return E[c.id] ? Object.assign({}, c, E[c.id]) : c; })); }
@@ -2330,7 +2326,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
       '<div class="rh-sec"><h3>내 교회</h3></div>' +
       (mine.length ? '<div class="ch-mine" data-noswipe>' + mine.map(function (x, i) { return '<button class="ch-big" data-church="' + x.id + '">' + churchLogo(x, i) + '<b>' + esc(x.name) + '</b>' + (x.pending ? '<small>확인 중</small>' : '') + '</button>'; }).join('') + '</div>'
         : '<div class="rh-none"><p>아직 등록한 교회가 없어요.<br>아래에서 내 교회를 찾아 보세요.</p></div>') +
-      '<div class="rh-sec"><h3>최근 등록된 교회</h3></div><div class="ch-list" id="chList">' + other.map(function (x, i) {
+      (other.length ? '<div class="rh-sec"><h3>최근 등록된 교회</h3></div>' : '') + '<div class="ch-list' + (other.length ? '' : ' empty-list') + '" id="chList">' + other.map(function (x, i) {
         return '<button class="ch-row" data-church="' + x.id + '" data-q="' + esc(x.name + ' ' + x.place + ' ' + (x.pastor || '')) + '">' + churchLogo(x, i + mine.length) + '<span><b>' + esc(x.name) + '</b><small>소재지 · ' + esc(x.place) + '</small><small>담임목사 · ' + esc(x.pastor || '-') + '</small></span></button>'; }).join('') +
       '<div class="empty" id="chNone" hidden>찾는 교회가 없어요. 교회를 개설해 보세요.</div></div>';
   }
@@ -2342,20 +2338,18 @@ body.is-closet .mnote2 { margin-top: 6px; }
     });
   }
   function vChurchHome(c) {
-    var ch = DEMO_CHURCH, mine = S.rooms.filter(function (r) { return roomChurch(r) === c.id; });
-    ensureChFeed(c);
-    var feed = S.posts.filter(function (p) { return p.church === c.name; }).sort(function (a, b) { return b.created - a.created; });
-    return (SB ? '<div class="note rh-soon">교회 채널은 준비 중이에요. 지금 보이는 교회와 모임방은 예시예요.</div>' : '') +
-      '<button class="rh-back" data-church="">' + BACKS + '교회 목록</button>' +
+    var mine = S.rooms.filter(function (r) { return !r.example && roomChurch(r) === c.id; });
+    var feed = S.posts.filter(function (p) { return p.church === c.name && !p.chDemo; }).sort(function (a, b) { return b.created - a.created; });
+    return '<button class="rh-back" data-church="">' + BACKS + '교회 목록</button>' +
       '<div class="rh-church">' + '<div class="rh-cinfo" role="button" tabindex="0" data-chinfo="' + c.id + '">' + churchLogo(c, 0) + '<div class="rh-cmid"><span class="rh-tags"><span>우리 교회</span>' + (c.owner ? '<span class="rh-edit">' + PEN + '정보 수정</span>' : '') + '</span><h2>' + esc(c.name) + '</h2>' +
-        '<p>' + PINI + esc(c.place) + ' · 성도 ' + c.members + '명</p>' + linkPills(c) + '</div></div>' +
+        ([c.place, c.members ? '성도 ' + c.members + '명' : ''].filter(Boolean).length ? '<p>' + PINI + [esc(c.place || ''), c.members ? '성도 ' + c.members + '명' : ''].filter(Boolean).join(' · ') + '</p>' : '') + linkPills(c) + '</div></div>' +
         '<button class="rh-cadd" data-act="room-new">' + PLUS + '모임방<br>개설하기</button></div>' +
       '<div class="rh-sec"><h3>' + BOOKM + '내 모임방</h3></div>' + (mine.length ? mine.map(roomCard).join('') :
         '<div class="rh-none"><p>아직 참여한 모임방이 없어요.<br>관심 있는 기도모임에 참여해 보세요.</p></div>') +
-      '<div class="rh-sec"><h3>' + RICONS[4] + '성도들의 중보 기도 제목</h3></div>' + (feed.length ? feed.map(postCard).join('') : '<div class="empty">아직 교회에 나눈 기도 제목이 없어요.</div>') +
+      '<div class="rh-sec"><h3>' + RICONS[4] + '성도들의 중보 기도 제목</h3></div>' +
       '<button class="btn block rx-send ch-export" data-act="church-export" data-cid="' + c.id + '">' + KAKAO + '교회 전체 기도 제목 카톡으로 보내기</button>' +
-      '<div class="rh-sec" id="chRooms"><h3>' + esc(c.name) + ' 모임방</h3></div>' + ch.rooms.map(function (r) {
-        return '<button class="post rh-room" data-croom="' + r.id + '"><h3>' + esc(r.name) + (r.fresh ? ' <span class="rh-new">새 글 ' + r.fresh + '</span>' : '') + '</h3><p>' + esc(r.intro) + '</p><div class="meta"><span>방장 ' + esc(r.leader) + '</span><span>멤버 ' + r.count + '명</span><span>' + esc(r.ago) + '</span></div></button>'; }).join('');
+      (feed.length ? feed.map(postCard).join('') : '<div class="empty">아직 교회에 나눈 기도 제목이 없어요.</div>');
+
   }
   document.addEventListener('input', function (e) {
     if (e.target.id === 'roomQ') {
@@ -2421,7 +2415,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
     { id: 'lk1', locked: true, name: '다니엘 가정 예배', intro: '우리 가족끼리 매일 밤 함께 기도해요.', leader: '다니엘', count: 4 },
     { id: 'lk2', locked: true, name: '목요 셀 기도방', intro: '목요일에 모이는 셀 식구들의 기도방이에요.', leader: '한나', count: 8 }];
   function recentRooms(ol) {
-    if (SB) return ol;
+    return ol;
     var out = ol.slice(); out.splice(1, 0, DEMO_LOCKED[0]); out.splice(4, 0, DEMO_LOCKED[1]); return out;
   }
   function lockedRoomSheet(id) {
@@ -2432,7 +2426,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
       '<div class="note">이 모임방은 방장이 보낸 초대 코드로만 들어갈 수 있어요.</div><button class="btn block" data-act="room-join">초대 코드로 들어가기</button>');
   }
   function vOpenHub() {
-    var ol = openRooms(), mine = S.rooms.filter(function (r) { return !roomChurch(r); });
+    var ol = openRooms(), mine = S.rooms.filter(function (r) { return !r.example && !roomChurch(r); });
     var rr = recentRooms(ol);
     return '<p class="rh-intro">교회와 상관없이, 같은 마음을 가진 성도들이 주제별로 모여 기도해요.</p>' +
       '<label class="ch-q rq-q">' + SRCH + '<input type="search" id="roomQ" placeholder="모임방을 검색해 보세요" aria-label="모임방 검색"></label>' +
@@ -2503,7 +2497,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
   }
   function churchWeekText(c) {
     var rooms = S.rooms.filter(function (r) { return roomChurch(r) === c.id; }).map(function (r) { return r.id; });
-    var list = exLive(S.posts.filter(function (p) { return p.church === c.name || (p.roomId && rooms.indexOf(p.roomId) >= 0); }));
+    var list = exLive(S.posts.filter(function (p) { return !p.chDemo && !p.example && (p.church === c.name || (p.roomId && rooms.indexOf(p.roomId) >= 0)); }));
     var by = {}, order = [];
     list.forEach(function (p) { var rm = p.roomId && roomById(p.roomId); var g = rm ? rm.name : (p.cat || '기타'); if (!by[g]) { by[g] = []; order.push(g); } by[g].push(p); });
     var lines = ['[' + c.name + '] ' + exDate(), ''];
@@ -2554,7 +2548,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
   ];
   function openRooms() {
     var mine = S.rooms.map(function (r) { return r.id; });
-    var list = SB ? (S.openRooms || []) : DEMO_OPEN.map(function (r) { var x = Object.assign({}, r); x.requested = !!(S.openReq && S.openReq[r.id]); return x; });
+    var list = SB ? (S.openRooms || []) : [].map(function (r) { var x = Object.assign({}, r); x.requested = !!(S.openReq && S.openReq[r.id]); return x; });
     return list.filter(function (r) { return mine.indexOf(r.id) < 0; });
   }
   function openRoomsSec() {
