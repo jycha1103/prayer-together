@@ -2516,7 +2516,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
       '<section class="sec"><div class="sec-head"><h2>멤버별 기도 제목</h2></div>' +
         (list.length ? roomByMember(list) : '<div class="empty">모임 식구들과 나눌 기도 제목을 올려 보세요.</div>') +
         '<div class="rm-acts"><button class="btn block" data-act="room-write">' + PLUS + '기도 제목 올리기</button><button class="btn block rx-send" data-act="room-export">' + KAKAO + '이번 주 기도 제목 카톡으로 보내기</button></div></section>' +
-      '<div class="row" style="justify-content:center"><button class="linkbtn" data-act="room-leave">' + (isLeader(r) ? '모임방 없애기' : '모임방 나가기') + '</button></div>';
+      '<div class="row" style="justify-content:center;gap:14px">' + (isLeader(r) && !r.example ? '<button class="linkbtn blue" data-act="room-move">' + (roomChurch(r) ? '연합 모임방으로 옮기기' : '우리 교회 모임방으로 옮기기') + '</button>' : '') + '<button class="linkbtn" data-act="room-leave">' + (isLeader(r) ? '모임방 없애기' : '모임방 나가기') + '</button></div>';
   }
   // 오픈 기도 모임방: 누구나 신청하고, 방장이 수락하면 들어가요
   var DEMO_OPEN = [
@@ -4509,6 +4509,12 @@ body.is-closet .mnote2 { margin-top: 6px; }
       case 'nav-back': if (navPushed > 0 && NAV.length) { history.back(); return; } return navGoBack();
       case 'react-open': var rpk = el('rpick-' + d.pid); if (rpk) rpk.hidden = !rpk.hidden; return;
       case 'notices': closeDrawer(); return go('notice');
+      case 'room-move':
+        var rmv = roomById(roomId); if (!rmv) return;
+        S.roomScope = S.roomScope || {};
+        if (roomChurch(rmv)) { S.roomScope[rmv.id] = ''; save(); render(); return toast('연합 모임방으로 옮겼어요'); }
+        var myc = allChurches().find(function (x) { return x.mine; }); if (!myc) return toast('먼저 내 교회를 등록해 주세요');
+        S.roomScope[rmv.id] = myc.id; save(); render(); return toast(myc.name + ' 모임방으로 옮겼어요');
       case 'room-create':
         var rnm = val('rName'); if (!rnm) return toast('모임방 이름을 적어 주세요');
         var code = ''; for (var ci = 0; ci < 6; ci++) code += 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'.charAt(Math.floor(Math.random() * 32));
@@ -4697,7 +4703,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
   // ---------- 기도다이어리 서버 보관 ----------
   // 개인 기록을 조각(기도제목 하나, 하루 기도 시간 등)으로 나눠, 조각마다 마지막으로 고친 시각을 적어 둬요.
   // 휴대폰과 다른 기기의 기록을 합칠 때 더 나중에 고친 쪽을 남기고, 지운 조각은 다시 살아나지 않게 해요.
-  var PK = { items: 'id', letters: 'id', scraps: 'self', times: 'obj', log: 'obj', notes: 'obj', alarm: 'one' }, pSnap = null;
+  var PK = { items: 'id', letters: 'id', scraps: 'self', times: 'obj', log: 'obj', notes: 'obj', alarm: 'one', roomScope: 'obj' }, pSnap = null;
   function pEntries(st) {
     var m = {};
     Object.keys(PK).forEach(function (k) {
@@ -4727,7 +4733,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
       if ((gone[k] || 0) >= t) return;
       keep[k] = a >= b ? mL[k] : mR[k]; pAt[k] = t; delete gone[k];
     });
-    var o = { items: [], letters: [], scraps: [], times: {}, log: {}, notes: {}, alarm: L.alarm || R.alarm || null, pAt: pAt, gone: gone };
+    var o = { items: [], letters: [], scraps: [], times: {}, log: {}, notes: {}, roomScope: {}, alarm: L.alarm || R.alarm || null, pAt: pAt, gone: gone };
     order.forEach(function (k) {
       if (!(k in keep)) return;
       var i = k.indexOf(':'), kind = i < 0 ? k : k.slice(0, i), key = k.slice(i + 1), t = PK[kind];
