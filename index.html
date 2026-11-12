@@ -1440,6 +1440,9 @@ body.is-closet .mnote2 { margin-top: 6px; }
 .rh-intro { margin: 0 2px; font-size: 13.5px; line-height: 1.6; color: #6B6680; }
 .rb-row { display: flex; gap: 12px; overflow-x: auto; margin: 0 -16px; padding: 2px 16px 6px; scrollbar-width: none; }
 .rb-row::-webkit-scrollbar { display: none; }
+/*RBGRID*/ .rb-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px 8px; padding: 4px 0 8px; justify-items: center; }
+@media (min-width: 440px) { .rb-grid { grid-template-columns: repeat(5, 1fr); } }
+.rb-grid .rb { width: 100%; max-width: 80px; }
 .rb { flex: none; width: 72px; display: flex; flex-direction: column; align-items: center; gap: 6px; border: 0; background: none; padding: 0; }
 .rb i { position: relative; display: grid; place-items: center; width: 62px; height: 62px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #FFFFFF, var(--c) 75%); box-shadow: 0 0 0 2.5px #FFFFFF, 0 0 0 4px var(--c), 0 4px 10px rgba(80, 60, 40, .15); font-style: normal; font-size: 22px; font-weight: 700; color: #3A3550; }
 .rb em { position: absolute; right: -4px; top: -4px; min-width: 20px; height: 20px; padding: 0 5px; border-radius: 999px; background: #E2583E; color: #FFFFFF; font-size: 11px; font-weight: 700; font-style: normal; line-height: 20px; box-shadow: 0 0 0 2px #FFFFFF; }
@@ -2279,6 +2282,8 @@ body.is-closet .mnote2 { margin-top: 6px; }
   function churchLogo(c, i) {
     return '<i class="ch-logo" style="--c:' + BUBBLE_C[i % BUBBLE_C.length] + '">' + (c.logo ? '<img src="' + esc(c.logo) + '" alt="">' : esc(c.name.charAt(0))) + '</i>';
   }
+  // 모임방 소속: 교회 모임방은 S.roomScope[방id] = 교회id, 나머지는 연합 모임방
+  function roomChurch(r) { return r.example ? 'c1' : ((S.roomScope || {})[r.id] || ''); }
   function vRoomsHub() {
     var seg = '<div class="pseg" role="group" aria-label="기도 모임 구분">' + [['church', '우리 교회 모임방'], ['open', '연합 모임방']].map(function (x) {
       return '<button data-rtab="' + x[0] + '" aria-pressed="' + (rtab === x[0]) + '">' + x[1] + '</button>'; }).join('') + '</div>';
@@ -2311,7 +2316,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
     });
   }
   function vChurchHome(c) {
-    var ch = DEMO_CHURCH, mine = S.rooms.filter(function (r) { return r.example; });
+    var ch = DEMO_CHURCH, mine = S.rooms.filter(function (r) { return roomChurch(r) === c.id; });
     ensureChFeed(c);
     var feed = S.posts.filter(function (p) { return p.church === c.name; }).sort(function (a, b) { return b.created - a.created; });
     return (SB ? '<div class="note rh-soon">교회 채널은 준비 중이에요. 지금 보이는 교회와 모임방은 예시예요.</div>' : '') +
@@ -2380,12 +2385,12 @@ body.is-closet .mnote2 { margin-top: 6px; }
       '<div class="note">이 교회에 등록된 성도만 들어갈 수 있어요. 등록을 신청하면 교회 관리자가 확인해요.</div><button class="btn block" data-act="church-join">등록 신청하기</button>');
   }
   function vOpenHub() {
-    var ol = openRooms(), mine = S.rooms.filter(function (r) { return !r.example; });
+    var ol = openRooms(), mine = S.rooms.filter(function (r) { return !roomChurch(r); });
     return '<p class="rh-intro">교회와 상관없이, 같은 마음을 가진 성도들이 주제별로 모여 기도해요.</p>' +
       '<div class="rh-sec"><h3>최신 모임방</h3></div>' +
       '<div class="rb-row" data-noswipe>' + ol.map(function (r, i) { return bubble(r.name, i + 2, 'data-oroom="' + r.id + '"', 0, '멤버 ' + (r.count || 1) + '명'); }).join('') + '</div>' +
       '<div class="two"><button class="rh-add" data-act="room-new">' + PLUS + '기도모임방 개설하기</button><button class="rh-add line" data-act="room-join">초대 코드로 들어가기</button></div>' +
-      (mine.length ? '<div class="rh-sec"><h3>내 모임방</h3></div>' + mine.map(roomCard).join('') : '') +
+      (mine.length ? '<div class="rh-sec"><h3>' + BOOKM + '내 모임방</h3></div><div class="rb-grid">' + mine.map(function (r, i) { return bubble(r.name, i, 'data-room="' + r.id + '"', 0, isLeader(r) ? '방장' : ''); }).join('') + '</div>' : '') +
       '<div class="rh-sec"><h3>누구나 들어올 수 있는 모임방</h3></div>' + (ol.length ? ol.map(function (r) {
         return '<button class="post rh-room" data-oroom="' + r.id + '"><h3>' + esc(r.name) + (r.requested ? ' <span class="pill amber">신청함</span>' : '') + '</h3><p>' + esc(r.intro || '') + '</p><div class="meta"><span>방장 ' + esc(r.leader || '') + '</span><span>멤버 ' + (r.count || 1) + '명</span></div></button>'; }).join('') : '<div class="empty">아직 열린 모임방이 없어요.</div>');
   }
@@ -4468,6 +4473,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
         var code = ''; for (var ci = 0; ci < 6; ci++) code += 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'.charAt(Math.floor(Math.random() * 32));
         var ropen = !!document.querySelector('#rOpen [data-ropen="1"].on');
         var nr = { id: uid(), mine: true, name: rnm, intro: val('rIntro'), leader: myName(), code: code, notice: '', members: [], isOpen: ropen, requests: [] };
+        if (tab === 'pray' && ptab === 'rooms' && rtab === 'church' && churchSel) { S.roomScope = S.roomScope || {}; S.roomScope[nr.id] = churchSel; }
         S.rooms.unshift(nr); cloud('room_create', { p_id: nr.id, p_name: nr.name, p_intro: nr.intro, p_code: code }).then(function () { if (ropen) cloud('room_set_open', { p_id: nr.id, p_open: true }); }); save(); roomId = nr.id; go('room'); toast('모임방을 만들었어요. 식구들을 초대해 보세요'); return;
       case 'room-join-go':
         var cd = val('rCode').toUpperCase(); if (!cd) return toast('초대 코드를 넣어 주세요');
