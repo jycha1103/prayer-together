@@ -1448,6 +1448,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
 .rh .rh-tabs button svg { width: 19px; height: 19px; flex: none; }
 .rh .rh-tabs button[aria-pressed="true"] { flex: 1 1 0; padding: 0 8px; font-size: 15px; font-weight: 700; }
 .rh .rh-tabs button[aria-pressed="true"]::after { bottom: -7px; width: 14px; height: 14px; margin-left: -7px; }
+/*CHEXPORT*/ .ch-export { margin: 14px 0 6px; }
 /*RQSEARCH*/ .rq-q { margin: 4px 0 2px; }
 #rqList { padding-top: 8px; }
 .rb-row .rb[hidden] { display: none; }
@@ -2346,6 +2347,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
       '<div class="rh-sec"><h3>' + BOOKM + '내 모임방</h3></div>' + (mine.length ? mine.map(roomCard).join('') :
         '<div class="rh-none"><p>아직 참여한 모임방이 없어요.<br>관심 있는 기도모임에 참여해 보세요.</p></div>') +
       '<div class="rh-sec"><h3>' + RICONS[4] + '성도들의 중보 기도 제목</h3></div>' + (feed.length ? feed.map(postCard).join('') : '<div class="empty">아직 교회에 나눈 기도 제목이 없어요.</div>') +
+      '<button class="btn block rx-send ch-export" data-act="church-export" data-cid="' + c.id + '">' + KAKAO + '교회 전체 기도 제목 카톡으로 보내기</button>' +
       '<div class="rh-sec" id="chRooms"><h3>' + esc(c.name) + ' 모임방</h3></div>' + ch.rooms.map(function (r) {
         return '<button class="post rh-room" data-croom="' + r.id + '"><h3>' + esc(r.name) + (r.fresh ? ' <span class="rh-new">새 글 ' + r.fresh + '</span>' : '') + '</h3><p>' + esc(r.intro) + '</p><div class="meta"><span>방장 ' + esc(r.leader) + '</span><span>멤버 ' + r.count + '명</span><span>' + esc(r.ago) + '</span></div></button>'; }).join('');
   }
@@ -2474,25 +2476,44 @@ body.is-closet .mnote2 { margin-top: 6px; }
     fr.readAsDataURL(e.target.files[0]);
   });
   // 이번 주 모임 기도 제목을 카톡용 글 하나로 묶기
-  function roomWeekText(r) {
-    var since = Date.now() - 7 * 864e5, list = roomPosts(r).filter(function (p) { return p.created >= since; });
-    var by = {}; list.forEach(function (p) { (by[p.author] = by[p.author] || []).push(p); });
-    var d = new Date(), md0 = (d.getMonth() + 1) + '월 ' + d.getDate() + '일';
-    var lines = ['🙏 ' + r.name + ' 이번 주 기도 제목', '(' + md0 + ' 기준)', ''];
-    Object.keys(by).forEach(function (n, i) {
-      lines.push((i + 1) + '. ' + n);
-      by[n].forEach(function (p) { lines.push('  · ' + (p.urgent ? '[긴급] ' : '') + p.title + (p.body ? '\n    ' + p.body.replace(/\n+/g, ' ') : '')); });
-      lines.push('');
+  // 카톡 내보내기: 응답받은 제목은 빼고, 이번 주 새로 올라온 제목엔 (새)
+  function exDate() { var d = new Date(); return (d.getMonth() + 1) + '월 ' + d.getDate() + '일 주 기준'; }
+  function exMembers(list) {
+    var since = Date.now() - 7 * 864e5, by = {}, order = [], out = [];
+    list.forEach(function (p) { if (!by[p.author]) { by[p.author] = []; order.push(p.author); } by[p.author].push(p); });
+    order.forEach(function (n, i) {
+      out.push((i + 1) + '. ' + n);
+      by[n].forEach(function (p) { out.push('    - ' + (p.urgent ? '[긴급] ' : '') + p.title + (p.created >= since ? ' (새)' : '')); });
+      out.push('');
     });
-    if (!list.length) lines.push('이번 주에 올라온 기도 제목이 아직 없어요.', '');
+    return out;
+  }
+  function exLive(list) { return list.filter(function (p) { return !p.answered && !hiddenPost(p); }).sort(function (a, b) { return a.created - b.created; }); }
+  function roomWeekText(r) {
+    var list = exLive(roomPosts(r)), lines = ['[' + r.name + '] ' + exDate(), ''];
+    lines = lines.concat(list.length ? exMembers(list) : ['아직 함께 기도할 제목이 없어요.', '']);
     lines.push('함께 기도해 주세요. 🤍');
     return lines.join('\n');
   }
+  function churchWeekText(c) {
+    var rooms = S.rooms.filter(function (r) { return roomChurch(r) === c.id; }).map(function (r) { return r.id; });
+    var list = exLive(S.posts.filter(function (p) { return p.church === c.name || (p.roomId && rooms.indexOf(p.roomId) >= 0); }));
+    var by = {}, order = [];
+    list.forEach(function (p) { var rm = p.roomId && roomById(p.roomId); var g = rm ? rm.name : (p.cat || '기타'); if (!by[g]) { by[g] = []; order.push(g); } by[g].push(p); });
+    var lines = ['[' + c.name + '] ' + exDate(), ''];
+    order.forEach(function (g) { lines.push('■ ' + g); lines = lines.concat(exMembers(by[g])); });
+    if (!list.length) lines.push('아직 함께 기도할 제목이 없어요.', '');
+    lines.push('함께 기도해 주세요. 🤍');
+    return lines.join('\n');
+  }
+  function exportSheet(text, desc) {
+    sheet('카톡으로 보내기', '<p class="small muted">' + desc + ' 응답받은 기도 제목은 빠지고, 이번 주에 새로 올라온 제목에는 (새)가 붙어요. 보내기 전에 고쳐도 돼요.</p>' +
+      '<textarea class="input rx-txt" id="rxText">' + esc(text) + '</textarea>' +
+      '<button class="btn block rx-send" data-act="room-share">' + KAKAO + '카톡으로 보내기</button><button class="btn block line" data-act="room-copy">글 복사하기</button>');
+  }
   function roomExport() {
     var r = roomById(roomId); if (!r) return;
-    sheet('카톡으로 보내기', '<p class="small muted">이번 주(최근 7일)에 올라온 기도 제목을 사람별로 모았어요. 보내기 전에 고쳐도 돼요.</p>' +
-      '<textarea class="input rx-txt" id="rxText">' + esc(roomWeekText(r)) + '</textarea>' +
-      '<button class="btn block rx-send" data-act="room-share">' + KAKAO + '카톡으로 보내기</button><button class="btn block line" data-act="room-copy">글 복사하기</button>');
+    exportSheet(roomWeekText(r), '이 모임방의 기도 제목을 사람별로 모았어요.');
   }
   var PLUS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>';
   var LOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9.5" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
@@ -4487,6 +4508,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
       case 'ch-find': var cr = el('chRooms'); if (cr) cr.scrollIntoView({ behavior: 'smooth' }); return;
       case 'croom-req': closeSheet(); toast(SB ? '교회 모임방은 곧 열려요' : '방장에게 신청했어요'); return;
       case 'room-export': return roomExport();
+      case 'church-export': var cex = allChurches().find(function (x) { return x.id === d.cid; }); if (cex) exportSheet(churchWeekText(cex), '교회 모임방과 교회에 나눈 기도 제목을 모임방별, 사람별로 모았어요.'); return;
       case 'room-share':
         var rxt = val('rxText');
         if (navigator.share) { navigator.share({ text: rxt }).catch(function () {}); return; }
