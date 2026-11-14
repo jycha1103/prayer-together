@@ -4266,7 +4266,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
     if (d.qm) {
       if (d.qm === 'pray') { ptab = 'all'; cat = '전체'; return go('pray'); }
       if (d.qm === 'req') return writePost('pray', {});
-      if (d.qm === 'rooms') { ptab = 'rooms'; return go('pray'); }
+      if (d.qm === 'rooms') { ptab = 'rooms'; rtab = 'church'; var myCh = allChurches().find(function (x) { return x.mine && !x.pending; }); churchSel = myCh ? myCh.id : ''; go('pray'); window.scrollTo(0, 0); return; }
       if (d.qm === 'closet') return go('closet');
       if (d.qm === 'time' || d.qm === 'letter') { dtab = d.qm; return go('diary'); }
       if (d.qm === 'story') return go('story');
