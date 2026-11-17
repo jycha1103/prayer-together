@@ -1461,6 +1461,20 @@ body.is-closet .mnote2 { margin-top: 6px; }
 .rh .rh-tabs button[aria-pressed="true"] { flex: 1 1 0; padding: 0 8px; font-size: 15px; font-weight: 700; }
 .rh .rh-tabs button[aria-pressed="true"]::after { bottom: -7px; width: 14px; height: 14px; margin-left: -7px; }
 /*PWFONT*/ .pw-head h1, .pw-head p, .sheet.pw .field.pw-card > span, .sheet.pw .pw-send, .sheet.pw .pw-card .input, .sheet.pw .pw-guide, .sheet.pw .check, .sheet.pw .pw-card .chip, .sheet.pw .pw-tagf, .sheet.pw textarea { font-family: var(--font) !important; }
+/*RMLIST*/ .rm-mem2 { margin: 0 0 12px; padding: 14px 16px 10px; border-radius: 20px; background: rgba(255, 255, 255, .85); box-shadow: 0 4px 14px rgba(60, 50, 90, .06); }
+.rm-mem2 .rm-who { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.rm-mem2 .rm-who span { margin-left: auto; font-size: 12px; color: #9A90A0; }
+.rm-mem2 ol { list-style: none; margin: 0; padding: 0; }
+.rm-mem2 li.rm-xtra { display: none; }
+.rm-mem2.open li.rm-xtra { display: block; }
+.rm-mem2 li button { display: grid; grid-template-columns: auto 1fr; column-gap: 6px; width: 100%; padding: 8px 0; border: 0; border-top: 1px solid rgba(27, 41, 69, .07); background: none; text-align: left; color: #2B3252; }
+.rm-mem2 li:first-child button { border-top: 0; }
+.rm-mem2 li em { font-style: normal; font-weight: 700; color: #8A6A3A; }
+.rm-mem2 li span { font-size: 15px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rm-mem2 li small { grid-column: 2; font-size: 12px; color: #9A90A0; margin-top: 2px; }
+.rm-urg, .rm-ans { display: inline-block; margin-right: 5px; padding: 0 6px; border-radius: 6px; font-size: 11px; font-weight: 700; vertical-align: 1px; }
+.rm-urg { background: #FBE3DE; color: #C24D3A; } .rm-ans { background: #E1F1E6; color: #2F7A55; }
+.rm-more { display: block; width: 100%; margin-top: 4px; padding: 8px 0 2px; border: 0; border-top: 1px dashed rgba(27, 41, 69, .12); background: none; color: #5A6080; font-size: 13px; font-weight: 600; }
 /*CHEXPORT*/ .ch-list.empty-list { background: none; border: 0; box-shadow: none; padding: 0; } .ch-export { margin: 14px 0 6px; }
 /*RQSEARCH*/ .rq-q { margin: 4px 0 2px; }
 #rqList { padding-top: 8px; }
@@ -2446,9 +2460,15 @@ body.is-closet .mnote2 { margin-top: 6px; }
       (mine.length ? '<div class="rh-sec"><h3>' + BOOKM + '내 모임방</h3></div><div class="rb-grid">' + mine.map(function (r, i) { return bubble(r.name, i, 'data-room="' + r.id + '"', 0, isLeader(r) ? '방장' : ''); }).join('') + '</div>' : '');
   }
   function roomByMember(list) {
-    var order = [], by = {};
-    list.forEach(function (p) { if (!by[p.author]) { by[p.author] = []; order.push(p.author); } by[p.author].push(p); });
-    return order.map(function (n, i) { return '<div class="rm-mem"><div class="rm-who"><i style="--c:' + BUBBLE_C[i % BUBBLE_C.length] + '">' + esc(n.charAt(0)) + '</i><b>' + esc(n) + '</b><span>' + by[n].length + '개</span></div>' + by[n].map(postCard).join('') + '</div>'; }).join('');
+    var order = [], by = {}, last = {};
+    list.forEach(function (p) { if (!by[p.author]) { by[p.author] = []; order.push(p.author); last[p.author] = 0; } by[p.author].push(p); last[p.author] = Math.max(last[p.author], p.created || 0); });
+    order.sort(function (a, b) { return last[b] - last[a]; });
+    return order.map(function (n, i) {
+      var ps = by[n].slice().sort(function (a, b) { return (b.created || 0) - (a.created || 0); });
+      return '<div class="rm-mem2' + (ps.length > 2 ? ' has-more' : '') + '"><div class="rm-who"><i style="--c:' + BUBBLE_C[i % BUBBLE_C.length] + '">' + esc(n.charAt(0)) + '</i><b>' + esc(n) + '</b><span>' + ago(last[n]) + '</span></div><ol>' +
+        ps.map(function (p, k) { return '<li' + (k > 1 ? ' class="rm-xtra"' : '') + '><button data-open="' + p.id + '"><em>' + (k + 1) + '.</em><span>' + (p.urgent ? '<b class="rm-urg">긴급</b>' : '') + (p.answered ? '<b class="rm-ans">응답</b>' : '') + esc(p.title) + '</span><small>함께 기도 ' + (p.prayers || 0) + ' · 댓글 ' + ((p.comments || []).length) + '</small></button></li>'; }).join('') + '</ol>' +
+        (ps.length > 2 ? '<button class="rm-more" data-rmmore="1">더보기 ' + (ps.length - 2) + '개 ▾</button>' : '') + '</div>';
+    }).join('');
   }
   function churchRoomSheet(id) {
     var r = DEMO_CHURCH.rooms.find(function (x) { return x.id === id; }); if (!r) return;
@@ -3856,6 +3876,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
       p.comments.map(function (cm) { return '<div class="comment"><b>' + esc(cm.author) + '</b>' + (cm.role && cm.role !== '일반 성도' ? ' <span class="tag">' + esc(cm.role) + '</span>' : '') + ' <span class="small muted">' + ago(cm.created) + '</span><p>' + esc(cm.text) + '</p></div>'; }).join('') +
       (c ? '<div class="row"><input class="input" style="flex:1;min-width:0" id="cText" placeholder="' + B[3] + '"><button class="btn" data-comment="' + p.id + '">등록</button></div>'
          : '<div class="note">이 사연은 ' + esc(p.scope.join(', ')) + '만 답글을 달 수 있어요.</div>')) +
+      (rm && p.mine ? '<button class="btn block" data-topray="' + p.id + '">' + (p.toPray ? '중보기도 탭에 올렸어요 · 한 번 더 올리기' : '중보기도 탭에도 올리기') + '</button>' : '') +
       (rm && p.mine && myChurchName() ? '<button class="btn block line' + (p.church ? ' done' : '') + '" data-chshare="' + p.id + '">' + (p.church ? '교회 성도들과 공유했어요 · 취소하기' : '교회 성도들과 공유하기') + '</button>' : '') +
       (p.board === 'concern' && isCrisis(p.title + ' ' + p.body) ? '<div class="card stack crisis"><b>지금 많이 힘드시다면</b>' + CRISIS_LINES + '</div>' : '') +
       (p.mine && hiddenPost(p) ? '<div class="note">' + ((p.reports || 0) >= 3 ? '신고가 쌓여서 운영자가 확인할 때까지 다른 사람에게는 숨겨져 있어요.' : '정한 기간이 지나서 다른 사람에게는 숨겨졌어요.') + '</div>' : p.mine && p.hideAfter ? '<div class="small muted">올린 지 ' + p.hideAfter + '일이 지나면 자동으로 숨겨져요.</div>' : '') +
@@ -3896,11 +3917,12 @@ body.is-closet .mnote2 { margin-top: 6px; }
     if (job.room) { np.roomId = job.room; np.cat = np.church && roomById(job.room) ? roomById(job.room).name : ''; S.posts.push(np); S.items.push({ id: uid(), title: np.title, body: np.body, start: today(), days: 40, checks: [], answered: false, memo: '', postId: np.id }); save(); closeSheet(); render(); toast('모임방에 올렸어요. 내 기도제목에도 담았어요'); return; }
     S.posts.push(np);
     var autoItem = false;
-    if (job.item) { var li = S.items.find(function (x) { return x.id === job.item; }); if (li) li.postId = np.id; }
+    if (job.fromPost) { var fp = postById(job.fromPost); if (fp) fp.toPray = np.id; }
+    else if (job.item) { var li = S.items.find(function (x) { return x.id === job.item; }); if (li) li.postId = np.id; }
     else if (np.board === 'pray') { S.items.push({ id: uid(), title: np.title, body: np.body, start: today(), days: 40, checks: [], answered: false, memo: '', postId: np.id }); autoItem = true; }
     save(); closeSheet();
     if (np.board === 'tips') { gtab = 'tips'; tab = 'guide'; } else tab = np.board;
-    if (np.board === 'pray') cat = '전체';
+    if (np.board === 'pray') { cat = '전체'; if (job.fromPost) ptab = 'all'; }
     render(); toast(autoItem ? '올렸어요. 내 기도 노트에도 담았어요' : '올렸어요');
   }
   function hiddenPost(p) {
@@ -3979,10 +4001,10 @@ body.is-closet .mnote2 { margin-top: 6px; }
       (boardName === 'pray' || boardName === 'concern' ? '<div class="small muted guide-line">다른 사람의 실명이나 병명은 적지 말아 주세요. "어머니의 수술"처럼 써 주시면 충분해요.</div>' : '') +
       (boardName === 'concern' ? '<label class="field"><span>자동으로 숨기기</span><select class="input" id="wHide"><option value="">계속 보이기</option><option value="7">7일 뒤 숨기기</option><option value="30">30일 뒤 숨기기</option></select></label>' +
                 '<div class="note">닉네임, 실명, 연락처는 상담사와 목회자에게도 보이지 않아요. 답글에는 전화번호, 카톡 아이디, 링크를 쓸 수 없어요.</div><input type="checkbox" id="wAnon" hidden>' :
-      '<div class="checks"><label class="check"><input type="checkbox" id="wAnon"' + (cfg[3] ? ' checked' : '') + '> 익명으로 올리기</label>') +
+      '<div class="checks">' + (preset && preset.roomId && roomById(preset.roomId) && roomChurch(roomById(preset.roomId)) ? '<input type="checkbox" id="wAnon" hidden>' : '<label class="check"><input type="checkbox" id="wAnon"' + (cfg[3] ? ' checked' : '') + '> 익명으로 올리기</label>')) +
       (boardName === 'pray' ? '<label class="check urgent"><input type="checkbox" id="wUrgent"' + (preset && preset.urgent ? ' checked' : '') + '> 긴급기도 요청</label>' : '') + (boardName === 'concern' ? '' : '</div>') +
       (preset && preset.roomId && myChurchName() ? '<label class="check share-ch"><input type="checkbox" id="wChurch" checked> <span><em><b>' + esc(myChurchName()) + '</b>에도 공유하기</em><small>교회 성도들의 중보 기도 제목에 함께 올라가요</small></span></label>' : '') +
-      '<button class="btn block" data-submit="' + boardName + '"' + (preset && preset.itemId ? ' data-item="' + preset.itemId + '"' : '') + (preset && preset.roomId ? ' data-room-id="' + preset.roomId + '"' : '') + '>올리기</button>');
+      '<button class="btn block" data-submit="' + boardName + '"' + (preset && preset.itemId ? ' data-item="' + preset.itemId + '"' : '') + (preset && preset.roomId ? ' data-room-id="' + preset.roomId + '"' : '') + (preset && preset.fromPost ? ' data-from-post="' + preset.fromPost + '"' : '') + '>올리기</button>');
     if (boardName === 'pray') prayWriteSkin(preset);
   }
   // 기도 요청 화면: 노을빛 하늘 색감, 반투명 카드
@@ -4328,6 +4350,8 @@ body.is-closet .mnote2 { margin-top: 6px; }
     if (d.croom) return churchRoomSheet(d.croom);
     if (d.chshare) { var sp = postById(d.chshare); if (!sp) return; if (sp.church) { sp.church = ''; toast('교회 공유를 취소했어요'); } else { sp.church = myChurchName(); var srm = roomById(sp.roomId); if (srm) sp.cat = srm.name; toast(sp.church + ' 성도들과 공유했어요'); } save(); openPost(sp.id); render(); return; }
     if (d.chinfo) return churchInfo(d.chinfo);
+    if (d.rmmore) { var mm = b.closest('.rm-mem2'); if (mm) { var op = mm.classList.toggle('open'); b.textContent = op ? '접기 ▴' : '더보기 ' + mm.querySelectorAll('li.rm-xtra').length + '개 ▾'; } return; }
+    if (d.topray) { var tp = postById(d.topray); if (!tp) return; closeSheet(); return writePost('pray', { title: tp.title, body: tp.body, fromPost: tp.id }); }
     if (d.cfpray) { S.chPrayed = S.chPrayed || {}; S.chPrayed[d.cfpray] = !S.chPrayed[d.cfpray]; save(); render(); return; }
     if (d.church !== undefined) { var cc = allChurches().find(function (x) { return x.id === d.church; }); if (d.church && (!cc || !cc.mine)) return churchSheet(d.church); churchSel = d.church; render(); window.scrollTo(0, 0); return; }
     if (d.room) { roomId = d.room; return go('room'); }
@@ -4419,7 +4443,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
       var np = { id: uid(), tag: d.submit === 'pray' && wt ? wt.getAttribute('data-wtag') : '', board: d.submit, cat: d.submit === 'pray' ? val('wCat') : '', scope: scope, mine: true, urgent: !!(el('wUrgent') && el('wUrgent').checked), title: title, body: body, author: d.submit === 'concern' ? alias : el('wAnon').checked ? '익명의 성도' : myName(), created: Date.now(), prayers: 0, prayed: false, comments: [] };
       if (el('wChurch') && el('wChurch').checked) { np.church = myChurchName(); var shr = d.roomId ? roomById(d.roomId) : null; if (shr) np.cat = shr.name; }
       if (d.submit === 'concern' && val('wHide')) np.hideAfter = +val('wHide');
-      var job = { np: np, room: d.roomId, item: d.item, pics: PICS.slice() };
+      var job = { np: np, room: d.roomId, item: d.item, fromPost: d.fromPost, pics: PICS.slice() };
       if (isCrisis(title + ' ' + body)) { pendingPost = job; return crisisSheet(); }
       return publishPost(job);
     }
