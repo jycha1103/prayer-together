@@ -1455,20 +1455,24 @@ body.is-closet .mnote2 { margin-top: 6px; }
 .rh .rh-tabs button[aria-pressed="true"] { flex: 1 1 0; padding: 0 8px; font-size: 15px; font-weight: 700; }
 .rh .rh-tabs button[aria-pressed="true"]::after { bottom: -7px; width: 14px; height: 14px; margin-left: -7px; }
 /*PWFONT*/ .pw-head h1, .pw-head p, .sheet.pw .field.pw-card > span, .sheet.pw .pw-send, .sheet.pw .pw-card .input, .sheet.pw .pw-guide, .sheet.pw .check, .sheet.pw .pw-card .chip, .sheet.pw .pw-tagf, .sheet.pw textarea { font-family: var(--font) !important; }
-/*RMLIST*/ .rm-mem2 { margin: 0 0 12px; padding: 14px 16px 10px; border-radius: 20px; background: rgba(255, 255, 255, .85); box-shadow: 0 4px 14px rgba(60, 50, 90, .06); }
-.rm-mem2 .rm-who { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-.rm-mem2 .rm-who span { margin-left: auto; font-size: 12px; color: #9A90A0; }
+/*RMLIST*/ .rm-mem2 { margin: 0 0 8px; padding: 10px 14px 6px; border-radius: 16px; background: rgba(255, 255, 255, .85); box-shadow: 0 3px 10px rgba(60, 50, 90, .05); }
+.rm-mem2 .rm-who { display: flex; align-items: center; gap: 7px; margin: 0 0 2px; }
+.rm-mem2 .rm-who i { width: 24px; height: 24px; font-size: 11.5px; }
+.rm-mem2 .rm-who b { font-size: 14.5px; }
+.rm-mem2 .rm-who span { font-size: 11.5px; color: #9A90A0; }
 .rm-mem2 ol { list-style: none; margin: 0; padding: 0; }
 .rm-mem2 li.rm-xtra { display: none; }
 .rm-mem2.open li.rm-xtra { display: block; }
-.rm-mem2 li button { display: grid; grid-template-columns: auto 1fr; column-gap: 6px; width: 100%; padding: 8px 0; border: 0; border-top: 1px solid rgba(27, 41, 69, .07); background: none; text-align: left; color: #2B3252; }
+.rm-mem2 li button { display: flex; align-items: center; gap: 6px; width: 100%; padding: 6px 0; border: 0; border-top: 1px solid rgba(27, 41, 69, .06); background: none; text-align: left; color: #2B3252; min-height: 0; }
 .rm-mem2 li:first-child button { border-top: 0; }
-.rm-mem2 li em { font-style: normal; font-weight: 700; color: #8A6A3A; }
-.rm-mem2 li span { font-size: 15px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.rm-mem2 li small { grid-column: 2; font-size: 12px; color: #9A90A0; margin-top: 2px; }
-.rm-urg, .rm-ans { display: inline-block; margin-right: 5px; padding: 0 6px; border-radius: 6px; font-size: 11px; font-weight: 700; vertical-align: 1px; }
+.rm-mem2 li em { flex: none; font-style: normal; font-weight: 700; font-size: 13.5px; color: #8A6A3A; }
+.rm-mem2 li span { flex: 1; min-width: 0; font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rm-mem2 li small { flex: none; display: flex; align-items: center; gap: 2px; font-size: 12px; color: #9A90A0; }
+.rm-mem2 li small i { font-style: normal; font-size: 11px; margin-left: 6px; }
+.rm-urg, .rm-ans { display: inline-block; margin-right: 4px; padding: 0 5px; border-radius: 5px; font-size: 10.5px; font-weight: 700; vertical-align: 1px; }
 .rm-urg { background: #FBE3DE; color: #C24D3A; } .rm-ans { background: #E1F1E6; color: #2F7A55; }
-.rm-more { display: block; width: 100%; margin-top: 4px; padding: 8px 0 2px; border: 0; border-top: 1px dashed rgba(27, 41, 69, .12); background: none; color: #5A6080; font-size: 13px; font-weight: 600; }
+.rm-mem2 .rm-more { margin-left: auto; padding: 3px 9px; border: 0; border-radius: 999px; background: #F1EBE2; color: #5A6080; font-size: 11.5px; font-weight: 600; min-height: 0; }
+.rm-mem2 .rm-more ~ * {}
 /*CHEXPORT*/ .ch-list.empty-list { background: none; border: 0; box-shadow: none; padding: 0; } .ch-export { margin: 14px 0 6px; }
 /*RQSEARCH*/ .rq-q { margin: 4px 0 2px; }
 #rqList { padding-top: 8px; }
@@ -2459,9 +2463,9 @@ body.is-closet .mnote2 { margin-top: 6px; }
     order.sort(function (a, b) { return last[b] - last[a]; });
     return order.map(function (n, i) {
       var ps = by[n].slice().sort(function (a, b) { return (b.created || 0) - (a.created || 0); });
-      return '<div class="rm-mem2' + (ps.length > 2 ? ' has-more' : '') + '"><div class="rm-who"><i style="--c:' + BUBBLE_C[i % BUBBLE_C.length] + '">' + esc(n.charAt(0)) + '</i><b>' + esc(n) + '</b><span>' + ago(last[n]) + '</span></div><ol>' +
-        ps.map(function (p, k) { return '<li' + (k > 1 ? ' class="rm-xtra"' : '') + '><button data-open="' + p.id + '"><em>' + (k + 1) + '.</em><span>' + (p.urgent ? '<b class="rm-urg">긴급</b>' : '') + (p.answered ? '<b class="rm-ans">응답</b>' : '') + esc(p.title) + '</span><small>함께 기도 ' + (p.prayers || 0) + ' · 댓글 ' + ((p.comments || []).length) + '</small></button></li>'; }).join('') + '</ol>' +
-        (ps.length > 2 ? '<button class="rm-more" data-rmmore="1">더보기 ' + (ps.length - 2) + '개 ▾</button>' : '') + '</div>';
+      return '<div class="rm-mem2' + (ps.length > 2 ? ' has-more' : '') + '"><div class="rm-who"><i style="--c:' + BUBBLE_C[i % BUBBLE_C.length] + '">' + esc(n.charAt(0)) + '</i><b>' + esc(n) + '</b><span>' + ago(last[n]) + '</span>' + (ps.length > 2 ? '<button class="rm-more" data-rmmore="1">더보기 ' + (ps.length - 2) + ' ▾</button>' : '') + '</div><ol>' +
+        ps.map(function (p, k) { return '<li' + (k > 1 ? ' class="rm-xtra"' : '') + '><button data-open="' + p.id + '"><em>' + (k + 1) + '.</em><span>' + (p.urgent ? '<b class="rm-urg">긴급</b>' : '') + (p.answered ? '<b class="rm-ans">응답</b>' : '') + esc(p.title) + '</span><small><i>🙏</i>' + (p.prayers || 0) + '<i>💬</i>' + ((p.comments || []).length) + '</small></button></li>'; }).join('') + '</ol>' +
+        '</div>';
     }).join('');
   }
   function churchRoomSheet(id) {
@@ -4344,7 +4348,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
     if (d.croom) return churchRoomSheet(d.croom);
     if (d.chshare) { var sp = postById(d.chshare); if (!sp) return; if (sp.church) { sp.church = ''; toast('교회 공유를 취소했어요'); } else { sp.church = myChurchName(); var srm = roomById(sp.roomId); if (srm) sp.cat = srm.name; toast(sp.church + ' 성도들과 공유했어요'); } save(); openPost(sp.id); render(); return; }
     if (d.chinfo) return churchInfo(d.chinfo);
-    if (d.rmmore) { var mm = b.closest('.rm-mem2'); if (mm) { var op = mm.classList.toggle('open'); b.textContent = op ? '접기 ▴' : '더보기 ' + mm.querySelectorAll('li.rm-xtra').length + '개 ▾'; } return; }
+    if (d.rmmore) { var mm = b.closest('.rm-mem2'); if (mm) { var op = mm.classList.toggle('open'); b.textContent = op ? '접기 ▴' : '더보기 ' + mm.querySelectorAll('li.rm-xtra').length + ' ▾'; } return; }
     if (d.topray) { var tp = postById(d.topray); if (!tp) return; closeSheet(); return writePost('pray', { title: tp.title, body: tp.body, fromPost: tp.id }); }
     if (d.cfpray) { S.chPrayed = S.chPrayed || {}; S.chPrayed[d.cfpray] = !S.chPrayed[d.cfpray]; save(); render(); return; }
     if (d.church !== undefined) { var cc = allChurches().find(function (x) { return x.id === d.church; }); if (d.church && (!cc || !cc.mine)) return churchSheet(d.church); churchSel = d.church; render(); window.scrollTo(0, 0); return; }
