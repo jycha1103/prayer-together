@@ -1226,6 +1226,12 @@ body.is-closet::after { content: ""; position: fixed; z-index: -1; left: -10%; r
 .mn-voice.on { color: #C24D4D !important; }
 .mn-save { margin-left: auto; display: flex; align-items: center; gap: 6px; height: 38px; padding: 0 16px; border: 0; border-radius: 999px; background: #1F2D55; color: #FFFFFF; font-size: 14px; font-weight: 600; box-shadow: 0 4px 12px rgba(20, 30, 70, .3); }
 .mn-save svg { width: 17px; height: 17px; }
+.mn-save.done { background: rgba(255, 255, 255, .7); color: #2F7A55; box-shadow: none; }
+.mn-list { display: flex; align-items: center; gap: 8px; width: calc(100% - 16px); margin: 10px 8px 4px; padding: 14px 16px; border: 1px solid rgba(255, 255, 255, .6); border-radius: 18px; background: rgba(255, 255, 255, .55); color: #2A3550; font-size: 14.5px; font-weight: 600; text-align: left; }
+.mn-list svg { width: 20px; height: 20px; flex: none; color: #8A6A3A; }
+.mn-list span { flex: 1; }
+.mn-list b { font-size: 13px; font-weight: 600; color: #8A6A3A; }
+.mn-list i { font-style: normal; font-size: 20px; color: #9A90A0; line-height: 1; }
 
 /*CL3*/
 .cl-in { padding: 14px 0 22px; }
@@ -3562,8 +3568,13 @@ body.is-closet .mnote2 { margin-top: 6px; }
       '<div class="mn-box"><textarea class="mn-t2" id="mNote" aria-label="묵상 노트" placeholder="오늘 주신 말씀과 마음, 드린 기도를 기록해 보세요.">' + esc(notesObj()[t] || '') + '</textarea>' +
       '<div class="mn-bar"><button class="mn-voice" data-act="mn-voice"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg>음성 입력</button><i class="cl-sep"></i>' +
       '<button data-act="mn-text"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M6 9.5h.01M9 9.5h.01M12 9.5h.01M15 9.5h.01M18 9.5h.01M6 12h.01M9 12h.01M12 12h.01M15 12h.01M18 12h.01M8 15h8"/></svg>텍스트 입력</button>' +
-      '<button class="mn-save" data-act="note-save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>저장</button></div></div></div>';
+      mnSaveBtn(!!notesObj()[t]) + '</div></div>' +
+      '<button class="mn-list" data-act="notes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5C10 5 7 4.5 3.5 5v13c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5V5C17 4.5 14 5 12 6.5z"/><path d="M12 6.5v13"/></svg><span>지난 묵상 노트 모아보기</span><b>' + Object.keys(notesObj()).length + '개</b><i aria-hidden="true">›</i></button></div>';
   }
+  function mnSaveBtn(saved) {
+    return '<button class="mn-save' + (saved ? ' done' : '') + '" data-act="note-save"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>' + (saved ? '저장됨' : '저장') + '</button>';
+  }
+  function mnMark(saved) { var b = document.querySelector('.mn-save'); if (b) b.outerHTML = mnSaveBtn(saved); var c = document.querySelector('.mn-list b'); if (c) c.textContent = Object.keys(notesObj()).length + '개'; }
   var FAB_REQ = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span>기도 요청</span>';
   var FAB_CLOSET = '<span class="cl-t">골방 기도</span>';
   function swRefresh() { if (el('sw')) el('sw').innerHTML = swInner(); }
@@ -4464,7 +4475,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
       case 'mn-text': if (el('mNote')) el('mNote').focus(); return;
       case 'music-off': return playSong('');
       case 'notes': return notesSheet();
-      case 'note-save': if (el('mNote')) noteKeep(el('mNote').value); clearTimeout(noteTimer); save(); return toast(notesObj()[today()] ? '묵상 노트를 저장했어요' : '노트가 비어 있어요');
+      case 'note-save': if (el('mNote')) { noteKeep(el('mNote').value); el('mNote').blur(); } clearTimeout(noteTimer); save(); mnMark(!!notesObj()[today()]); return toast(notesObj()[today()] ? '묵상 노트를 저장했어요' : '노트가 비어 있어요');
       case 'big-toggle': return setBig(!BIG);
       case 'feedback': closeDrawer(); return openFeedback();
       case 'fb-send':
@@ -4687,7 +4698,7 @@ body.is-closet .mnote2 { margin-top: 6px; }
 
   el('topWrite').addEventListener('click', function () { if (tab === 'diary') return go('closet'); writePost('pray', { cat: tab === 'pray' && cat !== '전체' ? cat : '' }); });
   document.addEventListener('input', function (e) {
-    if (e.target.id === 'mNote') return noteKeep(e.target.value);
+    if (e.target.id === 'mNote') { noteKeep(e.target.value); return mnMark(false); }
     if (e.target.id === 'q') { q = e.target.value; var pos = e.target.selectionStart; render(); var n = el('q'); n.focus(); try { n.setSelectionRange(pos, pos); } catch (err) {} }
   });
   document.addEventListener('keydown', function (e) {
